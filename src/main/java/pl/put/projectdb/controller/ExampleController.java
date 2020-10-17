@@ -12,9 +12,13 @@ import pl.put.projectdb.repository.ExampleRepository;
 
 @Controller
 public class ExampleController {
-	
-	@Autowired
+
 	private ExampleRepository exampleRepository;
+
+	@Autowired
+	ExampleController(ExampleRepository exampleRepository){
+		this.exampleRepository = exampleRepository;
+	}
 	
 	@GetMapping("/hello")
 	public String getHello() {

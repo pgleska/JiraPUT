@@ -17,8 +17,8 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 
 @Configuration
-@ComponentScan("com.myerasmus")
-@EnableJpaRepositories("com.myerasmus.repository")
+@ComponentScan("pl.put.projectdb")
+@EnableJpaRepositories("pl.put.projectdb.repository")
 public class ApplicationConfig {
 	
 	@Value("${db.driver}")
