@@ -47,6 +47,20 @@ services:
     networks:
       - projectdb  
       
+  frontend:
+    build: ./docker/build/frontend
+    restart: always
+    hostname: projectdb-frontend
+    container_name: projectdb-frontend
+    volumes:
+      - ./frontend/:/opt/projectdb/frontend/
+    ports:
+      - 4200:4200  
+    depends_on:
+      - app
+    networks:
+      - projectdb  
+      
 networks:
   projectdb:
 
