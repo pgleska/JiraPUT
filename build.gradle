@@ -29,9 +29,10 @@ dependencies {
 
 	compile('org.springframework.data:spring-data-jpa')
 	compile("org.springframework.boot:spring-boot-starter-web")
-    compile("org.springframework.boot:spring-boot-devtools")
-	compile group: 'org.springframework.boot', name: 'spring-boot-starter-thymeleaf', version: '2.3.4.RELEASE'    
-    //compile("org.springframework.boot:spring-boot-starter-security")
+    compile("org.springframework.boot:spring-boot-devtools")    
+    compile("org.springframework.boot:spring-boot-starter-security")
+    
+    compile("com.auth0:java-jwt:3.4.0")
     
     compile('com.fasterxml.jackson.datatype:jackson-datatype-hibernate5')
     compile group: 'javax.persistence', name: 'javax.persistence-api', version: '+'

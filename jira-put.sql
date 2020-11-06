@@ -81,6 +81,9 @@ CREATE TABLE `kontrakt` (
 
 CREATE TABLE `pracownik` (
   `identyfikator` int(11) NOT NULL,
+  `login` varchar(31) NOT NULL,
+  `password` varchar(31) NOT NULL,
+  `token` varchar(63),
   `imie` varchar(31) NOT NULL,
   `nazwisko` varchar(31) NOT NULL,
   `pensja` float NOT NULL,
@@ -240,7 +243,8 @@ ALTER TABLE `pracownik`
   ADD KEY `prac_zespol_fkey` (`zespol`),
   ADD KEY `prac_stanowisko_fkey` (`stanowisko`),
   ADD KEY `identyfikator` (`identyfikator`),
-  ADD KEY `nazwisko` (`nazwisko`);
+  ADD KEY `nazwisko` (`nazwisko`),
+  ADD KEY `login` (`login`);
 
 --
 -- Indexes for table `projekt`
@@ -366,6 +370,8 @@ ALTER TABLE `tech_proj`
   ADD CONSTRAINT `tech_proj_projekt_fkey` FOREIGN KEY (`proj_nazwa`) REFERENCES `projekt` (`nazwa`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `tech_proj_technologia_fkey` FOREIGN KEY (`tech_nazwa`) REFERENCES `technologia` (`nazwa`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
+CREATE USER 'admin'@'%' IDENTIFIED BY 'mysecretpassword';
+GRANT ALL PRIVILEGES ON *.* TO 'admin'@'%' WITH GRANT OPTION; 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
