@@ -37,6 +37,16 @@ INSERT INTO `example` (`id`, `active`, `description`) VALUES
 (1, 1, 'Example'),
 (2, 0, 'Test');
 
+
+CREATE TABLE `pracownik` (
+  `identyfikator` int(11) NOT NULL,
+  `login` varchar(31) NOT NULL,
+  `haslo` varchar(255) NOT NULL,
+  `token` varchar(255),
+  `imie` varchar(31) NOT NULL,
+  `nazwisko` varchar(31) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 -- ------------------------------------------------------
 
 --
@@ -49,14 +59,19 @@ INSERT INTO `example` (`id`, `active`, `description`) VALUES
 ALTER TABLE `example`
   ADD PRIMARY KEY (`id`);
   
-
+ALTER TABLE `pracownik`
+  ADD PRIMARY KEY (`identyfikator`),  
+  ADD KEY `identyfikator` (`identyfikator`),
+  ADD KEY `nazwisko` (`nazwisko`),
+  ADD KEY `login` (`login`);
+  
 -- ------------------------------------------------------
   
 --
--- AUTO_INCREMENT for table `applicationuser`
+-- AUTO_INCREMENT for table `pracownik`
 --
-ALTER TABLE `example`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+ALTER TABLE `pracownik`
+  MODIFY `identyfikator` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
   
 
 CREATE USER 'admin'@'%' IDENTIFIED BY 'mysecretpassword';

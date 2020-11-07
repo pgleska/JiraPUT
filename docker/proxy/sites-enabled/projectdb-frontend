@@ -3,9 +3,9 @@ server {
   server_name           _;
 
   location / {
-    access_log          /var/log/nginx/projectdb-app.access.log;
-    error_log           /var/log/nginx/projectdb-app.error.log;
-    proxy_pass        http://projectdb-app:8080;
+    access_log          /var/log/nginx/projectdb-frontend.access.log;
+    error_log           /var/log/nginx/projectdb-frontend.log;
+    proxy_pass        http://projectdb-frontend:4200;
     proxy_redirect    off;
     proxy_set_header  Host             $http_host;
     proxy_set_header  X-Real-IP        $remote_addr;
