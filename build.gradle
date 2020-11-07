@@ -14,7 +14,7 @@ apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
 bootJar {
-    baseName = 'projectdb'
+    baseName = 'jiraput'
     version =  '0.1.0'
 }
 
@@ -38,6 +38,7 @@ dependencies {
     compile group: 'javax.persistence', name: 'javax.persistence-api', version: '+'
     compile('org.hibernate:hibernate-core')
     
+    compile group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.4.8'    
 
 	compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.12'
 

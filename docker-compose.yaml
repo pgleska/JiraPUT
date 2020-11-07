@@ -2,7 +2,7 @@ version: '3'
 services:
   proxy:
     image: library/nginx:alpine
-    container_name: projectdb-proxy
+    container_name: jiraput-proxy
     restart: always
     volumes:
       - /etc/localtime:/etc/localtime:ro
@@ -14,57 +14,55 @@ services:
     depends_on:
       - frontend
     networks:
-      - projectdb 
+      - jiraput 
 
   db:
     image: mysql:latest
     restart: always
-    hostname: projectdb-db
-    container_name: projectdb-db
+    hostname: jiraput-db
+    container_name: jiraput-db
     volumes:
       - /usr/share/zoneinfo/:/usr/share/zoneinfo/:ro
-      - ./docker/db/projectdb.sql:/docker-entrypoint-initdb.d/projectdb.sql:ro
-      - ./docker/db/projectdb.sql:/opt/db/projectdb.sql
+      - ./docker/db/jiraput.sql:/docker-entrypoint-initdb.d/jiraput.sql:ro
+      - ./docker/db/jiraput.sql:/opt/db/jiraput.sql
     environment:
       - MYSQL_ROOT_PASSWORD=mysecretpassword
-      - MYSQL_DATABASE=projectdb-db
+      - MYSQL_DATABASE=jiraput-db
       - MYSQL_ADMIN=admin
       - MYSQL_PASSWORD=mysecretpassword 
     networks:
-      - projectdb  
+      - jiraput  
 
   backend:
     build: ./docker/build/backend
     restart: always
-    hostname: projectdb-backend
-    container_name: projectdb-backend
+    hostname: jiraput-backend
+    container_name: jiraput-backend
     volumes:
-      - ./docker/backend/projectdb.jar:/opt/projectdb/projectdb.jar:ro
+      - ./docker/backend/jiraput.jar:/opt/jiraput/jiraput.jar:ro
     ports:
       - 8001:8001
       - 8080:8080  
     depends_on:
       - db
     networks:
-      - projectdb  
+      - jiraput  
       
-
   frontend:
     build: ./docker/build/frontend
     restart: always
-    hostname: projectdb-frontend
-    container_name: projectdb-frontend
+    hostname: jiraput-frontend
+    container_name: jiraput-frontend
     volumes:
-      - ./frontend:/opt/projectdb/frontend
-      - /opt/projectdb/frontend/node_modules
+      - ./frontend:/opt/jiraput/frontend
+      - /opt/jiraput/frontend/node_modules
     depends_on:
       - backend
     networks:
-      - projectdb  
-
+      - jiraput  
       
 networks:
-  projectdb:
+  jiraput:
 
     
    

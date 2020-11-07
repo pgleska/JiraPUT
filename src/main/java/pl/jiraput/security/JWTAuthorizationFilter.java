@@ -1,6 +1,6 @@
-package pl.put.projectdb.security;
+package pl.jiraput.security;
 
-import static pl.put.projectdb.security.SecurityConstants.*;
+import static pl.jiraput.security.SecurityConstants.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -18,8 +18,8 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 
-import pl.put.projectdb.model.Employee;
-import pl.put.projectdb.repository.EmployeeRepository;
+import pl.jiraput.model.Employee;
+import pl.jiraput.repository.EmployeeRepository;
 
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 	private EmployeeRepository employeeRepository;

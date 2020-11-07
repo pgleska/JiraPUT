@@ -1,9 +1,9 @@
-package pl.put.projectdb.security;
+package pl.jiraput.security;
 
 import static com.auth0.jwt.algorithms.Algorithm.HMAC512;
-import static pl.put.projectdb.security.SecurityConstants.HEADER_STRING;
-import static pl.put.projectdb.security.SecurityConstants.SECRET;
-import static pl.put.projectdb.security.SecurityConstants.TOKEN_PREFIX;
+import static pl.jiraput.security.SecurityConstants.HEADER_STRING;
+import static pl.jiraput.security.SecurityConstants.SECRET;
+import static pl.jiraput.security.SecurityConstants.TOKEN_PREFIX;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -23,8 +23,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import com.auth0.jwt.JWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import pl.put.projectdb.model.Employee;
-import pl.put.projectdb.repository.EmployeeRepository;
+import pl.jiraput.model.Employee;
+import pl.jiraput.repository.EmployeeRepository;
 
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 	private AuthenticationManager authenticationManager;

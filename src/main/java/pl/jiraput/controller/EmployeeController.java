@@ -1,4 +1,4 @@
-package pl.put.projectdb.controller;
+package pl.jiraput.controller;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,10 +17,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import pl.put.projectdb.model.Employee;
-import pl.put.projectdb.model.Team;
-import pl.put.projectdb.repository.EmployeeRepository;
-import pl.put.projectdb.repository.TeamRepository;
+import pl.jiraput.model.Employee;
+import pl.jiraput.model.Team;
+import pl.jiraput.repository.EmployeeRepository;
+import pl.jiraput.repository.TeamRepository;
 
 @RestController
 @RequestMapping("/api/employee")
@@ -52,14 +52,14 @@ public class EmployeeController {
 	
 	@GetMapping(value = "/{login}", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseStatus(value = HttpStatus.OK)
-	public @ResponseBody Map<String, String> returnEmployeeInfo(@PathVariable String login) {
+	public @ResponseBody Map<String, String> getEmployeeInfo(@PathVariable String login) {
 		Map<String, String> response = new HashMap<>();		
 		Employee emp = employeeRepository.findByLogin(login);
 		response.put("id", emp.getId().toString());
 		response.put("login", emp.getLogin());
 		response.put("firstName", emp.getFirstName());
 		response.put("lastName", emp.getLastName());
-		response.put("team", emp.getTeam().getName());
+		response.put("team", (emp.getTeam() != null) ? emp.getTeam().getName() : "");
 		return response;
 	}
 	

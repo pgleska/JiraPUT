@@ -1,4 +1,4 @@
-package pl.put.projectdb.security;
+package pl.jiraput.security;
 
 public abstract class SecurityConstants {
 	public static final String SECRET = "SecretKeyToGenJWTs";

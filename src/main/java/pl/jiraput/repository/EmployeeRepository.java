@@ -1,10 +1,10 @@
-package pl.put.projectdb.repository;
+package pl.jiraput.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import pl.put.projectdb.model.Employee;
+import pl.jiraput.model.Employee;
 
 @Repository
 @Transactional(readOnly = true)

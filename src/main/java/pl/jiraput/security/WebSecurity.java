@@ -1,6 +1,6 @@
-package pl.put.projectdb.security;
+package pl.jiraput.security;
 
-import static pl.put.projectdb.security.SecurityConstants.*;
+import static pl.jiraput.security.SecurityConstants.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -15,15 +15,15 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import pl.put.projectdb.repository.EmployeeRepository;
-import pl.put.projectdb.service.UserDetailsServiceImpl;
+import pl.jiraput.repository.EmployeeRepository;
+import pl.jiraput.service.UserDetailsServiceImpl;
 
 @EnableWebSecurity
 public class WebSecurity extends WebSecurityConfigurerAdapter {
 	
 	private static final String[] AUTH_WHITELIST = {
             // -- swagger ui
-            "/v2/api-docs",
+            "/v3/api-docs",
             "/swagger-resources",
             "/swagger-resources/**",
             "/configuration/ui",

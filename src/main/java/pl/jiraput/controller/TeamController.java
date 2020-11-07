@@ -1,7 +1,9 @@
-package pl.put.projectdb.controller;
+package pl.jiraput.controller;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import pl.put.projectdb.model.Team;
-import pl.put.projectdb.repository.TeamRepository;
+import pl.jiraput.model.Team;
+import pl.jiraput.repository.TeamRepository;
 
 @RestController
 @RequestMapping("/api/team")
@@ -40,7 +42,19 @@ public class TeamController {
 	
 	@GetMapping(value = "/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseStatus(value = HttpStatus.CREATED)
-	public Team getTeamInfo(@PathVariable String name) {		
-		return teamRepository.findByName(name);
+	public Map<String, Object> getTeamInfo(@PathVariable String name) {	
+		Team team = teamRepository.findByName(name);
+		Map<String, Object> response = new HashMap<>();
+		if(team != null) {
+			response.put("name", team.getName());
+			response.put("numberOfMembers", team.getNumberOfMembers());
+			Set<String> members = new HashSet<>();
+			team.getMembers().forEach(m -> members.add(m.getLogin()));
+			response.put("members", members);
+			return response;
+		} else {
+			response.put("name", null);
+			return response;
+		}
 	}
 }

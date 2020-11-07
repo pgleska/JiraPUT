@@ -1,4 +1,4 @@
-package pl.put.projectdb.config;
+package pl.jiraput.config;
 
 import java.util.Properties;
 
@@ -17,8 +17,8 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 
 @Configuration
-@ComponentScan("pl.put.projectdb")
-@EnableJpaRepositories("pl.put.projectdb.repository")
+@ComponentScan("pl.jiraput")
+@EnableJpaRepositories("pl.jiraput.repository")
 public class ApplicationConfig {
 	
 	@Value("${db.driver}")

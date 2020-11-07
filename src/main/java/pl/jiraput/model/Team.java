@@ -1,4 +1,4 @@
-package pl.put.projectdb.model;
+package pl.jiraput.model;
 
 import java.util.Set;
 
