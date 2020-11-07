@@ -44,10 +44,39 @@ CREATE TABLE `pracownik` (
   `haslo` varchar(255) NOT NULL,
   `token` varchar(255),
   `imie` varchar(31) NOT NULL,
-  `nazwisko` varchar(31) NOT NULL
+  `nazwisko` varchar(31) NOT NULL,
+  `zespol` varchar(63)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- ------------------------------------------------------
+--
+-- Triggers `pracownik`
+--
+DELIMITER $$
+CREATE TRIGGER `after_delete_pracownik` AFTER DELETE ON `pracownik` FOR EACH ROW UPDATE zespol SET liczba_czlonkow=liczba_czlonkow-1 WHERE nazwa=OLD.zespol
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `after_insert_pracownik` AFTER INSERT ON `pracownik` FOR EACH ROW UPDATE zespol SET liczba_czlonkow=liczba_czlonkow+1 WHERE nazwa=NEW.zespol
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `after_update_pracownik` AFTER UPDATE ON `pracownik` FOR EACH ROW BEGIN
+    UPDATE zespol SET liczba_czlonkow=liczba_czlonkow+1 WHERE nazwa=NEW.zespol;
+    UPDATE zespol SET liczba_czlonkow=liczba_czlonkow-1 WHERE nazwa=OLD.zespol;
+  END
+$$
+DELIMITER ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `zespol`
+--
+
+CREATE TABLE `zespol` (
+  `nazwa` varchar(63) NOT NULL,
+  `liczba_czlonkow` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Indexes for dumped tables
@@ -61,9 +90,16 @@ ALTER TABLE `example`
   
 ALTER TABLE `pracownik`
   ADD PRIMARY KEY (`identyfikator`),  
+  ADD KEY `prac_zespol_fkey` (`zespol`),
   ADD KEY `identyfikator` (`identyfikator`),
   ADD KEY `nazwisko` (`nazwisko`),
   ADD KEY `login` (`login`);
+    
+--
+-- Indexes for table `zespol`
+--
+ALTER TABLE `zespol`
+  ADD PRIMARY KEY (`nazwa`);  
   
 -- ------------------------------------------------------
   
@@ -71,7 +107,17 @@ ALTER TABLE `pracownik`
 -- AUTO_INCREMENT for table `pracownik`
 --
 ALTER TABLE `pracownik`
-  MODIFY `identyfikator` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `identyfikator` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+--
+-- Constraints for dumped tables
+--  
+
+ --
+-- Constraints for table `pracownik`
+--
+ALTER TABLE `pracownik`  
+  ADD CONSTRAINT `prac_zespol_fkey` FOREIGN KEY (`zespol`) REFERENCES `zespol` (`nazwa`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
   
 
 CREATE USER 'admin'@'%' IDENTIFIED BY 'mysecretpassword';

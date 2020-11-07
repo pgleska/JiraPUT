@@ -2,14 +2,19 @@ package pl.put.projectdb.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "pracownik")
-public class Employee implements IBasicEmployee {	
+public class Employee {	
 	@Id
 	@Column(name = "identyfikator", unique = true, nullable = false)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,48 +35,56 @@ public class Employee implements IBasicEmployee {
 	@Column(name = "haslo", nullable = false)
 	private String password;
 	
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "zespol", nullable = false)	
+	private Team team;
+	
 	public Employee() {
 		
 	}
 	
-	public Employee(String login, String password) {
+	public Employee(String login, String password, String firstName, String lastName) {
 		this.login = login;
 		this.password = password;
+		this.firstName = firstName;
+		this.lastName = lastName;		
 	}
 	
-	public Employee(String login, String password, String firstName, String lastName) {
-		this(login,password);
+	public Employee(String login, String password, String firstName, String lastName, Team team) {
+		this.login = login;
+		this.password = password;
 		this.firstName = firstName;
 		this.lastName = lastName;
+		this.team = team;
 	}
-	
-	@Override
+		
 	public Integer getId() {
 		return id;
 	}
-	
-	@Override
+		
 	public String getFirstName() {
 		return firstName;
 	}
 	
-	@Override
 	public String getLastName() {		
 		return lastName;
 	}
 	
-	@Override
 	public String getLogin() {
 		return login;
 	}
-	
-	@Override
+		
 	public String getToken() {
 		return token;
 	}
 	
 	public String getPassword() {
 		return password;
+	}
+	
+	@JsonIgnore
+	public Team getTeam() {
+		return team;
 	}
 
 	public void setId(int id) {
@@ -96,5 +109,9 @@ public class Employee implements IBasicEmployee {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	
+	public void setTeam(Team team) {
+		this.team = team;
 	}
 }

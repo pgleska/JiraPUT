@@ -87,8 +87,6 @@ public class ApplicationConfig {
 		JpaTransactionManager transactionManager = new JpaTransactionManager();
 		transactionManager.setEntityManagerFactory(entityManagerFactory().getObject());
 		
-		System.out.println(databaseDriver + " " + databaseUrl);
-		
 		return transactionManager;
 	}
 }

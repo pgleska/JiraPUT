@@ -57,13 +57,12 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
                     .build()
                     .verify(token)
                     .getSubject();
-            
-            String target[] = request.getRequestURI().split("/");            
+                                    
             if (user != null) {
             	currentUser = employeeRepository.findByLogin(user);
             	if(currentUser != null)
             		if(currentUser.getToken() != null)
-		            	if(currentUser.getToken().equals(token) && target[target.length - 1].equals(currentUser.getId().toString())) {
+		            	if(currentUser.getToken().equals(token)) {
 		            		return new UsernamePasswordAuthenticationToken(user, null, new ArrayList<>());
 		            	}
             }

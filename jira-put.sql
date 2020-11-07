@@ -88,7 +88,7 @@ CREATE TABLE `pracownik` (
   `nazwisko` varchar(31) NOT NULL,
   `pensja` float NOT NULL,
   `stanowisko` varchar(31) NOT NULL,
-  `zespol` varchar(63) NOT NULL
+  `zespol` varchar(63)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
