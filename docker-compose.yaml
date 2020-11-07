@@ -53,7 +53,8 @@ services:
     hostname: projectdb-frontend
     container_name: projectdb-frontend
     volumes:
-      - ./frontend/:/opt/projectdb/frontend/
+      - ./frontend:/opt/projectdb/frontend
+      - /opt/projectdb/frontend/node_modules
     ports:
       - 4200:4200  
     depends_on:
