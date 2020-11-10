@@ -35,6 +35,13 @@ public class Employee {
 	@Column(name = "haslo", nullable = false)
 	private String password;
 	
+	@Column(name = "pensja", nullable = false)
+	private float salary;
+	
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "stanowisko", nullable = false)	
+	private Position position;
+	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "zespol", nullable = false)	
 	private Team team;
@@ -47,7 +54,7 @@ public class Employee {
 		this.login = login;
 		this.password = password;
 		this.firstName = firstName;
-		this.lastName = lastName;		
+		this.lastName = lastName;	
 	}
 	
 	public Employee(String login, String password, String firstName, String lastName, Team team) {
@@ -82,6 +89,15 @@ public class Employee {
 		return password;
 	}
 	
+	public float getSalary() {
+		return salary;
+	}
+	
+	@JsonIgnore
+	public Position getPosition() {
+		return position;
+	}
+	
 	@JsonIgnore
 	public Team getTeam() {
 		return team;
@@ -109,6 +125,14 @@ public class Employee {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	
+	public void setSalary(float salary) {
+		this.salary = salary;
+	}
+	
+	public void setPosition(Position position) {
+		this.position = position;
 	}
 	
 	public void setTeam(Team team) {

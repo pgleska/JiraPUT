@@ -45,6 +45,8 @@ CREATE TABLE `pracownik` (
   `token` varchar(255),
   `imie` varchar(31) NOT NULL,
   `nazwisko` varchar(31) NOT NULL,
+  `pensja` float NOT NULL,
+  `stanowisko` varchar(31) NOT NULL,
   `zespol` varchar(63)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -70,6 +72,29 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `stanowisko`
+--
+
+CREATE TABLE `stanowisko` (
+  `nazwa` varchar(31) NOT NULL,
+  `pensja_minimalna` int(11) NOT NULL,
+  `pensja_maksymalna` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+INSERT INTO `stanowisko` (`nazwa`, `pensja_minimalna`, `pensja_maksymalna`) VALUES
+('CEO', 22000, 25000),
+('Head of Department', 19000, 22000),
+('Team Leader', 15000, 17000),
+('System Architect', 16000, 20000),
+('Senior Developer', 9000, 14000),
+('Mid Developer', 6000, 8500),
+('Junior Developer', 4000, 5500),
+('Intern', 3000, 3500),
+('None', 0, 0);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `zespol`
 --
 
@@ -91,10 +116,18 @@ ALTER TABLE `example`
 ALTER TABLE `pracownik`
   ADD PRIMARY KEY (`identyfikator`),  
   ADD KEY `prac_zespol_fkey` (`zespol`),
+  ADD KEY `prac_stanowisko_fkey` (`stanowisko`),
   ADD KEY `identyfikator` (`identyfikator`),
   ADD KEY `nazwisko` (`nazwisko`),
   ADD KEY `login` (`login`);
-    
+
+  
+--
+-- Indexes for table `stanowisko`
+--
+ALTER TABLE `stanowisko`
+  ADD PRIMARY KEY (`nazwa`);
+  
 --
 -- Indexes for table `zespol`
 --
@@ -116,6 +149,7 @@ ALTER TABLE `pracownik`
 -- Constraints for table `pracownik`
 --
 ALTER TABLE `pracownik`  
+  ADD CONSTRAINT `prac_stanowisko_fkey` FOREIGN KEY (`stanowisko`) REFERENCES `stanowisko` (`nazwa`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `prac_zespol_fkey` FOREIGN KEY (`zespol`) REFERENCES `zespol` (`nazwa`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
   
