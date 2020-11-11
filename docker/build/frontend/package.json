@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve && ng serve --host 0.0.0.0 --port 4200",
+    "start": "ng serve",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
@@ -16,9 +16,12 @@
     "@angular/compiler": "~10.0.2",
     "@angular/core": "~10.0.2",
     "@angular/forms": "~10.0.2",
+    "@angular/localize": "~10.0.2",
     "@angular/platform-browser": "~10.0.2",
     "@angular/platform-browser-dynamic": "~10.0.2",
     "@angular/router": "~10.0.2",
+    "@ng-bootstrap/ng-bootstrap": "^8.0.0",
+    "bootstrap": "^4.5.0",
     "rxjs": "~6.5.5",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.3"
