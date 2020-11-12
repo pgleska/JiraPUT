@@ -47,6 +47,9 @@ services:
       - db
     networks:
       - jiraput  
+    environment:    
+      - JAVA_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8001
+      
       
   frontend:
     build: ./docker/build/frontend

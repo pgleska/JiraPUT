@@ -58,6 +58,14 @@ public class Employee {
 		this.lastName = lastName;
 		this.team = team;
 	}
+	
+	public Employee(String firstName, String lastName, Team team, Position position, Float salary) {
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.team = team;
+		this.position = position;
+		this.salary = salary;
+	}
 		
 	public String getFirstName() {
 		return firstName;

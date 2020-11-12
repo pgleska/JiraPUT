@@ -30,7 +30,7 @@ CREATE TABLE `example` (
 	`id` int NOT NULL,
 	`active` tinyint(1) NOT NULL,
 	`description` varchar(255)
-) ENGINE=InnoDB DEFAULT CHARSET=latin2 COLLATE latin2_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 
 INSERT INTO `example` (`id`, `active`, `description`) VALUES
@@ -47,7 +47,7 @@ CREATE TABLE `pracownik` (
   `pensja` float NOT NULL,
   `stanowisko` varchar(31) NOT NULL,
   `zespol` varchar(63)
-) ENGINE=InnoDB DEFAULT CHARSET=latin2 COLLATE latin2_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Triggers `pracownik`
@@ -78,16 +78,16 @@ CREATE TABLE `stanowisko` (
   `nazwa` varchar(31) NOT NULL,
   `pensja_minimalna` int(11) NOT NULL,
   `pensja_maksymalna` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin2 COLLATE latin2_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 INSERT INTO `stanowisko` (`nazwa`, `pensja_minimalna`, `pensja_maksymalna`) VALUES
 ('CEO', 22000, 25000),
-('Head of Department', 19000, 22000),
-('Team Leader', 15000, 17000),
-('System Architect', 16000, 20000),
-('Senior Developer', 9000, 14000),
-('Mid Developer', 6000, 8500),
-('Junior Developer', 4000, 5500),
+('Head_of_Department', 19000, 22000),
+('Team_Leader', 15000, 17000),
+('System_Architect', 16000, 20000),
+('Senior_Developer', 9000, 14000),
+('Mid_Developer', 6000, 8500),
+('Junior_Developer', 4000, 5500),
 ('Intern', 3000, 3500),
 ('None', 0, 0);
 
@@ -100,7 +100,7 @@ INSERT INTO `stanowisko` (`nazwa`, `pensja_minimalna`, `pensja_maksymalna`) VALU
 CREATE TABLE `zespol` (
   `nazwa` varchar(63) NOT NULL,
   `liczba_czlonkow` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin2 COLLATE latin2_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Indexes for dumped tables
