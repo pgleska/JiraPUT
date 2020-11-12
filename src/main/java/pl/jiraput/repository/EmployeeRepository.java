@@ -8,7 +8,7 @@ import pl.jiraput.model.Employee;
 
 @Repository
 @Transactional(readOnly = true)
-public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
+public interface EmployeeRepository extends JpaRepository<Employee, String> {
 	public Employee findByLogin(String login);
 //	public Employee findById(String id);
 }

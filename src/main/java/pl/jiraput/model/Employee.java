@@ -3,8 +3,6 @@ package pl.jiraput.model;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -16,18 +14,14 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Table(name = "pracownik")
 public class Employee {	
 	@Id
-	@Column(name = "identyfikator", unique = true, nullable = false)
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	@Column(name = "login", unique = true, nullable = false)
+	private String login;
 	
 	@Column(name = "imie", nullable = false)
 	private String firstName;
 	
 	@Column(name = "nazwisko", unique = true, nullable = false)
 	private String lastName;
-	
-	@Column(name = "login", unique = true, nullable = false)
-	private String login;
 	
 	@Column(name = "token")
 	private String token;
@@ -64,9 +58,13 @@ public class Employee {
 		this.lastName = lastName;
 		this.team = team;
 	}
-		
-	public Integer getId() {
-		return id;
+	
+	public Employee(String firstName, String lastName, Team team, Position position, Float salary) {
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.team = team;
+		this.position = position;
+		this.salary = salary;
 	}
 		
 	public String getFirstName() {
@@ -101,10 +99,6 @@ public class Employee {
 	@JsonIgnore
 	public Team getTeam() {
 		return team;
-	}
-
-	public void setId(int id) {
-		this.id = id;
 	}
 
 	public void setFirstName(String firstName) {

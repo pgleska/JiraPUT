@@ -62,17 +62,16 @@ public class EmployeeController {
 	
 	@GetMapping(value = "/list", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseStatus(value = HttpStatus.OK)
-	public @ResponseBody List<Map<String, String>> getAllEmployees() {
-		List<Map<String, String>> result = new ArrayList<>();
+	public @ResponseBody List<Map<String, Object>> getAllEmployees() {
+		List<Map<String, Object>> result = new ArrayList<>();
 		employeeRepository.findAll().forEach(emp -> {
-			Map<String, String> map = new HashMap<>();
-			map.put("id", emp.getId().toString());
+			Map<String, Object> map = new HashMap<>();
 			map.put("login", emp.getLogin());
 			map.put("firstName", emp.getFirstName());
 			map.put("lastName", emp.getLastName());
 			map.put("team", (emp.getTeam() != null) ? emp.getTeam().getName() : "");
 			map.put("position", emp.getPosition().getName());
-			map.put("salary", String.valueOf(emp.getSalary()));
+			map.put("salary", Float.valueOf(emp.getSalary()));
 			result.add(map);
 		});
 		return result;
@@ -80,32 +79,33 @@ public class EmployeeController {
 	
 	@GetMapping(value = "/{login}", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseStatus(value = HttpStatus.OK)
-	public @ResponseBody Map<String, String> getEmployeeInfo(@PathVariable String login) {
-		Map<String, String> response = new HashMap<>();		
+	public @ResponseBody Map<String, Object> getEmployeeInfo(@PathVariable String login) {
+		Map<String, Object> response = new HashMap<>();		
 		Employee emp = employeeRepository.findByLogin(login);
-		response.put("id", emp.getId().toString());
 		response.put("login", emp.getLogin());
 		response.put("firstName", emp.getFirstName());
 		response.put("lastName", emp.getLastName());
 		response.put("team", (emp.getTeam() != null) ? emp.getTeam().getName() : "");
 		response.put("position", emp.getPosition().getName());
-		response.put("salary", String.valueOf(emp.getSalary()));
+		response.put("salary", Float.valueOf(emp.getSalary()));
 		return response;
 	}
 	
-	@PatchMapping(value = "/{login}/change_team", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@PatchMapping(value = "/{login}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseStatus(value = HttpStatus.OK)
-	public @ResponseBody Map<String, String> changeTeam(@PathVariable String login, @RequestBody Map<String, String> data) {
+	public @ResponseBody Map<String, String> changeTeam(@PathVariable String login, @RequestBody Map<String, Object> data) {
 		Map<String, String> response = new HashMap<>();
 		Employee emp = employeeRepository.findByLogin(login);
-		Team newTeam = teamReposiotry.findByName(data.get("name"));
-		if(!newTeam.equals(emp.getTeam())) {
-			emp.setTeam(newTeam);
-			employeeRepository.save(emp);
-			response.put("status", "team.changed");
-			return response;
-		}
-		response.put("status", "team.not.changed");
+		emp.setFirstName(String.valueOf(data.get("firstName")));
+		emp.setLastName(String.valueOf(data.get("lastName")));
+		emp.setSalary(Float.valueOf(String.valueOf(data.get("salary"))));
+		Team newTeam = teamReposiotry.findByName(String.valueOf(data.get("team")));
+		Position newPosition = positionRepository.findByName(String.valueOf(data.get("position")));
+		emp.setTeam(newTeam);
+		emp.setPosition(newPosition);
+		System.out.println(newPosition.getName());
+		employeeRepository.save(emp);
+		response.put("status", "user.updated");
 		return response;
 	}
 }

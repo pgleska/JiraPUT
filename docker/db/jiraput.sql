@@ -30,7 +30,7 @@ CREATE TABLE `example` (
 	`id` int NOT NULL,
 	`active` tinyint(1) NOT NULL,
 	`description` varchar(255)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 
 INSERT INTO `example` (`id`, `active`, `description`) VALUES
@@ -39,7 +39,6 @@ INSERT INTO `example` (`id`, `active`, `description`) VALUES
 
 
 CREATE TABLE `pracownik` (
-  `identyfikator` int(11) NOT NULL,
   `login` varchar(31) NOT NULL,
   `haslo` varchar(255) NOT NULL,
   `token` varchar(255),
@@ -48,7 +47,7 @@ CREATE TABLE `pracownik` (
   `pensja` float NOT NULL,
   `stanowisko` varchar(31) NOT NULL,
   `zespol` varchar(63)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Triggers `pracownik`
@@ -79,16 +78,16 @@ CREATE TABLE `stanowisko` (
   `nazwa` varchar(31) NOT NULL,
   `pensja_minimalna` int(11) NOT NULL,
   `pensja_maksymalna` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 INSERT INTO `stanowisko` (`nazwa`, `pensja_minimalna`, `pensja_maksymalna`) VALUES
 ('CEO', 22000, 25000),
-('Head of Department', 19000, 22000),
-('Team Leader', 15000, 17000),
-('System Architect', 16000, 20000),
-('Senior Developer', 9000, 14000),
-('Mid Developer', 6000, 8500),
-('Junior Developer', 4000, 5500),
+('Head_of_Department', 19000, 22000),
+('Team_Leader', 15000, 17000),
+('System_Architect', 16000, 20000),
+('Senior_Developer', 9000, 14000),
+('Mid_Developer', 6000, 8500),
+('Junior_Developer', 4000, 5500),
 ('Intern', 3000, 3500),
 ('None', 0, 0);
 
@@ -101,7 +100,7 @@ INSERT INTO `stanowisko` (`nazwa`, `pensja_minimalna`, `pensja_maksymalna`) VALU
 CREATE TABLE `zespol` (
   `nazwa` varchar(63) NOT NULL,
   `liczba_czlonkow` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
 -- Indexes for dumped tables
@@ -114,13 +113,10 @@ ALTER TABLE `example`
   ADD PRIMARY KEY (`id`);
   
 ALTER TABLE `pracownik`
-  ADD PRIMARY KEY (`identyfikator`),  
+  ADD PRIMARY KEY `login` (`login`),  
   ADD KEY `prac_zespol_fkey` (`zespol`),
   ADD KEY `prac_stanowisko_fkey` (`stanowisko`),
-  ADD KEY `identyfikator` (`identyfikator`),
-  ADD KEY `nazwisko` (`nazwisko`),
-  ADD KEY `login` (`login`);
-
+  ADD KEY `nazwisko` (`nazwisko`);
   
 --
 -- Indexes for table `stanowisko`
@@ -135,12 +131,7 @@ ALTER TABLE `zespol`
   ADD PRIMARY KEY (`nazwa`);  
   
 -- ------------------------------------------------------
-  
---
--- AUTO_INCREMENT for table `pracownik`
---
-ALTER TABLE `pracownik`
-  MODIFY `identyfikator` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
 --
 -- Constraints for dumped tables
 --  
