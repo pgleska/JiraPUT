@@ -66,7 +66,6 @@ public class EmployeeController {
 		List<Map<String, String>> result = new ArrayList<>();
 		employeeRepository.findAll().forEach(emp -> {
 			Map<String, String> map = new HashMap<>();
-			map.put("id", emp.getId().toString());
 			map.put("login", emp.getLogin());
 			map.put("firstName", emp.getFirstName());
 			map.put("lastName", emp.getLastName());
@@ -83,7 +82,6 @@ public class EmployeeController {
 	public @ResponseBody Map<String, String> getEmployeeInfo(@PathVariable String login) {
 		Map<String, String> response = new HashMap<>();		
 		Employee emp = employeeRepository.findByLogin(login);
-		response.put("id", emp.getId().toString());
 		response.put("login", emp.getLogin());
 		response.put("firstName", emp.getFirstName());
 		response.put("lastName", emp.getLastName());

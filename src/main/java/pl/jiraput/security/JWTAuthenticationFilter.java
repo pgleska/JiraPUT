@@ -13,6 +13,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -69,7 +70,8 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         employee.setToken(token);
         employeeRepository.saveAndFlush(employee);
         
-        String body = "{ \"id\" : " + employee.getId() + ", \"JWT\" : \""+ token + "\"}";
+        String body = "{\"JWT\" : \""+ token + "\"}";
+        res.setContentType(MediaType.APPLICATION_JSON_VALUE);
         res.getWriter().write(body);
         res.getWriter().flush();
         res.getWriter().close();
