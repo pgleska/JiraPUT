@@ -16,6 +16,7 @@ import {AuthenticationLoginComponent} from './authentication/authentication-logi
 import {InputErrorComponent} from './common/input-error/input-error.component';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+import {EqualsValidatorDirective} from './common/validators/equals-validator.directive';
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
     return new TranslateHttpLoader(httpClient);
@@ -30,7 +31,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         LoadingSpinnerComponent,
         AuthenticationSignUpComponent,
         AuthenticationLoginComponent,
-        InputErrorComponent
+        InputErrorComponent,
+        EqualsValidatorDirective
     ],
     imports: [
         BrowserModule,

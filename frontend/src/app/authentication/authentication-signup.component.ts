@@ -55,12 +55,14 @@ import {AuthenticationService} from './authentication.service';
                         id="password"
                         name="password"
                         class="form-control"
-                        [(ngModel)]="password"
-                        #password_con="ngModel"
+                        [(ngModel)]="passwordCopy"
+                        #password="ngModel"
                         required
+                        equalsValidator
+                        [validateEqualsTo]="'repeat_password'"
                         [minLength]="6"
                 />
-                <app-input-error [control]="password_con.control"></app-input-error>
+                <app-input-error [control]="password.control"></app-input-error>
             </div>
             <div class="form-group">
                 <label for="repeat_password">{{'authentication.repeat-password' | translate}}</label>
@@ -70,11 +72,12 @@ import {AuthenticationService} from './authentication.service';
                         name="repeat_password"
                         class="form-control"
                         [ngModel]
-                        (ngModelChange)="checkPassword($event)"
                         #repeat_password="ngModel"
                         required
+                        equalsValidator
+                        [validateEqualsTo]="'password'"
+                        [showErrorMessage]="true"
                         [minLength]="6"
-                        
                 />
                 <app-input-error [control]="repeat_password.control"></app-input-error>
             </div>
@@ -93,7 +96,7 @@ export class AuthenticationSignUpComponent {
 
     @Output() loadingChanged: EventEmitter<boolean> = new EventEmitter<boolean>();
     error: string;
-    password: string;
+    passwordCopy: string;
 
     constructor(private authenticationService: AuthenticationService) {
     }
@@ -121,13 +124,5 @@ export class AuthenticationSignUpComponent {
             }
         );
         form.reset();
-    }
-
-    checkPassword($event: string) {
-        if (this.password !== $event) {
-            this.error = 'Hasła nie są identyczne';
-        } else {
-            this.error = undefined;
-        }
     }
 }

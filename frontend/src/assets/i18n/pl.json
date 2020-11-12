@@ -14,5 +14,10 @@
     "log-in": "Zaloguj się",
     "log-out": "Wyloguj się",
     "title": "JiraPUT"
+  },
+  "error": {
+    "required": "Pole jest wymagane",
+    "min-length": "Hasło wymaga co najmniej 6 znaków",
+    "password": "Hasła nie są identyczne"
   }
 }
