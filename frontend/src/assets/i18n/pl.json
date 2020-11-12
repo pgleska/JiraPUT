@@ -1,0 +1,18 @@
+{
+  "authentication": {
+    "login": "Login",
+    "password": "Hasło",
+    "log-in": "Zaloguj się",
+    "first-name": "Imię",
+    "last-name": "Nazwisko",
+    "sign-up": "Zarejestruj się",
+    "account": "Mam konto",
+    "no-account": "Nie mam konta",
+    "repeat-password": "Powtórz hasło"
+  },
+  "navbar": {
+    "log-in": "Zaloguj się",
+    "log-out": "Wyloguj się",
+    "title": "JiraPUT"
+  }
+}

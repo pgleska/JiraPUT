@@ -8,15 +8,15 @@ import {AuthenticationService} from '../authentication/authentication.service';
         <nav class="navbar navbar-dark bg-dark">
             <div class="container-fluid">
                 <div class="navbar-header">
-                    <a routerLink="/" class="navbar-brand">JiraPUT</a>
+                    <a routerLink="/" class="navbar-brand">{{'navbar.title' | translate}}</a>
                 </div>
                 <div class="navbar">
                     <ul class="nav">
                         <li *ngIf="!isAuthenticated" class="nav-item mr-2 ml-2">
-                            <a class="my-2 my-sm-0 mr-1 btn btn-outline-light" routerLink="/login">Zaloguj się</a>
+                            <a class="my-2 my-sm-0 mr-1 btn btn-outline-light" routerLink="/login">{{'navbar.log-in' | translate}}</a>
                         </li>
                         <li *ngIf="isAuthenticated" class="nav-item mr-2 ml-2">
-                            <a class="my-2 my-sm-0 mr-1 btn btn-outline-light" routerLink="/" (click)="onLogout()">Wyloguj się</a>
+                            <a class="my-2 my-sm-0 mr-1 btn btn-outline-light" routerLink="/" (click)="onLogout()">{{'navbar.log-out' | translate}}</a>
                         </li>
                     </ul>
                 </div>

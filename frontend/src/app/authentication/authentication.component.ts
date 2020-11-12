@@ -15,11 +15,13 @@ import {Router} from '@angular/router';
                 <div *ngIf="!isLoginMode">
                     <app-authentication-sign-up></app-authentication-sign-up>
                 </div>
-                <div class="font-italic small" *ngIf="isLoginMode">
-                    Nie mam konta!&nbsp; <a (click)="switchMode()" class="font-weight-bold">Zarejestruj się!</a>
-                </div>
                 <div class="font-italic small" *ngIf="!isLoginMode">
-                    Mam konto!&nbsp; <a (click)="switchMode()" class="font-weight-bold">Zaloguj się!</a>
+                    {{'authentication.account' | translate}}
+                    <a (click)="switchMode()" class="font-weight-bold">{{'authentication.log-in' | translate}}</a>
+                </div>
+                <div class="font-italic small" *ngIf="isLoginMode">
+                    {{'authentication.no-account' | translate}}&nbsp; 
+                    <a (click)="switchMode()" class="font-weight-bold">{{'authentication.sign-up' | translate}}</a>
                 </div>
             </div>
         </div>

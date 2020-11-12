@@ -10,69 +10,80 @@ import {AuthenticationService} from './authentication.service';
                 <h4>{{ error }}</h4>
             </div>
             <div class="form-group">
-                <label for="email">Login</label>
+                <label for="email">{{'authentication.login' | translate}}</label>
                 <input
                         type="text"
                         id="login"
+                        name="login"
                         class="form-control"
                         [ngModel]
-                        name="login"
+                        #login="ngModel"
                         required
                 />
+                <app-input-error [control]="login.control"></app-input-error>
             </div>
             <div class="form-group">
-                <label for="first_name">Imię</label>
+                <label for="first_name">{{'authentication.first-name' | translate}}</label>
                 <input
                         type="text"
                         id="first_name"
+                        name="first_name"
                         class="form-control"
                         [ngModel]
-                        name="first_name"
+                        #first_name="ngModel"
                         required
                 />
+                <app-input-error [control]="first_name.control"></app-input-error>
             </div>
             <div class="form-group">
-                <label for="last_name">Nazwisko</label>
+                <label for="last_name">{{'authentication.last-name' | translate}}</label>
                 <input
                         type="text"
                         id="last_name"
+                        name="last_name"
                         class="form-control"
                         [ngModel]
-                        name="last_name"
+                        #last_name="ngModel"
                         required
                 />
+                <app-input-error [control]="last_name.control"></app-input-error>
             </div>
             <div class="form-group">
-                <label for="password">Hasło</label>
+                <label for="password">{{'authentication.password' | translate}}</label>
                 <input
                         type="password"
                         id="password"
+                        name="password"
                         class="form-control"
                         [(ngModel)]="password"
-                        name="password"
+                        #password_con="ngModel"
                         required
-                        minlength="6"
+                        [minLength]="6"
                 />
+                <app-input-error [control]="password_con.control"></app-input-error>
             </div>
             <div class="form-group">
-                <label for="repeat_password">Powtórz hasło</label>
+                <label for="repeat_password">{{'authentication.repeat-password' | translate}}</label>
                 <input
                         type="password"
                         id="repeat_password"
+                        name="repeat_password"
                         class="form-control"
                         [ngModel]
                         (ngModelChange)="checkPassword($event)"
-                        name="repeat_password"
+                        #repeat_password="ngModel"
                         required
-                        minlength="6"
+                        [minLength]="6"
+                        
                 />
+                <app-input-error [control]="repeat_password.control"></app-input-error>
             </div>
             <div>
                 <button
                         class="btn btn-primary"
                         type="submit"
                         [disabled]="!authForm.valid"
-                >{{'Zarejestruj się'}}</button>
+                >{{'authentication.sign-up' | translate}}</button>
             </div>
         </form>
     `

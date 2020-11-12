@@ -8,11 +8,18 @@ import {NavbarComponent} from './navbar/navbar.component';
 import {AuthenticationComponent} from './authentication/authentication.component';
 import {FormsModule} from '@angular/forms';
 import {ErrorPageComponent} from './error-page/error-page.component';
-import {HttpClientModule} from '@angular/common/http';
+import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {LoadingSpinnerComponent} from './loading-spinner/loading-spinner.component';
 import {AuthenticationGuard} from './authentication/authentication.guard';
 import {AuthenticationSignUpComponent} from './authentication/authentication-signup.component';
 import {AuthenticationLoginComponent} from './authentication/authentication-login.component';
+import {InputErrorComponent} from './common/input-error/input-error.component';
+import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
+import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+
+export function HttpLoaderFactory(httpClient: HttpClient) {
+    return new TranslateHttpLoader(httpClient);
+}
 
 @NgModule({
     declarations: [
@@ -23,6 +30,7 @@ import {AuthenticationLoginComponent} from './authentication/authentication-logi
         LoadingSpinnerComponent,
         AuthenticationSignUpComponent,
         AuthenticationLoginComponent,
+        InputErrorComponent
     ],
     imports: [
         BrowserModule,
@@ -30,7 +38,14 @@ import {AuthenticationLoginComponent} from './authentication/authentication-logi
         FormsModule,
         HttpClientModule,
         AppRoutingModule,
-        NgbModule
+        NgbModule,
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [HttpClient]
+            }
+        })
     ],
     providers: [AuthenticationGuard],
     bootstrap: [AppComponent]

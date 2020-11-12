@@ -5,40 +5,44 @@ import {Router} from '@angular/router';
 
 @Component({
     selector: 'app-authentication-login',
-    template: `
+    template: `            
         <form #authForm="ngForm" (ngSubmit)="onSubmit(authForm)">
             <div *ngIf="error" class="alert-danger">
                 <h4>{{ error }}</h4>
             </div>
             <div class="form-group">
-                <label for="login">Login</label>
+                <label for="login">{{'authentication.login' | translate}}</label>
                 <input
                         type="text"
                         id="login"
-                        class="form-control"
                         name="login"
+                        class="form-control"
                         [ngModel]
+                        #login="ngModel"
                         required
                 />
+                <app-input-error [control]="login.control"></app-input-error>
             </div>
             <div class="form-group">
-                <label for="password">Hasło</label>
+                <label for="password">{{'authentication.password' | translate}}</label>
                 <input
                         type="password"
                         id="password"
                         class="form-control"
                         name="password"
                         [ngModel]
+                        #password="ngModel"
                         required
                         minlength="6"
                 />
+                <app-input-error [control]="password.control"></app-input-error>
             </div>
             <div>
                 <button
                         class="btn btn-primary"
                         type="submit"
                         [disabled]="!authForm.valid"
-                >{{'Zaloguj się'}}</button>
+                >{{'authentication.log-in' | translate}}</button>
             </div>
         </form>
     `
