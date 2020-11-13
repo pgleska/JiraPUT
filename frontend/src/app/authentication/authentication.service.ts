@@ -14,7 +14,7 @@ export class AuthenticationService {
     constructor(private http: HttpClient) {
     }
 
-    signUp(login: string, firstName: string, lastName: string, password: string): Observable<any> {
+    signUp(login: string, firstName: string, lastName: string, password: string): Observable<SignUpResponseData> {
         return this.http
             .post<SignUpResponseData>(
                 environment.apiUrl + '/api/employee/sign-up',
@@ -27,7 +27,7 @@ export class AuthenticationService {
             );
     }
 
-    login(login: string, password: string): Observable<any> {
+    login(login: string, password: string): Observable<LoginResponseData> {
         return this.http.post<LoginResponseData>(
             environment.apiUrl + '/login',
             {
@@ -50,10 +50,10 @@ export class AuthenticationService {
     }
 
     private static handleLoginError(errorResponse: HttpErrorResponse): Observable<any> {
-        if (errorResponse.error === 'Unauthorized') {
-            return throwError('Błędny login lub hasło');
+        if (errorResponse.error.message === 'Unauthorized') {
+            return throwError('error.login-error');
         } else {
-            return throwError('Nieznany błąd');
+            return throwError('error.unknown');
         }
     }
 }

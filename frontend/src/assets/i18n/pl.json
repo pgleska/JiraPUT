@@ -8,7 +8,9 @@
     "sign-up": "Zarejestruj się",
     "account": "Mam konto",
     "no-account": "Nie mam konta",
-    "repeat-password": "Powtórz hasło"
+    "repeat-password": "Powtórz hasło",
+    "duplicated": "Użytkownik o takim loginie już istnieje",
+    "success": "Konto zostało pomyślnie utoworzone"
   },
   "navbar": {
     "log-in": "Zaloguj się",
@@ -18,6 +20,8 @@
   "error": {
     "required": "Pole jest wymagane",
     "min-length": "Hasło wymaga co najmniej 6 znaków",
-    "password": "Hasła nie są identyczne"
+    "password": "Hasła nie są identyczne",
+    "login-error": "Błędny login lub hasło",
+    "unknown": "Nieznany błąd"
   }
 }

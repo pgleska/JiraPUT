@@ -5,12 +5,9 @@ import {Router} from '@angular/router';
 
 @Component({
     selector: 'app-authentication-login',
-    template: `            
+    template: `
         <form #authForm="ngForm" (ngSubmit)="onSubmit(authForm)">
-            <div *ngIf="error" class="alert-danger">
-                <h4>{{ error }}</h4>
-            </div>
-            <div class="form-group">
+            <div>
                 <label for="login">{{'authentication.login' | translate}}</label>
                 <input
                         type="text"
@@ -23,7 +20,7 @@ import {Router} from '@angular/router';
                 />
                 <app-input-error [control]="login.control"></app-input-error>
             </div>
-            <div class="form-group">
+            <div>
                 <label for="password">{{'authentication.password' | translate}}</label>
                 <input
                         type="password"
@@ -33,13 +30,13 @@ import {Router} from '@angular/router';
                         [ngModel]
                         #password="ngModel"
                         required
-                        minlength="6"
+                        [minlength]="6"
                 />
                 <app-input-error [control]="password.control"></app-input-error>
             </div>
             <div>
                 <button
-                        class="btn btn-primary"
+                        class="btn btn-primary mt-2"
                         type="submit"
                         [disabled]="!authForm.valid"
                 >{{'authentication.log-in' | translate}}</button>
@@ -49,14 +46,13 @@ import {Router} from '@angular/router';
 })
 
 export class AuthenticationLoginComponent {
-
-    @Output() loadingChanged: EventEmitter<boolean> = new EventEmitter<boolean>();
-    error: string;
     password: string;
+    @Output() error: EventEmitter<string> = new EventEmitter<string>();
 
     constructor(private authenticationService: AuthenticationService,
                 private router: Router) {
     }
+
 
     onSubmit(form: NgForm): void {
         if (!form.valid) {
@@ -64,17 +60,14 @@ export class AuthenticationLoginComponent {
         }
         const login = form.value.login;
         const password = form.value.password;
-        this.loadingChanged.emit(true);
         const authObservable = this.authenticationService.login(login, password);
         authObservable.subscribe(
             _ => {
-                this.loadingChanged.emit(false);
                 this.router.navigateByUrl('/');
             },
             error => {
                 console.log(error);
-                this.error = error;
-                this.loadingChanged.emit(false);
+                this.error.next(error);
             }
         );
         form.reset();
