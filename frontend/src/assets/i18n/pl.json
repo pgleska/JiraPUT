@@ -22,6 +22,8 @@
     "min-length": "Hasło wymaga co najmniej 6 znaków",
     "password": "Hasła nie są identyczne",
     "login-error": "Błędny login lub hasło",
-    "unknown": "Nieznany błąd"
+    "unknown": "Nieznany błąd",
+    "maximum-salary": "Pensja większa niż maksymalna na obecnym stanowisku",
+    "minimum-salary": "Pensja mniejsza niż minimalna na obecnym stanowisku"
   }
 }

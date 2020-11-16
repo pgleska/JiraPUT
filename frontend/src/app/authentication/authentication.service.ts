@@ -10,6 +10,7 @@ import {LoginResponseData, SignUpResponseData} from './authentication.model';
 })
 export class AuthenticationService {
     user = new BehaviorSubject<boolean>(false);
+    private token: string = undefined;
 
     constructor(private http: HttpClient) {
     }
@@ -33,7 +34,7 @@ export class AuthenticationService {
             {
                 login,
                 password,
-            }
+            },
         ).pipe(
             catchError(AuthenticationService.handleLoginError),
             tap(responseData => this.saveInSessionStorage(responseData))
@@ -44,12 +45,18 @@ export class AuthenticationService {
         this.user.next(false);
     }
 
-    private saveInSessionStorage(responseData: LoginResponseData): void {
-        this.user.next(true);
-        sessionStorage.setItem('user_data', JSON.stringify(responseData));
+    getToken(): string {
+        console.log(this.token);
+        return this.token;
     }
 
-    private static handleLoginError(errorResponse: HttpErrorResponse): Observable<any> {
+    private saveInSessionStorage(responseData: LoginResponseData): void {
+        this.user.next(true);
+        this.token = responseData.JWT;
+        sessionStorage.setItem('user_', JSON.stringify(responseData));
+    }
+
+    private static handleLoginError(errorResponse: HttpErrorResponse): Observable<never> {
         if (errorResponse.error.message === 'Unauthorized') {
             return throwError('error.login-error');
         } else {

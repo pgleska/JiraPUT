@@ -8,7 +8,7 @@ import {NavbarComponent} from './navbar/navbar.component';
 import {AuthenticationComponent} from './authentication/authentication.component';
 import {FormsModule} from '@angular/forms';
 import {ErrorPageComponent} from './error-page/error-page.component';
-import {HttpClient, HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from '@angular/common/http';
 import {AuthenticationGuard} from './authentication/authentication.guard';
 import {AuthenticationSignUpComponent} from './authentication/authentication-signup.component';
 import {AuthenticationLoginComponent} from './authentication/authentication-login.component';
@@ -16,6 +16,14 @@ import {InputErrorComponent} from './common/input-error/input-error.component';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {EqualsValidatorDirective} from './common/validators/equals-validator.directive';
+import {EmployeeDetailsComponent} from './employee/employee-details.component';
+import {EmployeeListComponent} from './employee/employee-list.component';
+import {EmployeeListItemComponent} from './employee/employee-list-item.component';
+import {PositionFormComponent} from './position/position-form.component';
+import {PositionListComponent} from './position/position-list.component';
+import {PositionListItemComponent} from './position/position-list-item.component';
+import {SalaryValidatorDirective} from './common/validators/salary-validator.directive';
+import {TokenInterceptor} from './authentication/token.interceptor';
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
     return new TranslateHttpLoader(httpClient);
@@ -30,7 +38,14 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         AuthenticationSignUpComponent,
         AuthenticationLoginComponent,
         InputErrorComponent,
-        EqualsValidatorDirective
+        EqualsValidatorDirective,
+        EmployeeDetailsComponent,
+        EmployeeListComponent,
+        EmployeeListItemComponent,
+        PositionFormComponent,
+        PositionListComponent,
+        PositionListItemComponent,
+        SalaryValidatorDirective
     ],
     imports: [
         BrowserModule,
@@ -47,7 +62,14 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
             }
         })
     ],
-    providers: [AuthenticationGuard],
+    providers: [
+        AuthenticationGuard,
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: TokenInterceptor,
+            multi: true
+        }
+    ],
     bootstrap: [AppComponent]
 })
 export class AppModule {
