@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Router} from '@angular/router';
 import {debounceTime} from 'rxjs/operators';
 import {Subject} from 'rxjs';
@@ -43,7 +43,7 @@ import {NgbAlert} from '@ng-bootstrap/ng-bootstrap';
         </div>
     `
 })
-export class AuthenticationComponent implements OnInit {
+export class AuthenticationComponent implements OnInit, OnDestroy {
     isLoginMode = true;
     error_message: string;
     success_message: string;
@@ -61,14 +61,12 @@ export class AuthenticationComponent implements OnInit {
             this.router.navigateByUrl('/');
         }
 
-        this.errorSubject.subscribe(message => this.error_message = message);
         this.errorSubject.pipe(debounceTime(10000)).subscribe(() => {
             if (this.errorAlert) {
                 this.errorAlert.close();
             }
         });
 
-        this.successSubject.subscribe(message => this.success_message = message);
         this.successSubject.pipe(debounceTime(10000)).subscribe(() => {
             if (this.successAlert) {
                 this.successAlert.close();
@@ -82,11 +80,18 @@ export class AuthenticationComponent implements OnInit {
     }
 
     onError($event: string) {
+        this.error_message = $event
         this.errorSubject.next($event);
     }
 
     onSuccess($event: string) {
+        this.success_message = $event;
         this.successSubject.next($event);
         this.isLoginMode = true;
+    }
+
+    ngOnDestroy(): void {
+        this.successSubject.unsubscribe();
+        this.errorSubject.unsubscribe();
     }
 }

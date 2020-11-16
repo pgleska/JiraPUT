@@ -3,6 +3,7 @@ export interface Employee {
     firstName: string;
     lastName: string;
     position: string;
+    positionDisplay: string;
     salary: number;
 }
 
