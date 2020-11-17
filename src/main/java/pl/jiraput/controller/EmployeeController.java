@@ -8,6 +8,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -43,20 +44,19 @@ public class EmployeeController {
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 	@PostMapping(value = "/sign-up", consumes = MediaType.APPLICATION_JSON_VALUE)
-	@ResponseStatus(value = HttpStatus.CREATED)
-    public @ResponseBody Map<String, String> signUp(@RequestBody Employee user) {
-		Map<String, String> response = new HashMap<>();
+    public @ResponseBody ResponseEntity<Map<String, String>> signUp(@RequestBody Employee user) {
+		Map<String, String> body = new HashMap<>();
 		if(employeeRepository.findByLogin(user.getLogin()) == null) {
 			user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 			Position position = positionRepository.findByName("None");
 			user.setPosition(position);
 			user.setSalary(position.getMinimumSalary());
 	    	employeeRepository.save(user);
-	    	response.put("status", "user.created");
-	    	return response;
+	    	body.put("status", "user.created");
+	    	return new ResponseEntity<>(body, HttpStatus.CREATED);
 		} else {
-			response.put("status", "user.duplicated");
-			return response;
+			body.put("error", "user.duplicated");
+			return new ResponseEntity<>(body, HttpStatus.CONFLICT);
 		}
 	}
 	
@@ -78,34 +78,50 @@ public class EmployeeController {
 	}
 	
 	@GetMapping(value = "/{login}", produces = MediaType.APPLICATION_JSON_VALUE)
-	@ResponseStatus(value = HttpStatus.OK)
-	public @ResponseBody Map<String, Object> getEmployeeInfo(@PathVariable String login) {
-		Map<String, Object> response = new HashMap<>();		
+	public @ResponseBody ResponseEntity<Map<String, Object>> getEmployeeInfo(@PathVariable String login) {
+		Map<String, Object> body = new HashMap<>();		
 		Employee emp = employeeRepository.findByLogin(login);
-		response.put("login", emp.getLogin());
-		response.put("firstName", emp.getFirstName());
-		response.put("lastName", emp.getLastName());
-		response.put("team", (emp.getTeam() != null) ? emp.getTeam().getName() : "");
-		response.put("position", emp.getPosition().getName());
-		response.put("salary", Float.valueOf(emp.getSalary()));
-		return response;
+		if(emp == null) {
+			body.put("error", "user.not.found");
+			return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
+		} else {
+			body.put("login", emp.getLogin());
+			body.put("firstName", emp.getFirstName());
+			body.put("lastName", emp.getLastName());
+			body.put("team", (emp.getTeam() != null) ? emp.getTeam().getName() : "");
+			body.put("position", emp.getPosition().getName());
+			body.put("salary", Float.valueOf(emp.getSalary()));
+			return new ResponseEntity<>(body, HttpStatus.OK);
+		}
 	}
 	
 	@PatchMapping(value = "/{login}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	@ResponseStatus(value = HttpStatus.OK)
-	public @ResponseBody Map<String, String> changeTeam(@PathVariable String login, @RequestBody Map<String, Object> data) {
-		Map<String, String> response = new HashMap<>();
+	public @ResponseBody ResponseEntity<Map<String, String>> changeTeam(@PathVariable String login, @RequestBody Map<String, Object> data) {
+		Map<String, String> body = new HashMap<>();
 		Employee emp = employeeRepository.findByLogin(login);
-		emp.setFirstName(String.valueOf(data.get("firstName")));
-		emp.setLastName(String.valueOf(data.get("lastName")));
-		emp.setSalary(Float.valueOf(String.valueOf(data.get("salary"))));
+		if(emp == null) {
+			body.put("error", "user.not.found");
+		}
 		Team newTeam = teamReposiotry.findByName(String.valueOf(data.get("team")));
+		if(newTeam == null) {
+			body.put("error", "team.not.found");
+		}
 		Position newPosition = positionRepository.findByName(String.valueOf(data.get("position")));
-		emp.setTeam(newTeam);
-		emp.setPosition(newPosition);
-		System.out.println(newPosition.getName());
-		employeeRepository.save(emp);
-		response.put("status", "user.updated");
-		return response;
+		if(newPosition == null) {
+			body.put("error", "position.not.found");
+		}		
+		if(body.containsKey("error")) {
+			return new ResponseEntity<Map<String,String>>(body, HttpStatus.NOT_FOUND);
+		} else {		
+			emp.setFirstName(String.valueOf(data.get("firstName")));
+			emp.setLastName(String.valueOf(data.get("lastName")));
+			emp.setSalary(Float.valueOf(String.valueOf(data.get("salary"))));		
+			emp.setTeam(newTeam);
+			emp.setPosition(newPosition);
+			System.out.println(newPosition.getName());
+			employeeRepository.save(emp);
+			body.put("status", "user.updated");
+			return new ResponseEntity<Map<String,String>>(body, HttpStatus.OK);
+		}
 	}
 }

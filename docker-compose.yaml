@@ -43,12 +43,13 @@ services:
     ports:
       - 8001:8001
       - 8080:8080  
+      - 8019:8001
     depends_on:
       - db
-    networks:
-      - jiraput  
     environment:    
       - JAVA_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8001
+    networks:
+      - jiraput 
       
       
   frontend:

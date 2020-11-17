@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,31 +35,31 @@ public class PositionController {
 	}
 	
 	@PostMapping(value = "/create", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody Map<String, String> createPosition(@RequestBody Position position) {
-		Map<String, String> response = new HashMap<>();
+	public @ResponseBody ResponseEntity<Map<String, String>> createPosition(@RequestBody Position position) {
+		Map<String, String> body = new HashMap<>();
 		if(positionRepository.findByName(position.getName()) == null) {
 	    	positionRepository.save(position);
-	    	response.put("status", "position.created");
-	    	return response;
+	    	body.put("status", "position.created");
+	    	return new ResponseEntity<>(body, HttpStatus.OK);
 		} else {
-			response.put("status", "position.duplicated");
-			return response;
+			body.put("error", "position.duplicated");
+			return new ResponseEntity<>(body, HttpStatus.CONFLICT);
 		}
 	}
 	
 	@PatchMapping(value = "/{name}/edit", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody Map<String, String> editPosition(@PathVariable String name, @RequestBody Map<String, Integer> data) {
-		Map<String, String> response = new HashMap<>();
+	public @ResponseBody ResponseEntity<Map<String, String>> editPosition(@PathVariable String name, @RequestBody Map<String, Integer> data) {
+		Map<String, String> body = new HashMap<>();
 		Position position = positionRepository.findByName(name);
 		if(position != null) {
 	    	position.setMinimumSalary(data.get("minimum"));
 	    	position.setMaximumSalary(data.get("maximum"));
 	    	positionRepository.save(position);
-	    	response.put("status", "position.edited");
-	    	return response;
+	    	body.put("status", "position.edited");
+	    	return new ResponseEntity<>(body, HttpStatus.OK);
 		} else {
-			response.put("status", "position.not.exist");
-			return response;
+			body.put("error", "position.not.found");
+			return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
 		}
 	}
 }
