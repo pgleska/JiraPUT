@@ -26,6 +26,12 @@ public class Team {
 		
 	}
 	
+	public Team(String name, int numberOfMembers, Set<Employee> members) {
+		this.name = name;
+		this.numberOfMembers = numberOfMembers;
+		this.members = members;
+	}
+	
 	public Team(String name) {
 		this.name = name;
 	}

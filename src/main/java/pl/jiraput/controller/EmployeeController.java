@@ -96,7 +96,7 @@ public class EmployeeController {
 	}
 	
 	@PatchMapping(value = "/{login}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseEntity<Map<String, String>> changeTeam(@PathVariable String login, @RequestBody Map<String, Object> data) {
+	public @ResponseBody ResponseEntity<Map<String, String>> editEmployee(@PathVariable String login, @RequestBody Map<String, Object> data) {
 		Map<String, String> body = new HashMap<>();
 		Employee emp = employeeRepository.findByLogin(login);
 		if(emp == null) {
@@ -118,9 +118,8 @@ public class EmployeeController {
 			emp.setSalary(Float.valueOf(String.valueOf(data.get("salary"))));		
 			emp.setTeam(newTeam);
 			emp.setPosition(newPosition);
-			System.out.println(newPosition.getName());
 			employeeRepository.save(emp);
-			body.put("status", "user.updated");
+			body.put("status", "user.edited");
 			return new ResponseEntity<Map<String,String>>(body, HttpStatus.OK);
 		}
 	}

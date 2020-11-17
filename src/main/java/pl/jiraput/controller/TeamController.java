@@ -2,14 +2,20 @@ package pl.jiraput.controller;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,6 +24,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mysql.cj.x.protobuf.MysqlxCrud.Collection;
+
+import pl.jiraput.model.Position;
 import pl.jiraput.model.Team;
 import pl.jiraput.repository.TeamRepository;
 
@@ -41,6 +50,21 @@ public class TeamController {
 		}
 	}
 	
+	@GetMapping(value = "/list", produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseStatus(value = HttpStatus.OK)
+	public @ResponseBody List<Map<String, Object>> getAllTeams() {
+		Function<Team, Map<String, Object>> func = t -> {
+			Map<String, Object> body = new HashMap<>();
+			body.put("name", t.getName());
+			body.put("numberOfMembers", t.getNumberOfMembers());
+			Set<String> members = new HashSet<>();
+			t.getMembers().forEach(m -> members.add(m.getLogin()));
+			body.put("members", members);
+			return body;
+		};		
+		return teamRepository.findAll().stream().map(func).collect(Collectors.toList());
+	}
+	
 	@GetMapping(value = "/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ResponseEntity<Map<String, Object>> getTeamInfo(@PathVariable String name) {	
 		Map<String, Object> body = new HashMap<>();
@@ -55,6 +79,48 @@ public class TeamController {
 		} else {
 			body.put("error", "team.not.found");
 			return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	@PatchMapping(value = "/{name}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody ResponseEntity<Map<String, String>> editTeam(@PathVariable String name, @RequestBody Map<String, String> data) {
+		Map<String, String> body = new HashMap<>();
+		Team oldTeam = teamRepository.findByName(name);
+		if(oldTeam == null) {
+			body.put("error", "team.not.found");
+			return new ResponseEntity<Map<String,String>>(body, HttpStatus.NOT_FOUND);
+		}
+		String newName = data.get("name");
+		if(teamRepository.findByName(newName) != null) {
+			body.put("error", "team.duplicated");
+			return new ResponseEntity<Map<String,String>>(body, HttpStatus.CONFLICT);
+		} else {
+			Team newTeam = new Team(newName, oldTeam.getNumberOfMembers(), oldTeam.getMembers());		
+			teamRepository.save(newTeam);
+			oldTeam.getMembers().forEach(e -> {				
+				e.setTeam(newTeam);
+				});
+			teamRepository.delete(oldTeam);
+			body.put("status", "team.edited");
+			return new ResponseEntity<Map<String,String>>(body, HttpStatus.OK);
+		}		
+	}
+	
+	@DeleteMapping(value = "/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody ResponseEntity<Map<String, String>> deleteTeam(@PathVariable String name) {
+		Map<String, String> body = new HashMap<>();
+		Team team = teamRepository.findByName(name);
+		if(team == null) {
+			body.put("error", "team.not.found");
+			return new ResponseEntity<Map<String,String>>(body, HttpStatus.NOT_FOUND);
+		}
+		if(team.getMembers().size() > 0) {
+			body.put("error", "team.not.empty");
+			return new ResponseEntity<Map<String,String>>(body, HttpStatus.CONFLICT);
+		} else {
+			teamRepository.delete(team);
+			body.put("status", "team.deleted");
+			return new ResponseEntity<Map<String,String>>(body, HttpStatus.OK);
 		}
 	}
 }

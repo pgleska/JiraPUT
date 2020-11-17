@@ -28,12 +28,6 @@ public class PositionController {
 	@Autowired
 	private PositionRepository positionRepository;
 	
-	@GetMapping(value = "/list", produces = MediaType.APPLICATION_JSON_VALUE)
-	@ResponseStatus(value = HttpStatus.OK)
-	public @ResponseBody List<Position> getAllPositions() {
-		return positionRepository.findAll();
-	}
-	
 	@PostMapping(value = "/create", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ResponseEntity<Map<String, String>> createPosition(@RequestBody Position position) {
 		Map<String, String> body = new HashMap<>();
@@ -47,7 +41,13 @@ public class PositionController {
 		}
 	}
 	
-	@PatchMapping(value = "/{name}/edit", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/list", produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseStatus(value = HttpStatus.OK)
+	public @ResponseBody List<Position> getAllPositions() {
+		return positionRepository.findAll();
+	}
+	
+	@PatchMapping(value = "/{name}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ResponseEntity<Map<String, String>> editPosition(@PathVariable String name, @RequestBody Map<String, Integer> data) {
 		Map<String, String> body = new HashMap<>();
 		Position position = positionRepository.findByName(name);
