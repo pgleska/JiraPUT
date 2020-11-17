@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -120,6 +121,20 @@ public class EmployeeController {
 			emp.setPosition(newPosition);
 			employeeRepository.save(emp);
 			body.put("status", "user.edited");
+			return new ResponseEntity<Map<String,String>>(body, HttpStatus.OK);
+		}
+	}
+	
+	@DeleteMapping(value = "/{login}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody ResponseEntity<Map<String, String>> deleteEmployee(@PathVariable String login) {
+		Map<String, String> body = new HashMap<>();
+		Employee emp = employeeRepository.findByLogin(login);
+		if(emp == null) {
+			body.put("error", "employee.not.found");
+			return new ResponseEntity<Map<String,String>>(body, HttpStatus.NOT_FOUND);
+		} else {
+			employeeRepository.delete(emp);
+			body.put("status", "employee.deleted");
 			return new ResponseEntity<Map<String,String>>(body, HttpStatus.OK);
 		}
 	}
