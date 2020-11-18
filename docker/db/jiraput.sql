@@ -20,6 +20,18 @@ SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 -- Database: `projectdb`
 --
 
+DELIMITER $$
+--
+-- Procedures
+--
+CREATE DEFINER=`admin`@`%` PROCEDURE `zmien_nazwe_zespolu` (IN `stary` VARCHAR(63), IN `nowy` VARCHAR(63))  BEGIN
+	INSERT INTO `zespol`(`zespol`.`nazwa`, `zespol`.`liczba_czlonkow`) VALUES (nowy, 0);
+    UPDATE `pracownik`SET `pracownik`.`zespol`=nowy WHERE `pracownik`.`zespol`=stary;
+    DELETE FROM `zespol` WHERE `zespol`.`nazwa`=stary;
+END$$
+
+DELIMITER ;
+
 -- --------------------------------------------------------
 
 --
