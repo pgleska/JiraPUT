@@ -25,6 +25,8 @@ export class AuthenticationService {
                     firstName,
                     lastName
                 }
+            ).pipe(
+                catchError(AuthenticationService.handleAuthenticationError),
             );
     }
 
@@ -36,8 +38,8 @@ export class AuthenticationService {
                 password,
             },
         ).pipe(
-            catchError(AuthenticationService.handleLoginError),
-            tap(responseData => this.saveInSessionStorage(responseData))
+            catchError(AuthenticationService.handleAuthenticationError),
+            tap(responseData => this.saveToken(responseData))
         );
     }
 
@@ -46,21 +48,22 @@ export class AuthenticationService {
     }
 
     getToken(): string {
-        console.log(this.token);
         return this.token;
     }
 
-    private saveInSessionStorage(responseData: LoginResponseData): void {
+    private saveToken(responseData: LoginResponseData): void {
         this.user.next(true);
         this.token = responseData.JWT;
-        sessionStorage.setItem('user_', JSON.stringify(responseData));
     }
 
-    private static handleLoginError(errorResponse: HttpErrorResponse): Observable<never> {
-        if (errorResponse.error.message === 'Unauthorized') {
-            return throwError('error.login-error');
-        } else {
-            return throwError('error.unknown');
+    private static handleAuthenticationError(errorResponse: HttpErrorResponse): Observable<never> {
+        switch (errorResponse.status) {
+            case 401:
+                return throwError('error.login-error');
+            case 409:
+                return throwError('error.user-duplicated');
+            default:
+                return throwError('error.unknown');
         }
     }
 }

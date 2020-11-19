@@ -1,7 +1,6 @@
 import {Component, EventEmitter, Output} from '@angular/core';
 import {NgForm} from '@angular/forms';
 import {AuthenticationService} from './authentication.service';
-import {SignUpResponseData} from './authentication.model';
 
 @Component({
     selector: 'app-authentication-sign-up',
@@ -16,6 +15,7 @@ import {SignUpResponseData} from './authentication.model';
                         class="form-control"
                         [ngModel]
                         #login="ngModel"
+                        urlValidator
                         required
                 />
                 <app-input-error [control]="login.control"></app-input-error>
@@ -29,6 +29,7 @@ import {SignUpResponseData} from './authentication.model';
                         class="form-control"
                         [ngModel]
                         #first_name="ngModel"
+                        onlyLettersValidator
                         required
                 />
                 <app-input-error [control]="first_name.control"></app-input-error>
@@ -42,6 +43,7 @@ import {SignUpResponseData} from './authentication.model';
                         class="form-control"
                         [ngModel]
                         #last_name="ngModel"
+                        onlyLettersValidator
                         required
                 />
                 <app-input-error [control]="last_name.control"></app-input-error>
@@ -109,23 +111,14 @@ export class AuthenticationSignUpComponent {
         const password = form.value.password;
 
         const authObservable = this.authenticationService.signUp(login, firstName, lastName, password);
-
         authObservable.subscribe(
-            response => {
-                this.handleSignUpResponse(response);
+            _ => {
+                this.success.emit('authentication.success');
             },
             error => {
                 this.error.next(error);
             }
         );
         form.reset();
-    }
-
-    private handleSignUpResponse(responseData: SignUpResponseData) {
-        if (responseData.status === 'user.duplicated') {
-            this.error.next('authentication.duplicated');
-        } else {
-            this.success.emit('authentication.success');
-        }
     }
 }

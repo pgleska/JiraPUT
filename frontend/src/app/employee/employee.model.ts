@@ -5,10 +5,5 @@ export interface Employee {
     position: string;
     positionDisplay: string;
     salary: number;
-}
-
-export interface Team {
-    name: string;
-    numberOfMembers: number;
-    members: string[];
+    team: string;
 }

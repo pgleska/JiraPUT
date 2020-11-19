@@ -16,6 +16,7 @@ import {Router} from '@angular/router';
                         class="form-control"
                         [ngModel]
                         #login="ngModel"
+                        urlValidator
                         required
                 />
                 <app-input-error [control]="login.control"></app-input-error>
@@ -66,7 +67,6 @@ export class AuthenticationLoginComponent {
                 this.router.navigateByUrl('/');
             },
             error => {
-                console.log(error);
                 this.error.next(error);
             }
         );
