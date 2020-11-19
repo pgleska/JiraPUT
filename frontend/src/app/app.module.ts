@@ -24,6 +24,11 @@ import {PositionListComponent} from './position/position-list.component';
 import {PositionListItemComponent} from './position/position-list-item.component';
 import {SalaryValidatorDirective} from './common/validators/salary-validator.directive';
 import {TokenInterceptor} from './authentication/token.interceptor';
+import {UrlValidatorDirective} from './common/validators/url-validator.directive';
+import {OnlyLettersValidatorDirective} from './common/validators/only-letters-validator.directive';
+import {TeamDetailsComponent} from './team/team-details.component';
+import {TeamListComponent} from './team/team-list.component';
+import {TeamListItemComponent} from './team/team-list-item.component';
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
     return new TranslateHttpLoader(httpClient);
@@ -45,7 +50,12 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         PositionFormComponent,
         PositionListComponent,
         PositionListItemComponent,
-        SalaryValidatorDirective
+        SalaryValidatorDirective,
+        UrlValidatorDirective,
+        OnlyLettersValidatorDirective,
+        TeamDetailsComponent,
+        TeamListComponent,
+        TeamListItemComponent
     ],
     imports: [
         BrowserModule,

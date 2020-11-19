@@ -1,29 +1,37 @@
 {
   "authentication": {
-    "login": "Login",
-    "password": "Hasło",
-    "log-in": "Zaloguj się",
+    "account": "Mam konto",
     "first-name": "Imię",
     "last-name": "Nazwisko",
-    "sign-up": "Zarejestruj się",
-    "account": "Mam konto",
+    "log-in": "Zaloguj się",
+    "login": "Login",
     "no-account": "Nie mam konta",
+    "password": "Hasło",
     "repeat-password": "Powtórz hasło",
-    "duplicated": "Użytkownik o takim loginie już istnieje",
+    "sign-up": "Zarejestruj się",
     "success": "Konto zostało pomyślnie utoworzone"
+  },
+  "error": {
+    "employee-duplicated": "Pozycja o takiej nazwie już istnieje",
+    "employee-not-found": "Pozycja o takiej nazwie nie isntieje",
+    "login-error": "Błędny login lub hasło",
+    "maximum-salary": "Pensja większa niż maksymalna na obecnym stanowisku",
+    "minimum-length": "Hasło wymaga co najmniej 6 znaków",
+    "minimum-salary": "Pensja mniejsza niż minimalna na obecnym stanowisku",
+    "only-letters": "Dozwolone znaki to litery",
+    "password": "Hasła nie są identyczne",
+    "position-duplicated": "Pozycja o takiej nazwie już istnieje",
+    "position-not-found": "Pozycja o takiej nazwie nie isntieje",
+    "required": "Pole jest wymagane",
+    "team-duplicated": "Zespół o takiej nazwie już istnieje",
+    "team-not-found": "Zespół o takiej nazwie nie isntieje",
+    "unknown": "Nieznany błąd",
+    "url-encoding": "Dozwolone znaki to litery, cyfry oraz znaki _ i -",
+    "user-duplicated": "Użytkownik o takim loginie już istnieje"
   },
   "navbar": {
     "log-in": "Zaloguj się",
     "log-out": "Wyloguj się",
     "title": "JiraPUT"
-  },
-  "error": {
-    "required": "Pole jest wymagane",
-    "min-length": "Hasło wymaga co najmniej 6 znaków",
-    "password": "Hasła nie są identyczne",
-    "login-error": "Błędny login lub hasło",
-    "unknown": "Nieznany błąd",
-    "maximum-salary": "Pensja większa niż maksymalna na obecnym stanowisku",
-    "minimum-salary": "Pensja mniejsza niż minimalna na obecnym stanowisku"
   }
 }

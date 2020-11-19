@@ -1,10 +1,11 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpErrorResponse} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import {environment} from '../../environments/environment';
-import {Observable, throwError} from 'rxjs';
+import {Observable} from 'rxjs';
 import {Position} from './position.model';
 import {map} from 'rxjs/internal/operators';
 import {catchError} from 'rxjs/operators';
+import {handleError} from '../common/handle-error/handle-error.function';
 
 
 @Injectable({
@@ -19,7 +20,7 @@ export class PositionService {
         return this.http.get<Position[]>(environment.apiUrl + '/api/position/list')
             .pipe(map((positions: Position[]) => positions.map(
                 (position: Position) => {
-                    position.nameDisplay = position.name.replace('_', ' ');
+                    position.nameDisplay = position.name.replace(/_/g, ' ');
                     return position;
                 })
             ));
@@ -30,26 +31,17 @@ export class PositionService {
             environment.apiUrl + '/api/position/create',
             position)
             .pipe(
-                catchError(PositionService.handlePositionError)
+                catchError(handleError('position'))
             );
     }
 
     modifyPosition(position: Position): Observable<any> {
-        return this.http.post<Position>(
+        return this.http.patch<Position>(
             environment.apiUrl + `/api/position/${position.name}`,
             position)
             .pipe(
-                catchError(PositionService.handlePositionError)
+                catchError(handleError('position'))
             );
     }
-
-    private static handlePositionError(errorResponse: HttpErrorResponse): Observable<never> {
-        if (errorResponse.error.message === 'Unauthorized') {
-            return throwError('error.login-error');
-        } else {
-            return throwError('error.unknown');
-        }
-    }
-
 
 }
