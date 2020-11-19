@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 import javax.persistence.EntityManager;
 import javax.persistence.ParameterMode;
 import javax.persistence.PersistenceContext;
+import javax.persistence.StoredProcedureQuery;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -97,13 +98,15 @@ public class TeamController {
 		if(teamRepository.findByName(newName) != null) {
 			body.put("error", "team.duplicated");
 			return new ResponseEntity<Map<String,String>>(body, HttpStatus.CONFLICT);
-		} else {					
-			entityManager.createStoredProcedureQuery("zmien_nazwe_zespolu")
+		} else {								
+			StoredProcedureQuery query = entityManager.createStoredProcedureQuery("zmien_nazwe_zespolu")
 				.registerStoredProcedureParameter("stary", String.class, ParameterMode.IN)
-				.registerStoredProcedureParameter("nowy", String.class, ParameterMode.IN)
-				.setParameter("stary", name)
-				.setParameter("nowy", newName)
-				.execute();			
+				.registerStoredProcedureParameter("nowy", String.class, ParameterMode.IN);
+			
+			query.setParameter("stary", name)
+				.setParameter("nowy", newName);
+			
+			query.execute();			
 			
 			body.put("status", "team.edited");
 			return new ResponseEntity<Map<String,String>>(body, HttpStatus.OK);

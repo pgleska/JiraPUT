@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import pl.jiraput.model.Position;
+import pl.jiraput.repository.EmployeeRepository;
 import pl.jiraput.repository.PositionRepository;
 
 @RestController
@@ -27,6 +29,9 @@ public class PositionController {
 
 	@Autowired
 	private PositionRepository positionRepository;
+	
+	@Autowired
+	private EmployeeRepository employeeRepository;
 	
 	@PostMapping(value = "/create", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ResponseEntity<Map<String, String>> createPosition(@RequestBody Position position) {
@@ -60,6 +65,24 @@ public class PositionController {
 		} else {
 			body.put("error", "position.not.found");
 			return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	@DeleteMapping(value = "/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody ResponseEntity<Map<String, String>> deletePosition(@PathVariable String name) {
+		Map<String, String> body = new HashMap<>();
+		Position position = positionRepository.findByName(name);
+		if(position == null) {
+			body.put("error", "position.not.found");
+			return new ResponseEntity<Map<String,String>>(body, HttpStatus.NOT_FOUND);
+		}
+		if(employeeRepository.findByPosition(name) != null) {
+			body.put("error", "position.not.empty");
+			return new ResponseEntity<Map<String,String>>(body, HttpStatus.CONFLICT);
+		} else {
+			positionRepository.delete(position);
+			body.put("status", "position.deleted");
+			return new ResponseEntity<Map<String,String>>(body, HttpStatus.OK);
 		}
 	}
 }
