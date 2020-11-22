@@ -1,5 +1,7 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 
+export const PAGE_SIZE: number = 10;
+
 @Component({
     selector: 'app-pagination',
     template: `
@@ -16,5 +18,5 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
 export class PaginationComponent {
     @Input() totalElements: number;
     @Output() page: EventEmitter<number> = new EventEmitter<number>();
-    pageSize: number = 10;
+    pageSize: number = PAGE_SIZE;
 }
