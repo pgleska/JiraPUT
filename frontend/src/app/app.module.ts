@@ -29,6 +29,7 @@ import {OnlyLettersValidatorDirective} from './common/validators/only-letters-va
 import {TeamDetailsComponent} from './team/team-details.component';
 import {TeamListComponent} from './team/team-list.component';
 import {TeamListItemComponent} from './team/team-list-item.component';
+import {SortableDirective} from './common/list-components/sort/sortable.directive';
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
     return new TranslateHttpLoader(httpClient);
@@ -55,7 +56,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         OnlyLettersValidatorDirective,
         TeamDetailsComponent,
         TeamListComponent,
-        TeamListItemComponent
+        TeamListItemComponent,
+        SortableDirective
     ],
     imports: [
         BrowserModule,
