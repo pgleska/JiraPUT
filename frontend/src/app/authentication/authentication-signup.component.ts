@@ -116,7 +116,7 @@ export class AuthenticationSignUpComponent {
                 this.success.emit('authentication.success');
             },
             error => {
-                this.error.next(error);
+                this.error.emit(error);
             }
         );
         form.reset();

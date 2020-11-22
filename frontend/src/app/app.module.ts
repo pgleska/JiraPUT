@@ -30,6 +30,7 @@ import {TeamDetailsComponent} from './team/team-details.component';
 import {TeamListComponent} from './team/team-list.component';
 import {TeamListItemComponent} from './team/team-list-item.component';
 import {SortableDirective} from './common/list-components/sort/sortable.directive';
+import {PaginationComponent} from './common/list-components/pagination/pagination.component';
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
     return new TranslateHttpLoader(httpClient);
@@ -57,7 +58,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         TeamDetailsComponent,
         TeamListComponent,
         TeamListItemComponent,
-        SortableDirective
+        SortableDirective,
+        PaginationComponent
     ],
     imports: [
         BrowserModule,

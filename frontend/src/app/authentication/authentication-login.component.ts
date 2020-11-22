@@ -67,7 +67,7 @@ export class AuthenticationLoginComponent {
                 this.router.navigateByUrl('/');
             },
             error => {
-                this.error.next(error);
+                this.error.emit(error);
             }
         );
         form.reset();
