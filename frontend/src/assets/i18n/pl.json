@@ -33,5 +33,10 @@
     "log-in": "Zaloguj się",
     "log-out": "Wyloguj się",
     "title": "JiraPUT"
+  },
+  "position": {
+    "name": "Nazwa",
+    "minimum-salary": "Pensja minimalna",
+    "maximum-salary": "Pensja maksymalna"
   }
 }

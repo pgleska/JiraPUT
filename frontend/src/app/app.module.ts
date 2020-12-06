@@ -21,7 +21,6 @@ import {EmployeeListComponent} from './employee/employee-list.component';
 import {EmployeeListItemComponent} from './employee/employee-list-item.component';
 import {PositionFormComponent} from './position/position-form.component';
 import {PositionListComponent} from './position/position-list.component';
-import {PositionListItemComponent} from './position/position-list-item.component';
 import {SalaryValidatorDirective} from './common/validators/salary-validator.directive';
 import {TokenInterceptor} from './authentication/token.interceptor';
 import {UrlValidatorDirective} from './common/validators/url-validator.directive';
@@ -51,7 +50,6 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         EmployeeListItemComponent,
         PositionFormComponent,
         PositionListComponent,
-        PositionListItemComponent,
         SalaryValidatorDirective,
         UrlValidatorDirective,
         OnlyLettersValidatorDirective,

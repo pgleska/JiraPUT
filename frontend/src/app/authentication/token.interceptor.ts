@@ -3,7 +3,9 @@ import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/com
 import {AuthenticationService} from './authentication.service';
 import {Observable} from 'rxjs';
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class TokenInterceptor implements HttpInterceptor {
 
     constructor(private auth: AuthenticationService) {

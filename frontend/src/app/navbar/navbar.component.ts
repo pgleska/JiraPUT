@@ -12,11 +12,15 @@ import {AuthenticationService} from '../authentication/authentication.service';
                 </div>
                 <div class="navbar">
                     <ul class="nav">
+                        <li *ngIf="isAuthenticated" class="nav-item mr-2 ml-2">
+                            <a class="my-2 my-sm-0 mr-1 btn btn-outline-light" routerLink="/positions">{{'pozycje' | translate}}</a>
+                        </li>
                         <li *ngIf="!isAuthenticated" class="nav-item mr-2 ml-2">
                             <a class="my-2 my-sm-0 mr-1 btn btn-outline-light" routerLink="/login">{{'navbar.log-in' | translate}}</a>
                         </li>
                         <li *ngIf="isAuthenticated" class="nav-item mr-2 ml-2">
-                            <a class="my-2 my-sm-0 mr-1 btn btn-outline-light" routerLink="/" (click)="onLogout()">{{'navbar.log-out' | translate}}</a>
+                            <a class="my-2 my-sm-0 mr-1 btn btn-outline-light" routerLink="/"
+                               (click)="onLogout()">{{'navbar.log-out' | translate}}</a>
                         </li>
                     </ul>
                 </div>
