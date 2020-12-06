@@ -4,7 +4,7 @@ import {SortDirection, SortEvent} from './sort.model';
 const rotate: { [key: string]: SortDirection } = {'asc': 'desc', 'desc': '', '': 'asc'};
 
 @Directive({
-    selector: '[sortable]',
+    selector: 'th[sortable]',
     host: {
         '[class.asc]': 'direction === "asc"',
         '[class.desc]': 'direction === "desc"',

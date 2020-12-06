@@ -1,7 +1,8 @@
-import {Component} from '@angular/core';
+import {Component, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {PositionService} from './position.service';
 import {PAGE_SIZE} from '../common/list-components/pagination/pagination.component';
 import {SortEvent} from '../common/list-components/sort/sort.model';
+import {SortableDirective} from '../common/list-components/sort/sortable.directive';
 
 @Component({
     selector: 'app-position-list',
@@ -22,7 +23,7 @@ import {SortEvent} from '../common/list-components/sort/sort.model';
                 </thead>
                 <tbody>
                 <tr *ngFor="let position of service.positions$ | async">
-                    <td>{{position.nameDisplay}}</td>
+                    <th>{{position.nameDisplay}}</th>
                     <td>{{position.minimumSalary}}</td>
                     <td>{{position.maximumSalary}}</td>
                 </tr>
@@ -42,15 +43,24 @@ import {SortEvent} from '../common/list-components/sort/sort.model';
 export class PositionListComponent {
 
     pageSize = PAGE_SIZE;
+    @ViewChildren(SortableDirective) headers: QueryList<SortableDirective>;
 
     constructor(public service: PositionService) {
         this.service.getPositionList().subscribe(result => {
                 this.service.allPositionList = result;
+                this.service.search$.next();
             }
         );
     }
 
     onSort($event: SortEvent) {
+        this.headers.forEach(header => {
+                if (header.sortable !== $event.column) {
+                    header.direction = '';
+                }
+            }
+        );
+
         this.service.state.sortColumn = $event.column;
         this.service.state.sortDirection = $event.direction;
         this.service.search$.next();

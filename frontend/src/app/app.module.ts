@@ -30,6 +30,7 @@ import {TeamListComponent} from './team/team-list.component';
 import {TeamListItemComponent} from './team/team-list-item.component';
 import {SortableDirective} from './common/list-components/sort/sortable.directive';
 import {PaginationComponent} from './common/list-components/pagination/pagination.component';
+import {CommonModule} from '@angular/common';
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
     return new TranslateHttpLoader(httpClient);
@@ -61,6 +62,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     ],
     imports: [
         BrowserModule,
+        CommonModule,
         AppRoutingModule,
         FormsModule,
         HttpClientModule,
