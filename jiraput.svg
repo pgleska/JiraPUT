@@ -1,0 +1,1763 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   viewBox="16 8 862 735"
+   width="846px"
+   height="727px"
+   version="1.1"
+   id="svg458"
+   sodipodi:docname="jira.svg"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)">
+  <metadata
+     id="metadata464">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs462" />
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="800"
+     inkscape:window-height="480"
+     id="namedview460"
+     showgrid="false"
+     inkscape:zoom="0.29669031"
+     inkscape:cx="423"
+     inkscape:cy="363.5"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg458" />
+  <line
+     x1="480"
+     y1="312"
+     x2="490"
+     y2="312"
+     style="stroke:#c00;stroke-width:1;"
+     id="line2" />
+  <line
+     x1="499"
+     y1="53"
+     x2="489"
+     y2="53"
+     style="stroke:#c00;stroke-width:1;"
+     id="line4" />
+  <line
+     x1="490"
+     y1="312"
+     x2="499"
+     y2="53"
+     style="stroke:#c00;stroke-width:1;"
+     id="line6" />
+  <line
+     x1="487.5"
+     y1="312"
+     x2="483.96446609407"
+     y2="315.53553390593"
+     style="stroke:#c00;stroke-width:2;"
+     id="line8" />
+  <line
+     x1="487.5"
+     y1="312"
+     x2="483.96446609407"
+     y2="308.46446609407"
+     style="stroke:#c00;stroke-width:2;"
+     id="line10" />
+  <line
+     x1="494"
+     y1="53"
+     x2="497.53553390593"
+     y2="56.535533905933"
+     style="stroke:#c00;stroke-width:2;"
+     id="line12" />
+  <line
+     x1="494"
+     y1="53"
+     x2="497.53553390593"
+     y2="49.464466094067"
+     style="stroke:#c00;stroke-width:2;"
+     id="line14" />
+  <line
+     x1="358"
+     y1="292"
+     x2="348"
+     y2="292"
+     style="stroke:#333;stroke-width:1;"
+     id="line16" />
+  <line
+     x1="120"
+     y1="379"
+     x2="110"
+     y2="379"
+     style="stroke:#333;stroke-width:1;"
+     id="line18" />
+  <line
+     x1="348"
+     y1="292"
+     x2="120"
+     y2="379"
+     style="stroke:#333;stroke-width:1;"
+     id="line20" />
+  <line
+     x1="350.5"
+     y1="292"
+     x2="354.03553390593"
+     y2="295.53553390593"
+     style="stroke:#333;stroke-width:2;"
+     id="line22" />
+  <line
+     x1="350.5"
+     y1="292"
+     x2="354.03553390593"
+     y2="288.46446609407"
+     style="stroke:#333;stroke-width:2;"
+     id="line24" />
+  <line
+     x1="115"
+     y1="379"
+     x2="118.53553390593"
+     y2="382.53553390593"
+     style="stroke:#333;stroke-width:2;"
+     id="line26" />
+  <line
+     x1="115"
+     y1="379"
+     x2="118.53553390593"
+     y2="375.46446609407"
+     style="stroke:#333;stroke-width:2;"
+     id="line28" />
+  <line
+     x1="33"
+     y1="267"
+     x2="23"
+     y2="267"
+     style="stroke:#0bf;stroke-width:1;"
+     id="line30" />
+  <line
+     x1="25"
+     y1="58"
+     x2="35"
+     y2="58"
+     style="stroke:#0bf;stroke-width:1;"
+     id="line32" />
+  <line
+     x1="23"
+     y1="267"
+     x2="25"
+     y2="58"
+     style="stroke:#0bf;stroke-width:1;"
+     id="line34" />
+  <line
+     x1="25.5"
+     y1="267"
+     x2="29.035533905933"
+     y2="270.53553390593"
+     style="stroke:#0bf;stroke-width:2;"
+     id="line36" />
+  <line
+     x1="25.5"
+     y1="267"
+     x2="29.035533905933"
+     y2="263.46446609407"
+     style="stroke:#0bf;stroke-width:2;"
+     id="line38" />
+  <line
+     x1="30"
+     y1="58"
+     x2="26.464466094067"
+     y2="61.535533905933"
+     style="stroke:#0bf;stroke-width:2;"
+     id="line40" />
+  <line
+     x1="30"
+     y1="58"
+     x2="26.464466094067"
+     y2="54.464466094067"
+     style="stroke:#0bf;stroke-width:2;"
+     id="line42" />
+  <line
+     x1="33"
+     y1="287"
+     x2="23"
+     y2="287"
+     style="stroke:#b0b;stroke-width:1;"
+     id="line44" />
+  <line
+     x1="44"
+     y1="379"
+     x2="54"
+     y2="379"
+     style="stroke:#b0b;stroke-width:1;"
+     id="line46" />
+  <line
+     x1="23"
+     y1="287"
+     x2="44"
+     y2="379"
+     style="stroke:#b0b;stroke-width:1;"
+     id="line48" />
+  <line
+     x1="25.5"
+     y1="287"
+     x2="29.035533905933"
+     y2="290.53553390593"
+     style="stroke:#b0b;stroke-width:2;"
+     id="line50" />
+  <line
+     x1="25.5"
+     y1="287"
+     x2="29.035533905933"
+     y2="283.46446609407"
+     style="stroke:#b0b;stroke-width:2;"
+     id="line52" />
+  <line
+     x1="49"
+     y1="379"
+     x2="45.464466094067"
+     y2="382.53553390593"
+     style="stroke:#b0b;stroke-width:2;"
+     id="line54" />
+  <line
+     x1="49"
+     y1="379"
+     x2="45.464466094067"
+     y2="375.46446609407"
+     style="stroke:#b0b;stroke-width:2;"
+     id="line56" />
+  <line
+     x1="695"
+     y1="470"
+     x2="685"
+     y2="470"
+     style="stroke:#0bf;stroke-width:1;"
+     id="line58" />
+  <line
+     x1="685"
+     y1="651"
+     x2="695"
+     y2="651"
+     style="stroke:#0bf;stroke-width:1;"
+     id="line60" />
+  <line
+     x1="685"
+     y1="470"
+     x2="685"
+     y2="651"
+     style="stroke:#0bf;stroke-width:1;"
+     id="line62" />
+  <line
+     x1="687.5"
+     y1="470"
+     x2="691.03553390593"
+     y2="473.53553390593"
+     style="stroke:#0bf;stroke-width:2;"
+     id="line64" />
+  <line
+     x1="687.5"
+     y1="470"
+     x2="691.03553390593"
+     y2="466.46446609407"
+     style="stroke:#0bf;stroke-width:2;"
+     id="line66" />
+  <line
+     x1="690"
+     y1="651"
+     x2="686.46446609407"
+     y2="654.53553390593"
+     style="stroke:#0bf;stroke-width:2;"
+     id="line68" />
+  <line
+     x1="690"
+     y1="651"
+     x2="686.46446609407"
+     y2="647.46446609407"
+     style="stroke:#0bf;stroke-width:2;"
+     id="line70" />
+  <line
+     x1="784"
+     y1="490"
+     x2="794"
+     y2="490"
+     style="stroke:#0b0;stroke-width:1;"
+     id="line72" />
+  <line
+     x1="800"
+     y1="189"
+     x2="790"
+     y2="189"
+     style="stroke:#0b0;stroke-width:1;"
+     id="line74" />
+  <line
+     x1="794"
+     y1="490"
+     x2="800"
+     y2="189"
+     style="stroke:#0b0;stroke-width:1;"
+     id="line76" />
+  <line
+     x1="791.5"
+     y1="490"
+     x2="787.96446609407"
+     y2="493.53553390593"
+     style="stroke:#0b0;stroke-width:2;"
+     id="line78" />
+  <line
+     x1="791.5"
+     y1="490"
+     x2="787.96446609407"
+     y2="486.46446609407"
+     style="stroke:#0b0;stroke-width:2;"
+     id="line80" />
+  <line
+     x1="795"
+     y1="189"
+     x2="798.53553390593"
+     y2="192.53553390593"
+     style="stroke:#0b0;stroke-width:2;"
+     id="line82" />
+  <line
+     x1="795"
+     y1="189"
+     x2="798.53553390593"
+     y2="185.46446609407"
+     style="stroke:#0b0;stroke-width:2;"
+     id="line84" />
+  <line
+     x1="369"
+     y1="429"
+     x2="359"
+     y2="429"
+     style="stroke:#333;stroke-width:1;"
+     id="line86" />
+  <line
+     x1="348"
+     y1="312"
+     x2="358"
+     y2="312"
+     style="stroke:#333;stroke-width:1;"
+     id="line88" />
+  <line
+     x1="359"
+     y1="429"
+     x2="348"
+     y2="312"
+     style="stroke:#333;stroke-width:1;"
+     id="line90" />
+  <line
+     x1="361.5"
+     y1="429"
+     x2="365.03553390593"
+     y2="432.53553390593"
+     style="stroke:#333;stroke-width:2;"
+     id="line92" />
+  <line
+     x1="361.5"
+     y1="429"
+     x2="365.03553390593"
+     y2="425.46446609407"
+     style="stroke:#333;stroke-width:2;"
+     id="line94" />
+  <line
+     x1="353"
+     y1="312"
+     x2="349.46446609407"
+     y2="315.53553390593"
+     style="stroke:#333;stroke-width:2;"
+     id="line96" />
+  <line
+     x1="353"
+     y1="312"
+     x2="349.46446609407"
+     y2="308.46446609407"
+     style="stroke:#333;stroke-width:2;"
+     id="line98" />
+  <line
+     x1="434"
+     y1="389"
+     x2="444"
+     y2="389"
+     style="stroke:#0bf;stroke-width:1;"
+     id="line100" />
+  <line
+     x1="499"
+     y1="53"
+     x2="489"
+     y2="53"
+     style="stroke:#0bf;stroke-width:1;"
+     id="line102" />
+  <line
+     x1="444"
+     y1="389"
+     x2="499"
+     y2="53"
+     style="stroke:#0bf;stroke-width:1;"
+     id="line104" />
+  <line
+     x1="441.5"
+     y1="389"
+     x2="437.96446609407"
+     y2="392.53553390593"
+     style="stroke:#0bf;stroke-width:2;"
+     id="line106" />
+  <line
+     x1="441.5"
+     y1="389"
+     x2="437.96446609407"
+     y2="385.46446609407"
+     style="stroke:#0bf;stroke-width:2;"
+     id="line108" />
+  <line
+     x1="494"
+     y1="53"
+     x2="497.53553390593"
+     y2="56.535533905933"
+     style="stroke:#0bf;stroke-width:2;"
+     id="line110" />
+  <line
+     x1="494"
+     y1="53"
+     x2="497.53553390593"
+     y2="49.464466094067"
+     style="stroke:#0bf;stroke-width:2;"
+     id="line112" />
+  <line
+     x1="434"
+     y1="409"
+     x2="444"
+     y2="409"
+     style="stroke:#c00;stroke-width:1;"
+     id="line114" />
+  <line
+     x1="658"
+     y1="189"
+     x2="668"
+     y2="189"
+     style="stroke:#c00;stroke-width:1;"
+     id="line116" />
+  <line
+     x1="444"
+     y1="409"
+     x2="658"
+     y2="189"
+     style="stroke:#c00;stroke-width:1;"
+     id="line118" />
+  <line
+     x1="441.5"
+     y1="409"
+     x2="437.96446609407"
+     y2="412.53553390593"
+     style="stroke:#c00;stroke-width:2;"
+     id="line120" />
+  <line
+     x1="441.5"
+     y1="409"
+     x2="437.96446609407"
+     y2="405.46446609407"
+     style="stroke:#c00;stroke-width:2;"
+     id="line122" />
+  <line
+     x1="663"
+     y1="189"
+     x2="659.46446609407"
+     y2="192.53553390593"
+     style="stroke:#c00;stroke-width:2;"
+     id="line124" />
+  <line
+     x1="663"
+     y1="189"
+     x2="659.46446609407"
+     y2="185.46446609407"
+     style="stroke:#c00;stroke-width:2;"
+     id="line126" />
+  <line
+     x1="444"
+     y1="523"
+     x2="454"
+     y2="523"
+     style="stroke:#cb0;stroke-width:1;"
+     id="line128" />
+  <line
+     x1="499"
+     y1="53"
+     x2="489"
+     y2="53"
+     style="stroke:#cb0;stroke-width:1;"
+     id="line130" />
+  <line
+     x1="454"
+     y1="523"
+     x2="499"
+     y2="53"
+     style="stroke:#cb0;stroke-width:1;"
+     id="line132" />
+  <line
+     x1="451.5"
+     y1="523"
+     x2="447.96446609407"
+     y2="526.53553390593"
+     style="stroke:#cb0;stroke-width:2;"
+     id="line134" />
+  <line
+     x1="451.5"
+     y1="523"
+     x2="447.96446609407"
+     y2="519.46446609407"
+     style="stroke:#cb0;stroke-width:2;"
+     id="line136" />
+  <line
+     x1="494"
+     y1="53"
+     x2="497.53553390593"
+     y2="56.535533905933"
+     style="stroke:#cb0;stroke-width:2;"
+     id="line138" />
+  <line
+     x1="494"
+     y1="53"
+     x2="497.53553390593"
+     y2="49.464466094067"
+     style="stroke:#cb0;stroke-width:2;"
+     id="line140" />
+  <line
+     x1="444"
+     y1="563"
+     x2="454"
+     y2="563"
+     style="stroke:#b0b;stroke-width:1;"
+     id="line142" />
+  <line
+     x1="685"
+     y1="350"
+     x2="695"
+     y2="350"
+     style="stroke:#b0b;stroke-width:1;"
+     id="line144" />
+  <line
+     x1="454"
+     y1="563"
+     x2="685"
+     y2="350"
+     style="stroke:#b0b;stroke-width:1;"
+     id="line146" />
+  <line
+     x1="451.5"
+     y1="563"
+     x2="447.96446609407"
+     y2="566.53553390593"
+     style="stroke:#b0b;stroke-width:2;"
+     id="line148" />
+  <line
+     x1="451.5"
+     y1="563"
+     x2="447.96446609407"
+     y2="559.46446609407"
+     style="stroke:#b0b;stroke-width:2;"
+     id="line150" />
+  <line
+     x1="690"
+     y1="350"
+     x2="686.46446609407"
+     y2="353.53553390593"
+     style="stroke:#b0b;stroke-width:2;"
+     id="line152" />
+  <line
+     x1="690"
+     y1="350"
+     x2="686.46446609407"
+     y2="346.46446609407"
+     style="stroke:#b0b;stroke-width:2;"
+     id="line154" />
+  <line
+     x1="364"
+     y1="543"
+     x2="354"
+     y2="543"
+     style="stroke:#0b0;stroke-width:1;"
+     id="line156" />
+  <line
+     x1="359"
+     y1="389"
+     x2="369"
+     y2="389"
+     style="stroke:#0b0;stroke-width:1;"
+     id="line158" />
+  <line
+     x1="354"
+     y1="543"
+     x2="359"
+     y2="389"
+     style="stroke:#0b0;stroke-width:1;"
+     id="line160" />
+  <line
+     x1="356.5"
+     y1="543"
+     x2="360.03553390593"
+     y2="546.53553390593"
+     style="stroke:#0b0;stroke-width:2;"
+     id="line162" />
+  <line
+     x1="356.5"
+     y1="543"
+     x2="360.03553390593"
+     y2="539.46446609407"
+     style="stroke:#0b0;stroke-width:2;"
+     id="line164" />
+  <line
+     x1="364"
+     y1="389"
+     x2="360.46446609407"
+     y2="392.53553390593"
+     style="stroke:#0b0;stroke-width:2;"
+     id="line166" />
+  <line
+     x1="364"
+     y1="389"
+     x2="360.46446609407"
+     y2="385.46446609407"
+     style="stroke:#0b0;stroke-width:2;"
+     id="line168" />
+  <line
+     x1="485"
+     y1="710"
+     x2="495"
+     y2="710"
+     style="stroke:#cb0;stroke-width:1;"
+     id="line170" />
+  <line
+     x1="685"
+     y1="350"
+     x2="695"
+     y2="350"
+     style="stroke:#cb0;stroke-width:1;"
+     id="line172" />
+  <line
+     x1="495"
+     y1="710"
+     x2="685"
+     y2="350"
+     style="stroke:#cb0;stroke-width:1;"
+     id="line174" />
+  <line
+     x1="492.5"
+     y1="710"
+     x2="488.96446609407"
+     y2="713.53553390593"
+     style="stroke:#cb0;stroke-width:2;"
+     id="line176" />
+  <line
+     x1="492.5"
+     y1="710"
+     x2="488.96446609407"
+     y2="706.46446609407"
+     style="stroke:#cb0;stroke-width:2;"
+     id="line178" />
+  <line
+     x1="690"
+     y1="350"
+     x2="686.46446609407"
+     y2="353.53553390593"
+     style="stroke:#cb0;stroke-width:2;"
+     id="line180" />
+  <line
+     x1="690"
+     y1="350"
+     x2="686.46446609407"
+     y2="346.46446609407"
+     style="stroke:#cb0;stroke-width:2;"
+     id="line182" />
+  <line
+     x1="394"
+     y1="690"
+     x2="384"
+     y2="690"
+     style="stroke:#0bf;stroke-width:1;"
+     id="line184" />
+  <line
+     x1="185"
+     y1="692"
+     x2="175"
+     y2="692"
+     style="stroke:#0bf;stroke-width:1;"
+     id="line186" />
+  <line
+     x1="384"
+     y1="690"
+     x2="185"
+     y2="692"
+     style="stroke:#0bf;stroke-width:1;"
+     id="line188" />
+  <line
+     x1="386.5"
+     y1="690"
+     x2="390.03553390593"
+     y2="693.53553390593"
+     style="stroke:#0bf;stroke-width:2;"
+     id="line190" />
+  <line
+     x1="386.5"
+     y1="690"
+     x2="390.03553390593"
+     y2="686.46446609407"
+     style="stroke:#0bf;stroke-width:2;"
+     id="line192" />
+  <line
+     x1="180"
+     y1="692"
+     x2="183.53553390593"
+     y2="695.53553390593"
+     style="stroke:#0bf;stroke-width:2;"
+     id="line194" />
+  <line
+     x1="180"
+     y1="692"
+     x2="183.53553390593"
+     y2="688.46446609407"
+     style="stroke:#0bf;stroke-width:2;"
+     id="line196" />
+  <line
+     x1="122"
+     y1="550"
+     x2="132"
+     y2="550"
+     style="stroke:#cb0;stroke-width:1;"
+     id="line198" />
+  <line
+     x1="120"
+     y1="379"
+     x2="110"
+     y2="379"
+     style="stroke:#cb0;stroke-width:1;"
+     id="line200" />
+  <line
+     x1="132"
+     y1="550"
+     x2="120"
+     y2="379"
+     style="stroke:#cb0;stroke-width:1;"
+     id="line202" />
+  <line
+     x1="129.5"
+     y1="550"
+     x2="125.96446609407"
+     y2="553.53553390593"
+     style="stroke:#cb0;stroke-width:2;"
+     id="line204" />
+  <line
+     x1="129.5"
+     y1="550"
+     x2="125.96446609407"
+     y2="546.46446609407"
+     style="stroke:#cb0;stroke-width:2;"
+     id="line206" />
+  <line
+     x1="115"
+     y1="379"
+     x2="118.53553390593"
+     y2="382.53553390593"
+     style="stroke:#cb0;stroke-width:2;"
+     id="line208" />
+  <line
+     x1="115"
+     y1="379"
+     x2="118.53553390593"
+     y2="375.46446609407"
+     style="stroke:#cb0;stroke-width:2;"
+     id="line210" />
+  <line
+     x1="31"
+     y1="530"
+     x2="21"
+     y2="530"
+     style="stroke:#0b0;stroke-width:1;"
+     id="line212" />
+  <line
+     x1="74"
+     y1="692"
+     x2="84"
+     y2="692"
+     style="stroke:#0b0;stroke-width:1;"
+     id="line214" />
+  <line
+     x1="21"
+     y1="530"
+     x2="74"
+     y2="692"
+     style="stroke:#0b0;stroke-width:1;"
+     id="line216" />
+  <line
+     x1="23.5"
+     y1="530"
+     x2="27.035533905933"
+     y2="533.53553390593"
+     style="stroke:#0b0;stroke-width:2;"
+     id="line218" />
+  <line
+     x1="23.5"
+     y1="530"
+     x2="27.035533905933"
+     y2="526.46446609407"
+     style="stroke:#0b0;stroke-width:2;"
+     id="line220" />
+  <line
+     x1="79"
+     y1="692"
+     x2="75.464466094067"
+     y2="695.53553390593"
+     style="stroke:#0b0;stroke-width:2;"
+     id="line222" />
+  <line
+     x1="79"
+     y1="692"
+     x2="75.464466094067"
+     y2="688.46446609407"
+     style="stroke:#0b0;stroke-width:2;"
+     id="line224" />
+  <rect
+     width="122"
+     height="20"
+     x="358"
+     y="242"
+     style="fill:#007;stroke:black;"
+     id="rect226" />
+  <text
+     width="122"
+     height="20"
+     x="363"
+     y="256"
+     style="fill:#fff;"
+     font-family="Arial"
+     font-size="16px"
+     id="text228"> epic</text>
+  <rect
+     width="122"
+     height="20"
+     x="358"
+     y="262"
+     style="fill:none;stroke:black;"
+     id="rect230" />
+  <text
+     width="122"
+     height="20"
+     x="363"
+     y="276"
+     style="fill:black;"
+     font-family="Arial"
+     font-size="16px"
+     id="text232">termin_realizacji</text>
+  <rect
+     width="122"
+     height="20"
+     x="358"
+     y="282"
+     style="fill:none;stroke:black;"
+     id="rect234" />
+  <text
+     width="122"
+     height="20"
+     x="363"
+     y="296"
+     style="fill:black;"
+     font-family="Arial"
+     font-size="16px"
+     id="text236">projekt</text>
+  <rect
+     width="122"
+     height="20"
+     x="358"
+     y="302"
+     style="fill:none;stroke:black;"
+     id="rect238" />
+  <text
+     width="122"
+     height="20"
+     x="363"
+     y="316"
+     style="fill:black;"
+     font-family="Arial"
+     font-size="16px"
+     id="text240">issue_id</text>
+  <rect
+     width="133"
+     height="20"
+     x="35"
+     y="28"
+     style="fill:#007;stroke:black;"
+     id="rect242" />
+  <text
+     width="133"
+     height="20"
+     x="40"
+     y="42"
+     style="fill:#fff;"
+     font-family="Arial"
+     font-size="16px"
+     id="text244"> firma_zewnetrzna</text>
+  <rect
+     width="133"
+     height="20"
+     x="35"
+     y="48"
+     style="fill:#aea;stroke:black;"
+     id="rect246" />
+  <text
+     width="133"
+     height="20"
+     x="40"
+     y="62"
+     style="fill:black;"
+     font-family="Arial"
+     font-size="16px"
+     id="text248">nip</text>
+  <rect
+     width="133"
+     height="20"
+     x="35"
+     y="68"
+     style="fill:none;stroke:black;"
+     id="rect250" />
+  <text
+     width="133"
+     height="20"
+     x="40"
+     y="82"
+     style="fill:black;"
+     font-family="Arial"
+     font-size="16px"
+     id="text252">nazwa</text>
+  <rect
+     width="133"
+     height="20"
+     x="35"
+     y="88"
+     style="fill:none;stroke:black;"
+     id="rect254" />
+  <text
+     width="133"
+     height="20"
+     x="40"
+     y="102"
+     style="fill:black;"
+     font-family="Arial"
+     font-size="16px"
+     id="text256">adres</text>
+  <rect
+     width="192"
+     height="20"
+     x="297"
+     y="23"
+     style="fill:#007;stroke:black;"
+     id="rect258" />
+  <text
+     width="192"
+     height="20"
+     x="302"
+     y="37"
+     style="fill:#fff;"
+     font-family="Arial"
+     font-size="16px"
+     id="text260"> issue</text>
+  <rect
+     width="192"
+     height="20"
+     x="297"
+     y="43"
+     style="fill:#aea;stroke:black;"
+     id="rect262" />
+  <text
+     width="192"
+     height="20"
+     x="302"
+     y="57"
+     style="fill:black;"
+     font-family="Arial"
+     font-size="16px"
+     id="text264">identyfikator</text>
+  <rect
+     width="192"
+     height="20"
+     x="297"
+     y="63"
+     style="fill:none;stroke:black;"
+     id="rect266" />
+  <text
+     width="192"
+     height="20"
+     x="302"
+     y="77"
+     style="fill:black;"
+     font-family="Arial"
+     font-size="16px"
+     id="text268">nazwa</text>
+  <rect
+     width="192"
+     height="20"
+     x="297"
+     y="83"
+     style="fill:none;stroke:black;"
+     id="rect270" />
+  <text
+     width="192"
+     height="20"
+     x="302"
+     y="97"
+     style="fill:black;"
+     font-family="Arial"
+     font-size="16px"
+     id="text272">opis</text>
+  <rect
+     width="192"
+     height="20"
+     x="297"
+     y="103"
+     style="fill:none;stroke:black;"
+     id="rect274" />
+  <text
+     width="192"
+     height="20"
+     x="302"
+     y="117"
+     style="fill:black;"
+     font-family="Arial"
+     font-size="16px"
+     id="text276">szacunkowy_czas_trwania</text>
+  <rect
+     width="192"
+     height="20"
+     x="297"
+     y="123"
+     style="fill:none;stroke:black;"
+     id="rect278" />
+  <text
+     width="192"
+     height="20"
+     x="302"
+     y="137"
+     style="fill:black;"
+     font-family="Arial"
+     font-size="16px"
+     id="text280">rzeczywisty_czas_trwania</text>
+  <rect
+     width="192"
+     height="20"
+     x="297"
+     y="143"
+     style="fill:none;stroke:black;"
+     id="rect282" />
+  <text
+     width="192"
+     height="20"
+     x="302"
+     y="157"
+     style="fill:black;"
+     font-family="Arial"
+     font-size="16px"
+     id="text284">podtyp</text>
+  <rect
+     width="117"
+     height="20"
+     x="33"
+     y="177"
+     style="fill:#007;stroke:black;"
+     id="rect286" />
+  <text
+     width="117"
+     height="20"
+     x="38"
+     y="191"
+     style="fill:#fff;"
+     font-family="Arial"
+     font-size="16px"
+     id="text288"> kontrakt</text>
+  <rect
+     width="117"
+     height="20"
+     x="33"
+     y="197"
+     style="fill:#aea;stroke:black;"
+     id="rect290" />
+  <text
+     width="117"
+     height="20"
+     x="38"
+     y="211"
+     style="fill:black;"
+     font-family="Arial"
+     font-size="16px"
+     id="text292">numer_umowy</text>
+  <rect
+     width="117"
+     height="20"
+     x="33"
+     y="217"
+     style="fill:none;stroke:black;"
+     id="rect294" />
+  <text
+     width="117"
+     height="20"
+     x="38"
+     y="231"
+     style="fill:black;"
+     font-family="Arial"
+     font-size="16px"
+     id="text296">kwota</text>
+  <rect
+     width="117"
+     height="20"
+     x="33"
+     y="237"
+     style="fill:none;stroke:black;"
+     id="rect298" />
+  <text
+     width="117"
+     height="20"
+     x="38"
+     y="251"
+     style="fill:black;"
+     font-family="Arial"
+     font-size="16px"
+     id="text300">opis_warunkow</text>
+  <rect
+     width="117"
+     height="20"
+     x="33"
+     y="257"
+     style="fill:none;stroke:black;"
+     id="rect302" />
+  <text
+     width="117"
+     height="20"
+     x="38"
+     y="271"
+     style="fill:black;"
+     font-family="Arial"
+     font-size="16px"
+     id="text304">firma_zew</text>
+  <rect
+     width="117"
+     height="20"
+     x="33"
+     y="277"
+     style="fill:none;stroke:black;"
+     id="rect306" />
+  <text
+     width="117"
+     height="20"
+     x="38"
+     y="291"
+     style="fill:black;"
+     font-family="Arial"
+     font-size="16px"
+     id="text308">projekt</text>
+  <rect
+     width="89"
+     height="20"
+     x="695"
+     y="320"
+     style="fill:#007;stroke:black;"
+     id="rect310" />
+  <text
+     width="89"
+     height="20"
+     x="700"
+     y="334"
+     style="fill:#fff;"
+     font-family="Arial"
+     font-size="16px"
+     id="text312"> pracownik</text>
+  <rect
+     width="89"
+     height="20"
+     x="695"
+     y="340"
+     style="fill:#aea;stroke:black;"
+     id="rect314" />
+  <text
+     width="89"
+     height="20"
+     x="700"
+     y="354"
+     style="fill:black;"
+     font-family="Arial"
+     font-size="16px"
+     id="text316">login</text>
+  <rect
+     width="89"
+     height="20"
+     x="695"
+     y="360"
+     style="fill:none;stroke:black;"
+     id="rect318" />
+  <text
+     width="89"
+     height="20"
+     x="700"
+     y="374"
+     style="fill:black;"
+     font-family="Arial"
+     font-size="16px"
+     id="text320">haslo</text>
+  <rect
+     width="89"
+     height="20"
+     x="695"
+     y="380"
+     style="fill:none;stroke:black;"
+     id="rect322" />
+  <text
+     width="89"
+     height="20"
+     x="700"
+     y="394"
+     style="fill:black;"
+     font-family="Arial"
+     font-size="16px"
+     id="text324">token</text>
+  <rect
+     width="89"
+     height="20"
+     x="695"
+     y="400"
+     style="fill:none;stroke:black;"
+     id="rect326" />
+  <text
+     width="89"
+     height="20"
+     x="700"
+     y="414"
+     style="fill:black;"
+     font-family="Arial"
+     font-size="16px"
+     id="text328">imie</text>
+  <rect
+     width="89"
+     height="20"
+     x="695"
+     y="420"
+     style="fill:none;stroke:black;"
+     id="rect330" />
+  <text
+     width="89"
+     height="20"
+     x="700"
+     y="434"
+     style="fill:black;"
+     font-family="Arial"
+     font-size="16px"
+     id="text332">nazwisko</text>
+  <rect
+     width="89"
+     height="20"
+     x="695"
+     y="440"
+     style="fill:none;stroke:black;"
+     id="rect334" />
+  <text
+     width="89"
+     height="20"
+     x="700"
+     y="454"
+     style="fill:black;"
+     font-family="Arial"
+     font-size="16px"
+     id="text336">pensja</text>
+  <rect
+     width="89"
+     height="20"
+     x="695"
+     y="460"
+     style="fill:none;stroke:black;"
+     id="rect338" />
+  <text
+     width="89"
+     height="20"
+     x="700"
+     y="474"
+     style="fill:black;"
+     font-family="Arial"
+     font-size="16px"
+     id="text340">stanowisko</text>
+  <rect
+     width="89"
+     height="20"
+     x="695"
+     y="480"
+     style="fill:none;stroke:black;"
+     id="rect342" />
+  <text
+     width="89"
+     height="20"
+     x="700"
+     y="494"
+     style="fill:black;"
+     font-family="Arial"
+     font-size="16px"
+     id="text344">zespol</text>
+  <rect
+     width="56"
+     height="20"
+     x="54"
+     y="349"
+     style="fill:#007;stroke:black;"
+     id="rect346" />
+  <text
+     width="56"
+     height="20"
+     x="59"
+     y="363"
+     style="fill:#fff;"
+     font-family="Arial"
+     font-size="16px"
+     id="text348"> projekt</text>
+  <rect
+     width="56"
+     height="20"
+     x="54"
+     y="369"
+     style="fill:#aea;stroke:black;"
+     id="rect350" />
+  <text
+     width="56"
+     height="20"
+     x="59"
+     y="383"
+     style="fill:black;"
+     font-family="Arial"
+     font-size="16px"
+     id="text352">nazwa</text>
+  <rect
+     width="56"
+     height="20"
+     x="54"
+     y="389"
+     style="fill:none;stroke:black;"
+     id="rect354" />
+  <text
+     width="56"
+     height="20"
+     x="59"
+     y="403"
+     style="fill:black;"
+     font-family="Arial"
+     font-size="16px"
+     id="text356">wersja</text>
+  <rect
+     width="56"
+     height="20"
+     x="54"
+     y="409"
+     style="fill:none;stroke:black;"
+     id="rect358" />
+  <text
+     width="56"
+     height="20"
+     x="59"
+     y="423"
+     style="fill:black;"
+     font-family="Arial"
+     font-size="16px"
+     id="text360">opis</text>
+  <rect
+     width="152"
+     height="20"
+     x="695"
+     y="621"
+     style="fill:#007;stroke:black;"
+     id="rect362" />
+  <text
+     width="152"
+     height="20"
+     x="700"
+     y="635"
+     style="fill:#fff;"
+     font-family="Arial"
+     font-size="16px"
+     id="text364"> stanowisko</text>
+  <rect
+     width="152"
+     height="20"
+     x="695"
+     y="641"
+     style="fill:#aea;stroke:black;"
+     id="rect366" />
+  <text
+     width="152"
+     height="20"
+     x="700"
+     y="655"
+     style="fill:black;"
+     font-family="Arial"
+     font-size="16px"
+     id="text368">nazwa</text>
+  <rect
+     width="152"
+     height="20"
+     x="695"
+     y="661"
+     style="fill:none;stroke:black;"
+     id="rect370" />
+  <text
+     width="152"
+     height="20"
+     x="700"
+     y="675"
+     style="fill:black;"
+     font-family="Arial"
+     font-size="16px"
+     id="text372">pensja_minimalna</text>
+  <rect
+     width="152"
+     height="20"
+     x="695"
+     y="681"
+     style="fill:none;stroke:black;"
+     id="rect374" />
+  <text
+     width="152"
+     height="20"
+     x="700"
+     y="695"
+     style="fill:black;"
+     font-family="Arial"
+     font-size="16px"
+     id="text376">pensja_maksymalna</text>
+  <rect
+     width="65"
+     height="20"
+     x="369"
+     y="359"
+     style="fill:#007;stroke:black;"
+     id="rect378" />
+  <text
+     width="65"
+     height="20"
+     x="374"
+     y="373"
+     style="fill:#fff;"
+     font-family="Arial"
+     font-size="16px"
+     id="text380"> story</text>
+  <rect
+     width="65"
+     height="20"
+     x="369"
+     y="379"
+     style="fill:none;stroke:black;"
+     id="rect382" />
+  <text
+     width="65"
+     height="20"
+     x="374"
+     y="393"
+     style="fill:black;"
+     font-family="Arial"
+     font-size="16px"
+     id="text384">issue_id</text>
+  <rect
+     width="65"
+     height="20"
+     x="369"
+     y="399"
+     style="fill:none;stroke:black;"
+     id="rect386" />
+  <text
+     width="65"
+     height="20"
+     x="374"
+     y="413"
+     style="fill:black;"
+     font-family="Arial"
+     font-size="16px"
+     id="text388">zespol</text>
+  <rect
+     width="65"
+     height="20"
+     x="369"
+     y="419"
+     style="fill:none;stroke:black;"
+     id="rect390" />
+  <text
+     width="65"
+     height="20"
+     x="374"
+     y="433"
+     style="fill:black;"
+     font-family="Arial"
+     font-size="16px"
+     id="text392">epic_id</text>
+  <rect
+     width="80"
+     height="20"
+     x="364"
+     y="473"
+     style="fill:#007;stroke:black;"
+     id="rect394" />
+  <text
+     width="80"
+     height="20"
+     x="369"
+     y="487"
+     style="fill:#fff;"
+     font-family="Arial"
+     font-size="16px"
+     id="text396"> task</text>
+  <rect
+     width="80"
+     height="20"
+     x="364"
+     y="493"
+     style="fill:none;stroke:black;"
+     id="rect398" />
+  <text
+     width="80"
+     height="20"
+     x="369"
+     y="507"
+     style="fill:black;"
+     font-family="Arial"
+     font-size="16px"
+     id="text400">typ</text>
+  <rect
+     width="80"
+     height="20"
+     x="364"
+     y="513"
+     style="fill:none;stroke:black;"
+     id="rect402" />
+  <text
+     width="80"
+     height="20"
+     x="369"
+     y="527"
+     style="fill:black;"
+     font-family="Arial"
+     font-size="16px"
+     id="text404">issue_id</text>
+  <rect
+     width="80"
+     height="20"
+     x="364"
+     y="533"
+     style="fill:none;stroke:black;"
+     id="rect406" />
+  <text
+     width="80"
+     height="20"
+     x="369"
+     y="547"
+     style="fill:black;"
+     font-family="Arial"
+     font-size="16px"
+     id="text408">story_id</text>
+  <rect
+     width="80"
+     height="20"
+     x="364"
+     y="553"
+     style="fill:none;stroke:black;"
+     id="rect410" />
+  <text
+     width="80"
+     height="20"
+     x="369"
+     y="567"
+     style="fill:black;"
+     font-family="Arial"
+     font-size="16px"
+     id="text412">prac_login</text>
+  <rect
+     width="91"
+     height="20"
+     x="84"
+     y="662"
+     style="fill:#007;stroke:black;"
+     id="rect414" />
+  <text
+     width="91"
+     height="20"
+     x="89"
+     y="676"
+     style="fill:#fff;"
+     font-family="Arial"
+     font-size="16px"
+     id="text416"> technologia</text>
+  <rect
+     width="91"
+     height="20"
+     x="84"
+     y="682"
+     style="fill:#aea;stroke:black;"
+     id="rect418" />
+  <text
+     width="91"
+     height="20"
+     x="89"
+     y="696"
+     style="fill:black;"
+     font-family="Arial"
+     font-size="16px"
+     id="text420">nazwa</text>
+  <rect
+     width="91"
+     height="20"
+     x="394"
+     y="660"
+     style="fill:#007;stroke:black;"
+     id="rect422" />
+  <text
+     width="91"
+     height="20"
+     x="399"
+     y="674"
+     style="fill:#fff;"
+     font-family="Arial"
+     font-size="16px"
+     id="text424"> tech_prac</text>
+  <rect
+     width="91"
+     height="20"
+     x="394"
+     y="680"
+     style="fill:none;stroke:black;"
+     id="rect426" />
+  <text
+     width="91"
+     height="20"
+     x="399"
+     y="694"
+     style="fill:black;"
+     font-family="Arial"
+     font-size="16px"
+     id="text428">tech_nazwa</text>
+  <rect
+     width="91"
+     height="20"
+     x="394"
+     y="700"
+     style="fill:none;stroke:black;"
+     id="rect430" />
+  <text
+     width="91"
+     height="20"
+     x="399"
+     y="714"
+     style="fill:black;"
+     font-family="Arial"
+     font-size="16px"
+     id="text432">prac_login</text>
+  <rect
+     width="91"
+     height="20"
+     x="31"
+     y="500"
+     style="fill:#007;stroke:black;"
+     id="rect434" />
+  <text
+     width="91"
+     height="20"
+     x="36"
+     y="514"
+     style="fill:#fff;"
+     font-family="Arial"
+     font-size="16px"
+     id="text436"> tech_proj</text>
+  <rect
+     width="91"
+     height="20"
+     x="31"
+     y="520"
+     style="fill:none;stroke:black;"
+     id="rect438" />
+  <text
+     width="91"
+     height="20"
+     x="36"
+     y="534"
+     style="fill:black;"
+     font-family="Arial"
+     font-size="16px"
+     id="text440">tech_nazwa</text>
+  <rect
+     width="91"
+     height="20"
+     x="31"
+     y="540"
+     style="fill:none;stroke:black;"
+     id="rect442" />
+  <text
+     width="91"
+     height="20"
+     x="36"
+     y="554"
+     style="fill:black;"
+     font-family="Arial"
+     font-size="16px"
+     id="text444">proj_nazwa</text>
+  <rect
+     width="122"
+     height="20"
+     x="668"
+     y="159"
+     style="fill:#007;stroke:black;"
+     id="rect446" />
+  <text
+     width="122"
+     height="20"
+     x="673"
+     y="173"
+     style="fill:#fff;"
+     font-family="Arial"
+     font-size="16px"
+     id="text448"> zespol</text>
+  <rect
+     width="122"
+     height="20"
+     x="668"
+     y="179"
+     style="fill:#aea;stroke:black;"
+     id="rect450" />
+  <text
+     width="122"
+     height="20"
+     x="673"
+     y="193"
+     style="fill:black;"
+     font-family="Arial"
+     font-size="16px"
+     id="text452">nazwa</text>
+  <rect
+     width="122"
+     height="20"
+     x="668"
+     y="199"
+     style="fill:none;stroke:black;"
+     id="rect454" />
+  <text
+     width="122"
+     height="20"
+     x="673"
+     y="213"
+     style="fill:black;"
+     font-family="Arial"
+     font-size="16px"
+     id="text456">liczba_czlonkow</text>
+</svg>
