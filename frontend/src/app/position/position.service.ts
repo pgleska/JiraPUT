@@ -15,9 +15,9 @@ import {search} from '../common/list-components/search/search.function';
 })
 export class PositionService {
 
-    search$ = new Subject<void>();
     private _positions$ = new BehaviorSubject<Position[]>([]);
     private _total$ = new BehaviorSubject<number>(0);
+    search$ = new Subject<void>();
     allPositionList: Position[] = [];
     state: ListState = {
         page: 1,
@@ -25,6 +25,14 @@ export class PositionService {
         sortColumn: '',
         sortDirection: ''
     };
+
+    get positions$() {
+        return this._positions$.asObservable();
+    }
+
+    get total$() {
+        return this._total$.asObservable();
+    }
 
     constructor(private http: HttpClient) {
         this.search$.pipe(
@@ -34,14 +42,6 @@ export class PositionService {
             this._positions$.next(result.itemsList);
             this._total$.next(result.total);
         });
-    }
-
-    get positions$() {
-        return this._positions$.asObservable();
-    }
-
-    get total$() {
-        return this._total$.asObservable();
     }
 
     getPositionList(): Observable<Position[]> {

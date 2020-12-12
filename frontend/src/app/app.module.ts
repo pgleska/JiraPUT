@@ -19,7 +19,7 @@ import {EqualsValidatorDirective} from './common/validators/equals-validator.dir
 import {EmployeeDetailsComponent} from './employee/employee-details.component';
 import {EmployeeListComponent} from './employee/employee-list.component';
 import {EmployeeListItemComponent} from './employee/employee-list-item.component';
-import {PositionFormComponent} from './position/position-form.component';
+import {PositionDeleteComponent} from './position/position-delete.component';
 import {PositionListComponent} from './position/position-list.component';
 import {SalaryValidatorDirective} from './common/validators/salary-validator.directive';
 import {TokenInterceptor} from './authentication/token.interceptor';
@@ -31,6 +31,8 @@ import {TeamListItemComponent} from './team/team-list-item.component';
 import {SortableDirective} from './common/list-components/sort/sortable.directive';
 import {PaginationComponent} from './common/list-components/pagination/pagination.component';
 import {CommonModule} from '@angular/common';
+import {PositionAddComponent} from './position/position-add.component';
+import {PositionEditComponent} from './position/position-edit.component';
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
     return new TranslateHttpLoader(httpClient);
@@ -49,7 +51,9 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         EmployeeDetailsComponent,
         EmployeeListComponent,
         EmployeeListItemComponent,
-        PositionFormComponent,
+        PositionDeleteComponent,
+        PositionAddComponent,
+        PositionEditComponent,
         PositionListComponent,
         SalaryValidatorDirective,
         UrlValidatorDirective,
