@@ -35,8 +35,8 @@
     "title": "JiraPUT"
   },
   "position": {
-    "name": "Nazwa",
+    "maximum-salary": "Pensja maksymalna",
     "minimum-salary": "Pensja minimalna",
-    "maximum-salary": "Pensja maksymalna"
+    "name": "Nazwa"
   }
 }
