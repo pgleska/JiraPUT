@@ -35,15 +35,15 @@ import {debounceTime} from 'rxjs/operators';
             <div class="form-group form-inline">
                 Full text search: <input class="form-control ml-2" type="text" name="searchTerm" [ngModel]
                                          (ngModelChange)="onSearch($event)"/>
-                <a class="btn btn-dark btn-lg btn-outline-primary" (click)="openAdd()">Dodaj pozycje</a>
+                <a class="btn btn-dark btn-lg btn-outline-primary" (click)="openAdd()">{{'position.list.button' | translate}}</a>
             </div>
 
             <table class="table table-striped">
                 <thead>
                 <tr>
-                    <th scope="col" sortable="nameDisplay" (sort)="onSort($event)">{{'position.name' | translate}}</th>
-                    <th scope="col" sortable="minimumSalary" (sort)="onSort($event)">{{'position.minimum-salary' | translate}}</th>
-                    <th scope="col" sortable="maximumSalary" (sort)="onSort($event)">{{'position.maximum-salary' | translate}}</th>
+                    <th scope="col" sortable="nameDisplay" (sort)="onSort($event)">{{'position.list.name' | translate}}</th>
+                    <th scope="col" sortable="minimumSalary" (sort)="onSort($event)">{{'position.list.minimum-salary' | translate}}</th>
+                    <th scope="col" sortable="maximumSalary" (sort)="onSort($event)">{{'position.list.maximum-salary' | translate}}</th>
                     <th></th>
                     <th></th>
                 </tr>

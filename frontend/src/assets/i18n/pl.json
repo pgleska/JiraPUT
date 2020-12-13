@@ -67,6 +67,7 @@
       "title": "Edytuj pozycję"
     },
     "list": {
+      "button": "Dodaj pozycję",
       "maximum-salary": "Pensja maksymalna",
       "minimum-salary": "Pensja minimalna",
       "name": "Nazwa"
