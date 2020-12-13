@@ -24,8 +24,10 @@ export class GreaterThanValidatorDirective implements Validator {
             };
         }
         if (e && v < e.value && !this.showErrorMessage) {
-            delete e.errors['salary'];
-            if (!Object.keys(e.errors).length) {
+            if (!!e.errors && !!e.errors['salary']) {
+                delete e.errors['salary'];
+            }
+            if (!!e.errors && !Object.keys(e.errors).length) {
                 e.setErrors(null);
             }
         }

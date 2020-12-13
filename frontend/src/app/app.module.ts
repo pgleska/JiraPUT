@@ -41,6 +41,7 @@ import {CompanyDeleteComponent} from './company/company-delete.component';
 import {CompanyEditComponent} from './company/company-edit.component';
 import {CompanyListComponent} from './company/company-list.component';
 import {GreaterThanValidatorDirective} from './common/validators/greater-than-validator.directive';
+import {NegativeValueValidatorDirective} from './common/validators/negative-value-validator.directive';
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
     return new TranslateHttpLoader(httpClient);
@@ -78,7 +79,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         CompanyDeleteComponent,
         CompanyEditComponent,
         CompanyListComponent,
-        GreaterThanValidatorDirective
+        GreaterThanValidatorDirective,
+        NegativeValueValidatorDirective
     ],
     imports: [
         BrowserModule,

@@ -55,6 +55,7 @@
     "maximum-salary": "Pensja większa niż maksymalna na obecnym stanowisku",
     "minimum-length": "Hasło wymaga co najmniej 6 znaków",
     "minimum-salary": "Pensja mniejsza niż minimalna na obecnym stanowisku",
+    "negative": "Pole nie może zawierać liczby mniejszej niż 0",
     "only-letters": "Dozwolone znaki to litery",
     "password": "Hasła nie są identyczne",
     "position-duplicated": "Pozycja o takiej nazwie już istnieje",

@@ -7,6 +7,7 @@ import {Component, Input} from '@angular/core';
         <div class="app-input-error">
             <div class="text-danger" *ngIf="control && control.errors && (control.dirty || control.touched)">
                 <div *ngIf="control.errors.required"><small>{{'error.required' | translate}}</small></div>
+                <div *ngIf="control.errors.negative"><small>{{'error.negative' | translate}}</small></div>
                 <div *ngIf="control.errors.minlength"><small>{{'error.minimum-length' | translate}}</small></div>
                 <div *ngIf="control.errors.password"><small>{{'error.password' | translate}}</small></div>
                 <div *ngIf="control.errors.salary"><small>{{'error.salary' | translate}}</small></div>

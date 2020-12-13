@@ -42,7 +42,9 @@ import {NgForm} from '@angular/forms';
                             #minimumSalary="ngModel"
                             required
                             greaterThanValidator
+                            negativeValueValidator
                             [greaterThan]="'maximumSalary'"
+                            min="0"
                     />
                     <app-input-error [control]="minimumSalary.control"></app-input-error>
                 </div>
@@ -58,8 +60,10 @@ import {NgForm} from '@angular/forms';
                             #maximumSalary="ngModel"
                             required
                             greaterThanValidator
+                            negativeValueValidator
                             [greaterThan]="'minimumSalary'"
                             [showErrorMessage]="true"
+                            min="0"
                     />
                     <app-input-error [control]="maximumSalary.control"></app-input-error>
                 </div>
