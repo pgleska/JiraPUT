@@ -22,6 +22,7 @@
     "password": "Hasła nie są identyczne",
     "position-duplicated": "Pozycja o takiej nazwie już istnieje",
     "position-not-found": "Pozycja o takiej nazwie nie isntieje",
+    "position-not-empty": "Nie można usunąć pozycji, gdyż są pracownicy na tej pozycji",
     "required": "Pole jest wymagane",
     "team-duplicated": "Zespół o takiej nazwie już istnieje",
     "team-not-found": "Zespół o takiej nazwie nie isntieje",
@@ -38,12 +39,17 @@
     "maximum-salary": "Pensja maksymalna",
     "minimum-salary": "Pensja minimalna",
     "name": "Nazwa",
+    "close": "Anuluj",
+    "added": "Stanowisko zostało pomyślnie dodane",
+    "deleted": "Stanowisko zostało pomyślnie usunięte",
+    "edited": "Stanowisko zostało pomyślnie zedtyowane",
     "add": {
       "title": "Dodaj pozycję",
       "add": "Dodaj"
     },
     "delete": {
       "title": "Usuń pozycję",
+      "body": "Czy na pewno chcesz usunąć pozycję tą pozycję? \nOperacja ta jest nieodwracalna!",
       "add": "Usuń"
     },
     "edit": {

@@ -1,6 +1,9 @@
 import {Component} from '@angular/core';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {PositionService} from './position.service';
+import {NgForm} from '@angular/forms';
+import {Position} from './position.model';
+
 
 @Component({
     selector: 'app-position-add',
@@ -12,16 +15,89 @@ import {PositionService} from './position.service';
             </button>
         </div>
         <div class="modal-body">
-
-        </div>
-        <div class="modal-footer">
-            <button type="button" ngbAutofocus class="btn btn-outline-dark" (click)="activeModal.close()">{{'position.add.add' | translate}} </button>
+            <form #authForm="ngForm" (ngSubmit)="onSubmit(authForm)">
+                <div>
+                    <label for="name">{{'position.name' | translate}}</label>
+                    <input
+                            type="text"
+                            id="name"
+                            name="name"
+                            class="form-control"
+                            [ngModel]
+                            #name="ngModel"
+                            required
+                    />
+                    <app-input-error [control]="name.control"></app-input-error>
+                </div>
+                <div>
+                    <label for="minimumSalary">{{'position.minimum-salary' | translate}}</label>
+                    <input
+                            type="number"
+                            id="minimumSalary"
+                            name="minimumSalary"
+                            class="form-control"
+                            [ngModel]
+                            #minimumSalary="ngModel"
+                            required
+                    />
+                    <app-input-error [control]="minimumSalary.control"></app-input-error>
+                </div>
+                <div>
+                    <label for="maximumSalary">{{'position.maximum-salary' | translate}}</label>
+                    <input
+                            type="number"
+                            id="maximumSalary"
+                            name="maximumSalary"
+                            class="form-control"
+                            [ngModel]
+                            #maximumSalary="ngModel"
+                            required
+                    />
+                    <app-input-error [control]="maximumSalary.control"></app-input-error>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-dark"
+                            (click)="activeModal.dismiss()">{{'position.close' | translate}} </button>
+                    <button type="submit" ngbAutofocus class="btn btn-outline-dark"
+                            [disabled]="!authForm.valid">{{'position.add.add' | translate}} </button>
+                </div>
+            </form>
         </div>
     `
 })
 export class PositionAddComponent {
+
+    private position: Position = new class implements Position {
+        maximumSalary: number;
+        minimumSalary: number;
+        name: string;
+        nameDisplay: string;
+    };
+
     constructor(public activeModal: NgbActiveModal,
                 private service: PositionService) {
+    }
+
+
+    onSubmit(form: NgForm): void {
+        if (!form.valid) {
+            return;
+        }
+        this.position.nameDisplay = form.value.name;
+        this.position.name = form.value.name.replace(/ /g, '_');
+        this.position.minimumSalary = form.value.minimumSalary;
+        this.position.maximumSalary = form.value.maximumSalary;
+
+        const addObservable = this.service.createPosition(this.position);
+        addObservable.subscribe(
+            _ => {
+                this.activeModal.close('position.added');
+            },
+            error => {
+                this.activeModal.close(error);
+            }
+        );
+        form.reset();
     }
 
 }

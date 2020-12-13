@@ -28,7 +28,7 @@ export class EmployeeService {
             .pipe(
                 catchError(handleError('employee')),
                 map((employee: Employee) => {
-                    employee.positionDisplay = employee.position.replace('_', ' ');
+                    employee.positionDisplay = employee.position.replace(/_/g, ' ');
                     return employee;
                 })
             );

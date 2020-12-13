@@ -72,6 +72,14 @@ export class PositionService {
             );
     }
 
+    deletePosition(position: Position): Observable<any> {
+        return this.http.delete<Position>(
+            environment.apiUrl + `/api/position/${position.name}`)
+            .pipe(
+                catchError(handleError('position'))
+            );
+    }
+
     matches(position: Position, term: string): boolean {
         return position.nameDisplay.toLowerCase().includes(term.toLowerCase());
     }
