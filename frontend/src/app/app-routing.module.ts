@@ -4,6 +4,8 @@ import {AuthenticationComponent} from './authentication/authentication.component
 import {ErrorPageComponent} from './error-page/error-page.component';
 import {PositionListComponent} from './position/position-list.component';
 import {AuthenticationGuard} from './authentication/authentication.guard';
+import {EmployeeListComponent} from './employee/employee-list.component';
+import {EmployeeDetailsComponent} from './employee/employee-details.component';
 
 
 const routes: Routes = [
@@ -11,6 +13,9 @@ const routes: Routes = [
     {path: 'login', component: AuthenticationComponent},
     {path: 'error', component: ErrorPageComponent, data: {message: 'Page not found!'}},
     {path: 'positions', component: PositionListComponent, canActivate:[AuthenticationGuard]},
+    {path: 'employees', component: EmployeeListComponent, canActivate:[AuthenticationGuard]},
+    {path: 'employee/:login', component: EmployeeDetailsComponent, canActivate:[AuthenticationGuard]},
+
     {path: '**', redirectTo: '/error'}
 ];
 

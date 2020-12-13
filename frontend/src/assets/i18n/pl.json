@@ -11,6 +11,18 @@
     "sign-up": "Zarejestruj się",
     "success": "Konto zostało pomyślnie utoworzone"
   },
+  "common": {
+    "close": "Anuluj"
+  },
+  "employee": {
+    "list": {
+      "details": "Szczegóły",
+      "first-name": "Imię",
+      "last-name": "Nazwisko",
+      "position": "Stanowisko",
+      "team": "Zespół"
+    }
+  },
   "error": {
     "employee-duplicated": "Pozycja o takiej nazwie już istnieje",
     "employee-not-found": "Pozycja o takiej nazwie nie isntieje",
@@ -21,8 +33,8 @@
     "only-letters": "Dozwolone znaki to litery",
     "password": "Hasła nie są identyczne",
     "position-duplicated": "Pozycja o takiej nazwie już istnieje",
-    "position-not-found": "Pozycja o takiej nazwie nie isntieje",
     "position-not-empty": "Nie można usunąć pozycji, gdyż są pracownicy na tej pozycji",
+    "position-not-found": "Pozycja o takiej nazwie nie isntieje",
     "required": "Pole jest wymagane",
     "team-duplicated": "Zespół o takiej nazwie już istnieje",
     "team-not-found": "Zespół o takiej nazwie nie isntieje",
@@ -31,30 +43,33 @@
     "user-duplicated": "Użytkownik o takim loginie już istnieje"
   },
   "navbar": {
+    "employees": "Pracownicy",
     "log-in": "Zaloguj się",
     "log-out": "Wyloguj się",
+    "positions": "Pozycje",
     "title": "JiraPUT"
   },
   "position": {
-    "maximum-salary": "Pensja maksymalna",
-    "minimum-salary": "Pensja minimalna",
-    "name": "Nazwa",
-    "close": "Anuluj",
-    "added": "Stanowisko zostało pomyślnie dodane",
-    "deleted": "Stanowisko zostało pomyślnie usunięte",
-    "edited": "Stanowisko zostało pomyślnie zedtyowane",
     "add": {
-      "title": "Dodaj pozycję",
-      "add": "Dodaj"
+      "add": "Dodaj",
+      "added": "Stanowisko zostało pomyślnie dodane",
+      "title": "Dodaj pozycję"
     },
     "delete": {
-      "title": "Usuń pozycję",
       "body": "Czy na pewno chcesz usunąć pozycję tą pozycję? \nOperacja ta jest nieodwracalna!",
-      "add": "Usuń"
+      "delete": "Usuń",
+      "deleted": "Stanowisko zostało pomyślnie usunięte",
+      "title": "Usuń pozycję"
     },
     "edit": {
-      "title": "Edytuj pozycję",
-      "edit": "Zapisz"
+      "edit": "Zapisz",
+      "edited": "Stanowisko zostało pomyślnie zedtyowane",
+      "title": "Edytuj pozycję"
+    },
+    "list": {
+      "maximum-salary": "Pensja maksymalna",
+      "minimum-salary": "Pensja minimalna",
+      "name": "Nazwa"
     }
   }
 }

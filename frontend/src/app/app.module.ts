@@ -18,7 +18,6 @@ import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {EqualsValidatorDirective} from './common/validators/equals-validator.directive';
 import {EmployeeDetailsComponent} from './employee/employee-details.component';
 import {EmployeeListComponent} from './employee/employee-list.component';
-import {EmployeeListItemComponent} from './employee/employee-list-item.component';
 import {PositionDeleteComponent} from './position/position-delete.component';
 import {PositionListComponent} from './position/position-list.component';
 import {SalaryValidatorDirective} from './common/validators/salary-validator.directive';
@@ -50,7 +49,6 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         EqualsValidatorDirective,
         EmployeeDetailsComponent,
         EmployeeListComponent,
-        EmployeeListItemComponent,
         PositionDeleteComponent,
         PositionAddComponent,
         PositionEditComponent,

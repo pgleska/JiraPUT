@@ -17,7 +17,7 @@ import {Position} from './position.model';
         <div class="modal-body">
             <form #authForm="ngForm" (ngSubmit)="onSubmit(authForm)">
                 <div>
-                    <label for="name">{{'position.name' | translate}}</label>
+                    <label for="name">{{'position.list.name' | translate}}</label>
                     <input
                             type="text"
                             id="name"
@@ -30,7 +30,7 @@ import {Position} from './position.model';
                     <app-input-error [control]="name.control"></app-input-error>
                 </div>
                 <div>
-                    <label for="minimumSalary">{{'position.minimum-salary' | translate}}</label>
+                    <label for="minimumSalary">{{'position.list.minimum-salary' | translate}}</label>
                     <input
                             type="number"
                             id="minimumSalary"
@@ -43,7 +43,7 @@ import {Position} from './position.model';
                     <app-input-error [control]="minimumSalary.control"></app-input-error>
                 </div>
                 <div>
-                    <label for="maximumSalary">{{'position.maximum-salary' | translate}}</label>
+                    <label for="maximumSalary">{{'position.list.maximum-salary' | translate}}</label>
                     <input
                             type="number"
                             id="maximumSalary"
@@ -57,7 +57,7 @@ import {Position} from './position.model';
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-dark"
-                            (click)="activeModal.dismiss()">{{'position.close' | translate}} </button>
+                            (click)="activeModal.dismiss()">{{'common.close' | translate}} </button>
                     <button type="submit" ngbAutofocus class="btn btn-outline-dark"
                             [disabled]="!authForm.valid">{{'position.add.add' | translate}} </button>
                 </div>
@@ -91,7 +91,7 @@ export class PositionAddComponent {
         const addObservable = this.service.createPosition(this.position);
         addObservable.subscribe(
             _ => {
-                this.activeModal.close('position.added');
+                this.activeModal.close('position.add.added');
             },
             error => {
                 this.activeModal.close(error);

@@ -17,7 +17,7 @@ import {NgForm} from '@angular/forms';
         <div class="modal-body">
             <form #authForm="ngForm" (ngSubmit)="onSubmit(authForm)">
                 <div>
-                    <label for="name">{{'position.name' | translate}}</label>
+                    <label for="name">{{'position.list.name' | translate}}</label>
                     <input
                             type="text"
                             id="name"
@@ -31,7 +31,7 @@ import {NgForm} from '@angular/forms';
                     <app-input-error [control]="name.control"></app-input-error>
                 </div>
                 <div>
-                    <label for="minimumSalary">{{'position.minimum-salary' | translate}}</label>
+                    <label for="minimumSalary">{{'position.list.minimum-salary' | translate}}</label>
                     <input
                             type="number"
                             id="minimumSalary"
@@ -45,7 +45,7 @@ import {NgForm} from '@angular/forms';
                     <app-input-error [control]="minimumSalary.control"></app-input-error>
                 </div>
                 <div>
-                    <label for="maximumSalary">{{'position.maximum-salary' | translate}}</label>
+                    <label for="maximumSalary">{{'position.list.maximum-salary' | translate}}</label>
                     <input
                             type="number"
                             id="maximumSalary"
@@ -60,7 +60,7 @@ import {NgForm} from '@angular/forms';
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-dark"
-                            (click)="activeModal.dismiss()">{{'position.close' | translate}} </button>
+                            (click)="activeModal.dismiss()">{{'common.close' | translate}} </button>
                     <button type="submit" [disabled]="!authForm.valid" ngbAutofocus
                             class="btn btn-outline-dark">{{'position.edit.edit' | translate}} </button>
                 </div>
@@ -95,7 +95,7 @@ export class PositionEditComponent implements OnInit {
         editObservable.subscribe(
             _ => {
                 this.position = Object.assign({}, this.positionCopy);
-                this.activeModal.close('position.edited');
+                this.activeModal.close('position.edit.edited');
             },
             error => {
                 this.activeModal.close(error);

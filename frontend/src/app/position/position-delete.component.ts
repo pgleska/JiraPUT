@@ -17,9 +17,9 @@ import {Position} from './position.model';
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-outline-dark"
-                    (click)="activeModal.dismiss()">{{'position.close' | translate}} </button>
+                    (click)="activeModal.dismiss()">{{'common.close' | translate}} </button>
             <button type="button" ngbAutofocus class="btn btn-danger btn-outline-danger"
-                    (click)="onDelete()">{{'position.delete.add' | translate}} </button>
+                    (click)="onDelete()">{{'position.delete.delete' | translate}} </button>
         </div>
     `
 })
@@ -34,7 +34,7 @@ export class PositionDeleteComponent {
         const addObservable = this.service.deletePosition(this.position);
         addObservable.subscribe(
             _ => {
-                this.activeModal.close('position.deleted');
+                this.activeModal.close('position.delete.deleted');
             },
             error => {
                 if (error === 'error.position-duplicated') {
