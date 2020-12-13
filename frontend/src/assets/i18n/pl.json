@@ -14,6 +14,28 @@
   "common": {
     "close": "Anuluj"
   },
+  "company": {
+    "add": {
+      "add": "Dodaj",
+      "added": "Firma została pomyślnie dodana",
+      "title": "Dodaj firmę"
+    },
+    "delete": {
+      "body": "Czy na pewno chcesz usunąć tą firmę? \nOperacja ta jest nieodwracalna!",
+      "delete": "Usuń",
+      "deleted": "Firma została pomyślnie usunięta",
+      "title": "Usuń firmę"
+    },
+    "edit": {
+      "edit": "Zapisz",
+      "edited": "Firma została pomyślnie zedtyowana",
+      "title": "Edytuj firmę"
+    },
+    "list": {
+      "button": "Dodaj firmę",
+      "name": "Nazwa"
+    }
+  },
   "employee": {
     "list": {
       "details": "Szczegóły",
@@ -24,6 +46,9 @@
     }
   },
   "error": {
+    "company-duplicated": "Firma o takiej nazwie już istnieje",
+    "company-not-empty": "Nie można usunąć firmy, gdyż są kontrakty z nią związane",
+    "company-not-found": "Firma o takiej nazwie nie isntieje",
     "employee-duplicated": "Pozycja o takiej nazwie już istnieje",
     "employee-not-found": "Pozycja o takiej nazwie nie isntieje",
     "login-error": "Błędny login lub hasło",
@@ -36,9 +61,13 @@
     "position-not-empty": "Nie można usunąć pozycji, gdyż są pracownicy na tej pozycji",
     "position-not-found": "Pozycja o takiej nazwie nie isntieje",
     "required": "Pole jest wymagane",
+    "salary": "Pensja maksymalna nie moze być mniejsza niż minimalna",
     "team-duplicated": "Zespół o takiej nazwie już istnieje",
     "team-not-empty": "Nie można usunąć zespołu, gdyż są pracownicy będący jego członkami",
     "team-not-found": "Zespół o takiej nazwie nie isntieje",
+    "technology-duplicated": "Technologia o takiej nazwie już istnieje",
+    "technology-not-empty": "Nie można usunąć technologii",
+    "technology-not-found": "Technologia o takiej nazwie nie isntieje",
     "unknown": "Nieznany błąd",
     "url-encoding": "Dozwolone znaki to litery, cyfry oraz znaki _ i -",
     "user-duplicated": "Użytkownik o takim loginie już istnieje"
@@ -58,7 +87,7 @@
       "title": "Dodaj pozycję"
     },
     "delete": {
-      "body": "Czy na pewno chcesz usunąć pozycję tą pozycję? \nOperacja ta jest nieodwracalna!",
+      "body": "Czy na pewno chcesz usunąć tą pozycję? \nOperacja ta jest nieodwracalna!",
       "delete": "Usuń",
       "deleted": "Stanowisko zostało pomyślnie usunięte",
       "title": "Usuń pozycję"
@@ -87,6 +116,28 @@
       "details": "Szczegóły",
       "name": "Nazwa Zespołu",
       "number-members": "Liczba członków"
+    }
+  },
+  "technology": {
+    "add": {
+      "add": "Dodaj",
+      "added": "Technologia została pomyślnie dodana",
+      "title": "Dodaj technologię"
+    },
+    "delete": {
+      "body": "Czy na pewno chcesz usunąć tą technologię? \nOperacja ta jest nieodwracalna!",
+      "delete": "Usuń",
+      "deleted": "Technologia została pomyślnie usunięta",
+      "title": "Usuń technologię"
+    },
+    "edit": {
+      "edit": "Zapisz",
+      "edited": "Technologia została pomyślnie zedtyowana",
+      "title": "Edytuj technologię"
+    },
+    "list": {
+      "button": "Dodaj Technologię",
+      "name": "Nazwa"
     }
   }
 }

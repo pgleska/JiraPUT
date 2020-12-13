@@ -20,7 +20,7 @@ import {EmployeeDetailsComponent} from './employee/employee-details.component';
 import {EmployeeListComponent} from './employee/employee-list.component';
 import {PositionDeleteComponent} from './position/position-delete.component';
 import {PositionListComponent} from './position/position-list.component';
-import {SalaryValidatorDirective} from './common/validators/salary-validator.directive';
+import {SalaryRangeValidatorDirective} from './common/validators/salary-range-validator.directive';
 import {TokenInterceptor} from './authentication/token.interceptor';
 import {UrlValidatorDirective} from './common/validators/url-validator.directive';
 import {OnlyLettersValidatorDirective} from './common/validators/only-letters-validator.directive';
@@ -32,6 +32,15 @@ import {CommonModule} from '@angular/common';
 import {PositionAddComponent} from './position/position-add.component';
 import {PositionEditComponent} from './position/position-edit.component';
 import {TeamAddComponent} from './team/team-add.component';
+import {TechnologyAddComponent} from './technology/technology-add.component';
+import {TechnologyDeleteComponent} from './technology/technology-delete.component';
+import {TechnologyEditComponent} from './technology/technology-edit.component';
+import {TechnologyListComponent} from './technology/technology-list.component';
+import {CompanyAddComponent} from './company/company-add.component';
+import {CompanyDeleteComponent} from './company/company-delete.component';
+import {CompanyEditComponent} from './company/company-edit.component';
+import {CompanyListComponent} from './company/company-list.component';
+import {GreaterThanValidatorDirective} from './common/validators/greater-than-validator.directive';
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
     return new TranslateHttpLoader(httpClient);
@@ -53,14 +62,23 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         PositionAddComponent,
         PositionEditComponent,
         PositionListComponent,
-        SalaryValidatorDirective,
+        SalaryRangeValidatorDirective,
         UrlValidatorDirective,
         OnlyLettersValidatorDirective,
         TeamDetailsComponent,
         TeamListComponent,
         SortableDirective,
         PaginationComponent,
-        TeamAddComponent
+        TeamAddComponent,
+        TechnologyAddComponent,
+        TechnologyDeleteComponent,
+        TechnologyEditComponent,
+        TechnologyListComponent,
+        CompanyAddComponent,
+        CompanyDeleteComponent,
+        CompanyEditComponent,
+        CompanyListComponent,
+        GreaterThanValidatorDirective
     ],
     imports: [
         BrowserModule,
