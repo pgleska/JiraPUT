@@ -67,11 +67,11 @@ import {Position} from './position.model';
 })
 export class PositionAddComponent {
 
-    private position: Position = new class implements Position {
-        maximumSalary: number;
-        minimumSalary: number;
-        name: string;
-        nameDisplay: string;
+    private position: Position =  {
+        maximumSalary: 0,
+        minimumSalary: 0,
+        name: '',
+        nameDisplay: ''
     };
 
     constructor(public activeModal: NgbActiveModal,

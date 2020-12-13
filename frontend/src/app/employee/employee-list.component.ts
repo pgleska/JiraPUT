@@ -62,14 +62,15 @@ import {EmployeeService} from './employee.service';
         </form>`
 })
 export class EmployeeListComponent implements OnInit, OnDestroy {
+
     pageSize = PAGE_SIZE;
-    @ViewChildren(SortableDirective) headers: QueryList<SortableDirective>;
     error_message: string;
     success_message: string;
     private errorSubject = new Subject<string>();
     private successSubject = new Subject<string>();
     @ViewChild('errorAlert', {static: false}) errorAlert: NgbAlert;
     @ViewChild('successAlert', {static: false}) successAlert: NgbAlert;
+    @ViewChildren(SortableDirective) headers: QueryList<SortableDirective>;
 
     constructor(public service: EmployeeService) {
         this.service.getEmployeeList().subscribe(result => {

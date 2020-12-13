@@ -71,13 +71,13 @@ import {debounceTime} from 'rxjs/operators';
 export class PositionListComponent implements OnInit, OnDestroy {
 
     pageSize = PAGE_SIZE;
-    @ViewChildren(SortableDirective) headers: QueryList<SortableDirective>;
     error_message: string;
     success_message: string;
     private errorSubject = new Subject<string>();
     private successSubject = new Subject<string>();
     @ViewChild('errorAlert', {static: false}) errorAlert: NgbAlert;
     @ViewChild('successAlert', {static: false}) successAlert: NgbAlert;
+    @ViewChildren(SortableDirective) headers: QueryList<SortableDirective>;
 
     constructor(public service: PositionService,
                 private modalService: NgbModal) {
@@ -134,7 +134,8 @@ export class PositionListComponent implements OnInit, OnDestroy {
         const modalRef = this.modalService.open(PositionAddComponent);
         modalRef.result.then((result) => {
             this.showInfo(result);
-        }, _ => {});
+        }, _ => {
+        });
     }
 
     openDelete(position: Position) {
@@ -142,7 +143,8 @@ export class PositionListComponent implements OnInit, OnDestroy {
         modalRef.componentInstance.position = position;
         modalRef.result.then((result) => {
             this.showInfo(result);
-        }, _ => {});
+        }, _ => {
+        });
     }
 
     openEdit(position: Position) {
@@ -150,7 +152,8 @@ export class PositionListComponent implements OnInit, OnDestroy {
         modalRef.componentInstance.position = position;
         modalRef.result.then((result) => {
             this.showInfo(result);
-        }, _ => {});
+        }, _ => {
+        });
     }
 
     private showInfo(result) {

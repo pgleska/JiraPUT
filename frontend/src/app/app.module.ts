@@ -26,12 +26,12 @@ import {UrlValidatorDirective} from './common/validators/url-validator.directive
 import {OnlyLettersValidatorDirective} from './common/validators/only-letters-validator.directive';
 import {TeamDetailsComponent} from './team/team-details.component';
 import {TeamListComponent} from './team/team-list.component';
-import {TeamListItemComponent} from './team/team-list-item.component';
 import {SortableDirective} from './common/list-components/sort/sortable.directive';
 import {PaginationComponent} from './common/list-components/pagination/pagination.component';
 import {CommonModule} from '@angular/common';
 import {PositionAddComponent} from './position/position-add.component';
 import {PositionEditComponent} from './position/position-edit.component';
+import {TeamAddComponent} from './team/team-add.component';
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
     return new TranslateHttpLoader(httpClient);
@@ -58,9 +58,9 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         OnlyLettersValidatorDirective,
         TeamDetailsComponent,
         TeamListComponent,
-        TeamListItemComponent,
         SortableDirective,
-        PaginationComponent
+        PaginationComponent,
+        TeamAddComponent
     ],
     imports: [
         BrowserModule,

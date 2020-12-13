@@ -37,6 +37,7 @@
     "position-not-found": "Pozycja o takiej nazwie nie isntieje",
     "required": "Pole jest wymagane",
     "team-duplicated": "Zespół o takiej nazwie już istnieje",
+    "team-not-empty": "Nie można usunąć zespołu, gdyż są pracownicy będący jego członkami",
     "team-not-found": "Zespół o takiej nazwie nie isntieje",
     "unknown": "Nieznany błąd",
     "url-encoding": "Dozwolone znaki to litery, cyfry oraz znaki _ i -",
@@ -47,6 +48,7 @@
     "log-in": "Zaloguj się",
     "log-out": "Wyloguj się",
     "positions": "Pozycje",
+    "team": "Zespoły",
     "title": "JiraPUT"
   },
   "position": {
@@ -71,6 +73,20 @@
       "maximum-salary": "Pensja maksymalna",
       "minimum-salary": "Pensja minimalna",
       "name": "Nazwa"
+    }
+  },
+  "team": {
+    "add": {
+      "add": "Dodaj",
+      "added": "Zespół został pomyślnie dodany",
+      "name": "Nazwa zespołu",
+      "title": "Dodaj"
+    },
+    "list": {
+      "button": "Dodaj zespół",
+      "details": "Szczegóły",
+      "name": "Nazwa Zespołu",
+      "number-members": "Liczba członków"
     }
   }
 }

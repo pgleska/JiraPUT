@@ -54,7 +54,7 @@ export class PositionService {
             ));
     }
 
-    createPosition(position: Position): Observable<any> {
+    createPosition(position: Position): Observable<Position> {
         return this.http.post<Position>(
             environment.apiUrl + '/api/position/create',
             position)
@@ -64,7 +64,7 @@ export class PositionService {
     }
 
     modifyPosition(position: Position): Observable<any> {
-        return this.http.patch<Position>(
+        return this.http.patch(
             environment.apiUrl + `/api/position/${position.name}`,
             position)
             .pipe(
@@ -73,7 +73,7 @@ export class PositionService {
     }
 
     deletePosition(position: Position): Observable<any> {
-        return this.http.delete<Position>(
+        return this.http.delete(
             environment.apiUrl + `/api/position/${position.name}`)
             .pipe(
                 catchError(handleError('position'))
