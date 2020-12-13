@@ -39,6 +39,8 @@ import {Position} from './position.model';
                             [ngModel]
                             #minimumSalary="ngModel"
                             required
+                            greaterThanValidator
+                            [greaterThan]="'maximumSalary'"
                     />
                     <app-input-error [control]="minimumSalary.control"></app-input-error>
                 </div>
@@ -52,6 +54,9 @@ import {Position} from './position.model';
                             [ngModel]
                             #maximumSalary="ngModel"
                             required
+                            greaterThanValidator
+                            [greaterThan]="'minimumSalary'"
+                            [showErrorMessage]="true"
                     />
                     <app-input-error [control]="maximumSalary.control"></app-input-error>
                 </div>

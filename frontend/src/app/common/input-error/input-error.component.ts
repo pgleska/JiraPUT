@@ -9,6 +9,7 @@ import {Component, Input} from '@angular/core';
                 <div *ngIf="control.errors.required"><small>{{'error.required' | translate}}</small></div>
                 <div *ngIf="control.errors.minlength"><small>{{'error.minimum-length' | translate}}</small></div>
                 <div *ngIf="control.errors.password"><small>{{'error.password' | translate}}</small></div>
+                <div *ngIf="control.errors.salary"><small>{{'error.salary' | translate}}</small></div>
                 <div *ngIf="control.errors.minimumSalary"><small>{{'error.minimum-salary' | translate}}</small></div>
                 <div *ngIf="control.errors.maximumSalary"><small>{{'error.maximum-salary' | translate}}</small></div>
                 <div *ngIf="control.errors.onlyLetters"><small>{{'error.only-letters' | translate}}</small></div>
