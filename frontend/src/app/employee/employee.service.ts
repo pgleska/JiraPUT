@@ -82,4 +82,13 @@ export class EmployeeService {
             || employee.firstName.toLowerCase().includes(term.toLowerCase())
             || employee.lastName.toLowerCase().includes(term.toLowerCase());
     }
+
+    resetState() {
+        this.state = {
+            page: 1,
+            searchTerm: '',
+            sortColumn: '',
+            sortDirection: ''
+        };
+    }
 }

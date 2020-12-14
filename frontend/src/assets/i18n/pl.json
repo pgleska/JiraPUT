@@ -112,10 +112,23 @@
       "name": "Nazwa zespołu",
       "title": "Dodaj"
     },
+    "details": {
+      "details": "Szczegóły",
+      "edit": "Edytuj zespół",
+      "first-name": "Imię",
+      "last-name": "Nazwisko",
+      "position": "Stanowisko",
+      "number-members": "Liczba członków:"
+    },
+    "edit": {
+      "edit": "Zapisz",
+      "edited": "Zespół został pomyślnie zedtyowany",
+      "title": "Edytuj zespół"
+    },
     "list": {
       "button": "Dodaj zespół",
       "details": "Szczegóły",
-      "name": "Nazwa Zespołu",
+      "name": "Nazwa zespołu",
       "number-members": "Liczba członków"
     }
   },

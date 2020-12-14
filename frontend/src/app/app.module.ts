@@ -42,6 +42,7 @@ import {CompanyEditComponent} from './company/company-edit.component';
 import {CompanyListComponent} from './company/company-list.component';
 import {GreaterThanValidatorDirective} from './common/validators/greater-than-validator.directive';
 import {NegativeValueValidatorDirective} from './common/validators/negative-value-validator.directive';
+import {TeamEditComponent} from './team/team-edit.component';
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
     return new TranslateHttpLoader(httpClient);
@@ -68,6 +69,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         OnlyLettersValidatorDirective,
         TeamDetailsComponent,
         TeamListComponent,
+        TeamEditComponent,
         SortableDirective,
         PaginationComponent,
         TeamAddComponent,
