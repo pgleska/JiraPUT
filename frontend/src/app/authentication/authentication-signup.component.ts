@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Output} from '@angular/core';
 import {NgForm} from '@angular/forms';
 import {AuthenticationService} from './authentication.service';
+import {Router} from '@angular/router';
 
 @Component({
     selector: 'app-authentication-sign-up',
@@ -98,7 +99,8 @@ export class AuthenticationSignUpComponent {
     @Output() success: EventEmitter<string> = new EventEmitter<string>();
     passwordCopy: string;
 
-    constructor(private authenticationService: AuthenticationService) {
+    constructor(private authenticationService: AuthenticationService,
+                private router: Router) {
     }
 
     onSubmit(form: NgForm): void {
@@ -113,7 +115,14 @@ export class AuthenticationSignUpComponent {
         const authObservable = this.authenticationService.signUp(login, firstName, lastName, password);
         authObservable.subscribe(
             _ => {
-                this.success.emit('authentication.success');
+                this.authenticationService.login(login, password).subscribe(
+                    _ => {
+                        this.router.navigateByUrl('/');
+                    },
+                    error => {
+                        this.error.emit(error);
+                    }
+                );
             },
             error => {
                 this.error.emit(error);
