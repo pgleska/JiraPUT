@@ -11,32 +11,147 @@
     "sign-up": "Zarejestruj się",
     "success": "Konto zostało pomyślnie utoworzone"
   },
+  "common": {
+    "close": "Anuluj"
+  },
+  "company": {
+    "add": {
+      "add": "Dodaj",
+      "added": "Firma została pomyślnie dodana",
+      "title": "Dodaj firmę"
+    },
+    "delete": {
+      "body": "Czy na pewno chcesz usunąć tą firmę? \nOperacja ta jest nieodwracalna!",
+      "delete": "Usuń",
+      "deleted": "Firma została pomyślnie usunięta",
+      "title": "Usuń firmę"
+    },
+    "edit": {
+      "edit": "Zapisz",
+      "edited": "Firma została pomyślnie zedtyowana",
+      "title": "Edytuj firmę"
+    },
+    "list": {
+      "button": "Dodaj firmę",
+      "name": "Nazwa"
+    }
+  },
+  "employee": {
+    "list": {
+      "details": "Szczegóły",
+      "first-name": "Imię",
+      "last-name": "Nazwisko",
+      "position": "Stanowisko",
+      "team": "Zespół"
+    }
+  },
   "error": {
+    "company-duplicated": "Firma o takiej nazwie już istnieje",
+    "company-not-empty": "Nie można usunąć firmy, gdyż są kontrakty z nią związane",
+    "company-not-found": "Firma o takiej nazwie nie isntieje",
     "employee-duplicated": "Pozycja o takiej nazwie już istnieje",
     "employee-not-found": "Pozycja o takiej nazwie nie isntieje",
     "login-error": "Błędny login lub hasło",
     "maximum-salary": "Pensja większa niż maksymalna na obecnym stanowisku",
     "minimum-length": "Hasło wymaga co najmniej 6 znaków",
     "minimum-salary": "Pensja mniejsza niż minimalna na obecnym stanowisku",
+    "negative": "Pole nie może zawierać liczby mniejszej niż 0",
     "only-letters": "Dozwolone znaki to litery",
     "password": "Hasła nie są identyczne",
     "position-duplicated": "Pozycja o takiej nazwie już istnieje",
+    "position-not-empty": "Nie można usunąć pozycji, gdyż są pracownicy na tej pozycji",
     "position-not-found": "Pozycja o takiej nazwie nie isntieje",
     "required": "Pole jest wymagane",
+    "salary": "Pensja maksymalna nie moze być mniejsza niż minimalna",
     "team-duplicated": "Zespół o takiej nazwie już istnieje",
+    "team-not-empty": "Nie można usunąć zespołu, gdyż są pracownicy będący jego członkami",
     "team-not-found": "Zespół o takiej nazwie nie isntieje",
+    "technology-duplicated": "Technologia o takiej nazwie już istnieje",
+    "technology-not-empty": "Nie można usunąć technologii",
+    "technology-not-found": "Technologia o takiej nazwie nie isntieje",
     "unknown": "Nieznany błąd",
     "url-encoding": "Dozwolone znaki to litery, cyfry oraz znaki _ i -",
     "user-duplicated": "Użytkownik o takim loginie już istnieje"
   },
   "navbar": {
+    "employees": "Pracownicy",
     "log-in": "Zaloguj się",
     "log-out": "Wyloguj się",
+    "positions": "Pozycje",
+    "team": "Zespoły",
     "title": "JiraPUT"
   },
   "position": {
-    "name": "Nazwa",
-    "minimum-salary": "Pensja minimalna",
-    "maximum-salary": "Pensja maksymalna"
+    "add": {
+      "add": "Dodaj",
+      "added": "Stanowisko zostało pomyślnie dodane",
+      "title": "Dodaj pozycję"
+    },
+    "delete": {
+      "body": "Czy na pewno chcesz usunąć tą pozycję? \nOperacja ta jest nieodwracalna!",
+      "delete": "Usuń",
+      "deleted": "Stanowisko zostało pomyślnie usunięte",
+      "title": "Usuń pozycję"
+    },
+    "edit": {
+      "edit": "Zapisz",
+      "edited": "Stanowisko zostało pomyślnie zedtyowane",
+      "title": "Edytuj pozycję"
+    },
+    "list": {
+      "button": "Dodaj pozycję",
+      "maximum-salary": "Pensja maksymalna",
+      "minimum-salary": "Pensja minimalna",
+      "name": "Nazwa"
+    }
+  },
+  "team": {
+    "add": {
+      "add": "Dodaj",
+      "added": "Zespół został pomyślnie dodany",
+      "name": "Nazwa zespołu",
+      "title": "Dodaj"
+    },
+    "details": {
+      "details": "Szczegóły",
+      "edit": "Edytuj zespół",
+      "first-name": "Imię",
+      "last-name": "Nazwisko",
+      "position": "Stanowisko",
+      "number-members": "Liczba członków:"
+    },
+    "edit": {
+      "edit": "Zapisz",
+      "edited": "Zespół został pomyślnie zedtyowany",
+      "title": "Edytuj zespół"
+    },
+    "list": {
+      "button": "Dodaj zespół",
+      "details": "Szczegóły",
+      "name": "Nazwa zespołu",
+      "number-members": "Liczba członków"
+    }
+  },
+  "technology": {
+    "add": {
+      "add": "Dodaj",
+      "added": "Technologia została pomyślnie dodana",
+      "title": "Dodaj technologię"
+    },
+    "delete": {
+      "body": "Czy na pewno chcesz usunąć tą technologię? \nOperacja ta jest nieodwracalna!",
+      "delete": "Usuń",
+      "deleted": "Technologia została pomyślnie usunięta",
+      "title": "Usuń technologię"
+    },
+    "edit": {
+      "edit": "Zapisz",
+      "edited": "Technologia została pomyślnie zedtyowana",
+      "title": "Edytuj technologię"
+    },
+    "list": {
+      "button": "Dodaj Technologię",
+      "name": "Nazwa"
+    }
   }
 }

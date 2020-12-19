@@ -13,7 +13,19 @@ import {AuthenticationService} from '../authentication/authentication.service';
                 <div class="navbar">
                     <ul class="nav">
                         <li *ngIf="isAuthenticated" class="nav-item mr-2 ml-2">
-                            <a class="my-2 my-sm-0 mr-1 btn btn-outline-light" routerLink="/positions">{{'pozycje' | translate}}</a>
+                            <a class="my-2 my-sm-0 mr-1 btn btn-outline-light" routerLink="/company">{{'navbar.company' | translate}}</a>
+                        </li>
+                        <li *ngIf="isAuthenticated" class="nav-item mr-2 ml-2">
+                            <a class="my-2 my-sm-0 mr-1 btn btn-outline-light" routerLink="/technology">{{'navbar.technology' | translate}}</a>
+                        </li>
+                        <li *ngIf="isAuthenticated" class="nav-item mr-2 ml-2">
+                            <a class="my-2 my-sm-0 mr-1 btn btn-outline-light" routerLink="/team">{{'navbar.team' | translate}}</a>
+                        </li>
+                        <li *ngIf="isAuthenticated" class="nav-item mr-2 ml-2">
+                            <a class="my-2 my-sm-0 mr-1 btn btn-outline-light" routerLink="/employee">{{'navbar.employees' | translate}}</a>
+                        </li>
+                        <li *ngIf="isAuthenticated" class="nav-item mr-2 ml-2">
+                            <a class="my-2 my-sm-0 mr-1 btn btn-outline-light" routerLink="/position">{{'navbar.positions' | translate}}</a>
                         </li>
                         <li *ngIf="!isAuthenticated" class="nav-item mr-2 ml-2">
                             <a class="my-2 my-sm-0 mr-1 btn btn-outline-light" routerLink="/login">{{'navbar.log-in' | translate}}</a>

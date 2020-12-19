@@ -1,14 +1,19 @@
 import {Component, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {PAGE_SIZE} from '../common/list-components/pagination/pagination.component';
-import {SortableDirective} from '../common/list-components/sort/sortable.directive';
-import {Subject} from 'rxjs';
-import {NgbAlert} from '@ng-bootstrap/ng-bootstrap';
-import {debounceTime} from 'rxjs/operators';
 import {SortEvent} from '../common/list-components/sort/sort.model';
-import {EmployeeService} from './employee.service';
+import {SortableDirective} from '../common/list-components/sort/sortable.directive';
+import {NgbAlert, NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {CompanyEditComponent} from './company-edit.component';
+import {CompanyDeleteComponent} from './company-delete.component';
+import {CompanyAddComponent} from './company-add.component';
+import {Subject} from 'rxjs';
+import {debounceTime} from 'rxjs/operators';
+import {CompanyService} from './company.service';
+import {Company} from './company.model';
+
 
 @Component({
-    selector: 'app-employee-list',
+    selector: 'app-company-list',
     template: `
         <ngb-alert #errorAlert
                    *ngIf="error_message"
@@ -30,25 +35,22 @@ import {EmployeeService} from './employee.service';
             <div class="form-group form-inline">
                 Full text search: <input class="form-control ml-2" type="text" name="searchTerm" [ngModel]
                                          (ngModelChange)="onSearch($event)"/>
+                <a class="btn btn-dark btn-lg btn-outline-primary" (click)="openAdd()">{{'company.list.button' | translate}}</a>
             </div>
 
             <table class="table table-striped">
                 <thead>
                 <tr>
-                    <th scope="col" sortable="firstName" (sort)="onSort($event)">{{'employee.list.first-name' | translate}}</th>
-                    <th scope="col" sortable="lastName" (sort)="onSort($event)">{{'employee.list.last-name' | translate}}</th>
-                    <th scope="col" sortable="positionDisplay" (sort)="onSort($event)">{{'employee.list.position' | translate}}</th>
-                    <th scope="col" sortable="team" (sort)="onSort($event)">{{'employee.list.team' | translate}}</th>
-                    <th>{{'employee.list.details' | translate}}</th>
+                    <th scope="col" sortable="nameDisplay" (sort)="onSort($event)">{{'company.list.name' | translate}}</th>
+                    <th></th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr *ngFor="let employee of service.employees$ | async">
-                    <th>{{employee.firstName}}</th>
-                    <td>{{employee.lastName}}</td>
-                    <td>{{employee.positionDisplay}}</td>
-                    <td>{{employee.team}}</td>
-                    <td><a routerLink="/employee/{{employee.login}}">{{'employee.list.details' | translate}}</a></td>
+                <tr *ngFor="let company of service.companies$ | async">
+                    <th>{{company.nameDisplay}}</th>
+                    <td><a (click)="openEdit(company)"><i class="fa fa-edit fa-2x btn"></i></a></td>
+                    <td><a (click)="openDelete(company)"><i class="fa fa-trash fa-2x btn"></i></a></td>
                 </tr>
                 </tbody>
             </table>
@@ -59,9 +61,10 @@ import {EmployeeService} from './employee.service';
                         (page)="onPage($event)">
                 </app-pagination>
             </div>
-        </form>`
+        </form>
+    `
 })
-export class EmployeeListComponent implements OnInit, OnDestroy {
+export class CompanyListComponent implements OnInit, OnDestroy {
 
     pageSize = PAGE_SIZE;
     error_message: string;
@@ -72,9 +75,10 @@ export class EmployeeListComponent implements OnInit, OnDestroy {
     @ViewChild('successAlert', {static: false}) successAlert: NgbAlert;
     @ViewChildren(SortableDirective) headers: QueryList<SortableDirective>;
 
-    constructor(public service: EmployeeService) {
-        this.service.getEmployeeList().subscribe(result => {
-                this.service.allEmployeeList = result;
+    constructor(public service: CompanyService,
+                private modalService: NgbModal) {
+        this.service.getCompanyList().subscribe(result => {
+                this.service.allCompanyList = result;
                 this.service.search$.next();
             }
         );
@@ -121,4 +125,41 @@ export class EmployeeListComponent implements OnInit, OnDestroy {
         this.service.state.page = $event;
         this.service.search$.next();
     }
+
+    openAdd() {
+        const modalRef = this.modalService.open(CompanyAddComponent);
+        modalRef.result.then((result) => {
+            this.showInfo(result);
+        }, _ => {
+        });
+    }
+
+    openDelete(company: Company) {
+        const modalRef = this.modalService.open(CompanyDeleteComponent);
+        modalRef.componentInstance.company = company;
+        modalRef.result.then((result) => {
+            this.showInfo(result);
+        }, _ => {
+        });
+    }
+
+    openEdit(company: Company) {
+        const modalRef = this.modalService.open(CompanyEditComponent);
+        modalRef.componentInstance.company = company;
+        modalRef.result.then((result) => {
+            this.showInfo(result);
+        }, _ => {
+        });
+    }
+
+    private showInfo(result) {
+        if (result.includes('error')) {
+            this.error_message = result;
+            this.errorSubject.next(result);
+        } else {
+            this.success_message = result;
+            this.successSubject.next(result);
+        }
+    }
+
 }

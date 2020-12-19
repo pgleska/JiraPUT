@@ -8,11 +8,11 @@ import {Position} from '../../position/position.model';
     providers: [
         {
             provide: NG_VALIDATORS,
-            useExisting: SalaryValidatorDirective,
+            useExisting: SalaryRangeValidatorDirective,
             multi: true
         }]
 })
-export class SalaryValidatorDirective implements Validator {
+export class SalaryRangeValidatorDirective implements Validator {
     @Input() position: Position;
 
 
