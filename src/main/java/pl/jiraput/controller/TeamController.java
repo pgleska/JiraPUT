@@ -13,7 +13,6 @@ import javax.persistence.ParameterMode;
 import javax.persistence.PersistenceContext;
 import javax.persistence.StoredProcedureQuery;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -35,11 +34,14 @@ import pl.jiraput.repository.TeamRepository;
 @RequestMapping("/api/team")
 public class TeamController {
 	
-	@Autowired
-	private TeamRepository teamRepository;
+	private final TeamRepository teamRepository;
 	
 	@PersistenceContext
 	private EntityManager entityManager;
+	
+	public TeamController(TeamRepository teamRepository) {
+		this.teamRepository = teamRepository;
+	}
 	
 	@PostMapping(value = "/create", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ResponseEntity<Map<String, String>> createTeam(@RequestBody Team team) {

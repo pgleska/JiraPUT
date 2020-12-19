@@ -9,7 +9,6 @@
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
-SET GLOBAL log_bin_trust_function_creators = 1;
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -94,7 +93,7 @@ CREATE TABLE `kontrakt` (
   `kwota` float NOT NULL,
   `opis_warunkow` text,
   `firma_zew` int(11) NOT NULL,
-  `projekt` int NOT NULL
+  `projekt` varchar(63) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
@@ -111,7 +110,7 @@ CREATE TABLE `pracownik` (
   `nazwisko` varchar(31) NOT NULL,
   `pensja` float NOT NULL,
   `stanowisko` varchar(31) NOT NULL,
-  `zespol` varchar(63)
+  `zespol` varchar(63) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 --
@@ -140,7 +139,6 @@ DELIMITER ;
 --
 
 CREATE TABLE `projekt` (
-  `identyfikator` int NOT NULL,
   `nazwa` varchar(63) NOT NULL,
   `wersja` varchar(7) NOT NULL,
   `opis` text
@@ -272,7 +270,7 @@ ALTER TABLE `pracownik`
 -- Indexes for table `projekt`
 --
 ALTER TABLE `projekt`
-  ADD PRIMARY KEY (`identyfikator`),
+  ADD PRIMARY KEY (`nazwa`),
   ADD KEY `nazwa` (`nazwa`);
 
 --
@@ -330,12 +328,6 @@ ALTER TABLE `zespol`
 --
 ALTER TABLE `issue`
   MODIFY `identyfikator` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
-
---
--- AUTO_INCREMENT for table `issue`
---
-ALTER TABLE `projekt`
-  MODIFY `identyfikator` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- Constraints for dumped tables
 --
@@ -352,7 +344,7 @@ ALTER TABLE `epic`
 --
 ALTER TABLE `kontrakt`
   ADD CONSTRAINT `kontr_firm_zew_fkey` FOREIGN KEY (`firma_zew`) REFERENCES `firma_zewnetrzna` (`nip`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `kontr_proj_fkey` FOREIGN KEY (`projekt`) REFERENCES `projekt` (`identyfikator`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `kontr_proj_fkey` FOREIGN KEY (`projekt`) REFERENCES `projekt` (`nazwa`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `pracownik`
@@ -391,44 +383,6 @@ ALTER TABLE `tech_proj`
   ADD CONSTRAINT `tech_proj_projekt_fkey` FOREIGN KEY (`proj_nazwa`) REFERENCES `projekt` (`nazwa`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `tech_proj_technologia_fkey` FOREIGN KEY (`tech_nazwa`) REFERENCES `technologia` (`nazwa`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
-
-
---
--- Inserts
---
-
---
--- Inserts for table `firma_zewnetrzna`
---
-INSERT INTO `firma_zewnetrzna` (`nip`, `nazwa`, `adres`) VALUES
-(123, 'Przykładowa firma nr 1', 'ul. Kołłątaja 31, 61-786, Poznań'),
-(723, 'Eko Groszek', 'ul. Sienkiewcza 5, 62-336, Poznań'),
-(567, 'Budud', 'ul. Mickiewicza 77/5, 61-412, Poznań');
-
---
--- Inserts for table `projekt`
---
-INSERT INTO `projekt` (`identyfikator`, `nazwa`, `wersja`, `opis`) VALUES
-(1, 'Pierwszy projekt', '1.4.3', 'Przykładowy opis projektu'),
-(2, 'Drugi projekt', '0.0.0', '');
-
---
--- Inserts for table `stanowisko`
--- 
-INSERT INTO `stanowisko` (`nazwa`, `pensja_minimalna`, `pensja_maksymalna`) VALUES
-('CEO', 22000, 25000),
-('Head_of_Department', 19000, 22000),
-('Team_Leader', 15000, 17000),
-('System_Architect', 16000, 20000),
-('Senior_Developer', 9000, 14000),
-('Mid_Developer', 6000, 8500),
-('Junior_Developer', 4000, 5500),
-('Intern', 3000, 3500),
-('None', 0, 0);
-
-
-CREATE USER 'admin'@'%' IDENTIFIED BY 'mysecretpassword';
-GRANT ALL PRIVILEGES ON *.* TO 'admin'@'%' WITH GRANT OPTION;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

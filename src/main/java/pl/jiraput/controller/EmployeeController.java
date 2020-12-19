@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -31,18 +30,19 @@ import pl.jiraput.repository.TeamRepository;
 @RestController
 @RequestMapping("/api/employee")
 public class EmployeeController {
-
-	@Autowired
-	private EmployeeRepository employeeRepository;
 	
-	@Autowired
-	private PositionRepository positionRepository;
+	private final EmployeeRepository employeeRepository;	
+	private final PositionRepository positionRepository;
+	private final TeamRepository teamReposiotry;
+	private final BCryptPasswordEncoder bCryptPasswordEncoder;
 	
-	@Autowired
-	private TeamRepository teamReposiotry;
-	
-	@Autowired
-	private BCryptPasswordEncoder bCryptPasswordEncoder;
+	public EmployeeController(EmployeeRepository employeeRepository, PositionRepository positionRepository,
+								TeamRepository teamRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
+		this.employeeRepository = employeeRepository;
+		this.positionRepository = positionRepository;
+		this.teamReposiotry = teamRepository;
+		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+	}
 	
 	@PostMapping(value = "/sign-up", consumes = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody ResponseEntity<Map<String, String>> signUp(@RequestBody Employee user) {

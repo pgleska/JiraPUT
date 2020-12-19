@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -27,11 +26,13 @@ import pl.jiraput.repository.PositionRepository;
 @RequestMapping("/api/position")
 public class PositionController {
 
-	@Autowired
-	private PositionRepository positionRepository;
+	private final PositionRepository positionRepository;
+	private final EmployeeRepository employeeRepository;
 	
-	@Autowired
-	private EmployeeRepository employeeRepository;
+	public PositionController(PositionRepository positionRepository, EmployeeRepository employeeRepository) {
+		this.positionRepository = positionRepository;
+		this.employeeRepository = employeeRepository;
+	}
 	
 	@PostMapping(value = "/create", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ResponseEntity<Map<String, String>> createPosition(@RequestBody Position position) {
