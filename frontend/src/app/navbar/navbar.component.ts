@@ -13,6 +13,12 @@ import {AuthenticationService} from '../authentication/authentication.service';
                 <div class="navbar">
                     <ul class="nav">
                         <li *ngIf="isAuthenticated" class="nav-item mr-2 ml-2">
+                            <a class="my-2 my-sm-0 mr-1 btn btn-outline-light" routerLink="/project">{{'navbar.project' | translate}}</a>
+                        </li>
+                        <li *ngIf="isAuthenticated" class="nav-item mr-2 ml-2">
+                            <a class="my-2 my-sm-0 mr-1 btn btn-outline-light" routerLink="/contract">{{'navbar.contract' | translate}}</a>
+                        </li>
+                        <li *ngIf="isAuthenticated" class="nav-item mr-2 ml-2">
                             <a class="my-2 my-sm-0 mr-1 btn btn-outline-light" routerLink="/company">{{'navbar.company' | translate}}</a>
                         </li>
                         <li *ngIf="isAuthenticated" class="nav-item mr-2 ml-2">

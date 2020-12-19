@@ -33,7 +33,37 @@
     },
     "list": {
       "button": "Dodaj firmę",
-      "name": "Nazwa"
+      "details": "Szczegóły",
+      "name": "Nazwa",
+      "tax-number": "NIP",
+      "address": "Adres"
+    }
+  },
+  "contract": {
+    "add": {
+      "add": "Dodaj",
+      "added": "Kontrakt został pomyślnie dodany",
+      "title": "Dodaj firmę"
+    },
+    "delete": {
+      "body": "Czy na pewno chcesz usunąć ten kontrakt? \nOperacja ta jest nieodwracalna!",
+      "delete": "Usuń",
+      "deleted": "Kontrakt został pomyślnie usunięty",
+      "title": "Usuń konrakt"
+    },
+    "edit": {
+      "edit": "Zapisz",
+      "edited": "Kontrakt został pomyślnie zedtyowany",
+      "title": "Edytuj kontrakt"
+    },
+    "list": {
+      "amount": "Kwota",
+      "button": "Dodaj kontrakt",
+      "details": "Szczegóły",
+      "name": "Nazwa",
+      "project-name" : "Nazwa projektu",
+      "company-name": "Nazwa firmy",
+      "contract-number": "Numer kontraktu"
     }
   },
   "employee": {
@@ -71,15 +101,21 @@
     "technology-not-found": "Technologia o takiej nazwie nie isntieje",
     "unknown": "Nieznany błąd",
     "url-encoding": "Dozwolone znaki to litery, cyfry oraz znaki _ i -",
-    "user-duplicated": "Użytkownik o takim loginie już istnieje"
+    "user-duplicated": "Użytkownik o takim loginie już istnieje",
+    "tax-number-length": "Numer NIP powinnien skladać się z 10 cyfr",
+    "tax-number-checksum": "Niepoprawna suma kontrolna numeru NIP"
   },
   "navbar": {
+    "company": "Firmy",
     "employees": "Pracownicy",
     "log-in": "Zaloguj się",
     "log-out": "Wyloguj się",
     "positions": "Pozycje",
     "team": "Zespoły",
-    "title": "JiraPUT"
+    "technology": "Technologie",
+    "title": "JiraPUT",
+    "project": "Projekty",
+    "contract": "Kontrakty"
   },
   "position": {
     "add": {
@@ -105,6 +141,30 @@
       "name": "Nazwa"
     }
   },
+  "project": {
+    "add": {
+      "add": "Dodaj",
+      "added": "Projekt został pomyślnie dodany",
+      "title": "Dodaj projekt"
+    },
+    "delete": {
+      "body": "Czy na pewno chcesz usunąć ten projekt? \nOperacja ta jest nieodwracalna!",
+      "delete": "Usuń",
+      "deleted": "Projekt został pomyślnie usunięty",
+      "title": "Usuń projekt"
+    },
+    "edit": {
+      "edit": "Zapisz",
+      "edited": "Projekt został pomyślnie zedtyowany",
+      "title": "Edytuj projekt"
+    },
+    "list": {
+      "button": "Dodaj projekt",
+      "details": "Szczegóły",
+      "name": "Nazwa",
+      "version": "Wersja"
+    }
+  },
   "team": {
     "add": {
       "add": "Dodaj",
@@ -117,8 +177,8 @@
       "edit": "Edytuj zespół",
       "first-name": "Imię",
       "last-name": "Nazwisko",
-      "position": "Stanowisko",
-      "number-members": "Liczba członków:"
+      "number-members": "Liczba członków:",
+      "position": "Stanowisko"
     },
     "edit": {
       "edit": "Zapisz",

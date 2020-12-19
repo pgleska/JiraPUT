@@ -45,7 +45,7 @@ export class TechnologyService {
     }
 
     getTechnologyList(): Observable<Technology[]> {
-        return this.http.get<Technology[]>(environment.apiUrl + '/api/position/list')
+        return this.http.get<Technology[]>(environment.apiUrl + '/api/technology/list')
             .pipe(map((technologies: Technology[]) => technologies.map(
                 (technology: Technology) => {
                     technology.nameDisplay = technology.name.replace(/_/g, ' ');

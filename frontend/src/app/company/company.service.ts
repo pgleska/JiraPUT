@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../environments/environment';
 import {BehaviorSubject, Observable, Subject} from 'rxjs';
-import {debounceTime, map, switchMap} from 'rxjs/internal/operators';
+import {debounceTime, switchMap} from 'rxjs/internal/operators';
 import {catchError} from 'rxjs/operators';
 import {handleError} from '../common/handle-error/handle-error.function';
 import {ListState} from '../common/list-components/search/search.model';
@@ -45,13 +45,7 @@ export class CompanyService {
     }
 
     getCompanyList(): Observable<Company[]> {
-        return this.http.get<Company[]>(environment.apiUrl + '/api/company/list')
-            .pipe(map((companies: Company[]) => companies.map(
-                (company: Company) => {
-                    company.nameDisplay = company.name.replace(/_/g, ' ');
-                    return company;
-                })
-            ));
+        return this.http.get<Company[]>(environment.apiUrl + '/api/company/list');
     }
 
     createCompany(company: Company): Observable<Company> {
@@ -65,7 +59,7 @@ export class CompanyService {
 
     modifyCompany(company: Company): Observable<any> {
         return this.http.patch(
-            environment.apiUrl + `/api/company/${company.name}`,
+            environment.apiUrl + `/api/company/${company.taxNumber}`,
             company)
             .pipe(
                 catchError(handleError('company'))
@@ -74,13 +68,14 @@ export class CompanyService {
 
     deleteCompany(company: Company): Observable<any> {
         return this.http.delete(
-            environment.apiUrl + `/api/company/${company.name}`)
+            environment.apiUrl + `/api/company/${company.taxNumber}`)
             .pipe(
                 catchError(handleError('company'))
             );
     }
 
     matches(company: Company, term: string): boolean {
-        return company.nameDisplay.toLowerCase().includes(term.toLowerCase());
+        return company.name.toLowerCase().includes(term.toLowerCase())
+            || company.taxNumber.toString().includes(term.toLowerCase());
     }
 }

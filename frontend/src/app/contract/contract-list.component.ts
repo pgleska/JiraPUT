@@ -3,17 +3,17 @@ import {PAGE_SIZE} from '../common/list-components/pagination/pagination.compone
 import {SortEvent} from '../common/list-components/sort/sort.model';
 import {SortableDirective} from '../common/list-components/sort/sortable.directive';
 import {NgbAlert, NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {CompanyEditComponent} from './company-edit.component';
-import {CompanyDeleteComponent} from './company-delete.component';
-import {CompanyAddComponent} from './company-add.component';
+import {ContractDeleteComponent} from './contract-delete.component';
+import {ContractAddComponent} from './contract-add.component';
 import {Subject} from 'rxjs';
 import {debounceTime} from 'rxjs/operators';
-import {CompanyService} from './company.service';
-import {Company} from './company.model';
+import {ContractService} from './contract.service';
+import {Contract} from './contract.model';
+
 
 
 @Component({
-    selector: 'app-company-list',
+    selector: 'app-contract-list',
     template: `
         <ngb-alert #errorAlert
                    *ngIf="error_message"
@@ -35,26 +35,28 @@ import {Company} from './company.model';
             <div class="form-group form-inline">
                 Full text search: <input class="form-control ml-2" type="text" name="searchTerm" [ngModel]
                                          (ngModelChange)="onSearch($event)"/>
-                <a class="btn btn-dark btn-lg btn-outline-primary" (click)="openAdd()">{{'company.list.button' | translate}}</a>
+                <a class="btn btn-dark btn-lg btn-outline-primary" (click)="openAdd()">{{'contract.list.button' | translate}}</a>
             </div>
 
             <table class="table table-striped">
                 <thead>
                 <tr>
-                    <th scope="col" sortable="name" (sort)="onSort($event)">{{'company.list.name' | translate}}</th>
-                    <th scope="col" sortable="taxNumber" (sort)="onSort($event)">{{'company.list.tax-number' | translate}}</th>
-                    <th>{{'company.list.details' | translate}}</th>
+                    <th scope="col" sortable="contractNumber" (sort)="onSort($event)">{{'contract.list.contract-number' | translate}}</th>
+                    <th scope="col" sortable="companyName" (sort)="onSort($event)">{{'contract.list.company-name' | translate}}</th>
+                    <th scope="col" sortable="projectName" (sort)="onSort($event)">{{'contract.list.project-name' | translate}}</th>
+                    <th scope="col" sortable="amount" (sort)="onSort($event)">{{'contract.list.amount' | translate}}</th>
+                    <th>{{'contract.list.details' | translate}}</th>
                     <th></th>
                     <th></th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr *ngFor="let company of service.companies$ | async">
-                    <th>{{company.name}}</th>
-                    <th>{{company.taxNumber}}</th>
-                    <td><a routerLink="/company/{{company.taxNumber}}">{{'team.list.details' | translate}}</a></td>
-                    <td><a (click)="openEdit(company)"><i class="fa fa-edit fa-2x btn"></i></a></td>
-                    <td><a (click)="openDelete(company)"><i class="fa fa-trash fa-2x btn"></i></a></td>
+                <tr *ngFor="let contract of service.contracts$ | async">
+                    <th>{{contract.contractNumber}}</th>
+                    <th>{{contract.companyName}}</th>
+                    <th>{{contract.projectName}}</th>
+                    <th>{{contract.amount}}</th>
+                    <td><a (click)="openDelete(contract)"><i class="fa fa-trash fa-2x btn"></i></a></td>
                 </tr>
                 </tbody>
             </table>
@@ -68,7 +70,7 @@ import {Company} from './company.model';
         </form>
     `
 })
-export class CompanyListComponent implements OnInit, OnDestroy {
+export class ContractListComponent implements OnInit, OnDestroy {
 
     pageSize = PAGE_SIZE;
     error_message: string;
@@ -79,17 +81,16 @@ export class CompanyListComponent implements OnInit, OnDestroy {
     @ViewChild('successAlert', {static: false}) successAlert: NgbAlert;
     @ViewChildren(SortableDirective) headers: QueryList<SortableDirective>;
 
-    constructor(public service: CompanyService,
+    constructor(public service: ContractService,
                 private modalService: NgbModal) {
-    }
-
-    ngOnInit(): void {
-        this.service.getCompanyList().subscribe(result => {
-                this.service.allCompanyList = result;
+        this.service.getContractList().subscribe(result => {
+                this.service.allContractList = result;
                 this.service.search$.next();
             }
         );
+    }
 
+    ngOnInit(): void {
         this.errorSubject.pipe(debounceTime(10000)).subscribe(() => {
             if (this.errorAlert) {
                 this.errorAlert.close();
@@ -132,30 +133,30 @@ export class CompanyListComponent implements OnInit, OnDestroy {
     }
 
     openAdd() {
-        const modalRef = this.modalService.open(CompanyAddComponent);
+        const modalRef = this.modalService.open(ContractAddComponent);
         modalRef.result.then((result) => {
             this.showInfo(result);
         }, _ => {
         });
     }
 
-    openDelete(company: Company) {
-        const modalRef = this.modalService.open(CompanyDeleteComponent);
-        modalRef.componentInstance.company = company;
+    openDelete(contract: Contract) {
+        const modalRef = this.modalService.open(ContractDeleteComponent);
+        modalRef.componentInstance.contract = contract;
         modalRef.result.then((result) => {
             this.showInfo(result);
         }, _ => {
         });
     }
 
-    openEdit(company: Company) {
-        const modalRef = this.modalService.open(CompanyEditComponent);
-        modalRef.componentInstance.company = company;
-        modalRef.result.then((result) => {
-            this.showInfo(result);
-        }, _ => {
-        });
-    }
+    // openEdit(contract: contract) {
+    //     const modalRef = this.modalService.open(ContractEditComponent);
+    //     modalRef.componentInstance.contract = contract;
+    //     modalRef.result.then((result) => {
+    //         this.showInfo(result);
+    //     }, _ => {
+    //     });
+    // }
 
     private showInfo(result) {
         if (result.includes('error')) {

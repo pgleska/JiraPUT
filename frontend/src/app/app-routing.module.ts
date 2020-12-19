@@ -9,6 +9,10 @@ import {EmployeeDetailsComponent} from './employee/employee-details.component';
 import {TeamListComponent} from './team/team-list.component';
 import {TeamDetailsComponent} from './team/team-details.component';
 import {TechnologyListComponent} from './technology/technology-list.component';
+import {CompanyListComponent} from './company/company-list.component';
+import {CompanyDetailsComponent} from './company/company-details.component';
+import {ProjectListComponent} from './project/project-list.component';
+import {ContractListComponent} from './contract/contract-list.component';
 
 
 const routes: Routes = [
@@ -21,6 +25,10 @@ const routes: Routes = [
     {path: 'team', component: TeamListComponent, canActivate:[AuthenticationGuard]},
     {path: 'team/:name', component: TeamDetailsComponent, canActivate:[AuthenticationGuard]},
     {path: 'technology', component: TechnologyListComponent, canActivate:[AuthenticationGuard]},
+    {path: 'company', component: CompanyListComponent, canActivate:[AuthenticationGuard]},
+    {path: 'company/:taxNumber', component: CompanyDetailsComponent, canActivate:[AuthenticationGuard]},
+    {path: 'project', component: ProjectListComponent, canActivate:[AuthenticationGuard]},
+    {path: 'contract', component: ContractListComponent, canActivate:[AuthenticationGuard]},
     {path: '**', redirectTo: '/error'}
 ];
 

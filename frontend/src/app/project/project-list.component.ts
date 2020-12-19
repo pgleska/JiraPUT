@@ -3,17 +3,17 @@ import {PAGE_SIZE} from '../common/list-components/pagination/pagination.compone
 import {SortEvent} from '../common/list-components/sort/sort.model';
 import {SortableDirective} from '../common/list-components/sort/sortable.directive';
 import {NgbAlert, NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {CompanyEditComponent} from './company-edit.component';
-import {CompanyDeleteComponent} from './company-delete.component';
-import {CompanyAddComponent} from './company-add.component';
 import {Subject} from 'rxjs';
 import {debounceTime} from 'rxjs/operators';
-import {CompanyService} from './company.service';
-import {Company} from './company.model';
+import {Project} from './project.model';
+import {ProjectAddComponent} from './project-add.component';
+import {ProjectService} from './project.service';
+import {ProjectEditComponent} from './project-edit.component';
+import {ProjectDeleteComponent} from './project-delete.component';
 
 
 @Component({
-    selector: 'app-company-list',
+    selector: 'app-project-list',
     template: `
         <ngb-alert #errorAlert
                    *ngIf="error_message"
@@ -35,26 +35,26 @@ import {Company} from './company.model';
             <div class="form-group form-inline">
                 Full text search: <input class="form-control ml-2" type="text" name="searchTerm" [ngModel]
                                          (ngModelChange)="onSearch($event)"/>
-                <a class="btn btn-dark btn-lg btn-outline-primary" (click)="openAdd()">{{'company.list.button' | translate}}</a>
+                <a class="btn btn-dark btn-lg btn-outline-primary" (click)="openAdd()">{{'project.list.button' | translate}}</a>
             </div>
 
             <table class="table table-striped">
                 <thead>
                 <tr>
-                    <th scope="col" sortable="name" (sort)="onSort($event)">{{'company.list.name' | translate}}</th>
-                    <th scope="col" sortable="taxNumber" (sort)="onSort($event)">{{'company.list.tax-number' | translate}}</th>
-                    <th>{{'company.list.details' | translate}}</th>
+                    <th scope="col" sortable="nameDisplay" (sort)="onSort($event)">{{'project.list.name' | translate}}</th>
+                    <th scope="col" sortable="nameDisplay" (sort)="onSort($event)">{{'project.list.version' | translate}}</th>
+                    <th>{{'project.list.details' | translate}}</th>
                     <th></th>
                     <th></th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr *ngFor="let company of service.companies$ | async">
-                    <th>{{company.name}}</th>
-                    <th>{{company.taxNumber}}</th>
-                    <td><a routerLink="/company/{{company.taxNumber}}">{{'team.list.details' | translate}}</a></td>
-                    <td><a (click)="openEdit(company)"><i class="fa fa-edit fa-2x btn"></i></a></td>
-                    <td><a (click)="openDelete(company)"><i class="fa fa-trash fa-2x btn"></i></a></td>
+                <tr *ngFor="let project of service.projects$ | async">
+                    <th>{{project.name}}</th>
+                    <th>{{project.version}}</th>
+                    <td><a routerLink="/project/{{project.id}}">{{'project.list.details' | translate}}</a></td>
+                    <td><a (click)="openEdit(project)"><i class="fa fa-edit fa-2x btn"></i></a></td>
+                    <td><a (click)="openDelete(project)"><i class="fa fa-trash fa-2x btn"></i></a></td>
                 </tr>
                 </tbody>
             </table>
@@ -68,7 +68,7 @@ import {Company} from './company.model';
         </form>
     `
 })
-export class CompanyListComponent implements OnInit, OnDestroy {
+export class ProjectListComponent implements OnInit, OnDestroy {
 
     pageSize = PAGE_SIZE;
     error_message: string;
@@ -79,17 +79,16 @@ export class CompanyListComponent implements OnInit, OnDestroy {
     @ViewChild('successAlert', {static: false}) successAlert: NgbAlert;
     @ViewChildren(SortableDirective) headers: QueryList<SortableDirective>;
 
-    constructor(public service: CompanyService,
+    constructor(public service: ProjectService,
                 private modalService: NgbModal) {
-    }
-
-    ngOnInit(): void {
-        this.service.getCompanyList().subscribe(result => {
-                this.service.allCompanyList = result;
+        this.service.getProjectList().subscribe(result => {
+                this.service.allProjectList = result;
                 this.service.search$.next();
             }
         );
+    }
 
+    ngOnInit(): void {
         this.errorSubject.pipe(debounceTime(10000)).subscribe(() => {
             if (this.errorAlert) {
                 this.errorAlert.close();
@@ -132,25 +131,25 @@ export class CompanyListComponent implements OnInit, OnDestroy {
     }
 
     openAdd() {
-        const modalRef = this.modalService.open(CompanyAddComponent);
+        const modalRef = this.modalService.open(ProjectAddComponent);
         modalRef.result.then((result) => {
             this.showInfo(result);
         }, _ => {
         });
     }
 
-    openDelete(company: Company) {
-        const modalRef = this.modalService.open(CompanyDeleteComponent);
-        modalRef.componentInstance.company = company;
+    openDelete(project: Project) {
+        const modalRef = this.modalService.open(ProjectDeleteComponent);
+        modalRef.componentInstance.project = project;
         modalRef.result.then((result) => {
             this.showInfo(result);
         }, _ => {
         });
     }
 
-    openEdit(company: Company) {
-        const modalRef = this.modalService.open(CompanyEditComponent);
-        modalRef.componentInstance.company = company;
+    openEdit(project: Project) {
+        const modalRef = this.modalService.open(ProjectEditComponent);
+        modalRef.componentInstance.project = project;
         modalRef.result.then((result) => {
             this.showInfo(result);
         }, _ => {

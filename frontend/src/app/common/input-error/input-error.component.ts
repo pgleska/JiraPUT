@@ -15,6 +15,8 @@ import {Component, Input} from '@angular/core';
                 <div *ngIf="control.errors.maximumSalary"><small>{{'error.maximum-salary' | translate}}</small></div>
                 <div *ngIf="control.errors.onlyLetters"><small>{{'error.only-letters' | translate}}</small></div>
                 <div *ngIf="control.errors.urlEncoding"><small>{{'error.url-encoding' | translate}}</small></div>
+                <div *ngIf="control.errors.taxNumberLength"><small>{{'error.tax-number-length' | translate}}</small></div>
+                <div *ngIf="control.errors.taxNumberChecksum"><small>{{'error.tax-number-checksum' | translate}}</small></div>
             </div>
         </div>
     `,

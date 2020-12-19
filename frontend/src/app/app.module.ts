@@ -43,6 +43,15 @@ import {CompanyListComponent} from './company/company-list.component';
 import {GreaterThanValidatorDirective} from './common/validators/greater-than-validator.directive';
 import {NegativeValueValidatorDirective} from './common/validators/negative-value-validator.directive';
 import {TeamEditComponent} from './team/team-edit.component';
+import {CompanyDetailsComponent} from './company/company-details.component';
+import {ProjectListComponent} from './project/project-list.component';
+import {ProjectAddComponent} from './project/project-add.component';
+import {ProjectEditComponent} from './project/project-edit.component';
+import {ProjectDeleteComponent} from './project/project-delete.component';
+import {ContractAddComponent} from './contract/contract-add.component';
+import {ContractDeleteComponent} from './contract/contract-delete.component';
+import {ContractListComponent} from './contract/contract-list.component';
+import {TaxNumberDirective} from './common/validators/tax-number.directive';
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
     return new TranslateHttpLoader(httpClient);
@@ -81,8 +90,17 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         CompanyDeleteComponent,
         CompanyEditComponent,
         CompanyListComponent,
+        CompanyDetailsComponent,
         GreaterThanValidatorDirective,
-        NegativeValueValidatorDirective
+        NegativeValueValidatorDirective,
+        ProjectListComponent,
+        ProjectAddComponent,
+        ProjectEditComponent,
+        ProjectDeleteComponent,
+        ContractAddComponent,
+        ContractDeleteComponent,
+        ContractListComponent,
+        TaxNumberDirective
     ],
     imports: [
         BrowserModule,
