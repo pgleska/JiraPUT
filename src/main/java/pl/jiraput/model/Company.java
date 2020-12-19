@@ -1,5 +1,6 @@
 package pl.jiraput.model;
 
+import java.math.BigInteger;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -13,7 +14,7 @@ import javax.persistence.Table;
 public class Company {
 	@Id
 	@Column(name = "nip", unique = true, nullable = false)
-	private Integer taxNumber;
+	private BigInteger taxNumber;
 	
 	@Column(name = "nazwa", unique = true, nullable = false)
 	private String name;
@@ -26,17 +27,17 @@ public class Company {
 
 	public Company() {}
 	
-	public Company(Integer taxNumber, String name, String address) {
+	public Company(BigInteger taxNumber, String name, String address) {
 		this.taxNumber = taxNumber;
 		this.name = name;
 		this.address = address;
 	}
 	
-	public Integer getTaxNumber() {
+	public BigInteger getTaxNumber() {
 		return taxNumber;
 	}
 
-	public void setTaxNumber(Integer taxNumber) {
+	public void setTaxNumber(BigInteger taxNumber) {
 		this.taxNumber = taxNumber;
 	}
 

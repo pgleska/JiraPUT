@@ -62,7 +62,7 @@ CREATE TABLE `epic` (
 --
 
 CREATE TABLE `firma_zewnetrzna` (
-  `nip` int(11) NOT NULL,
+  `nip` bigint(11) NOT NULL,
   `nazwa` varchar(255) NOT NULL,
   `adres` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
@@ -93,7 +93,7 @@ CREATE TABLE `kontrakt` (
   `numer_umowy` varchar(31) NOT NULL,
   `kwota` float NOT NULL,
   `opis_warunkow` text,
-  `firma_zew` int(11) NOT NULL,
+  `firma_zew` bigint(11) NOT NULL,
   `projekt` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
@@ -401,9 +401,9 @@ ALTER TABLE `tech_proj`
 -- Inserts for table `firma_zewnetrzna`
 --
 INSERT INTO `firma_zewnetrzna` (`nip`, `nazwa`, `adres`) VALUES
-(123, 'Przykładowa firma nr 1', 'ul. Kołłątaja 31, 61-786, Poznań'),
-(723, 'Eko Groszek', 'ul. Sienkiewcza 5, 62-336, Poznań'),
-(567, 'Budud', 'ul. Mickiewicza 77/5, 61-412, Poznań');
+(7622654927, 'Przykładowa firma nr 1', 'ul. Kołłątaja 31, 61-786, Poznań'),
+(3892726480, 'Eko Groszek', 'ul. Sienkiewcza 5, 62-336, Poznań'),
+(5249366383, 'Budud', 'ul. Mickiewicza 77/5, 61-412, Poznań');
 
 --
 -- Inserts for table `projekt`

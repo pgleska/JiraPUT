@@ -1,5 +1,6 @@
 package pl.jiraput.controller;
 
+import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -58,7 +59,7 @@ public class CompanyController {
 	}
 
 	@PatchMapping(value = "/{taxNumber}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Map<String, String>> editCompany(@PathVariable Integer taxNumber, @RequestBody Map<String, String> data) {
+	public ResponseEntity<Map<String, String>> editCompany(@PathVariable BigInteger taxNumber, @RequestBody Map<String, String> data) {
 		Map<String, String> body = new HashMap<>();
 		Company company = companyRepository.findByTaxNumber(taxNumber);
 		if(company ==  null) {
@@ -75,7 +76,7 @@ public class CompanyController {
 	}
 	
 	@DeleteMapping(value = "/{taxNumber}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Map<String, String>> deleteCompany(@PathVariable Integer taxNumber) {
+	public ResponseEntity<Map<String, String>> deleteCompany(@PathVariable BigInteger taxNumber) {
 		Map<String, String> body = new HashMap<>();
 		Company company = companyRepository.findByTaxNumber(taxNumber);
 		if(company ==  null) {
