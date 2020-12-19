@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import pl.jiraput.model.Contract;
@@ -45,6 +46,7 @@ public class ProjectController {
 	}
 	
 	@GetMapping(value = "/list", produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseStatus(code = HttpStatus.OK)
 	public @ResponseBody List<Map<String, Object>> getAllProjects() {
 		return projectRepository.findAll().parallelStream().map(p -> {
 			Map<String, Object> res = new HashMap<>();
@@ -60,7 +62,7 @@ public class ProjectController {
 	@PatchMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ResponseEntity<Map<String, String>> editProject(@PathVariable Integer id, @RequestBody Map<String, String> data) {
 		Map<String, String> body = new HashMap<>();
-		Project project = projectRepository.findById(id).get();
+		Project project = projectRepository.findById(id).orElse(null);
 		if(project == null) {
 			body.put("error", "project.not.found");
 			return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);

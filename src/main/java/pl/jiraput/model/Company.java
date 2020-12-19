@@ -24,6 +24,14 @@ public class Company {
 	@OneToMany(mappedBy = "company")
 	private Set<Contract> contracts;
 
+	public Company() {}
+	
+	public Company(Integer taxNumber, String name, String address) {
+		this.taxNumber = taxNumber;
+		this.name = name;
+		this.address = address;
+	}
+	
 	public Integer getTaxNumber() {
 		return taxNumber;
 	}

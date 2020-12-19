@@ -85,6 +85,8 @@ public class ContractController {
 		//TODO: czy to nie jest bezsensu, w przypadku tysięcy dokumentów będziemy wyświetlać część a nie naraz wszystkie
 	}
 	
+	//TODO: kontrakt nie powinien być edytowalny
+	
 	//TODO: spowodowane tym, że usuwamy po numerze umowy, gdzie ona może zawierać takie znaki jak "/"
 	@PostMapping(value = "/delete", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ResponseEntity<Map<String, String>> deleteContract(@RequestBody Map<String, String> data) {
