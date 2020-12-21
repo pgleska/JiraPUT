@@ -15,7 +15,7 @@ import {CompanyService} from './company.service';
             </button>
         </div>
         <div class="modal-body">
-            <form #authForm="ngForm" (ngSubmit)="onSubmit(authForm)">
+            <form #companyForm="ngForm" (ngSubmit)="onSubmit(companyForm)">
                 <div>
                     <label for="name">{{'company.list.name' | translate}}</label>
                     <input
@@ -61,7 +61,7 @@ import {CompanyService} from './company.service';
                     <button type="button" class="btn btn-outline-dark"
                             (click)="activeModal.dismiss()">{{'common.close' | translate}} </button>
                     <button type="submit" ngbAutofocus class="btn btn-outline-dark"
-                            [disabled]="!authForm.valid">{{'company.add.add' | translate}} </button>
+                            [disabled]="!companyForm.valid">{{'company.add.add' | translate}} </button>
                 </div>
             </form>
         </div>

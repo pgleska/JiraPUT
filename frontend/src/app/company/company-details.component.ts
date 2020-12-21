@@ -8,6 +8,9 @@ import {debounceTime} from 'rxjs/internal/operators';
 import {Company} from './company.model';
 import {CompanyService} from './company.service';
 import {CompanyEditComponent} from './company-edit.component';
+import {ContractService} from '../contract/contract.service';
+import {Contract} from '../contract/contract.model';
+import {SortEvent} from '../common/list-components/sort/sort.model';
 
 @Component({
     selector: 'app-company-details',
@@ -31,6 +34,34 @@ import {CompanyEditComponent} from './company-edit.component';
             </ngb-alert>
             <h2>{{company.name}}</h2>
             <a class="btn btn-dark btn-lg btn-outline-primary" (click)="openEdit()">{{'company.details.edit' | translate}}</a>
+            <h2>{{company.taxNumber}}</h2>
+            <h2>{{company.address}}</h2>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th scope="col" sortable="contractNumber" (sort)="onSort($event)">{{'contract.list.contract-number' | translate}}</th>
+                    <th scope="col" sortable="companyName" (sort)="onSort($event)">{{'contract.list.company-name' | translate}}</th>
+                    <th scope="col" sortable="projectName" (sort)="onSort($event)">{{'contract.list.project-name' | translate}}</th>
+                    <th scope="col" sortable="amount" (sort)="onSort($event)">{{'contract.list.amount' | translate}}</th>
+                    <th>{{'contract.list.details' | translate}}</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let contract of contractList">
+                    <th>{{contract.contractNumber}}</th>
+                    <th>{{contract.companyName}}</th>
+                    <th>{{contract.projectName}}</th>
+                    <th>{{contract.amount}}</th>
+                </tr>
+                </tbody>
+            </table>
+
+            <div class="d-flex justify-content-between p-2">
+                <app-pagination
+                        [totalElements]="contractList.length"
+                        (page)="onPage($event)">
+                </app-pagination>
+            </div>
         </div>
     `
 })
@@ -44,6 +75,7 @@ export class CompanyDetailsComponent implements OnInit, OnDestroy {
         taxNumber: 0,
         address: ''
     };
+    contractList: Contract[] = [];
     private errorSubject = new Subject<string>();
     private successSubject = new Subject<string>();
     @ViewChild('errorAlert', {static: false}) errorAlert: NgbAlert;
@@ -51,13 +83,28 @@ export class CompanyDetailsComponent implements OnInit, OnDestroy {
     @ViewChildren(SortableDirective) headers: QueryList<SortableDirective>;
 
 
-    constructor(public companyService: CompanyService,
+    constructor(private companyService: CompanyService,
+                private contractService:ContractService,
                 private route: ActivatedRoute,
                 private modalService: NgbModal) {
     }
 
     ngOnInit(): void {
-        const companyTaxNumber = this.route.snapshot.paramMap.get('taxNumber');
+        this.contractService.resetState();
+        const companyTaxNumber = +this.route.snapshot.paramMap.get('taxNumber');
+        this.companyService.getCompany(companyTaxNumber).subscribe(
+            (company) => {
+                this.company = company;
+                for (let contractNumber of company.contracts) {
+                    this.contractService.getContract(contractNumber).subscribe(
+                        (contract) => {
+                            this.contractList.push(contract);
+                            this.contractService.allContractList = this.contractList;
+                        }
+                    );
+                }
+            }
+        );
 
         this.errorSubject.pipe(debounceTime(10000)).subscribe(() => {
             if (this.errorAlert) {
@@ -75,6 +122,24 @@ export class CompanyDetailsComponent implements OnInit, OnDestroy {
     ngOnDestroy(): void {
         this.successSubject.unsubscribe();
         this.errorSubject.unsubscribe();
+    }
+
+    onSort($event: SortEvent) {
+        this.headers.forEach(header => {
+                if (header.sortable !== $event.column) {
+                    header.direction = '';
+                }
+            }
+        );
+
+        this.contractService.state.sortColumn = $event.column;
+        this.contractService.state.sortDirection = $event.direction;
+        this.contractService.search$.next();
+    }
+
+    onPage($event: number) {
+        this.contractService.state.page = $event;
+        this.contractService.search$.next();
     }
 
     openEdit() {

@@ -3,12 +3,11 @@ import {HttpClient} from '@angular/common/http';
 import {environment} from '../../environments/environment';
 import {BehaviorSubject, Observable, Subject} from 'rxjs';
 import {debounceTime, switchMap} from 'rxjs/internal/operators';
-import {catchError} from 'rxjs/operators';
+import {catchError, map} from 'rxjs/operators';
 import {handleError} from '../common/handle-error/handle-error.function';
 import {ListState} from '../common/list-components/search/search.model';
 import {search} from '../common/list-components/search/search.function';
 import {Project} from './project.model';
-
 
 @Injectable({
     providedIn: 'root'
@@ -46,6 +45,12 @@ export class ProjectService {
 
     getProjectList(): Observable<Project[]> {
         return this.http.get<Project[]>(environment.apiUrl + '/api/project/list');
+    }
+
+    getProject(projectId: number): Observable<Project> {
+        return this.http.get<Project[]>(environment.apiUrl + '/api/project/list').pipe(
+            map(projects => projects.find(proj => proj.id === projectId)),
+        );
     }
 
     createProject(project: Project): Observable<Project> {

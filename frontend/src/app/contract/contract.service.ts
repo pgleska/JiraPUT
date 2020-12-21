@@ -3,7 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {environment} from '../../environments/environment';
 import {BehaviorSubject, Observable, Subject} from 'rxjs';
 import {debounceTime, switchMap} from 'rxjs/internal/operators';
-import {catchError} from 'rxjs/operators';
+import {catchError, map} from 'rxjs/operators';
 import {handleError} from '../common/handle-error/handle-error.function';
 import {ListState} from '../common/list-components/search/search.model';
 import {search} from '../common/list-components/search/search.function';
@@ -48,6 +48,12 @@ export class ContractService {
         return this.http.get<Contract[]>(environment.apiUrl + '/api/contract/list');
     }
 
+    getContract(contractNumber: string): Observable<Contract> {
+        return this.http.get<Contract[]>(environment.apiUrl + '/api/contract/list').pipe(
+            map(contracts => contracts.find(con => con.contractNumber === contractNumber)),
+        );
+    }
+
     createContract(contract: Contract): Observable<Contract> {
         return this.http.post<Contract>(
             environment.apiUrl + '/api/contract/create',
@@ -82,4 +88,14 @@ export class ContractService {
             || contract.companyName.toLowerCase().includes(term.toLowerCase())
             || contract.projectName.toLowerCase().includes(term.toLowerCase());
     }
+
+    resetState() {
+        this.state = {
+            page: 1,
+            searchTerm: '',
+            sortColumn: '',
+            sortDirection: ''
+        };
+    }
+
 }

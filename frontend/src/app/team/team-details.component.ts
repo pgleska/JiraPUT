@@ -68,7 +68,9 @@ export class TeamDetailsComponent implements OnInit, OnDestroy {
     error_message: string;
     success_message: string;
     team: Team = {
-        members: [], name: '', numberOfMembers: 0
+        members: [],
+        name: '',
+        numberOfMembers: 0
     };
     employeeList: Employee[] = [];
     private errorSubject = new Subject<string>();
@@ -94,6 +96,7 @@ export class TeamDetailsComponent implements OnInit, OnDestroy {
                     this.employeeService.getEmployee(memberName).subscribe(
                         (member) => {
                             this.employeeList.push(member);
+                            this.employeeService.allEmployeeList = this.employeeList;
                         }
                     );
                 }

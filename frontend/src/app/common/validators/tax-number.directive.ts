@@ -14,7 +14,13 @@ import {Directive} from '@angular/core';
 export class TaxNumberDirective implements Validator {
 
     validate(formControl: FormControl): { [key: string]: any } {
-        const value = formControl.value.toString();
+        let value;
+        if (!!formControl.value) {
+            value = formControl.value.toString();
+        } else {
+            return {};
+        }
+
         if (value.length !== 10) {
             return {
                 taxNumberLength: true

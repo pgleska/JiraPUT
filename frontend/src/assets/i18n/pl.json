@@ -12,7 +12,9 @@
     "success": "Konto zostało pomyślnie utoworzone"
   },
   "common": {
-    "close": "Anuluj"
+    "close": "Anuluj",
+    "edit": "Edytuj",
+    "delete": "Usuń"
   },
   "company": {
     "add": {
@@ -32,11 +34,11 @@
       "title": "Edytuj firmę"
     },
     "list": {
+      "address": "Adres",
       "button": "Dodaj firmę",
       "details": "Szczegóły",
       "name": "Nazwa",
-      "tax-number": "NIP",
-      "address": "Adres"
+      "tax-number": "NIP"
     }
   },
   "contract": {
@@ -59,11 +61,11 @@
     "list": {
       "amount": "Kwota",
       "button": "Dodaj kontrakt",
+      "company-name": "Nazwa firmy",
+      "contract-number": "Numer kontraktu",
       "details": "Szczegóły",
       "name": "Nazwa",
-      "project-name" : "Nazwa projektu",
-      "company-name": "Nazwa firmy",
-      "contract-number": "Numer kontraktu"
+      "project-name": "Nazwa projektu"
     }
   },
   "employee": {
@@ -93,6 +95,8 @@
     "position-not-found": "Pozycja o takiej nazwie nie isntieje",
     "required": "Pole jest wymagane",
     "salary": "Pensja maksymalna nie moze być mniejsza niż minimalna",
+    "tax-number-checksum": "Niepoprawna suma kontrolna numeru NIP",
+    "tax-number-length": "Numer NIP powinnien skladać się z 10 cyfr",
     "team-duplicated": "Zespół o takiej nazwie już istnieje",
     "team-not-empty": "Nie można usunąć zespołu, gdyż są pracownicy będący jego członkami",
     "team-not-found": "Zespół o takiej nazwie nie isntieje",
@@ -101,21 +105,19 @@
     "technology-not-found": "Technologia o takiej nazwie nie isntieje",
     "unknown": "Nieznany błąd",
     "url-encoding": "Dozwolone znaki to litery, cyfry oraz znaki _ i -",
-    "user-duplicated": "Użytkownik o takim loginie już istnieje",
-    "tax-number-length": "Numer NIP powinnien skladać się z 10 cyfr",
-    "tax-number-checksum": "Niepoprawna suma kontrolna numeru NIP"
+    "user-duplicated": "Użytkownik o takim loginie już istnieje"
   },
   "navbar": {
     "company": "Firmy",
+    "contract": "Kontrakty",
     "employees": "Pracownicy",
     "log-in": "Zaloguj się",
     "log-out": "Wyloguj się",
     "positions": "Pozycje",
+    "project": "Projekty",
     "team": "Zespoły",
     "technology": "Technologie",
-    "title": "JiraPUT",
-    "project": "Projekty",
-    "contract": "Kontrakty"
+    "title": "JiraPUT"
   },
   "position": {
     "add": {

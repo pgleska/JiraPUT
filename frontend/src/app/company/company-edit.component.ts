@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {NgForm} from '@angular/forms';
 import {Company} from './company.model';
@@ -15,7 +15,7 @@ import {CompanyService} from './company.service';
             </button>
         </div>
         <div class="modal-body">
-            <form #authForm="ngForm" (ngSubmit)="onSubmit(authForm)">
+            <form #companyForm="ngForm" (ngSubmit)="onSubmit(companyForm)">
                 <div>
                     <label for="name">{{'company.list.name' | translate}}</label>
                     <input
@@ -61,7 +61,7 @@ import {CompanyService} from './company.service';
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-dark"
                             (click)="activeModal.dismiss()">{{'common.close' | translate}} </button>
-                    <button type="submit" [disabled]="!authForm.valid" ngbAutofocus
+                    <button type="submit" [disabled]="!companyForm.valid" ngbAutofocus
                             class="btn btn-outline-dark">{{'company.edit.edit' | translate}} </button>
                 </div>
             </form>
@@ -71,6 +71,7 @@ import {CompanyService} from './company.service';
 export class CompanyEditComponent implements OnInit {
     @Input() company: Company;
     companyCopy: Company;
+    @ViewChild('companyForm') form: NgForm;
 
     constructor(public activeModal: NgbActiveModal,
                 private service: CompanyService) {
@@ -78,7 +79,13 @@ export class CompanyEditComponent implements OnInit {
 
     ngOnInit(): void {
         this.companyCopy = Object.assign({}, this.company);
-        console.log(this.companyCopy);
+        setTimeout(() => {
+            this.form.setValue({
+                name: this.companyCopy.name,
+                taxNumber: this.companyCopy.taxNumber,
+                address: this.companyCopy.address
+            });
+        });
     }
 
     onSubmit(form: NgForm): void {

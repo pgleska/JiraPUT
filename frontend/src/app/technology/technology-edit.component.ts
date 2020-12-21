@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {NgForm} from '@angular/forms';
 import {Technology} from './technology.model';
@@ -15,7 +15,7 @@ import {TechnologyService} from './technology.service';
             </button>
         </div>
         <div class="modal-body">
-            <form #authForm="ngForm" (ngSubmit)="onSubmit(authForm)">
+            <form #technologyForm="ngForm" (ngSubmit)="onSubmit(technologyForm)">
                 <div>
                     <label for="name">{{'technology.list.name' | translate}}</label>
                     <input
@@ -33,7 +33,7 @@ import {TechnologyService} from './technology.service';
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-dark"
                             (click)="activeModal.dismiss()">{{'common.close' | translate}} </button>
-                    <button type="submit" [disabled]="!authForm.valid" ngbAutofocus
+                    <button type="submit" [disabled]="!technologyForm.valid" ngbAutofocus
                             class="btn btn-outline-dark">{{'technology.edit.edit' | translate}} </button>
                 </div>
             </form>
@@ -43,6 +43,7 @@ import {TechnologyService} from './technology.service';
 export class TechnologyEditComponent implements OnInit {
     @Input() technology: Technology;
     technologyCopy: Technology;
+    @ViewChild('technologyForm') form: NgForm;
 
     constructor(public activeModal: NgbActiveModal,
                 private service: TechnologyService) {
@@ -50,7 +51,9 @@ export class TechnologyEditComponent implements OnInit {
 
     ngOnInit(): void {
         this.technologyCopy = Object.assign({}, this.technology);
-        console.log(this.technologyCopy);
+        setTimeout(() => {
+            this.form.setValue(this.technologyCopy);
+        });
     }
 
     onSubmit(form: NgForm): void {

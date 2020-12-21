@@ -52,6 +52,11 @@ import {ContractAddComponent} from './contract/contract-add.component';
 import {ContractDeleteComponent} from './contract/contract-delete.component';
 import {ContractListComponent} from './contract/contract-list.component';
 import {TaxNumberDirective} from './common/validators/tax-number.directive';
+import {ContractDetailsComponent} from './contract/contract-details.component';
+import {ProjectDetailsComponent} from './project/project-details.component';
+import {EmployeeEditComponent} from './employee/employee-edit.component';
+import {TeamDeleteComponent} from './team/team-delete.service';
+import {EmployeeDeleteComponent} from './employee/employee-delete.component';
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
     return new TranslateHttpLoader(httpClient);
@@ -69,6 +74,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         EqualsValidatorDirective,
         EmployeeDetailsComponent,
         EmployeeListComponent,
+        EmployeeDeleteComponent,
+        EmployeeEditComponent,
         PositionDeleteComponent,
         PositionAddComponent,
         PositionEditComponent,
@@ -79,6 +86,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         TeamDetailsComponent,
         TeamListComponent,
         TeamEditComponent,
+        TeamDeleteComponent,
         SortableDirective,
         PaginationComponent,
         TeamAddComponent,
@@ -97,9 +105,11 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         ProjectAddComponent,
         ProjectEditComponent,
         ProjectDeleteComponent,
+        ProjectDetailsComponent,
         ContractAddComponent,
         ContractDeleteComponent,
         ContractListComponent,
+        ContractDetailsComponent,
         TaxNumberDirective
     ],
     imports: [

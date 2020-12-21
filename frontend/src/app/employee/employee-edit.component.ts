@@ -1,23 +1,23 @@
-import {Component} from '@angular/core';
-import {Team} from './team.model';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
-import {TeamService} from './team.service';
 import {NgForm} from '@angular/forms';
+import {Employee} from './employee.model';
+import {EmployeeService} from './employee.service';
 
 
 @Component({
-    selector: 'app-team-add',
+    selector: 'app-employee-edit',
     template: `
         <div class="modal-header">
-            <h4 class="modal-title">{{'team.add.title' | translate}} </h4>
+            <h4 class="modal-title">{{'project.edit.title' | translate}} </h4>
             <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss()">
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
         <div class="modal-body">
-            <form #teamForm="ngForm" (ngSubmit)="onSubmit(teamForm)">
+            <form #employeeForm="ngForm" (ngSubmit)="onSubmit(employeeForm)">
                 <div>
-                    <label for="name">{{'team.add.name' | translate}}</label>
+                    <label for="name">{{'employee.list.name' | translate}}</label>
                     <input
                             type="text"
                             id="name"
@@ -29,40 +29,46 @@ import {NgForm} from '@angular/forms';
                     />
                     <app-input-error [control]="name.control"></app-input-error>
                 </div>
+                
+
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-dark"
                             (click)="activeModal.dismiss()">{{'common.close' | translate}} </button>
-                    <button type="submit" ngbAutofocus class="btn btn-outline-dark"
-                            [disabled]="!teamForm.valid">{{'team.add.add' | translate}} </button>
+                    <button type="submit" [disabled]="!employeeForm.valid" ngbAutofocus
+                            class="btn btn-outline-dark">{{'employee.edit.edit' | translate}} </button>
                 </div>
             </form>
         </div>
     `
 })
-export class TeamAddComponent {
-
-    private team: Team = {
-        name: '',
-        numberOfMembers: 0,
-        members: [],
-    };
+export class EmployeeEditComponent implements OnInit {
+    @Input() employee: Employee;
+    employeeCopy: Employee;
+    @ViewChild('employeeForm') form: NgForm;
 
     constructor(public activeModal: NgbActiveModal,
-                private service: TeamService) {
+                private employeeService: EmployeeService) {
     }
 
+    ngOnInit(): void {
+        this.employeeCopy = Object.assign({}, this.employee);
+        setTimeout(() => {
+            this.form.setValue(this.employeeCopy);
+        });
+    }
 
     onSubmit(form: NgForm): void {
         if (!form.valid) {
             return;
         }
 
-        this.team.name = form.value.name;
+        this.employeeCopy.firstName = form.value.name;
 
-        const addObservable = this.service.createTeam(this.team);
-        addObservable.subscribe(
+        const editObservable = this.employeeService.modifyEmployee(this.employeeCopy);
+        editObservable.subscribe(
             _ => {
-                this.activeModal.close('team.add.added');
+                this.employee = Object.assign({}, this.employeeCopy);
+                this.activeModal.close('employee.edit.edited');
             },
             error => {
                 this.activeModal.close(error);

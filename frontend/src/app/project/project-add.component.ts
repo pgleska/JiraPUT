@@ -15,7 +15,7 @@ import {ProjectService} from './project.service';
             </button>
         </div>
         <div class="modal-body">
-            <form #authForm="ngForm" (ngSubmit)="onSubmit(authForm)">
+            <form #projectForm="ngForm" (ngSubmit)="onSubmit(projectForm)">
                 <div>
                     <label for="name">{{'project.list.name' | translate}}</label>
                     <input
@@ -58,7 +58,7 @@ import {ProjectService} from './project.service';
                     <button type="button" class="btn btn-outline-dark"
                             (click)="activeModal.dismiss()">{{'common.close' | translate}} </button>
                     <button type="submit" ngbAutofocus class="btn btn-outline-dark"
-                            [disabled]="!authForm.valid">{{'project.add.add' | translate}} </button>
+                            [disabled]="!projectForm.valid">{{'project.add.add' | translate}} </button>
                 </div>
             </form>
         </div>

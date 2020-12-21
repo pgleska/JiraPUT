@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {NgForm} from '@angular/forms';
 import {Team} from './team.model';
@@ -15,7 +15,7 @@ import {TeamService} from './team.service';
             </button>
         </div>
         <div class="modal-body">
-            <form #authForm="ngForm" (ngSubmit)="onSubmit(authForm)">
+            <form #teamForm="ngForm" (ngSubmit)="onSubmit(teamForm)">
                 <div>
                     <label for="name">{{'team.list.name' | translate}}</label>
                     <input
@@ -32,7 +32,7 @@ import {TeamService} from './team.service';
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-dark"
                             (click)="activeModal.dismiss()">{{'common.close' | translate}} </button>
-                    <button type="submit" [disabled]="!authForm.valid" ngbAutofocus
+                    <button type="submit" [disabled]="!teamForm.valid" ngbAutofocus
                             class="btn btn-outline-dark">{{'team.edit.edit' | translate}} </button>
                 </div>
             </form>
@@ -42,6 +42,7 @@ import {TeamService} from './team.service';
 export class TeamEditComponent implements OnInit {
     @Input() team: Team;
     teamCopy: Team;
+    @ViewChild('teamForm') form: NgForm;
 
     constructor(public activeModal: NgbActiveModal,
                 private service: TeamService) {
@@ -49,7 +50,9 @@ export class TeamEditComponent implements OnInit {
 
     ngOnInit(): void {
         this.teamCopy = Object.assign({}, this.team);
-        console.log(this.teamCopy);
+        setTimeout(() => {
+            this.form.setValue(this.teamCopy);
+        });
     }
 
     onSubmit(form: NgForm): void {

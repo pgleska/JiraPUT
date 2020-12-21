@@ -15,7 +15,7 @@ import {TechnologyService} from './technology.service';
             </button>
         </div>
         <div class="modal-body">
-            <form #authForm="ngForm" (ngSubmit)="onSubmit(authForm)">
+            <form #technologyForm="ngForm" (ngSubmit)="onSubmit(technologyForm)">
                 <div>
                     <label for="name">{{'technology.list.name' | translate}}</label>
                     <input
@@ -29,37 +29,11 @@ import {TechnologyService} from './technology.service';
                     />
                     <app-input-error [control]="name.control"></app-input-error>
                 </div>
-                <div>
-                    <label for="minimumSalary">{{'technology.list.minimum-salary' | translate}}</label>
-                    <input
-                            type="number"
-                            id="minimumSalary"
-                            name="minimumSalary"
-                            class="form-control"
-                            [ngModel]
-                            #minimumSalary="ngModel"
-                            required
-                    />
-                    <app-input-error [control]="minimumSalary.control"></app-input-error>
-                </div>
-                <div>
-                    <label for="maximumSalary">{{'technology.list.maximum-salary' | translate}}</label>
-                    <input
-                            type="number"
-                            id="maximumSalary"
-                            name="maximumSalary"
-                            class="form-control"
-                            [ngModel]
-                            #maximumSalary="ngModel"
-                            required
-                    />
-                    <app-input-error [control]="maximumSalary.control"></app-input-error>
-                </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-dark"
                             (click)="activeModal.dismiss()">{{'common.close' | translate}} </button>
                     <button type="submit" ngbAutofocus class="btn btn-outline-dark"
-                            [disabled]="!authForm.valid">{{'technology.add.add' | translate}} </button>
+                            [disabled]="!technologyForm.valid">{{'technology.add.add' | translate}} </button>
                 </div>
             </form>
         </div>

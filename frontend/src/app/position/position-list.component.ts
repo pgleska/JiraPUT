@@ -44,8 +44,8 @@ import {debounceTime} from 'rxjs/operators';
                     <th scope="col" sortable="nameDisplay" (sort)="onSort($event)">{{'position.list.name' | translate}}</th>
                     <th scope="col" sortable="minimumSalary" (sort)="onSort($event)">{{'position.list.minimum-salary' | translate}}</th>
                     <th scope="col" sortable="maximumSalary" (sort)="onSort($event)">{{'position.list.maximum-salary' | translate}}</th>
-                    <th></th>
-                    <th></th>
+                    <th>{{'common.edit' | translate}}</th>
+                    <th>{{'common.delete' | translate}}</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -81,14 +81,15 @@ export class PositionListComponent implements OnInit, OnDestroy {
 
     constructor(public service: PositionService,
                 private modalService: NgbModal) {
+    }
+
+    ngOnInit(): void {
         this.service.getPositionList().subscribe(result => {
                 this.service.allPositionList = result;
                 this.service.search$.next();
             }
         );
-    }
 
-    ngOnInit(): void {
         this.errorSubject.pipe(debounceTime(10000)).subscribe(() => {
             if (this.errorAlert) {
                 this.errorAlert.close();

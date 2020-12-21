@@ -7,7 +7,6 @@ import {Team} from './team.model';
 import {handleError} from '../common/handle-error/handle-error.function';
 import {ListState} from '../common/list-components/search/search.model';
 import {search} from '../common/list-components/search/search.function';
-import {Position} from '../position/position.model';
 
 @Injectable({
     providedIn: 'root'

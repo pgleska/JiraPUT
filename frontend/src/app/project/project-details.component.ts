@@ -1,15 +1,19 @@
-import {Component, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
-import {EmployeeService} from './employee.service';
+import {Component, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {PAGE_SIZE} from '../common/list-components/pagination/pagination.component';
 import {Subject} from 'rxjs';
 import {NgbAlert, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {SortableDirective} from '../common/list-components/sort/sortable.directive';
-import {Employee} from './employee.model';
-import {EmployeeEditComponent} from './employee-edit.component';
+import {debounceTime} from 'rxjs/internal/operators';
+import {Project} from './project.model';
+import {Contract} from '../contract/contract.model';
+import {ProjectService} from './project.service';
+import {ContractService} from '../contract/contract.service';
+import {ProjectEditComponent} from './project-edit.component';
+
 
 @Component({
-    selector: 'app-employee-details',
+    selector: 'app-project-details',
     template: `
         <div>
             <ngb-alert #errorAlert
@@ -28,43 +32,67 @@ import {EmployeeEditComponent} from './employee-edit.component';
                        class="text-center">
                 {{success_message | translate}}
             </ngb-alert>
-            <h2>{{employee.firstName}} {{employee.lastName}}</h2>
-            <h2>{{employee.team}}</h2>
-            <h2>{{employee.positionDisplay}}</h2>
-            <h2>{{employee.salary}}</h2>
+            <h2>{{project.name}}</h2>
             <a class="btn btn-dark btn-lg btn-outline-primary" (click)="openEdit()">{{'project.details.edit' | translate}}</a>
         </div>
     `
 })
-export class EmployeeDetailsComponent implements OnInit {
+export class ProjectDetailsComponent implements OnInit, OnDestroy {
 
     pageSize = PAGE_SIZE;
     error_message: string;
     success_message: string;
-    employee: Employee;
+    project: Project;
+    contractList: Contract[] = [];
     private errorSubject = new Subject<string>();
     private successSubject = new Subject<string>();
     @ViewChild('errorAlert', {static: false}) errorAlert: NgbAlert;
     @ViewChild('successAlert', {static: false}) successAlert: NgbAlert;
     @ViewChildren(SortableDirective) headers: QueryList<SortableDirective>;
 
-    constructor(private service: EmployeeService,
+
+    constructor(private projectService: ProjectService,
+                private contractService:ContractService,
                 private route: ActivatedRoute,
                 private modalService: NgbModal) {
     }
 
     ngOnInit(): void {
-        const login = this.route.snapshot.paramMap.get('login');
-        this.service.getEmployee(login).subscribe(
-            (employee) => {
-                this.employee = employee;
+        const projectId = +this.route.snapshot.paramMap.get('projectId');
+        this.projectService.getProject(projectId).subscribe(
+            (project) => {
+                this.project = project;
+                for (let contractNumber of project.contracts) {
+                    this.contractService.getContract(contractNumber).subscribe(
+                        (contract) => {
+                            this.contractList.push(contract);
+                        }
+                    );
+                }
             }
         );
+
+        this.errorSubject.pipe(debounceTime(10000)).subscribe(() => {
+            if (this.errorAlert) {
+                this.errorAlert.close();
+            }
+        });
+
+        this.successSubject.pipe(debounceTime(10000)).subscribe(() => {
+            if (this.successAlert) {
+                this.successAlert.close();
+            }
+        });
+    }
+
+    ngOnDestroy(): void {
+        this.successSubject.unsubscribe();
+        this.errorSubject.unsubscribe();
     }
 
     openEdit() {
-        const modalRef = this.modalService.open(EmployeeEditComponent);
-        modalRef.componentInstance.employee = this.employee;
+        const modalRef = this.modalService.open(ProjectEditComponent);
+        modalRef.componentInstance.project = this.project;
         modalRef.result.then((result) => {
             this.showInfo(result);
         }, _ => {
@@ -80,5 +108,4 @@ export class EmployeeDetailsComponent implements OnInit {
             this.successSubject.next(result);
         }
     }
-
 }

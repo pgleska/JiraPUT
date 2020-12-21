@@ -15,7 +15,7 @@ import {ContractService} from './contract.service';
             </button>
         </div>
         <div class="modal-body">
-            <form #authForm="ngForm" (ngSubmit)="onSubmit(authForm)">
+            <form #contractForm="ngForm" (ngSubmit)="onSubmit(contractForm)">
                 <div>
                     <label for="name">{{'contract.list.name' | translate}}</label>
                     <input
@@ -33,7 +33,7 @@ import {ContractService} from './contract.service';
                     <button type="button" class="btn btn-outline-dark"
                             (click)="activeModal.dismiss()">{{'common.close' | translate}} </button>
                     <button type="submit" ngbAutofocus class="btn btn-outline-dark"
-                            [disabled]="!authForm.valid">{{'contract.add.add' | translate}} </button>
+                            [disabled]="!contractForm.valid">{{'contract.add.add' | translate}} </button>
                 </div>
             </form>
         </div>
@@ -42,6 +42,8 @@ import {ContractService} from './contract.service';
 export class ContractAddComponent {
 
     private contract: Contract =  {
+        companyTaxNumber: 0,
+        projectId: 0,
         contractNumber: '',
         companyName: '',
         projectName: '',

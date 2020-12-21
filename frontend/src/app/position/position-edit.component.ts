@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {PositionService} from './position.service';
 import {Position} from './position.model';
@@ -15,7 +15,7 @@ import {NgForm} from '@angular/forms';
             </button>
         </div>
         <div class="modal-body">
-            <form #authForm="ngForm" (ngSubmit)="onSubmit(authForm)">
+            <form #positionForm="ngForm" (ngSubmit)="onSubmit(positionForm)">
                 <div>
                     <label for="name">{{'position.list.name' | translate}}</label>
                     <input
@@ -23,7 +23,6 @@ import {NgForm} from '@angular/forms';
                             id="name"
                             name="name"
                             class="form-control"
-                            value="{{positionCopy.nameDisplay}}"
                             [ngModel]
                             #name="ngModel"
                             required
@@ -70,7 +69,7 @@ import {NgForm} from '@angular/forms';
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-dark"
                             (click)="activeModal.dismiss()">{{'common.close' | translate}} </button>
-                    <button type="submit" [disabled]="!authForm.valid" ngbAutofocus
+                    <button type="submit" [disabled]="!positionForm.valid" ngbAutofocus
                             class="btn btn-outline-dark">{{'position.edit.edit' | translate}} </button>
                 </div>
             </form>
@@ -80,6 +79,7 @@ import {NgForm} from '@angular/forms';
 export class PositionEditComponent implements OnInit {
     @Input() position: Position;
     positionCopy: Position;
+    @ViewChild('positionForm') form: NgForm;
 
     constructor(public activeModal: NgbActiveModal,
                 private service: PositionService) {
@@ -87,7 +87,13 @@ export class PositionEditComponent implements OnInit {
 
     ngOnInit(): void {
         this.positionCopy = Object.assign({}, this.position);
-        console.log(this.positionCopy);
+        setTimeout(() => {
+            this.form.setValue({
+                name: this.positionCopy.nameDisplay,
+                minimumSalary: this.positionCopy.minimumSalary,
+                maximumSalary: this.positionCopy.maximumSalary
+            });
+        });
     }
 
     onSubmit(form: NgForm): void {

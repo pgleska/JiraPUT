@@ -15,7 +15,7 @@ import {Position} from './position.model';
             </button>
         </div>
         <div class="modal-body">
-            <form #authForm="ngForm" (ngSubmit)="onSubmit(authForm)">
+            <form #positionForm="ngForm" (ngSubmit)="onSubmit(positionForm)">
                 <div>
                     <label for="name">{{'position.list.name' | translate}}</label>
                     <input
@@ -68,7 +68,7 @@ import {Position} from './position.model';
                     <button type="button" class="btn btn-outline-dark"
                             (click)="activeModal.dismiss()">{{'common.close' | translate}} </button>
                     <button type="submit" ngbAutofocus class="btn btn-outline-dark"
-                            [disabled]="!authForm.valid">{{'position.add.add' | translate}} </button>
+                            [disabled]="!positionForm.valid">{{'position.add.add' | translate}} </button>
                 </div>
             </form>
         </div>

@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {NgForm} from '@angular/forms';
 import {Project} from './project.model';
@@ -15,7 +15,7 @@ import {ProjectService} from './project.service';
             </button>
         </div>
         <div class="modal-body">
-            <form #authForm="ngForm" (ngSubmit)="onSubmit(authForm)">
+            <form #projectForm="ngForm" (ngSubmit)="onSubmit(projectForm)">
                 <div>
                     <label for="name">{{'project.list.name' | translate}}</label>
                     <input
@@ -44,21 +44,21 @@ import {ProjectService} from './project.service';
                 </div>
                 <div>
                     <label for="description">{{'project.list.description' | translate}}</label>
-                    <input
+                    <textarea
                             type="text"
                             id="description"
                             name="description"
                             class="form-control"
                             [ngModel]
                             #description="ngModel"
-                    />
+                    ></textarea>
                     <app-input-error [control]="description.control"></app-input-error>
                 </div>
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-dark"
                             (click)="activeModal.dismiss()">{{'common.close' | translate}} </button>
-                    <button type="submit" [disabled]="!authForm.valid" ngbAutofocus
+                    <button type="submit" [disabled]="!projectForm.valid" ngbAutofocus
                             class="btn btn-outline-dark">{{'project.edit.edit' | translate}} </button>
                 </div>
             </form>
@@ -68,6 +68,7 @@ import {ProjectService} from './project.service';
 export class ProjectEditComponent implements OnInit {
     @Input() project: Project;
     projectCopy: Project;
+    @ViewChild('projectForm') form: NgForm;
 
     constructor(public activeModal: NgbActiveModal,
                 private service: ProjectService) {
@@ -75,7 +76,13 @@ export class ProjectEditComponent implements OnInit {
 
     ngOnInit(): void {
         this.projectCopy = Object.assign({}, this.project);
-        console.log(this.projectCopy);
+        setTimeout(() => {
+            this.form.setValue({
+                name: this.projectCopy.name,
+                description: this.projectCopy.description,
+                version: this.projectCopy.version
+                });
+        });
     }
 
     onSubmit(form: NgForm): void {
