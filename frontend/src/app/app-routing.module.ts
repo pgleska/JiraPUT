@@ -13,22 +13,30 @@ import {CompanyListComponent} from './company/company-list.component';
 import {CompanyDetailsComponent} from './company/company-details.component';
 import {ProjectListComponent} from './project/project-list.component';
 import {ContractListComponent} from './contract/contract-list.component';
+import {ProjectDetailsComponent} from './project/project-details.component';
+import {ContractDetailsComponent} from './contract/contract-details.component';
+import {IssueListComponent} from './issue/issue-list.component';
+import {IssueDetailsComponent} from './issue/issue-details.component';
 
 
 const routes: Routes = [
 
     {path: 'login', component: AuthenticationComponent},
     {path: 'error', component: ErrorPageComponent, data: {message: 'Page not found!'}},
-    {path: 'position', component: PositionListComponent, canActivate:[AuthenticationGuard]},
-    {path: 'employee', component: EmployeeListComponent, canActivate:[AuthenticationGuard]},
-    {path: 'employee/:login', component: EmployeeDetailsComponent, canActivate:[AuthenticationGuard]},
-    {path: 'team', component: TeamListComponent, canActivate:[AuthenticationGuard]},
-    {path: 'team/:name', component: TeamDetailsComponent, canActivate:[AuthenticationGuard]},
-    {path: 'technology', component: TechnologyListComponent, canActivate:[AuthenticationGuard]},
-    {path: 'company', component: CompanyListComponent, canActivate:[AuthenticationGuard]},
-    {path: 'company/:taxNumber', component: CompanyDetailsComponent, canActivate:[AuthenticationGuard]},
-    {path: 'project', component: ProjectListComponent, canActivate:[AuthenticationGuard]},
-    {path: 'contract', component: ContractListComponent, canActivate:[AuthenticationGuard]},
+    {path: 'position', component: PositionListComponent, canActivate: [AuthenticationGuard]},
+    {path: 'employee', component: EmployeeListComponent, canActivate: [AuthenticationGuard]},
+    {path: 'employee/:login', component: EmployeeDetailsComponent, canActivate: [AuthenticationGuard]},
+    {path: 'team', component: TeamListComponent, canActivate: [AuthenticationGuard]},
+    {path: 'team/:name', component: TeamDetailsComponent, canActivate: [AuthenticationGuard]},
+    {path: 'technology', component: TechnologyListComponent, canActivate: [AuthenticationGuard]},
+    {path: 'company', component: CompanyListComponent, canActivate: [AuthenticationGuard]},
+    {path: 'company/:taxNumber', component: CompanyDetailsComponent, canActivate: [AuthenticationGuard]},
+    {path: 'project', component: ProjectListComponent, canActivate: [AuthenticationGuard]},
+    {path: 'project/:id', component: ProjectDetailsComponent, canActivate: [AuthenticationGuard]},
+    {path: 'contract', component: ContractListComponent, canActivate: [AuthenticationGuard]},
+    {path: 'contract/:id', component: ContractDetailsComponent, canActivate: [AuthenticationGuard]},
+    {path: 'issue', component: IssueListComponent, canActivate: [AuthenticationGuard]},
+    {path: 'issue/:issueId', component: IssueDetailsComponent, canActivate: [AuthenticationGuard]},
     {path: '**', redirectTo: '/error'}
 ];
 

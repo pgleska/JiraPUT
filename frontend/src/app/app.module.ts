@@ -57,6 +57,11 @@ import {ProjectDetailsComponent} from './project/project-details.component';
 import {EmployeeEditComponent} from './employee/employee-edit.component';
 import {TeamDeleteComponent} from './team/team-delete.service';
 import {EmployeeDeleteComponent} from './employee/employee-delete.component';
+import {IssueAddComponent} from './issue/issue-add.component';
+import {IssueDeleteComponent} from './issue/issue-delete.component';
+import {IssueEditComponent} from './issue/issue-edit.component';
+import {IssueListComponent} from './issue/issue-list.component';
+import {IssueDetailsComponent} from './issue/issue-details.component';
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
     return new TranslateHttpLoader(httpClient);
@@ -110,7 +115,12 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         ContractDeleteComponent,
         ContractListComponent,
         ContractDetailsComponent,
-        TaxNumberDirective
+        TaxNumberDirective,
+        IssueAddComponent,
+        IssueDeleteComponent,
+        IssueEditComponent,
+        IssueListComponent,
+        IssueDetailsComponent
     ],
     imports: [
         BrowserModule,
