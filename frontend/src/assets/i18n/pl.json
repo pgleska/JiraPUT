@@ -14,7 +14,8 @@
   "common": {
     "close": "Anuluj",
     "edit": "Edytuj",
-    "delete": "Usuń"
+    "delete": "Usuń",
+    "search": "Wyszukaj"
   },
   "company": {
     "add": {

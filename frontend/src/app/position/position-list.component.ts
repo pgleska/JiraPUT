@@ -20,7 +20,7 @@ import {debounceTime} from 'rxjs/operators';
                    [type]="'danger'"
                    [dismissible]="false"
                    (closed)=" error_message = ''"
-                   class="text-center">
+                   class="text-center" xmlns="http://www.w3.org/1999/html">
             {{error_message | translate}}
         </ngb-alert>
         <ngb-alert #successAlert
@@ -32,10 +32,25 @@ import {debounceTime} from 'rxjs/operators';
             {{success_message | translate}}
         </ngb-alert>
         <form>
-            <div class="form-group form-inline">
-                Full text search: <input class="form-control ml-2" type="text" name="searchTerm" [ngModel]
-                                         (ngModelChange)="onSearch($event)"/>
-                <a class="btn btn-dark btn-lg btn-outline-primary" (click)="openAdd()">{{'position.list.button' | translate}}</a>
+            <div class="form-group d-flex flex-row justify-content-between border rounded mt-3 px-2">
+                <div class="p-2">
+                    <label for="searchTerm">{{'common.search' | translate}}</label>
+                    <input class="form-control" type="text" name="searchTerm" [ngModel]
+                           (ngModelChange)="onSearch($event)"/>
+                </div>
+                <div class="p-2">
+                    <label for="minimumSalary">{{'position.list.minimum-salary' | translate}}</label>
+                    <input class="form-control" type="number" name="minimumSalary" [ngModel]
+                           (ngModelChange)="onMinimumSalary($event)"/>
+                </div>
+                <div class="p-2">
+                    <label for="maximumSalary">{{'position.list.maximum-salary' | translate}}</label>
+                    <input class="form-control" type="number" name="maximumSalary" [ngModel]
+                           (ngModelChange)="onMaximumSalary($event)"/>
+                </div>
+                <div class="p-2 mt-3">
+                    <a class="btn btn-primary btn-lg" (click)="openAdd()">{{'position.list.button' | translate}}</a>
+                </div>
             </div>
 
             <table class="table table-striped">
@@ -75,9 +90,12 @@ export class PositionListComponent implements OnInit, OnDestroy {
     success_message: string;
     private errorSubject = new Subject<string>();
     private successSubject = new Subject<string>();
+    private minimumSalary: number;
+    private maximumSalary: number;
     @ViewChild('errorAlert', {static: false}) errorAlert: NgbAlert;
     @ViewChild('successAlert', {static: false}) successAlert: NgbAlert;
     @ViewChildren(SortableDirective) headers: QueryList<SortableDirective>;
+
 
     constructor(public service: PositionService,
                 private modalService: NgbModal) {
@@ -86,6 +104,7 @@ export class PositionListComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.service.getPositionList().subscribe(result => {
                 this.service.allPositionList = result;
+                this.service.filterPositionList(this.minimumSalary, this.maximumSalary);
                 this.service.search$.next();
             }
         );
@@ -123,6 +142,18 @@ export class PositionListComponent implements OnInit, OnDestroy {
 
     onSearch($event: string) {
         this.service.state.searchTerm = $event;
+        this.service.search$.next();
+    }
+
+    onMinimumSalary($event: number) {
+        this.minimumSalary = $event;
+        this.service.filterPositionList(this.minimumSalary, this.maximumSalary);
+        this.service.search$.next();
+    }
+
+    onMaximumSalary($event: number) {
+        this.maximumSalary = $event;
+        this.service.filterPositionList(this.minimumSalary, this.maximumSalary);
         this.service.search$.next();
     }
 

@@ -19,6 +19,7 @@ export class PositionService {
     private _total$ = new BehaviorSubject<number>(0);
     search$ = new Subject<void>();
     allPositionList: Position[] = [];
+    filteredPositionList: Position[] = [];
     state: ListState = {
         page: 1,
         searchTerm: '',
@@ -37,7 +38,7 @@ export class PositionService {
     constructor(private http: HttpClient) {
         this.search$.pipe(
             debounceTime(200),
-            switchMap(() => search<Position>(this.allPositionList, this.state, this.matches))
+            switchMap(() => search<Position>(this.filteredPositionList, this.state, this.matches))
         ).subscribe(result => {
             this._positions$.next(result.itemsList);
             this._total$.next(result.total);
@@ -78,6 +79,16 @@ export class PositionService {
             .pipe(
                 catchError(handleError('position'))
             );
+    }
+
+    filterPositionList(minimumSalary: number, maximumSalary:number): void {
+        this.filteredPositionList = this.allPositionList;
+        if (!!minimumSalary) {
+            this.filteredPositionList = this.filteredPositionList.filter(position => position.minimumSalary > minimumSalary);
+        }
+        if (!!maximumSalary) {
+            this.filteredPositionList = this.filteredPositionList.filter(position => position.maximumSalary < maximumSalary);
+        }
     }
 
     matches(position: Position, term: string): boolean {
