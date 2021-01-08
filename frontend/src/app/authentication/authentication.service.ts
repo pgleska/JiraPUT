@@ -13,6 +13,10 @@ export class AuthenticationService {
     private token: string = undefined;
 
     constructor(private http: HttpClient) {
+        this.token = JSON.parse(localStorage.getItem('token'));
+        if (!!this.token) {
+            this.user.next(true);
+        }
     }
 
     signUp(login: string, firstName: string, lastName: string, password: string): Observable<SignUpResponseData> {
@@ -45,6 +49,7 @@ export class AuthenticationService {
 
     logout(): void {
         this.user.next(false);
+        localStorage.removeItem('token');
     }
 
     getToken(): string {
@@ -53,6 +58,7 @@ export class AuthenticationService {
 
     private saveToken(responseData: LoginResponseData): void {
         this.user.next(true);
+        localStorage.setItem('token', JSON.stringify(responseData.JWT));
         this.token = responseData.JWT;
     }
 
