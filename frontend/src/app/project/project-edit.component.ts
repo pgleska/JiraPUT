@@ -43,7 +43,7 @@ import {ProjectService} from './project.service';
                     <app-input-error [control]="version.control"></app-input-error>
                 </div>
                 <div>
-                    <label for="description">{{'project.list.description' | translate}}</label>
+                    <label for="description">{{'project.edit.description' | translate}}</label>
                     <textarea
                             type="text"
                             id="description"

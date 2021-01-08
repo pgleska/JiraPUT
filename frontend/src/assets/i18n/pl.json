@@ -47,6 +47,8 @@
     "add": {
       "add": "Dodaj",
       "added": "Kontrakt został pomyślnie dodany",
+      "amount": "Kwota kontraktu",
+      "conditions": "Warunki dodatkowe",
       "title": "Dodaj firmę"
     },
     "delete": {
@@ -56,8 +58,10 @@
       "title": "Usuń konrakt"
     },
     "edit": {
+      "amount": "Kwota kontraktu",
       "edit": "Zapisz",
       "edited": "Kontrakt został pomyślnie zedtyowany",
+      "conditions": "Warunki dodatkowe",
       "title": "Edytuj kontrakt"
     },
     "list": {
@@ -151,6 +155,7 @@
     "add": {
       "add": "Dodaj",
       "added": "Projekt został pomyślnie dodany",
+      "description": "Opis projektu",
       "title": "Dodaj projekt"
     },
     "delete": {
@@ -162,6 +167,7 @@
     "edit": {
       "edit": "Zapisz",
       "edited": "Projekt został pomyślnie zedtyowany",
+      "description": "Opis projektu",
       "title": "Edytuj projekt"
     },
     "list": {
