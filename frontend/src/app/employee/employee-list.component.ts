@@ -37,7 +37,7 @@ import {SelectItem} from '../common/select/select-item.model';
                            (ngModelChange)="onSearch($event)"/>
                 </div>
                 <div class="p-2  mx-4">
-                    <app-select [label]="'employee.list.position' | translate" 
+                    <app-select [label]="'employee.list.position' | translate"
                                 [options]="positionList" (value)="onPositionChanged($event)">
                     </app-select>
                 </div>
@@ -84,8 +84,8 @@ export class EmployeeListComponent implements OnInit, OnDestroy {
     successMessage: string;
     positionList: SelectItem[] = [];
     teamList: SelectItem[] = [];
-    private errorSubject = new Subject<string>();
-    private successSubject = new Subject<string>();
+    private errorSubject: Subject<string> = new Subject<string>();
+    private successSubject: Subject<string> = new Subject<string>();
     private position: SelectItem;
     private team: SelectItem;
     @ViewChild('errorAlert', {static: false}) errorAlert: NgbAlert;
@@ -106,14 +106,14 @@ export class EmployeeListComponent implements OnInit, OnDestroy {
         );
 
         this.positionService.getPositionList().subscribe(result => {
-                result.forEach(position => {
-                    const item = {
-                        id: position.name,
-                        name: position.nameDisplay
-                    };
-                    this.positionList.push(item);
-                });
+            result.forEach(position => {
+                const item = {
+                    id: position.name,
+                    name: position.nameDisplay
+                };
+                this.positionList.push(item);
             });
+        });
 
         this.teamService.getTeamList().subscribe(result => {
             result.forEach(position => {
@@ -167,9 +167,9 @@ export class EmployeeListComponent implements OnInit, OnDestroy {
     }
 
     onPositionChanged($event: SelectItem) {
-      this.position = $event;
-      this.employeeService.filterPositionList(this.position, this.team);
-      this.employeeService.search$.next();
+        this.position = $event;
+        this.employeeService.filterPositionList(this.position, this.team);
+        this.employeeService.search$.next();
     }
 
     onTeamChanged($event: SelectItem) {

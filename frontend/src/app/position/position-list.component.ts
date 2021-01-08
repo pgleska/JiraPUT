@@ -16,20 +16,20 @@ import {debounceTime} from 'rxjs/operators';
     selector: 'app-position-list',
     template: `
         <ngb-alert #errorAlert
-                   *ngIf="error_message"
+                   *ngIf="errorMessage"
                    [type]="'danger'"
                    [dismissible]="false"
-                   (closed)=" error_message = ''"
+                   (closed)=" errorMessage = ''"
                    class="text-center" xmlns="http://www.w3.org/1999/html">
-            {{error_message | translate}}
+            {{errorMessage | translate}}
         </ngb-alert>
         <ngb-alert #successAlert
-                   *ngIf="success_message"
+                   *ngIf="successMessage"
                    [type]="'success'"
                    [dismissible]="false"
-                   (closed)=" success_message = ''"
+                   (closed)=" successMessage = ''"
                    class="text-center">
-            {{success_message | translate}}
+            {{successMessage | translate}}
         </ngb-alert>
         <form>
             <div class="form-group d-flex flex-row justify-content-between border rounded mt-3 px-2">
@@ -86,10 +86,10 @@ import {debounceTime} from 'rxjs/operators';
 export class PositionListComponent implements OnInit, OnDestroy {
 
     pageSize = PAGE_SIZE;
-    error_message: string;
-    success_message: string;
-    private errorSubject = new Subject<string>();
-    private successSubject = new Subject<string>();
+    errorMessage: string;
+    successMessage: string;
+    private errorSubject: Subject<string> = new Subject<string>();
+    private successSubject: Subject<string> = new Subject<string>();
     private minimumSalary: number;
     private maximumSalary: number;
     @ViewChild('errorAlert', {static: false}) errorAlert: NgbAlert;
@@ -190,10 +190,10 @@ export class PositionListComponent implements OnInit, OnDestroy {
 
     private showInfo(result) {
         if (result.includes('error')) {
-            this.error_message = result;
+            this.errorMessage = result;
             this.errorSubject.next(result);
         } else {
-            this.success_message = result;
+            this.successMessage = result;
             this.successSubject.next(result);
         }
     }

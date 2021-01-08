@@ -16,34 +16,39 @@ import {TechnologyEditComponent} from './technology-edit.component';
     selector: 'app-technology-list',
     template: `
         <ngb-alert #errorAlert
-                   *ngIf="error_message"
+                   *ngIf="errorMessage"
                    [type]="'danger'"
                    [dismissible]="false"
-                   (closed)=" error_message = ''"
+                   (closed)=" errorMessage = ''"
                    class="text-center">
-            {{error_message | translate}}
+            {{errorMessage | translate}}
         </ngb-alert>
         <ngb-alert #successAlert
-                   *ngIf="success_message"
+                   *ngIf="successMessage"
                    [type]="'success'"
                    [dismissible]="false"
-                   (closed)=" success_message = ''"
+                   (closed)=" successMessage = ''"
                    class="text-center">
-            {{success_message | translate}}
+            {{successMessage | translate}}
         </ngb-alert>
         <form>
-            <div class="form-group form-inline">
-                Full text search: <input class="form-control ml-2" type="text" name="searchTerm" [ngModel]
-                                         (ngModelChange)="onSearch($event)"/>
-                <a class="btn btn-dark btn-lg btn-outline-primary" (click)="openAdd()">{{'technology.list.button' | translate}}</a>
+            <div class="form-group d-flex flex-row justify-content-between border rounded mt-3 px-2">
+                <div class="p-2">
+                    <label for="searchTerm">{{'common.search' | translate}}</label>
+                    <input class="form-control" type="text" name="searchTerm" [ngModel]
+                           (ngModelChange)="onSearch($event)"/>
+                </div>
+                <div class="p-2 mt-3">
+                    <a class="btn btn-primary btn-lg" (click)="openAdd()">{{'technology.list.button' | translate}}</a>
+                </div>
             </div>
 
             <table class="table table-striped">
                 <thead>
                 <tr>
                     <th scope="col" sortable="nameDisplay" (sort)="onSort($event)">{{'technology.list.name' | translate}}</th>
-                    <th></th>
-                    <th></th>
+                    <th>{{'common.edit' | translate}}</th>
+                    <th>{{'common.delete' | translate}}</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -67,24 +72,25 @@ import {TechnologyEditComponent} from './technology-edit.component';
 export class TechnologyListComponent implements OnInit, OnDestroy {
 
     pageSize = PAGE_SIZE;
-    error_message: string;
-    success_message: string;
-    private errorSubject = new Subject<string>();
-    private successSubject = new Subject<string>();
+    errorMessage: string;
+    successMessage: string;
+    private errorSubject: Subject<string> = new Subject<string>();
+    private successSubject: Subject<string> = new Subject<string>();
     @ViewChild('errorAlert', {static: false}) errorAlert: NgbAlert;
     @ViewChild('successAlert', {static: false}) successAlert: NgbAlert;
     @ViewChildren(SortableDirective) headers: QueryList<SortableDirective>;
 
     constructor(public service: TechnologyService,
                 private modalService: NgbModal) {
+    }
+
+    ngOnInit(): void {
         this.service.getTechnologyList().subscribe(result => {
                 this.service.allTechnologyList = result;
                 this.service.search$.next();
             }
         );
-    }
 
-    ngOnInit(): void {
         this.errorSubject.pipe(debounceTime(10000)).subscribe(() => {
             if (this.errorAlert) {
                 this.errorAlert.close();
@@ -154,10 +160,10 @@ export class TechnologyListComponent implements OnInit, OnDestroy {
 
     private showInfo(result) {
         if (result.includes('error')) {
-            this.error_message = result;
+            this.errorMessage = result;
             this.errorSubject.next(result);
         } else {
-            this.success_message = result;
+            this.successMessage = result;
             this.successSubject.next(result);
         }
     }
