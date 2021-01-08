@@ -193,7 +193,9 @@
       "button": "Dodaj zespół",
       "details": "Szczegóły",
       "name": "Nazwa zespołu",
-      "number-members": "Liczba członków"
+      "maximum-members-number": "Maksymalna liczba członków",
+      "minimum-members-number": "Minimalna liczba członków",
+      "members-number": "Liczba członków"
     }
   },
   "technology": {

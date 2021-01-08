@@ -84,10 +84,10 @@ export class PositionService {
     filterPositionList(minimumSalary: number, maximumSalary: number): void {
         this.filteredPositionList = this.allPositionList;
         if (!!minimumSalary) {
-            this.filteredPositionList = this.filteredPositionList.filter(position => position.minimumSalary > minimumSalary);
+            this.filteredPositionList = this.filteredPositionList.filter(position => position.minimumSalary >= minimumSalary);
         }
         if (!!maximumSalary) {
-            this.filteredPositionList = this.filteredPositionList.filter(position => position.maximumSalary < maximumSalary);
+            this.filteredPositionList = this.filteredPositionList.filter(position => position.maximumSalary <= maximumSalary);
         }
     }
 

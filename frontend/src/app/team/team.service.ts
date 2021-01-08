@@ -17,6 +17,7 @@ export class TeamService {
     private _total$ = new BehaviorSubject<number>(0);
     search$ = new Subject<void>();
     allTeamList: Team[] = [];
+    filteredTeamList: Team[] = [];
     state: ListState = {
         page: 1,
         searchTerm: '',
@@ -35,7 +36,7 @@ export class TeamService {
     constructor(private http: HttpClient) {
         this.search$.pipe(
             debounceTime(200),
-            switchMap(() => search<Team>(this.allTeamList, this.state, this.matches))
+            switchMap(() => search<Team>(this.filteredTeamList, this.state, this.matches))
         ).subscribe(result => {
             this._teams$.next(result.itemsList);
             this._total$.next(result.total);
@@ -75,6 +76,16 @@ export class TeamService {
             .pipe(
                 catchError(handleError('team'))
             );
+    }
+
+    filterTeamList(minimumMembersNumber: number, maximumMembersNumber: number): void {
+        this.filteredTeamList = this.allTeamList;
+        if (!!minimumMembersNumber) {
+            this.filteredTeamList = this.filteredTeamList.filter(team => team.numberOfMembers >= minimumMembersNumber);
+        }
+        if (!!maximumMembersNumber) {
+            this.filteredTeamList = this.filteredTeamList.filter(team => team.numberOfMembers <= maximumMembersNumber);
+        }
     }
 
     matches(team: Team, term: string): boolean {

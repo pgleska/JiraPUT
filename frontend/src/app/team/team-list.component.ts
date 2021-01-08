@@ -12,34 +12,48 @@ import {TeamAddComponent} from './team-add.component';
     selector: 'app-team-list',
     template: `
         <ngb-alert #errorAlert
-                   *ngIf="error_message"
+                   *ngIf="errorMessage"
                    [type]="'danger'"
                    [dismissible]="false"
-                   (closed)=" error_message = ''"
+                   (closed)=" errorMessage = ''"
                    class="text-center">
-            {{error_message | translate}}
+            {{errorMessage | translate}}
         </ngb-alert>
         <ngb-alert #successAlert
-                   *ngIf="success_message"
+                   *ngIf="successMessage"
                    [type]="'success'"
                    [dismissible]="false"
-                   (closed)=" success_message = ''"
+                   (closed)=" successMessage = ''"
                    class="text-center">
-            {{success_message | translate}}
+            {{successMessage | translate}}
         </ngb-alert>
         <form>
-            <div class="form-group form-inline">
-                Full text search: <input class="form-control ml-2" type="text" name="searchTerm" [ngModel]
-                                         (ngModelChange)="onSearch($event)"/>
-                <a class="btn btn-dark btn-lg btn-outline-primary" (click)="openAdd()">{{'team.list.button' | translate}}</a>
-
+            <div class="form-group d-flex flex-row justify-content-between border rounded mt-3 px-2">
+                <div class="p-2">
+                    <label for="searchTerm">{{'common.search' | translate}}</label>
+                    <input class="form-control" type="text" name="searchTerm" [ngModel]
+                           (ngModelChange)="onSearch($event)"/>
+                </div>
+                <div class="p-2">
+                    <label for="membersNumber">{{'team.list.minimum-members-number' | translate}}</label>
+                    <input class="form-control" type="number" name="membersNumber" [ngModel]
+                           (ngModelChange)="onMinimumMembersNumber($event)"/>
+                </div>
+                <div class="p-2">
+                    <label for="membersNumber">{{'team.list.maximum-members-number' | translate}}</label>
+                    <input class="form-control" type="number" name="membersNumber" [ngModel]
+                           (ngModelChange)="onMaximumMembersNumber($event)"/>
+                </div>
+                <div class="p-2 mt-3">
+                    <a class="btn btn-primary btn-lg" (click)="openAdd()">{{'team.list.button' | translate}}</a>
+                </div>
             </div>
 
             <table class="table table-striped">
                 <thead>
                 <tr>
                     <th scope="col" sortable="name" (sort)="onSort($event)">{{'team.list.name' | translate}}</th>
-                    <th scope="col" sortable="numberOfMembers" (sort)="onSort($event)">{{'team.list.number-members' | translate}}</th>
+                    <th scope="col" sortable="numberOfMembers" (sort)="onSort($event)">{{'team.list.members-number' | translate}}</th>
                     <th>{{'team.list.details' | translate}}</th>
                 </tr>
                 </thead>
@@ -63,10 +77,12 @@ import {TeamAddComponent} from './team-add.component';
 export class TeamListComponent implements OnInit, OnDestroy {
 
     pageSize = PAGE_SIZE;
-    error_message: string;
-    success_message: string;
-    private errorSubject = new Subject<string>();
-    private successSubject = new Subject<string>();
+    errorMessage: string;
+    successMessage: string;
+    private errorSubject: Subject<string> = new Subject<string>();
+    private successSubject: Subject<string> = new Subject<string>();
+    private minimumMembersNumber: number;
+    private maximumMembersNumber: number;
     @ViewChild('errorAlert', {static: false}) errorAlert: NgbAlert;
     @ViewChild('successAlert', {static: false}) successAlert: NgbAlert;
     @ViewChildren(SortableDirective) headers: QueryList<SortableDirective>;
@@ -74,14 +90,16 @@ export class TeamListComponent implements OnInit, OnDestroy {
 
     constructor(public service: TeamService,
                 private modalService: NgbModal) {
-        this.service.getTeamList().subscribe(result => {
-                this.service.allTeamList = result;
-                this.service.search$.next();
-            }
-        );
     }
 
     ngOnInit(): void {
+        this.service.getTeamList().subscribe(result => {
+                this.service.allTeamList = result;
+                this.service.filterTeamList(this.minimumMembersNumber, this.maximumMembersNumber);
+                this.service.search$.next();
+            }
+        );
+
         this.errorSubject.pipe(debounceTime(10000)).subscribe(() => {
             if (this.errorAlert) {
                 this.errorAlert.close();
@@ -123,6 +141,18 @@ export class TeamListComponent implements OnInit, OnDestroy {
         this.service.search$.next();
     }
 
+    onMinimumMembersNumber($event: any) {
+        this.minimumMembersNumber = $event;
+        this.service.filterTeamList(this.minimumMembersNumber, this.maximumMembersNumber );
+        this.service.search$.next();
+    }
+
+    onMaximumMembersNumber($event: any) {
+        this.maximumMembersNumber = $event;
+        this.service.filterTeamList(this.minimumMembersNumber, this.maximumMembersNumber );
+        this.service.search$.next();
+    }
+
     openAdd() {
         const modalRef = this.modalService.open(TeamAddComponent);
         modalRef.result.then((result) => {
@@ -133,12 +163,11 @@ export class TeamListComponent implements OnInit, OnDestroy {
 
     private showInfo(result) {
         if (result.includes('error')) {
-            this.error_message = result;
+            this.errorMessage = result;
             this.errorSubject.next(result);
         } else {
-            this.success_message = result;
+            this.successMessage = result;
             this.successSubject.next(result);
         }
     }
-
 }
