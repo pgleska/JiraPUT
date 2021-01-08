@@ -8,6 +8,7 @@ import {handleError} from '../common/handle-error/handle-error.function';
 import {ListState} from '../common/list-components/search/search.model';
 import {search} from '../common/list-components/search/search.function';
 import {Contract} from './contract.model';
+import {SelectItem} from '../common/select/select-item.model';
 
 
 @Injectable({
@@ -19,6 +20,7 @@ export class ContractService {
     private _total$ = new BehaviorSubject<number>(0);
     search$ = new Subject<void>();
     allContractList: Contract[] = [];
+    filteredContractList: Contract[] = [];
     state: ListState = {
         page: 1,
         searchTerm: '',
@@ -37,7 +39,7 @@ export class ContractService {
     constructor(private http: HttpClient) {
         this.search$.pipe(
             debounceTime(200),
-            switchMap(() => search<Contract>(this.allContractList, this.state, this.matches))
+            switchMap(() => search<Contract>(this.filteredContractList, this.state, this.matches))
         ).subscribe(result => {
             this._contracts$.next(result.itemsList);
             this._total$.next(result.total);
@@ -81,6 +83,22 @@ export class ContractService {
             .pipe(
                 catchError(handleError('contract'))
             );
+    }
+
+    filterContractList(company: SelectItem, project: SelectItem, minimumAmount: number, maximumAmount: number) {
+        this.filteredContractList = this.allContractList;
+        if (!!company) {
+            this.filteredContractList = this.filteredContractList.filter(contract => contract.companyTaxNumber === company.id);
+        }
+        if (!!project) {
+            this.filteredContractList = this.filteredContractList.filter(contract => contract.projectId === project.id);
+        }
+        if (!!minimumAmount) {
+            this.filteredContractList = this.filteredContractList.filter(contract => contract.amount >= minimumAmount);
+        }
+        if (!!maximumAmount) {
+            this.filteredContractList = this.filteredContractList.filter(contract => contract.amount <= maximumAmount);
+        }
     }
 
     matches(contract: Contract, term: string): boolean {

@@ -66,6 +66,8 @@
       "company-name": "Nazwa firmy",
       "contract-number": "Numer kontraktu",
       "details": "Szczegóły",
+      "maximum-amount": "Maksymalna kwota",
+      "minimum-amount": "Minimalna kwota",
       "name": "Nazwa",
       "project-name": "Nazwa projektu"
     }

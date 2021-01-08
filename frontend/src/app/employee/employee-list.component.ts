@@ -93,14 +93,14 @@ export class EmployeeListComponent implements OnInit, OnDestroy {
     @ViewChildren(SortableDirective) headers: QueryList<SortableDirective>;
 
     constructor(public employeeService: EmployeeService,
-                public positionService: PositionService,
-                public teamService: TeamService) {
+                private positionService: PositionService,
+                private teamService: TeamService) {
     }
 
     ngOnInit(): void {
         this.employeeService.getEmployeeList().subscribe(result => {
                 this.employeeService.allEmployeeList = result;
-                this.employeeService.filterPositionList(this.position, this.team);
+                this.employeeService.filterEmployeeList(this.position, this.team);
                 this.employeeService.search$.next();
             }
         );
@@ -168,13 +168,13 @@ export class EmployeeListComponent implements OnInit, OnDestroy {
 
     onPositionChanged($event: SelectItem) {
         this.position = $event;
-        this.employeeService.filterPositionList(this.position, this.team);
+        this.employeeService.filterEmployeeList(this.position, this.team);
         this.employeeService.search$.next();
     }
 
     onTeamChanged($event: SelectItem) {
         this.team = $event;
-        this.employeeService.filterPositionList(this.position, this.team);
+        this.employeeService.filterEmployeeList(this.position, this.team);
         this.employeeService.search$.next();
     }
 }
