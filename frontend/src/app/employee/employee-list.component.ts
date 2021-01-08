@@ -6,30 +6,46 @@ import {NgbAlert} from '@ng-bootstrap/ng-bootstrap';
 import {debounceTime} from 'rxjs/operators';
 import {SortEvent} from '../common/list-components/sort/sort.model';
 import {EmployeeService} from './employee.service';
+import {PositionService} from '../position/position.service';
+import {TeamService} from '../team/team.service';
+import {SelectItem} from '../common/select/select-item.model';
 
 @Component({
     selector: 'app-employee-list',
     template: `
         <ngb-alert #errorAlert
-                   *ngIf="error_message"
+                   *ngIf="errorMessage"
                    [type]="'danger'"
                    [dismissible]="false"
-                   (closed)=" error_message = ''"
+                   (closed)=" errorMessage = ''"
                    class="text-center">
-            {{error_message | translate}}
+            {{errorMessage | translate}}
         </ngb-alert>
         <ngb-alert #successAlert
-                   *ngIf="success_message"
+                   *ngIf="successMessage"
                    [type]="'success'"
                    [dismissible]="false"
-                   (closed)=" success_message = ''"
+                   (closed)=" successMessage = ''"
                    class="text-center">
-            {{success_message | translate}}
+            {{successMessage | translate}}
         </ngb-alert>
         <form>
-            <div class="form-group form-inline">
-                Full text search: <input class="form-control ml-2" type="text" name="searchTerm" [ngModel]
-                                         (ngModelChange)="onSearch($event)"/>
+            <div class="form-group d-flex flex-row border rounded mt-3 px-2">
+                <div class="p-2 mx-4">
+                    <label for="searchTerm">{{'common.search' | translate}}</label>
+                    <input class="form-control" type="text" name="searchTerm" [ngModel]
+                           (ngModelChange)="onSearch($event)"/>
+                </div>
+                <div class="p-2  mx-4">
+                    <app-select [label]="'employee.list.position' | translate" 
+                                [options]="positionList" (value)="onPositionChanged($event)">
+                    </app-select>
+                </div>
+                <div class="p-2  mx-4">
+                    <app-select [label]="'employee.list.team' | translate"
+                                [options]="teamList" (value)="onTeamChanged($event)">
+                    </app-select>
+                </div>
             </div>
 
             <table class="table table-striped">
@@ -43,7 +59,7 @@ import {EmployeeService} from './employee.service';
                 </tr>
                 </thead>
                 <tbody>
-                <tr *ngFor="let employee of service.employees$ | async">
+                <tr *ngFor="let employee of employeeService.employees$ | async">
                     <th>{{employee.firstName}}</th>
                     <td>{{employee.lastName}}</td>
                     <td>{{employee.positionDisplay}}</td>
@@ -55,7 +71,7 @@ import {EmployeeService} from './employee.service';
 
             <div class="d-flex justify-content-between p-2">
                 <app-pagination
-                        [totalElements]="service.total$ | async"
+                        [totalElements]="employeeService.total$ | async"
                         (page)="onPage($event)">
                 </app-pagination>
             </div>
@@ -64,23 +80,51 @@ import {EmployeeService} from './employee.service';
 export class EmployeeListComponent implements OnInit, OnDestroy {
 
     pageSize = PAGE_SIZE;
-    error_message: string;
-    success_message: string;
+    errorMessage: string;
+    successMessage: string;
+    positionList: SelectItem[] = [];
+    teamList: SelectItem[] = [];
     private errorSubject = new Subject<string>();
     private successSubject = new Subject<string>();
+    private position: SelectItem;
+    private team: SelectItem;
     @ViewChild('errorAlert', {static: false}) errorAlert: NgbAlert;
     @ViewChild('successAlert', {static: false}) successAlert: NgbAlert;
     @ViewChildren(SortableDirective) headers: QueryList<SortableDirective>;
 
-    constructor(public service: EmployeeService) {
-        this.service.getEmployeeList().subscribe(result => {
-                this.service.allEmployeeList = result;
-                this.service.search$.next();
-            }
-        );
+    constructor(public employeeService: EmployeeService,
+                public positionService: PositionService,
+                public teamService: TeamService) {
     }
 
     ngOnInit(): void {
+        this.employeeService.getEmployeeList().subscribe(result => {
+                this.employeeService.allEmployeeList = result;
+                this.employeeService.filterPositionList(this.position, this.team);
+                this.employeeService.search$.next();
+            }
+        );
+
+        this.positionService.getPositionList().subscribe(result => {
+                result.forEach(position => {
+                    const item = {
+                        id: position.name,
+                        name: position.nameDisplay
+                    };
+                    this.positionList.push(item);
+                });
+            });
+
+        this.teamService.getTeamList().subscribe(result => {
+            result.forEach(position => {
+                const item = {
+                    id: position.name,
+                    name: position.name
+                };
+                this.positionList.push(item);
+            });
+        });
+
         this.errorSubject.pipe(debounceTime(10000)).subscribe(() => {
             if (this.errorAlert) {
                 this.errorAlert.close();
@@ -107,18 +151,30 @@ export class EmployeeListComponent implements OnInit, OnDestroy {
             }
         );
 
-        this.service.state.sortColumn = $event.column;
-        this.service.state.sortDirection = $event.direction;
-        this.service.search$.next();
+        this.employeeService.state.sortColumn = $event.column;
+        this.employeeService.state.sortDirection = $event.direction;
+        this.employeeService.search$.next();
     }
 
     onSearch($event: string) {
-        this.service.state.searchTerm = $event;
-        this.service.search$.next();
+        this.employeeService.state.searchTerm = $event;
+        this.employeeService.search$.next();
     }
 
     onPage($event: number) {
-        this.service.state.page = $event;
-        this.service.search$.next();
+        this.employeeService.state.page = $event;
+        this.employeeService.search$.next();
+    }
+
+    onPositionChanged($event: SelectItem) {
+      this.position = $event;
+      this.employeeService.filterPositionList(this.position, this.team);
+      this.employeeService.search$.next();
+    }
+
+    onTeamChanged($event: SelectItem) {
+        this.team = $event;
+        this.employeeService.filterPositionList(this.position, this.team);
+        this.employeeService.search$.next();
     }
 }

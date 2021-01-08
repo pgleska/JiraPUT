@@ -7,6 +7,7 @@ import {Employee} from './employee.model';
 import {handleError} from '../common/handle-error/handle-error.function';
 import {ListState} from '../common/list-components/search/search.model';
 import {search} from '../common/list-components/search/search.function';
+import {SelectItem} from '../common/select/select-item.model';
 
 @Injectable({
     providedIn: 'root'
@@ -16,6 +17,7 @@ export class EmployeeService {
     private _total$ = new BehaviorSubject<number>(0);
     search$ = new Subject<void>();
     allEmployeeList: Employee[] = [];
+    filteredEmployeeList: Employee[];
     state: ListState = {
         page: 1,
         searchTerm: '',
@@ -34,7 +36,7 @@ export class EmployeeService {
     constructor(private http: HttpClient) {
         this.search$.pipe(
             debounceTime(200),
-            switchMap(() => search<Employee>(this.allEmployeeList, this.state, this.matches))
+            switchMap(() => search<Employee>(this.filteredEmployeeList, this.state, this.matches))
         ).subscribe(result => {
             this._employees$.next(result.itemsList);
             this._total$.next(result.total);
@@ -75,6 +77,16 @@ export class EmployeeService {
             .pipe(
                 catchError(handleError('employee'))
             );
+    }
+
+    filterPositionList(position: SelectItem, team: SelectItem): void {
+        this.filteredEmployeeList = this.allEmployeeList;
+        if (!!position) {
+            this.filteredEmployeeList = this.filteredEmployeeList.filter(employee => employee.position === position.id);
+        }
+        if (!!team) {
+            this.filteredEmployeeList = this.filteredEmployeeList.filter(employee => employee.team === team.id);
+        }
     }
 
     matches(employee: Employee, term: string): boolean {

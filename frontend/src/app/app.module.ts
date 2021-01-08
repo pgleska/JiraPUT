@@ -63,6 +63,7 @@ import {IssueEditComponent} from './issue/issue-edit.component';
 import {IssueListComponent} from './issue/issue-list.component';
 import {IssueDetailsComponent} from './issue/issue-details.component';
 import {DatepickerComponent} from './common/datepicker/datepicker.component';
+import {SelectComponent} from './common/select/select.component';
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
     return new TranslateHttpLoader(httpClient);
@@ -122,7 +123,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         IssueEditComponent,
         IssueListComponent,
         IssueDetailsComponent,
-        DatepickerComponent
+        DatepickerComponent,
+        SelectComponent
     ],
     imports: [
         BrowserModule,

@@ -12,6 +12,7 @@
     "success": "Konto zostało pomyślnie utoworzone"
   },
   "common": {
+    "choose": "Wybierz",
     "close": "Anuluj",
     "edit": "Edytuj",
     "delete": "Usuń",
