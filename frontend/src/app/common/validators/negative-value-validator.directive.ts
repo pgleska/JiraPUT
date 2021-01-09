@@ -1,6 +1,5 @@
-import {Directive, Input} from '@angular/core';
+import {Directive} from '@angular/core';
 import {FormControl, NG_VALIDATORS, Validator} from '@angular/forms';
-import {Position} from '../../position/position.model';
 
 @Directive({
     selector: '[negativeValueValidator]',
@@ -12,8 +11,6 @@ import {Position} from '../../position/position.model';
         }]
 })
 export class NegativeValueValidatorDirective implements Validator {
-    @Input() position: Position;
-
 
     validate(formControl: FormControl): { [key: string]: any } {
         const value = formControl.value;

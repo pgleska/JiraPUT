@@ -18,7 +18,7 @@ const noop = () => {
     selector: 'app-multiselect',
     template: `
     <div tabindex="0" (blur)="onTouched()" class="multiselect-dropdown" (clickOutside)="closeDropdown()">
-      <div [class.disabled]="disabled">
+      <div>
         <span tabindex="-1" class="dropdown-btn" (click)="toggleDropdown($event)">
           <span *ngIf="selectedItems.length == 0">{{_placeholder}}</span>
           <span class="selected-item" *ngFor="let item of selectedItems;trackBy: trackByFn;let k = index" [hidden]="k > _settings.itemsShowLimit-1">
@@ -34,16 +34,16 @@ const noop = () => {
       <div class="dropdown-list" [hidden]="!_settings.defaultOpen">
         <ul class="item1">
           <li (click)="toggleSelectAll()" *ngIf="(_data.length > 0 || _settings.allowRemoteDataSearch) && _settings.enableCheckAll" class="multiselect-item-checkbox" style="border-bottom: 1px solid #ccc;padding:10px">
-            <input type="checkbox" aria-label="multiselect-select-all" [checked]="isAllItemsSelected()" [disabled]="disabled" />
+            <input type="checkbox" aria-label="multiselect-select-all" [checked]="isAllItemsSelected()"/>
             <div>{{!isAllItemsSelected() ? _settings.selectAllText : _settings.unSelectAllText}}</div>
           </li>
           <li class="filter-textbox" *ngIf="(_data.length>0 || _settings.allowRemoteDataSearch) && _settings.allowSearchFilter">
-            <input type="text" aria-label="multiselect-search" [readOnly]="disabled" [placeholder]="_settings.searchPlaceholderText" [(ngModel)]="filter.name" (ngModelChange)="onFilterTextChange($event)">
+            <input type="text" aria-label="multiselect-search" [placeholder]="_settings.searchPlaceholderText" [(ngModel)]="filter.name" (ngModelChange)="onFilterTextChange($event)">
           </li>
         </ul>
         <ul class="item2" [style.maxHeight]="_settings.maxHeight+'px'">
           <li *ngFor="let item of _data | multiSelectFilter:filter; let i = index;" (click)="onItemClick($event,item)" class="multiselect-item-checkbox">
-            <input type="checkbox" [attr.aria-label]="item.name" [checked]="isSelected(item)" [disabled]="disabled || !isSelected(item)" />
+            <input type="checkbox" [attr.aria-label]="item.name" [checked]="isSelected(item)" />
             <div>{{item.name}}</div>
           </li>
           <li class='no-data' *ngIf="_data.length == 0 && !_settings.allowRemoteDataSearch">
@@ -85,9 +85,6 @@ export class MultiSelectComponent implements ControlValueAccessor {
             this._placeholder = 'Select';
         }
     }
-
-    @Input()
-    disabled = false;
 
     @Input()
     public set settings(value: IDropdownSettings) {
@@ -243,9 +240,6 @@ export class MultiSelectComponent implements ControlValueAccessor {
     }
 
     toggleSelectAll() {
-        if (this.disabled) {
-            return false;
-        }
         if (!this.isAllItemsSelected()) {
             // filter out disabled item first before slicing
             this.selectedItems = this.listFilterPipe.transform(this._data, this.filter).slice();
@@ -262,7 +256,6 @@ export class MultiSelectComponent implements ControlValueAccessor {
         if (typeof inputData !== 'object') {
             return fields;
         }
-        // tslint:disable-next-line:forin
         for (const prop in inputData) {
             fields.push(prop);
         }

@@ -14,8 +14,8 @@
   "common": {
     "choose": "Wybierz",
     "close": "Anuluj",
-    "edit": "Edytuj",
     "delete": "Usuń",
+    "edit": "Edytuj",
     "search": "Wyszukaj"
   },
   "company": {
@@ -59,9 +59,9 @@
     },
     "edit": {
       "amount": "Kwota kontraktu",
+      "conditions": "Warunki dodatkowe",
       "edit": "Zapisz",
       "edited": "Kontrakt został pomyślnie zedtyowany",
-      "conditions": "Warunki dodatkowe",
       "title": "Edytuj kontrakt"
     },
     "list": {
@@ -77,12 +77,28 @@
     }
   },
   "employee": {
+    "details": {
+      "edit": "Edytuj",
+      "first-name": "Imię",
+      "header": "Pracownik: ",
+      "last-name": "Nazwisko",
+      "position": "Stanowisko",
+      "salary": "Pensja",
+      "team": "Zespół",
+      "technology": "Znane technologie"
+    },
     "list": {
       "details": "Szczegóły",
       "first-name": "Imię",
       "last-name": "Nazwisko",
       "position": "Stanowisko",
       "team": "Zespół"
+    },
+    "edit": {
+      "login": "Login",
+      "edit": "Zapisz",
+      "edited": "Pracownik został pomyślnie zedtyowany",
+      "title": "Edytuj pracownika"
     }
   },
   "error": {
@@ -165,9 +181,9 @@
       "title": "Usuń projekt"
     },
     "edit": {
+      "description": "Opis projektu",
       "edit": "Zapisz",
       "edited": "Projekt został pomyślnie zedtyowany",
-      "description": "Opis projektu",
       "title": "Edytuj projekt"
     },
     "list": {
@@ -200,10 +216,10 @@
     "list": {
       "button": "Dodaj zespół",
       "details": "Szczegóły",
-      "name": "Nazwa zespołu",
       "maximum-members-number": "Maksymalna liczba członków",
+      "members-number": "Liczba członków",
       "minimum-members-number": "Minimalna liczba członków",
-      "members-number": "Liczba członków"
+      "name": "Nazwa zespołu"
     }
   },
   "technology": {

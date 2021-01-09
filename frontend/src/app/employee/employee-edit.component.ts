@@ -3,13 +3,17 @@ import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {NgForm} from '@angular/forms';
 import {Employee} from './employee.model';
 import {EmployeeService} from './employee.service';
+import {SelectItem} from '../common/select/select-item.model';
+import {PositionService} from '../position/position.service';
+import {TeamService} from '../team/team.service';
+import {Position} from '../position/position.model';
 
 
 @Component({
     selector: 'app-employee-edit',
     template: `
         <div class="modal-header">
-            <h4 class="modal-title">{{'project.edit.title' | translate}} </h4>
+            <h4 class="modal-title">{{'employee.edit.title' | translate}} </h4>
             <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss()">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -17,31 +21,79 @@ import {EmployeeService} from './employee.service';
         <div class="modal-body">
             <form #employeeForm="ngForm" (ngSubmit)="onSubmit(employeeForm)">
                 <div>
-                    <label for="name">{{'employee.list.name' | translate}}</label>
-                    <input
-                            type="text"
-                            id="name"
-                            name="name"
-                            class="form-control"
-                            [ngModel]
-                            #name="ngModel"
-                            required
+                    <label for="login">{{'employee.edit.login' | translate}}</label>
+                    <input type="text"
+                           id="login"
+                           name="login"
+                           class="form-control"
+                           [ngModel]
+                           #login="ngModel"
+                           required
                     />
-                    <app-input-error [control]="name.control"></app-input-error>
+                    <app-input-error [control]="login.control"></app-input-error>
                 </div>
-                
-<!--                <div>-->
-<!--                    <app-multiselect-->
-<!--                            [placeholder]="'custom placeholder'"-->
-<!--                            [data]="dropdownList"-->
-<!--                            [(ngModel)]="selectedItems"-->
-<!--                            [settings]="dropdownSettings"-->
-<!--                            (onSelect)="onItemSelect($event)"-->
-<!--                            (onSelectAll)="onSelectAll($event)"-->
-<!--                    >-->
-<!--                    </app-multiselect>-->
-<!--                </div>-->
-                
+                <div>
+                    <label for="firstName">{{'employee.details.first-name' | translate}} </label>
+                    <input type="text"
+                           id="firstName"
+                           name="firstName"
+                           class="form-control"
+                           [ngModel]
+                           #firstName="ngModel"
+                           required
+                    />
+                    <app-input-error [control]="firstName.control"></app-input-error>
+                </div>
+                <div>
+                    <label for="lastName">{{'employee.details.last-name' | translate}} </label>
+                    <input type="text"
+                           id="lastName"
+                           name="lastName"
+                           class="form-control"
+                           [ngModel]
+                           #lastName="ngModel"
+                           required>
+                    <app-input-error [control]="lastName.control"></app-input-error>
+                </div>
+                <div>
+                    <app-select [label]="'employee.list.team' | translate"
+                                [options]="teamList" (value)="onTeamChanged($event)">
+                    </app-select>
+                </div>
+                <div>
+                    <app-select [label]="'employee.list.position' | translate"
+                                [options]="positionListDropdown" (value)="onPositionChanged($event)">
+                    </app-select>
+                </div>
+                <div class="form-group">
+                    <label for="salary">{{'employee.details.salary' | translate}} </label>
+                    <input
+                        type="number"
+                        id="salary"
+                        name="salary"
+                        class="form-control"
+                        [ngModel]
+                        #salary="ngModel"
+                        required
+                        negativeValueValidator
+                        salaryValidator
+                        [position]="positionDetails"
+                        min="0"/>
+                    <app-input-error [control]="salary.control"></app-input-error>
+                </div>
+
+                <!--                <div>-->
+                <!--                    <app-multiselect-->
+                <!--                            [placeholder]="'custom placeholder'"-->
+                <!--                            [data]="dropdownList"-->
+                <!--                            [(ngModel)]="selectedItems"-->
+                <!--                            [settings]="dropdownSettings"-->
+                <!--                            (onSelect)="onItemSelect($event)"-->
+                <!--                            (onSelectAll)="onSelectAll($event)"-->
+                <!--                    >-->
+                <!--                    </app-multiselect>-->
+                <!--                </div>-->
+
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-dark"
@@ -56,20 +108,56 @@ import {EmployeeService} from './employee.service';
 export class EmployeeEditComponent implements OnInit {
     @Input() employee: Employee;
     employeeCopy: Employee;
+    positionListDropdown: SelectItem[] = [];
+    positionList: Position[] = [];
+    positionDetails: Position;
+    teamList: SelectItem[] = [];
     dropdownList = [];
     selectedItems = [];
     dropdownSettings = {};
 
     @ViewChild('employeeForm') form: NgForm;
+    position: SelectItem;
+    private team: SelectItem;
 
     constructor(public activeModal: NgbActiveModal,
-                private employeeService: EmployeeService) {
+                private employeeService: EmployeeService,
+                private positionService: PositionService,
+                private teamService: TeamService) {
     }
 
     ngOnInit(): void {
         this.employeeCopy = Object.assign({}, this.employee);
         setTimeout(() => {
-            this.form.setValue(this.employeeCopy);
+            this.form.setValue({
+                login: this.employeeCopy.login,
+                firstName: this.employeeCopy.firstName,
+                lastName: this.employeeCopy.lastName,
+                //position: {id: this.employeeCopy.position, name: this.employeeCopy.positionDisplay},
+                //team: {id: this.employeeCopy.team, name: this.employeeCopy.team},
+                salary: this.employeeCopy.salary,
+            });
+        });
+
+        this.positionService.getPositionList().subscribe(result => {
+            result.forEach(position => {
+                const item = {
+                    id: position.name,
+                    name: position.nameDisplay
+                };
+                this.positionListDropdown.push(item);
+                this.positionList.push(position);
+            });
+        });
+
+        this.teamService.getTeamList().subscribe(result => {
+            result.forEach(team => {
+                const item = {
+                    id: team.name,
+                    name: team.name
+                };
+                this.teamList.push(item);
+            });
         });
 
         // this.dropdownList = [
@@ -95,12 +183,22 @@ export class EmployeeEditComponent implements OnInit {
     //     console.log(this.selectedItems);
     // }
 
+    onPositionChanged($event: SelectItem) {
+        this.position = $event;
+        this.positionDetails = this.positionList.filter(position => position.name === $event.id)[0];
+    }
+
+    onTeamChanged($event: SelectItem) {
+        this.team = $event;
+    }
+
     onSubmit(form: NgForm): void {
         if (!form.valid) {
             return;
         }
 
-        this.employeeCopy.firstName = form.value.name;
+        // todo naprawic przesylanie i wymaganie zespołu oraz stanowiska
+        this.employeeCopy.firstName = form.value.firstName;
 
         const editObservable = this.employeeService.modifyEmployee(this.employeeCopy);
         editObservable.subscribe(
