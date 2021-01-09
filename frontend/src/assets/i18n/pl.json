@@ -201,11 +201,12 @@
       "title": "Dodaj"
     },
     "details": {
+      "header": "Zespół: ",
       "details": "Szczegóły",
       "edit": "Edytuj zespół",
       "first-name": "Imię",
       "last-name": "Nazwisko",
-      "number-members": "Liczba członków:",
+      "members-number": "Liczba członków:",
       "position": "Stanowisko"
     },
     "edit": {

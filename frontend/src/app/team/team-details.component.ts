@@ -32,32 +32,41 @@ import {TeamEditComponent} from './team-edit.component';
                        class="text-center">
                 {{success_message | translate}}
             </ngb-alert>
-            <h2>{{team.name}}</h2>
-            <h3>{{'team.details.number-members' | translate}} {{team.numberOfMembers}}</h3>
-            <a class="btn btn-dark btn-lg btn-outline-primary" (click)="openEdit()">{{'team.details.edit' | translate}}</a>
-            <table class="table table-striped">
-                <thead>
-                <tr>
-                    <th scope="col" sortable="firstName" (sort)="onSort($event)">{{'team.details.first-name' | translate}}</th>
-                    <th scope="col" sortable="lastName" (sort)="onSort($event)">{{'team.details.last-name' | translate}}</th>
-                    <th scope="col" sortable="positionDisplay" (sort)="onSort($event)">{{'team.details.position' | translate}}</th>
-                    <th>{{'team.details.details' | translate}}</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr *ngFor="let employee of employeeList">
-                    <th>{{employee.firstName}}</th>
-                    <td>{{employee.lastName}}</td>
-                    <td>{{employee.positionDisplay}}</td>
-                    <td><a routerLink="/employee/{{employee.login}}">{{'team.details.details' | translate}}</a></td>
-                </tr>
-                </tbody>
-            </table>
-            <div class="d-flex justify-content-between p-2">
-                <app-pagination
-                        [totalElements]="employeeList.length"
-                        (page)="onPage($event)">
-                </app-pagination>
+            <div class="d-flex flex-column border rounded p-2 mt-3 mx-auto">
+                <div class="d-flex justify-content-between">
+                    <h2>{{'team.details.header' | translate }}{{team.name}}</h2>
+                    <a class="btn btn-primary btn-lg" (click)="openEdit()">{{'team.details.edit' | translate}}</a>
+                </div>
+                <div class="d-flex flex-column align-items-center ">
+                    <div class="form-group">
+                        <label for="membersNumber">{{'team.details.members-number' | translate}} </label>
+                        <input class="form-control" value="{{team.numberOfMembers}}" name="membersNumber" disabled>
+                    </div>
+                </div>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th scope="col" sortable="firstName" (sort)="onSort($event)">{{'team.details.first-name' | translate}}</th>
+                        <th scope="col" sortable="lastName" (sort)="onSort($event)">{{'team.details.last-name' | translate}}</th>
+                        <th scope="col" sortable="positionDisplay" (sort)="onSort($event)">{{'team.details.position' | translate}}</th>
+                        <th>{{'team.details.details' | translate}}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let employee of employeeList">
+                        <th>{{employee.firstName}}</th>
+                        <td>{{employee.lastName}}</td>
+                        <td>{{employee.positionDisplay}}</td>
+                        <td><a routerLink="/employee/{{employee.login}}">{{'team.details.details' | translate}}</a></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="d-flex justify-content-between p-2">
+                    <app-pagination
+                            [totalElements]="employeeList.length"
+                            (page)="onPage($event)">
+                    </app-pagination>
+                </div>
             </div>
         </div>
     `
