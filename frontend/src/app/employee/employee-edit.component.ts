@@ -30,6 +30,18 @@ import {EmployeeService} from './employee.service';
                     <app-input-error [control]="name.control"></app-input-error>
                 </div>
                 
+<!--                <div>-->
+<!--                    <app-multiselect-->
+<!--                            [placeholder]="'custom placeholder'"-->
+<!--                            [data]="dropdownList"-->
+<!--                            [(ngModel)]="selectedItems"-->
+<!--                            [settings]="dropdownSettings"-->
+<!--                            (onSelect)="onItemSelect($event)"-->
+<!--                            (onSelectAll)="onSelectAll($event)"-->
+<!--                    >-->
+<!--                    </app-multiselect>-->
+<!--                </div>-->
+                
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-dark"
@@ -44,6 +56,10 @@ import {EmployeeService} from './employee.service';
 export class EmployeeEditComponent implements OnInit {
     @Input() employee: Employee;
     employeeCopy: Employee;
+    dropdownList = [];
+    selectedItems = [];
+    dropdownSettings = {};
+
     @ViewChild('employeeForm') form: NgForm;
 
     constructor(public activeModal: NgbActiveModal,
@@ -55,7 +71,29 @@ export class EmployeeEditComponent implements OnInit {
         setTimeout(() => {
             this.form.setValue(this.employeeCopy);
         });
+
+        // this.dropdownList = [
+        //     { id: 1, name: 'Mumbai' },
+        //     { id: 2, name: 'Bangaluru' },
+        //     { id: 3, name: 'Pune' },
+        //     { id: 4, name: 'Navsari' },
+        //     { id: 5, name: 'New Delhi' }
+        // ];
+        // this.dropdownSettings = {
+        //     singleSelection: false,
+        //     selectAllText: 'Select All',
+        //     unSelectAllText: 'UnSelect All',
+        //     allowSearchFilter: true
+        // };
+
     }
+
+    // onItemSelect(item: any) {
+    //     console.log(this.selectedItems);
+    // }
+    // onSelectAll(items: any) {
+    //     console.log(this.selectedItems);
+    // }
 
     onSubmit(form: NgForm): void {
         if (!form.valid) {

@@ -64,6 +64,9 @@ import {IssueListComponent} from './issue/issue-list.component';
 import {IssueDetailsComponent} from './issue/issue-details.component';
 import {DatepickerComponent} from './common/datepicker/datepicker.component';
 import {SelectComponent} from './common/select/select.component';
+import {ClickOutsideDirective} from './common/multiselect/click-outside.directive';
+import {ListFilterPipe} from './common/multiselect/list-filter.pipe';
+import {MultiSelectComponent} from './common/multiselect/multiselect.component';
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
     return new TranslateHttpLoader(httpClient);
@@ -124,7 +127,10 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         IssueListComponent,
         IssueDetailsComponent,
         DatepickerComponent,
-        SelectComponent
+        SelectComponent,
+        ClickOutsideDirective,
+        ListFilterPipe,
+        MultiSelectComponent
     ],
     imports: [
         BrowserModule,
@@ -143,6 +149,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         })
     ],
     providers: [
+        ListFilterPipe,
         AuthenticationGuard,
         {
             provide: HTTP_INTERCEPTORS,

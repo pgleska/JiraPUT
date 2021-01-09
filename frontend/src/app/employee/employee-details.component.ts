@@ -4,7 +4,6 @@ import {ActivatedRoute} from '@angular/router';
 import {PAGE_SIZE} from '../common/list-components/pagination/pagination.component';
 import {Subject} from 'rxjs';
 import {NgbAlert, NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {SortableDirective} from '../common/list-components/sort/sortable.directive';
 import {Employee} from './employee.model';
 import {EmployeeEditComponent} from './employee-edit.component';
 
@@ -34,6 +33,9 @@ import {EmployeeEditComponent} from './employee-edit.component';
             <h2>{{employee.salary}}</h2>
             <a class="btn btn-dark btn-lg btn-outline-primary" (click)="openEdit()">{{'project.details.edit' | translate}}</a>
         </div>
+
+        
+        
     `
 })
 export class EmployeeDetailsComponent implements OnInit {
@@ -41,12 +43,19 @@ export class EmployeeDetailsComponent implements OnInit {
     pageSize = PAGE_SIZE;
     error_message: string;
     success_message: string;
-    employee: Employee;
+    employee: Employee = {
+        firstName: '',
+        lastName: '',
+        login: '',
+        position: '',
+        positionDisplay: '',
+        salary: 0,
+        team: ''
+    };
     private errorSubject = new Subject<string>();
     private successSubject = new Subject<string>();
     @ViewChild('errorAlert', {static: false}) errorAlert: NgbAlert;
     @ViewChild('successAlert', {static: false}) successAlert: NgbAlert;
-    @ViewChildren(SortableDirective) headers: QueryList<SortableDirective>;
 
     constructor(private service: EmployeeService,
                 private route: ActivatedRoute,
