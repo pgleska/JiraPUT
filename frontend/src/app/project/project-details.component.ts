@@ -10,6 +10,7 @@ import {Contract} from '../contract/contract.model';
 import {ProjectService} from './project.service';
 import {ContractService} from '../contract/contract.service';
 import {ProjectEditComponent} from './project-edit.component';
+import {SortEvent} from '../common/list-components/sort/sort.model';
 
 
 @Component({
@@ -32,8 +33,51 @@ import {ProjectEditComponent} from './project-edit.component';
                        class="text-center">
                 {{success_message | translate}}
             </ngb-alert>
-            <h2>{{project.name}}</h2>
-            <a class="btn btn-dark btn-lg btn-outline-primary" (click)="openEdit()">{{'project.details.edit' | translate}}</a>
+            <div class="d-flex flex-column border rounded p-2 mt-3 mx-auto">
+                <div class="d-flex justify-content-between">
+                    <h2>{{'project.details.header' | translate }}{{project.name}}</h2>
+                    <a class="btn btn-primary btn-lg" (click)="openEdit()">{{'project.details.edit' | translate}}</a>
+                </div>
+                <div class="d-flex flex-column align-items-center ">
+                    <div class="form-group">
+                        <label for="companyName">{{'project.details.version' | translate}} </label>
+                        <input class="form-control" value="{{project.version}}" name="companyName" disabled>
+                    </div>
+                </div>
+                <div class="d-flex flex-column align-items-center ">
+                    <div class="form-group">
+                        <label for="companyName">{{'project.details.description' | translate}} </label>
+                        <textarea class="form-control" value="{{project.description}}" name="companyName" disabled style="resize: none"></textarea>
+                    </div>
+                </div>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th scope="col" sortable="contractNumber"
+                            (sort)="onSort($event)">{{'contract.list.contract-number' | translate}}</th>
+                        <th scope="col" sortable="companyName" (sort)="onSort($event)">{{'contract.list.company-name' | translate}}</th>
+                        <th scope="col" sortable="projectName" (sort)="onSort($event)">{{'contract.list.project-name' | translate}}</th>
+                        <th scope="col" sortable="amount" (sort)="onSort($event)">{{'contract.list.amount' | translate}}</th>
+                        <th>{{'contract.list.details' | translate}}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let contract of contractList">
+                        <th>{{contract.contractNumber}}</th>
+                        <th>{{contract.companyName}}</th>
+                        <th>{{contract.projectName}}</th>
+                        <th>{{contract.amount}}</th>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="d-flex justify-content-between p-2">
+                    <app-pagination
+                            [totalElements]="contractList.length"
+                            (page)="onPage($event)">
+                    </app-pagination>
+                </div>
+            </div>
+
         </div>
     `
 })
@@ -42,7 +86,7 @@ export class ProjectDetailsComponent implements OnInit, OnDestroy {
     pageSize = PAGE_SIZE;
     error_message: string;
     success_message: string;
-    project: Project;
+    project: Project = {name: '', version: ''};
     contractList: Contract[] = [];
     private errorSubject = new Subject<string>();
     private successSubject = new Subject<string>();
@@ -58,7 +102,7 @@ export class ProjectDetailsComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        const projectId = +this.route.snapshot.paramMap.get('projectId');
+        const projectId = +this.route.snapshot.paramMap.get('id');
         this.projectService.getProject(projectId).subscribe(
             (project) => {
                 this.project = project;
@@ -88,6 +132,24 @@ export class ProjectDetailsComponent implements OnInit, OnDestroy {
     ngOnDestroy(): void {
         this.successSubject.unsubscribe();
         this.errorSubject.unsubscribe();
+    }
+
+    onSort($event: SortEvent) {
+        this.headers.forEach(header => {
+                if (header.sortable !== $event.column) {
+                    header.direction = '';
+                }
+            }
+        );
+
+        this.contractService.state.sortColumn = $event.column;
+        this.contractService.state.sortDirection = $event.direction;
+        this.contractService.search$.next();
+    }
+
+    onPage($event: number) {
+        this.contractService.state.page = $event;
+        this.contractService.search$.next();
     }
 
     openEdit() {

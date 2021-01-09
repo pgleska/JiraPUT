@@ -150,6 +150,7 @@
     "company": "Firmy",
     "contract": "Kontrakty",
     "employees": "Pracownicy",
+    "issue": "Zadania",
     "log-in": "Zaloguj się",
     "log-out": "Wyloguj się",
     "positions": "Pozycje",
@@ -194,6 +195,12 @@
       "delete": "Usuń",
       "deleted": "Projekt został pomyślnie usunięty",
       "title": "Usuń projekt"
+    },
+    "details": {
+      "edit": "Edytuj",
+      "header": "Projekt: ",
+      "description": "Opis projektu",
+      "version": "Wersja"
     },
     "edit": {
       "description": "Opis projektu",
