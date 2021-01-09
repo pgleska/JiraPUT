@@ -32,35 +32,48 @@ import {SortEvent} from '../common/list-components/sort/sort.model';
                        class="text-center">
                 {{success_message | translate}}
             </ngb-alert>
-            <h2>{{company.name}}</h2>
-            <a class="btn btn-dark btn-lg btn-outline-primary" (click)="openEdit()">{{'company.details.edit' | translate}}</a>
-            <h2>{{company.taxNumber}}</h2>
-            <h2>{{company.address}}</h2>
-            <table class="table table-striped">
-                <thead>
-                <tr>
-                    <th scope="col" sortable="contractNumber" (sort)="onSort($event)">{{'contract.list.contract-number' | translate}}</th>
-                    <th scope="col" sortable="companyName" (sort)="onSort($event)">{{'contract.list.company-name' | translate}}</th>
-                    <th scope="col" sortable="projectName" (sort)="onSort($event)">{{'contract.list.project-name' | translate}}</th>
-                    <th scope="col" sortable="amount" (sort)="onSort($event)">{{'contract.list.amount' | translate}}</th>
-                    <th>{{'contract.list.details' | translate}}</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr *ngFor="let contract of contractList">
-                    <th>{{contract.contractNumber}}</th>
-                    <th>{{contract.companyName}}</th>
-                    <th>{{contract.projectName}}</th>
-                    <th>{{contract.amount}}</th>
-                </tr>
-                </tbody>
-            </table>
+            <div class="d-flex flex-column border rounded p-2 mt-3 mx-auto">
+                <div class="d-flex justify-content-between">
+                    <h2>{{'company.details.header' | translate }}{{company.name}}</h2>
+                    <a class="btn btn-primary btn-lg" (click)="openEdit()">{{'company.details.edit' | translate}}</a>
+                </div>
+                <div class="d-flex flex-column align-items-center ">
+                    <div class="form-group">
+                        <label for="taxNumber">{{'company.details.tax-number' | translate}} </label>
+                        <input class="form-control" value="{{company.taxNumber}}" name="taxNumber" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label for="address">{{'company.details.address' | translate}} </label>
+                        <textarea class="form-control" value="{{company.address}}" name="address" disabled style="resize: none"></textarea>
+                    </div>
+                </div>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th scope="col" sortable="contractNumber"
+                            (sort)="onSort($event)">{{'contract.list.contract-number' | translate}}</th>
+                        <th scope="col" sortable="companyName" (sort)="onSort($event)">{{'contract.list.company-name' | translate}}</th>
+                        <th scope="col" sortable="projectName" (sort)="onSort($event)">{{'contract.list.project-name' | translate}}</th>
+                        <th scope="col" sortable="amount" (sort)="onSort($event)">{{'contract.list.amount' | translate}}</th>
+                        <th>{{'contract.list.details' | translate}}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let contract of contractList">
+                        <th>{{contract.contractNumber}}</th>
+                        <th>{{contract.companyName}}</th>
+                        <th>{{contract.projectName}}</th>
+                        <th>{{contract.amount}}</th>
+                    </tr>
+                    </tbody>
+                </table>
 
-            <div class="d-flex justify-content-between p-2">
-                <app-pagination
-                        [totalElements]="contractList.length"
-                        (page)="onPage($event)">
-                </app-pagination>
+                <div class="d-flex justify-content-between p-2">
+                    <app-pagination
+                            [totalElements]="contractList.length"
+                            (page)="onPage($event)">
+                    </app-pagination>
+                </div>
             </div>
         </div>
     `
@@ -84,7 +97,7 @@ export class CompanyDetailsComponent implements OnInit, OnDestroy {
 
 
     constructor(private companyService: CompanyService,
-                private contractService:ContractService,
+                private contractService: ContractService,
                 private route: ActivatedRoute,
                 private modalService: NgbModal) {
     }

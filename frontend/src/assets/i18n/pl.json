@@ -30,6 +30,12 @@
       "deleted": "Firma została pomyślnie usunięta",
       "title": "Usuń firmę"
     },
+    "details": {
+      "address": "Adres",
+      "header": "Firma: ",
+      "tax-number": "NIP",
+      "edit": "Edytuj"
+    },
     "edit": {
       "edit": "Zapisz",
       "edited": "Firma została pomyślnie zedtyowana",

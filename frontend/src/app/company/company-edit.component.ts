@@ -39,6 +39,8 @@ import {CompanyService} from './company.service';
                             [ngModel]
                             #taxNumber="ngModel"
                             required
+                            negativeValueValidator
+                            taxNumberValidator
                     />
                     <app-input-error [control]="taxNumber.control"></app-input-error>
                 </div>
@@ -52,8 +54,6 @@ import {CompanyService} from './company.service';
                             [ngModel]
                             #address="ngModel"
                             required
-                            negativeValueValidator
-                            taxNumberValidator
                     />
                     <app-input-error [control]="address.control"></app-input-error>
                 </div>
