@@ -32,9 +32,9 @@
     },
     "details": {
       "address": "Adres",
+      "edit": "Edytuj",
       "header": "Firma: ",
-      "tax-number": "NIP",
-      "edit": "Edytuj"
+      "tax-number": "NIP"
     },
     "edit": {
       "edit": "Zapisz",
@@ -62,6 +62,15 @@
       "delete": "Usuń",
       "deleted": "Kontrakt został pomyślnie usunięty",
       "title": "Usuń konrakt"
+    },
+    "details": {
+      "address": "Adres firmy",
+      "amount": "Kwota",
+      "company-name": "Nazwa firmy",
+      "conditions": "Warunki",
+      "header": "Kontrakt: ",
+      "project-name": "Nazwa projektu",
+      "tax-number": "NIP firmy"
     },
     "edit": {
       "amount": "Kwota kontraktu",
@@ -93,18 +102,18 @@
       "team": "Zespół",
       "technology": "Znane technologie"
     },
+    "edit": {
+      "edit": "Zapisz",
+      "edited": "Pracownik został pomyślnie zedtyowany",
+      "login": "Login",
+      "title": "Edytuj pracownika"
+    },
     "list": {
       "details": "Szczegóły",
       "first-name": "Imię",
       "last-name": "Nazwisko",
       "position": "Stanowisko",
       "team": "Zespół"
-    },
-    "edit": {
-      "login": "Login",
-      "edit": "Zapisz",
-      "edited": "Pracownik został pomyślnie zedtyowany",
-      "title": "Edytuj pracownika"
     }
   },
   "error": {
@@ -207,10 +216,10 @@
       "title": "Dodaj"
     },
     "details": {
-      "header": "Zespół: ",
       "details": "Szczegóły",
       "edit": "Edytuj zespół",
       "first-name": "Imię",
+      "header": "Zespół: ",
       "last-name": "Nazwisko",
       "members-number": "Liczba członków:",
       "position": "Stanowisko"

@@ -32,13 +32,38 @@ import {CompanyService} from '../company/company.service';
                        class="text-center">
                 {{success_message | translate}}
             </ngb-alert>
-            <h2>{{contract.contractNumber}}</h2>
-            <h2>{{contract.companyName}}</h2>
-            <h2>{{company.taxNumber}}</h2>
-            <h2>{{company.address}}</h2>
-            <h2>{{project.name}}</h2>
-            <h2>{{contract.amount}}</h2>
-            <h2>{{contract.conditions}}</h2>
+            <div class="d-flex flex-column border rounded p-2 mt-3 w-50 mx-auto">
+                <div class="d-flex justify-content-between">
+                    <h2>{{'contract.details.header' | translate }}{{contract.contractNumber}}</h2>
+<!--                    <a class="btn btn-primary btn-lg" (click)="openEdit()">{{'employee.details.edit' | translate}}</a>-->
+                </div>
+                <div class="d-flex flex-column align-items-center ">
+                    <div class="form-group">
+                        <label for="companyName">{{'contract.details.company-name' | translate}} </label>
+                        <input class="form-control" value="{{contract.companyName}}" name="companyName" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label for="taxNumber">{{'contract.details.tax-number' | translate}} </label>
+                        <input class="form-control" value="{{company.taxNumber}}" name="taxNumber" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label for="address">{{'contract.details.address' | translate}} </label>
+                        <input class="form-control" value="{{company.address}}" name="address" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label for="project">{{'contract.details.project-name' | translate}} </label>
+                        <input class="form-control" value="{{project.name}}" name="project" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label for="amount">{{'contract.details.amount' | translate}} </label>
+                        <input class="form-control" value="{{contract.amount}}" name="amount" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label for="conditions">{{'contract.details.conditions' | translate}} </label>
+                        <textarea class="form-control" value="{{contract.conditions}}" name="conditions" disabled style="resize: none"></textarea>
+                    </div>
+                </div>
+            </div>
         </div>
     `
 })
