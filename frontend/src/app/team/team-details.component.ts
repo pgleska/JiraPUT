@@ -17,20 +17,20 @@ import {TeamEditComponent} from './team-edit.component';
     template: `
         <div>
             <ngb-alert #errorAlert
-                       *ngIf="error_message"
+                       *ngIf="errorMessage"
                        [type]="'danger'"
                        [dismissible]="false"
-                       (closed)=" error_message = ''"
+                       (closed)=" errorMessage = ''"
                        class="text-center">
-                {{error_message | translate}}
+                {{errorMessage | translate}}
             </ngb-alert>
             <ngb-alert #successAlert
-                       *ngIf="success_message"
+                       *ngIf="successMessage"
                        [type]="'success'"
                        [dismissible]="false"
-                       (closed)=" success_message = ''"
+                       (closed)=" successMessage = ''"
                        class="text-center">
-                {{success_message | translate}}
+                {{successMessage | translate}}
             </ngb-alert>
             <div class="d-flex flex-column border rounded p-2 mt-3 mx-auto">
                 <div class="d-flex justify-content-between">
@@ -74,8 +74,8 @@ import {TeamEditComponent} from './team-edit.component';
 export class TeamDetailsComponent implements OnInit, OnDestroy {
 
     pageSize = PAGE_SIZE;
-    error_message: string;
-    success_message: string;
+    errorMessage: string;
+    successMessage: string;
     team: Team = {
         members: [],
         name: '',
@@ -87,7 +87,6 @@ export class TeamDetailsComponent implements OnInit, OnDestroy {
     @ViewChild('errorAlert', {static: false}) errorAlert: NgbAlert;
     @ViewChild('successAlert', {static: false}) successAlert: NgbAlert;
     @ViewChildren(SortableDirective) headers: QueryList<SortableDirective>;
-
 
     constructor(public teamService: TeamService,
                 private employeeService: EmployeeService,
@@ -160,10 +159,10 @@ export class TeamDetailsComponent implements OnInit, OnDestroy {
 
     private showInfo(result) {
         if (result.includes('error')) {
-            this.error_message = result;
+            this.errorMessage = result;
             this.errorSubject.next(result);
         } else {
-            this.success_message = result;
+            this.successMessage = result;
             this.successSubject.next(result);
         }
     }

@@ -47,13 +47,15 @@ import {TechnologyEditComponent} from './technology-edit.component';
                 <thead>
                 <tr>
                     <th scope="col" sortable="nameDisplay" (sort)="onSort($event)">{{'technology.list.name' | translate}}</th>
+                    <th>{{'technology.list.details' | translate}}</th>
                     <th>{{'common.edit' | translate}}</th>
                     <th>{{'common.delete' | translate}}</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr *ngFor="let technology of service.technologies$ | async">
-                    <th>{{technology.nameDisplay}}</th>
+                    <th>{{technology.name}}</th>
+                    <td><a routerLink="/technology/{{technology.id}}">{{'technology.list.details' | translate}}</a></td>
                     <td><a (click)="openEdit(technology)"><i class="fa fa-edit fa-2x btn"></i></a></td>
                     <td><a (click)="openDelete(technology)"><i class="fa fa-trash fa-2x btn"></i></a></td>
                 </tr>

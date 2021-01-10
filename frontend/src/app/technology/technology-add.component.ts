@@ -41,10 +41,7 @@ import {TechnologyService} from './technology.service';
 })
 export class TechnologyAddComponent {
 
-    private technology: Technology =  {
-        name: '',
-        nameDisplay: ''
-    };
+    private technology: Technology =  {id: 0, name: ''};
 
     constructor(public activeModal: NgbActiveModal,
                 private service: TechnologyService) {
@@ -55,8 +52,7 @@ export class TechnologyAddComponent {
         if (!form.valid) {
             return;
         }
-        this.technology.nameDisplay = form.value.name;
-        this.technology.name = form.value.name.replace(/ /g, '_');
+        this.technology.name = form.value.name;
 
         const addObservable = this.service.createTechnology(this.technology);
         addObservable.subscribe(

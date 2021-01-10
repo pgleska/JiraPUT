@@ -97,16 +97,21 @@
       "first-name": "Imię",
       "header": "Pracownik: ",
       "last-name": "Nazwisko",
+      "placeholder": "Wybierz technologie",
       "position": "Stanowisko",
       "salary": "Pensja",
       "team": "Zespół",
-      "technology": "Znane technologie"
+      "technologies": "Znane technologie"
     },
     "edit": {
       "edit": "Zapisz",
       "edited": "Pracownik został pomyślnie zedtyowany",
       "login": "Login",
-      "title": "Edytuj pracownika"
+      "search": "Wyszukaj",
+      "select-all": "Zaznacz wszystkie",
+      "technologies": "Technologie",
+      "title": "Edytuj pracownika",
+      "unselect-all": "Odznacz wszystkie"
     },
     "list": {
       "details": "Szczegóły",
@@ -188,7 +193,11 @@
       "add": "Dodaj",
       "added": "Projekt został pomyślnie dodany",
       "description": "Opis projektu",
-      "title": "Dodaj projekt"
+      "title": "Dodaj projekt",
+      "search": "Wyszukaj",
+      "select-all": "Zaznacz wszystkie",
+      "technologies": "Technologie",
+      "unselect-all": "Odznacz wszystkie"
     },
     "delete": {
       "body": "Czy na pewno chcesz usunąć ten projekt? \nOperacja ta jest nieodwracalna!",
@@ -197,16 +206,21 @@
       "title": "Usuń projekt"
     },
     "details": {
+      "description": "Opis projektu",
       "edit": "Edytuj",
       "header": "Projekt: ",
-      "description": "Opis projektu",
-      "version": "Wersja"
+      "version": "Wersja",
+      "technologies":"Technologie"
     },
     "edit": {
       "description": "Opis projektu",
       "edit": "Zapisz",
       "edited": "Projekt został pomyślnie zedtyowany",
-      "title": "Edytuj projekt"
+      "title": "Edytuj projekt",
+      "search": "Wyszukaj",
+      "select-all": "Zaznacz wszystkie",
+      "technologies": "Technologie",
+      "unselect-all": "Odznacz wszystkie"
     },
     "list": {
       "button": "Dodaj projekt",
@@ -257,6 +271,10 @@
       "deleted": "Technologia została pomyślnie usunięta",
       "title": "Usuń technologię"
     },
+    "details": {
+      "edit": "Edytuj technologię",
+      "header": "Technologia: "
+    },
     "edit": {
       "edit": "Zapisz",
       "edited": "Technologia została pomyślnie zedtyowana",
@@ -264,6 +282,7 @@
     },
     "list": {
       "button": "Dodaj Technologię",
+      "details": "Szczegóły",
       "name": "Nazwa"
     }
   }

@@ -62,6 +62,7 @@ public class ProjectController {
 			res.put("name", p.getName().toString());
 			res.put("version", p.getVersion());
 			res.put("description", p.getDescription());
+			res.put("technologies", p.getTechnologies());
 			res.put("contracts", p.getContracts().parallelStream().map(Contract::getContractNumber).collect(Collectors.toList()));
 			return res;
 		}).collect(Collectors.toList());

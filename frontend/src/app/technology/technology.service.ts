@@ -9,7 +9,6 @@ import {ListState} from '../common/list-components/search/search.model';
 import {search} from '../common/list-components/search/search.function';
 import {Technology} from './technology.model';
 
-
 @Injectable({
     providedIn: 'root'
 })
@@ -45,13 +44,13 @@ export class TechnologyService {
     }
 
     getTechnologyList(): Observable<Technology[]> {
-        return this.http.get<Technology[]>(environment.apiUrl + '/api/technology/list')
-            .pipe(map((technologies: Technology[]) => technologies.map(
-                (technology: Technology) => {
-                    technology.nameDisplay = technology.name.replace(/_/g, ' ');
-                    return technology;
-                })
-            ));
+        return this.http.get<Technology[]>(environment.apiUrl + '/api/technology/list');
+    }
+
+    getTechnology(id: number): Observable<Technology> {
+        return this.http.get<Technology[]>(environment.apiUrl + '/api/technology/list').pipe(
+            map(technology => technology.find(tech => tech.id === id)),
+        );
     }
 
     createTechnology(technology: Technology): Observable<Technology> {
@@ -65,7 +64,7 @@ export class TechnologyService {
 
     modifyTechnology(technology: Technology): Observable<any> {
         return this.http.patch(
-            environment.apiUrl + `/api/technology/${technology.name}`,
+            environment.apiUrl + `/api/technology/${technology.id}`,
             technology)
             .pipe(
                 catchError(handleError('technology'))
@@ -74,7 +73,7 @@ export class TechnologyService {
 
     deleteTechnology(technology: Technology): Observable<any> {
         return this.http.delete(
-            environment.apiUrl + `/api/technology/${technology.name}`)
+            environment.apiUrl + `/api/technology/${technology.id}`)
             .pipe(
                 catchError(handleError('technology'))
             );

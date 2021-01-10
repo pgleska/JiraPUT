@@ -56,8 +56,8 @@ export class ContractService {
         );
     }
 
-    createContract(contract: Contract): Observable<Contract> {
-        return this.http.post<Contract>(
+    createContract(contract: Contract): Observable<any> {
+        return this.http.post(
             environment.apiUrl + '/api/contract/create',
             contract)
             .pipe(

@@ -3,6 +3,7 @@ import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {NgForm} from '@angular/forms';
 import {Project} from './project.model';
 import {ProjectService} from './project.service';
+import {TechnologyService} from '../technology/technology.service';
 
 
 @Component({
@@ -54,6 +55,17 @@ import {ProjectService} from './project.service';
                     ></textarea>
                     <app-input-error [control]="description.control"></app-input-error>
                 </div>
+                <div>
+                    <label for="salary">{{'employee.details.technologies' | translate}} </label>
+                    <app-multiselect
+                            [placeholder]="'employee.details.placeholder' | translate"
+                            [data]="dropdownList"
+                            [(ngModel)]="selectedItems"
+                            name="technologies"
+                            [settings]="dropdownSettings"
+                    >
+                    </app-multiselect>
+                </div>
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-dark"
@@ -68,10 +80,14 @@ import {ProjectService} from './project.service';
 export class ProjectEditComponent implements OnInit {
     @Input() project: Project;
     projectCopy: Project;
+    dropdownList = [];
+    selectedItems = [];
+    dropdownSettings = {};
     @ViewChild('projectForm') form: NgForm;
 
     constructor(public activeModal: NgbActiveModal,
-                private service: ProjectService) {
+                private projectService: ProjectService,
+                private technologyService: TechnologyService) {
     }
 
     ngOnInit(): void {
@@ -80,9 +96,22 @@ export class ProjectEditComponent implements OnInit {
             this.form.setValue({
                 name: this.projectCopy.name,
                 description: this.projectCopy.description,
-                version: this.projectCopy.version
+                version: this.projectCopy.version,
+                technologies: Object.assign([], this.projectCopy.technologies)
                 });
         });
+
+        this.technologyService.getTechnologyList().subscribe(result => {
+            this.dropdownList = result;
+        });
+
+        this.dropdownSettings = {
+            singleSelection: false,
+            searchPlaceholderText: 'project.edit.search',
+            selectAllText: 'project.edit.select-all',
+            unSelectAllText: 'project.edit.unselect-all',
+            allowSearchFilter: true
+        };
     }
 
     onSubmit(form: NgForm): void {
@@ -91,8 +120,13 @@ export class ProjectEditComponent implements OnInit {
         }
 
         this.projectCopy.name = form.value.name;
+        this.project.version = form.value.version
+        this.projectCopy.technologies = this.selectedItems;
+        if(!!form.value.description) {
+            this.project.description = form.value.description
+        }
 
-        const editObservable = this.service.modifyProject(this.projectCopy);
+        const editObservable = this.projectService.modifyProject(this.projectCopy);
         editObservable.subscribe(
             _ => {
                 this.project = Object.assign({}, this.projectCopy);

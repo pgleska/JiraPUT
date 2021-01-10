@@ -74,7 +74,6 @@ import {ProjectService} from '../project/project.service';
                     <th scope="col" sortable="projectName" (sort)="onSort($event)">{{'contract.list.project-name' | translate}}</th>
                     <th scope="col" sortable="amount" (sort)="onSort($event)">{{'contract.list.amount' | translate}}</th>
                     <th>{{'contract.list.details' | translate}}</th>
-                    <th>{{'common.edit' | translate}}</th>
                     <th>{{'common.delete' | translate}}</th>
                 </tr>
                 </thead>
@@ -84,6 +83,7 @@ import {ProjectService} from '../project/project.service';
                     <th>{{contract.companyName}}</th>
                     <th>{{contract.projectName}}</th>
                     <th>{{contract.amount}}</th>
+                    <td><a routerLink="/contract/{{contract.contractId}}">{{'contract.list.details' | translate}}</a></td>
                     <td><a (click)="openDelete(contract)"><i class="fa fa-trash fa-2x btn"></i></a></td>
                 </tr>
                 </tbody>

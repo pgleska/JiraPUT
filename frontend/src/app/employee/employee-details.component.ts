@@ -54,8 +54,11 @@ import {TechnologyService} from '../technology/technology.service';
                         <label for="salary">{{'employee.details.salary' | translate}} </label>
                         <input class="form-control" value="{{employee.salary}}" name="salary" disabled>
                     </div>
-                    <div class="form-group">
-                        <label for="technology">{{'employee.details.technology' | translate}} </label>
+                    <div class="form-group" style="width: 227px">
+                        <label for="salary">{{'employee.details.technologies' | translate}}</label>
+                        <div>
+                        <app-technology-tag *ngFor="let technology of employee.technologies" [name]="technology.name"></app-technology-tag>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -74,7 +77,8 @@ export class EmployeeDetailsComponent implements OnInit {
         position: '',
         positionDisplay: '',
         salary: 0,
-        team: ''
+        team: '',
+        technologies: []
     };
     private errorSubject = new Subject<string>();
     private successSubject = new Subject<string>();

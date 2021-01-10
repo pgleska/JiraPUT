@@ -82,4 +82,14 @@ export class ProjectService {
     matches(project: Project, term: string): boolean {
         return project.name.toLowerCase().includes(term.toLowerCase());
     }
+
+    resetState() {
+        this.state = {
+            page: 1,
+            searchTerm: '',
+            sortColumn: '',
+            sortDirection: ''
+        };
+    }
+
 }

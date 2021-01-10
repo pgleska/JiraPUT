@@ -1,8 +1,9 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {NgForm} from '@angular/forms';
 import {Project} from './project.model';
 import {ProjectService} from './project.service';
+import {TechnologyService} from '../technology/technology.service';
 
 
 @Component({
@@ -44,15 +45,26 @@ import {ProjectService} from './project.service';
                 </div>
                 <div>
                     <label for="description">{{'project.add.description' | translate}}</label>
-                    <input
+                    <textarea
                             type="text"
                             id="description"
                             name="description"
                             class="form-control"
                             [ngModel]
                             #description="ngModel"
-                    />
+                    ></textarea>
                     <app-input-error [control]="description.control"></app-input-error>
+                </div>
+                <div>
+                    <label for="salary">{{'employee.details.technologies' | translate}} </label>
+                    <app-multiselect
+                            [placeholder]="'employee.details.placeholder' | translate"
+                            [data]="dropdownList"
+                            [(ngModel)]="selectedItems"
+                            name="technologies"
+                            [settings]="dropdownSettings"
+                    >
+                    </app-multiselect>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-dark"
@@ -64,16 +76,35 @@ import {ProjectService} from './project.service';
         </div>
     `
 })
-export class ProjectAddComponent {
+export class ProjectAddComponent implements OnInit{
 
+    dropdownList = [];
+    selectedItems = [];
+    dropdownSettings = {};
     private project: Project =  {
         name: '',
         description: null,
         version: '',
+        technologies: []
     };
 
     constructor(public activeModal: NgbActiveModal,
-                private service: ProjectService) {
+                private projectService: ProjectService,
+                private technologyService: TechnologyService) {
+    }
+
+    ngOnInit(): void {
+        this.technologyService.getTechnologyList().subscribe(result => {
+            this.dropdownList = result;
+        });
+
+        this.dropdownSettings = {
+            singleSelection: false,
+            searchPlaceholderText: 'project.add.search',
+            selectAllText: 'project.add.select-all',
+            unSelectAllText: 'project.add.unselect-all',
+            allowSearchFilter: true
+        };
     }
 
     onSubmit(form: NgForm): void {
@@ -83,11 +114,12 @@ export class ProjectAddComponent {
 
         this.project.name = form.value.name;
         this.project.version = form.value.version
+        this.project.technologies = this.selectedItems;
         if(!!form.value.description) {
             this.project.description = form.value.description
         }
 
-        const addObservable = this.service.createProject(this.project);
+        const addObservable = this.projectService.createProject(this.project);
         addObservable.subscribe(
             _ => {
                 this.activeModal.close('project.add.added');

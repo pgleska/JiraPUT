@@ -7,6 +7,7 @@ import {SelectItem} from '../common/select/select-item.model';
 import {PositionService} from '../position/position.service';
 import {TeamService} from '../team/team.service';
 import {Position} from '../position/position.model';
+import {TechnologyService} from '../technology/technology.service';
 
 
 @Component({
@@ -65,36 +66,33 @@ import {Position} from '../position/position.model';
                                 [options]="positionListDropdown" (value)="onPositionChanged($event)">
                     </app-select>
                 </div>
-                <div class="form-group">
+                <div>
                     <label for="salary">{{'employee.details.salary' | translate}} </label>
                     <input
-                        type="number"
-                        id="salary"
-                        name="salary"
-                        class="form-control"
-                        [ngModel]
-                        #salary="ngModel"
-                        required
-                        negativeValueValidator
-                        salaryValidator
-                        [position]="positionDetails"
-                        min="0"/>
+                            type="number"
+                            id="salary"
+                            name="salary"
+                            class="form-control"
+                            [ngModel]
+                            #salary="ngModel"
+                            required
+                            negativeValueValidator
+                            salaryValidator
+                            [position]="positionDetails"
+                            min="0"/>
                     <app-input-error [control]="salary.control"></app-input-error>
                 </div>
-
-                <!--                <div>-->
-                <!--                    <app-multiselect-->
-                <!--                            [placeholder]="'custom placeholder'"-->
-                <!--                            [data]="dropdownList"-->
-                <!--                            [(ngModel)]="selectedItems"-->
-                <!--                            [settings]="dropdownSettings"-->
-                <!--                            (onSelect)="onItemSelect($event)"-->
-                <!--                            (onSelectAll)="onSelectAll($event)"-->
-                <!--                    >-->
-                <!--                    </app-multiselect>-->
-                <!--                </div>-->
-
-
+                <div>
+                    <label for="salary">{{'employee.details.technologies' | translate}} </label>
+                    <app-multiselect
+                            [placeholder]="'employee.details.placeholder' | translate"
+                            [data]="dropdownList"
+                            [(ngModel)]="selectedItems"
+                            name="technologies"
+                            [settings]="dropdownSettings"
+                    >
+                    </app-multiselect>
+                </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-dark"
                             (click)="activeModal.dismiss()">{{'common.close' | translate}} </button>
@@ -123,7 +121,8 @@ export class EmployeeEditComponent implements OnInit {
     constructor(public activeModal: NgbActiveModal,
                 private employeeService: EmployeeService,
                 private positionService: PositionService,
-                private teamService: TeamService) {
+                private teamService: TeamService,
+                private technologyService: TechnologyService) {
     }
 
     ngOnInit(): void {
@@ -136,6 +135,7 @@ export class EmployeeEditComponent implements OnInit {
                 //position: {id: this.employeeCopy.position, name: this.employeeCopy.positionDisplay},
                 //team: {id: this.employeeCopy.team, name: this.employeeCopy.team},
                 salary: this.employeeCopy.salary,
+                technologies: Object.assign([], this.employeeCopy.technologies)
             });
         });
 
@@ -160,28 +160,19 @@ export class EmployeeEditComponent implements OnInit {
             });
         });
 
-        // this.dropdownList = [
-        //     { id: 1, name: 'Mumbai' },
-        //     { id: 2, name: 'Bangaluru' },
-        //     { id: 3, name: 'Pune' },
-        //     { id: 4, name: 'Navsari' },
-        //     { id: 5, name: 'New Delhi' }
-        // ];
-        // this.dropdownSettings = {
-        //     singleSelection: false,
-        //     selectAllText: 'Select All',
-        //     unSelectAllText: 'UnSelect All',
-        //     allowSearchFilter: true
-        // };
+        this.technologyService.getTechnologyList().subscribe(result => {
+            this.dropdownList = result;
+        });
+
+        this.dropdownSettings = {
+            singleSelection: false,
+            searchPlaceholderText: 'employee.edit.search',
+            selectAllText: 'employee.edit.select-all',
+            unSelectAllText: 'employee.edit.unselect-all',
+            allowSearchFilter: true
+        };
 
     }
-
-    // onItemSelect(item: any) {
-    //     console.log(this.selectedItems);
-    // }
-    // onSelectAll(items: any) {
-    //     console.log(this.selectedItems);
-    // }
 
     onPositionChanged($event: SelectItem) {
         this.position = $event;
@@ -199,6 +190,9 @@ export class EmployeeEditComponent implements OnInit {
 
         // todo naprawic przesylanie i wymaganie zespołu oraz stanowiska
         this.employeeCopy.firstName = form.value.firstName;
+        this.employeeCopy.lastName = form.value.lastName;
+        this.employeeCopy.salary = form.value.salary;
+        this.employeeCopy.technologies = this.selectedItems;
 
         const editObservable = this.employeeService.modifyEmployee(this.employeeCopy);
         editObservable.subscribe(

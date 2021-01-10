@@ -17,6 +17,7 @@ import {ProjectDetailsComponent} from './project/project-details.component';
 import {ContractDetailsComponent} from './contract/contract-details.component';
 import {IssueListComponent} from './issue/issue-list.component';
 import {IssueDetailsComponent} from './issue/issue-details.component';
+import {TechnologyDetailsComponent} from './technology/technology-details.component';
 
 
 const routes: Routes = [
@@ -29,6 +30,7 @@ const routes: Routes = [
     {path: 'team', component: TeamListComponent, canActivate: [AuthenticationGuard]},
     {path: 'team/:name', component: TeamDetailsComponent, canActivate: [AuthenticationGuard]},
     {path: 'technology', component: TechnologyListComponent, canActivate: [AuthenticationGuard]},
+    {path: 'technology/:id', component: TechnologyDetailsComponent, canActivate: [AuthenticationGuard]},
     {path: 'company', component: CompanyListComponent, canActivate: [AuthenticationGuard]},
     {path: 'company/:taxNumber', component: CompanyDetailsComponent, canActivate: [AuthenticationGuard]},
     {path: 'project', component: ProjectListComponent, canActivate: [AuthenticationGuard]},

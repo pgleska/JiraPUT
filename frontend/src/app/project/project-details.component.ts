@@ -43,11 +43,15 @@ import {SortEvent} from '../common/list-components/sort/sort.model';
                         <label for="companyName">{{'project.details.version' | translate}} </label>
                         <input class="form-control" value="{{project.version}}" name="companyName" disabled>
                     </div>
-                </div>
-                <div class="d-flex flex-column align-items-center ">
                     <div class="form-group">
                         <label for="companyName">{{'project.details.description' | translate}} </label>
                         <textarea class="form-control" value="{{project.description}}" name="companyName" disabled style="resize: none"></textarea>
+                    </div>
+                    <div class="form-group" style="width: 227px">
+                        <label for="salary">{{'project.details.technologies' | translate}}</label>
+                        <div>
+                            <app-technology-tag *ngFor="let technology of project.technologies" [name]="technology.name"></app-technology-tag>
+                        </div>
                     </div>
                 </div>
                 <table class="table table-striped">
@@ -86,7 +90,7 @@ export class ProjectDetailsComponent implements OnInit, OnDestroy {
     pageSize = PAGE_SIZE;
     error_message: string;
     success_message: string;
-    project: Project = {name: '', version: ''};
+    project: Project = {name: '', version: '', technologies: []};
     contractList: Contract[] = [];
     private errorSubject = new Subject<string>();
     private successSubject = new Subject<string>();

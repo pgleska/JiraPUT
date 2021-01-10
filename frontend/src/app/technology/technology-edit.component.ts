@@ -23,7 +23,6 @@ import {TechnologyService} from './technology.service';
                             id="name"
                             name="name"
                             class="form-control"
-                            value="{{technologyCopy.nameDisplay}}"
                             [ngModel]
                             #name="ngModel"
                             required
@@ -52,7 +51,7 @@ export class TechnologyEditComponent implements OnInit {
     ngOnInit(): void {
         this.technologyCopy = Object.assign({}, this.technology);
         setTimeout(() => {
-            this.form.setValue(this.technologyCopy);
+            this.form.setValue({name: this.technologyCopy.name});
         });
     }
 
@@ -61,8 +60,7 @@ export class TechnologyEditComponent implements OnInit {
             return;
         }
 
-        this.technologyCopy.nameDisplay = form.value.name;
-        this.technologyCopy.name = form.value.name.replace(/ /g, '_');
+        this.technologyCopy.name = form.value.name;
 
         const editObservable = this.service.modifyTechnology(this.technologyCopy);
         editObservable.subscribe(

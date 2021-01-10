@@ -8,7 +8,7 @@ import {TechnologyService} from './technology.service';
     selector: 'app-technology-delete',
     template: `
         <div class="modal-header">
-            <h4 class="modal-title">{{'technology.delete.title' | translate}} {{technology.nameDisplay}}.</h4>
+            <h4 class="modal-title">{{'technology.delete.title' | translate}} {{technology.name}}.</h4>
             <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss()">
                 <span aria-hidden="true">&times;</span>
             </button>

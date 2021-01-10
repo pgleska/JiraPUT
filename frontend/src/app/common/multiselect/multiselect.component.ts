@@ -35,10 +35,10 @@ const noop = () => {
         <ul class="item1">
           <li (click)="toggleSelectAll()" *ngIf="(_data.length > 0 || _settings.allowRemoteDataSearch) && _settings.enableCheckAll" class="multiselect-item-checkbox" style="border-bottom: 1px solid #ccc;padding:10px">
             <input type="checkbox" aria-label="multiselect-select-all" [checked]="isAllItemsSelected()"/>
-            <div>{{!isAllItemsSelected() ? _settings.selectAllText : _settings.unSelectAllText}}</div>
+            <div>{{(!isAllItemsSelected() ? _settings.selectAllText : _settings.unSelectAllText) | translate }}</div>
           </li>
           <li class="filter-textbox" *ngIf="(_data.length>0 || _settings.allowRemoteDataSearch) && _settings.allowSearchFilter">
-            <input type="text" aria-label="multiselect-search" [placeholder]="_settings.searchPlaceholderText" [(ngModel)]="filter.name" (ngModelChange)="onFilterTextChange($event)">
+            <input type="text" aria-label="multiselect-search" [placeholder]="_settings.searchPlaceholderText | translate" [(ngModel)]="filter.name" (ngModelChange)="onFilterTextChange($event)">
           </li>
         </ul>
         <ul class="item2" [style.maxHeight]="_settings.maxHeight+'px'">
