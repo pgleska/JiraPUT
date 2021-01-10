@@ -3,6 +3,8 @@ package pl.jiraput.model;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -14,6 +16,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Table(name = "kontrakt")
 public class Contract {
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "identyfikator", unique = true, nullable = false)
+	private Integer id; 
+	
 	@Column(name = "numer_umowy", unique = true, nullable = false)
 	private String contractNumber;
 	
@@ -45,6 +51,10 @@ public class Contract {
 	public Contract(String contractNumber, Float amount, String conditions, Company company, Project project) {
 		this(contractNumber, amount, company, project);
 		this.conditions = conditions;
+	}
+	
+	public Integer getId() {
+		return id;
 	}
 	
 	public String getContractNumber() {

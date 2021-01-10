@@ -90,8 +90,7 @@ CREATE TABLE `issue` (
 --
 
 CREATE TABLE `kontrakt` (
-  `identyfikator` int(11) NOT NULL UNIQUE,
-  `numer_umowy` varchar(31) NOT NULL UNIQUE,
+  `numer_umowy` varchar(31) NOT NULL,
   `kwota` float NOT NULL,
   `opis_warunkow` text,
   `firma_zew` bigint(11) NOT NULL,
@@ -256,8 +255,7 @@ ALTER TABLE `issue`
 -- Indexes for table `kontrakt`
 --
 ALTER TABLE `kontrakt`
-  ADD PRIMARY KEY (`identyfikator`),
-  ADD KEY (`numer_umowy`),
+  ADD PRIMARY KEY (`numer_umowy`),
   ADD KEY `kontr_proj_fkey` (`projekt`),
   ADD KEY `kontr_firm_zew_fkey` (`firma_zew`);
 
@@ -326,12 +324,6 @@ ALTER TABLE `zespol`
 --
 -- AUTO_INCREMENT for dumped tables
 --
-
---
--- AUTO_INCREMENT for table `kontrakt`
---
-ALTER TABLE `kontrakt`
-  MODIFY `identyfikator` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT for table `issue`

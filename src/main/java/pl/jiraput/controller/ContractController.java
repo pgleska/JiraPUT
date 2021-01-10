@@ -8,7 +8,9 @@ import java.util.stream.Collectors;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -53,10 +55,18 @@ public class ContractController {
 			return new ResponseEntity<>(body, HttpStatus.CONFLICT);
 		}
 		
-		if(data.containsKey("conditions")) {
-			contract = new Contract(data.get("contractNumber").toString(), ((Double) data.get("amount")).floatValue(), data.get("conditions").toString(), company, project);
+		float amount = 0.0f;
+		Object tmp = data.get("amount");
+		if(tmp instanceof Integer) {
+			amount = ((Integer) tmp).floatValue();
 		} else {
-			contract = new Contract(data.get("contractNumber").toString(), ((Double) data.get("amount")).floatValue(), company, project);
+			amount = ((Double) tmp).floatValue();
+		}
+		
+		if(data.containsKey("conditions")) {
+			contract = new Contract(data.get("contractNumber").toString(), amount, data.get("conditions").toString(), company, project);
+		} else {
+			contract = new Contract(data.get("contractNumber").toString(), amount, company, project);
 		}
 		
 		if(contractRepository.findByContractNumber(contract.getContractNumber()) == null) {
@@ -74,10 +84,12 @@ public class ContractController {
 	public @ResponseBody List<Map<String, Object>> getAllContracts() {
 		return contractRepository.findAll().parallelStream().map(c -> {
 			Map<String, Object> res = new HashMap<>();
+			res.put("id", c.getId());
 			res.put("contractNumber", c.getContractNumber());
 			res.put("amount", c.getAmount());
 			res.put("conditions", c.getConditions());
 			res.put("companyName", c.getCompany().getName());
+			res.put("taxNumber", c.getCompany().getTaxNumber());
 			res.put("projectName", c.getProject().getName());
 			res.put("projectId", c.getProject().getId());
 			return res;
@@ -86,13 +98,11 @@ public class ContractController {
 	}
 	
 	//TODO: kontrakt nie powinien być edytowalny
-	
-	//TODO: spowodowane tym, że usuwamy po numerze umowy, gdzie ona może zawierać takie znaki jak "/"
-	@PostMapping(value = "/delete", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseEntity<Map<String, String>> deleteContract(@RequestBody Map<String, String> data) {
+		
+	@DeleteMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody ResponseEntity<Map<String, String>> deleteContract(@PathVariable Integer id) {
 		Map<String, String> body = new HashMap<>();
-		Contract contract = contractRepository.findByContractNumber(data.get("contractNumber"));
-				
+		Contract contract = contractRepository.findById(id).orElse(null);
 		if(contract == null) {
 			body.put("error", "contract.not.found");
 			return new ResponseEntity<Map<String,String>>(body, HttpStatus.NOT_FOUND);
@@ -100,6 +110,6 @@ public class ContractController {
 		
 		contractRepository.delete(contract);
 		body.put("status", "contract.deleted");
-		return new ResponseEntity<Map<String,String>>(body, HttpStatus.OK);		
+		return new ResponseEntity<Map<String,String>>(body, HttpStatus.OK);	
 	}
 }
