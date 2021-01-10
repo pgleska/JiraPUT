@@ -20,8 +20,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import pl.jiraput.model.Employee;
+import pl.jiraput.model.Project;
 import pl.jiraput.model.Technology;
 import pl.jiraput.repository.EmployeeRepository;
+import pl.jiraput.repository.ProjectRepository;
 import pl.jiraput.repository.TechnologyRepository;
 
 @RestController
@@ -30,10 +32,12 @@ public class TechnologyController {
 
 	private final TechnologyRepository technologyRepository;
 	private final EmployeeRepository employeeRepository;
+	private final ProjectRepository projectRepository;
 	
-	public TechnologyController(TechnologyRepository technologyRepository, EmployeeRepository employeeRepository) {
+	public TechnologyController(TechnologyRepository technologyRepository, EmployeeRepository employeeRepository, ProjectRepository projectRepository) {
 		this.technologyRepository = technologyRepository;
 		this.employeeRepository = employeeRepository;
+		this.projectRepository = projectRepository;
 	}
 	
 	@PostMapping(value = "/create", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -87,6 +91,17 @@ public class TechnologyController {
 				if(t.getName().equals(technology.getName())) {
 					used = true;
 					break empLoop;
+				}					
+			}
+		}
+		
+		List<Project> projects = projectRepository.findAll();
+		projLoop: for(Project p : projects) {
+			Set<Technology> techs = p.getTechnologies();
+			for(Technology t : techs) {
+				if(t.getName().equals(technology.getName())) {
+					used = true;
+					break projLoop;
 				}					
 			}
 		}

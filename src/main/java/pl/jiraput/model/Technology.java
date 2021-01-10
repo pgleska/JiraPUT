@@ -29,6 +29,10 @@ public class Technology {
 	@ManyToMany(targetEntity = Employee.class, mappedBy = "technologies", fetch = FetchType.LAZY)
 	private Set<Employee> employees;
 	
+	@JsonIgnore
+	@ManyToMany(targetEntity = Project.class, mappedBy = "technologies", fetch = FetchType.LAZY)
+	private Set<Project> projects;
+	
 	public Technology() {}
 	
 	public Technology(String name) {
@@ -45,6 +49,14 @@ public class Technology {
 
 	public Set<Employee> getEmployees() {
 		return employees;
+	}
+
+	public void setProjects(Set<Project> projects) {
+		this.projects = projects;
+	}
+	
+	public Set<Project> getProjects() {
+		return projects;
 	}
 
 	public void setEmployees(Set<Employee> employees) {

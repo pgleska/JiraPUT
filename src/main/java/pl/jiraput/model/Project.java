@@ -8,6 +8,9 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -31,6 +34,14 @@ public class Project {
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "project")
 	private Set<Contract> contracts;
 
+	@ManyToMany(targetEntity = Technology.class, fetch = FetchType.LAZY)
+    @JoinTable(
+        name = "tech_proj",
+        joinColumns = @JoinColumn(name = "proj_id"),
+        inverseJoinColumns = @JoinColumn(name = "tech_id")
+    )
+	private Set<Technology> technologies;
+	
 	public Project() {}
 	
 	public Project(String version, String description) {
@@ -82,6 +93,12 @@ public class Project {
 	public void setContracts(Set<Contract> contracts) {
 		this.contracts = contracts;
 	}
-	
-	
+
+	public Set<Technology> getTechnologies() {
+		return technologies;
+	}
+
+	public void setTechnologies(Set<Technology> technologies) {
+		this.technologies = technologies;
+	}
 }

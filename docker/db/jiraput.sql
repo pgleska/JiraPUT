@@ -141,7 +141,7 @@ DELIMITER ;
 --
 
 CREATE TABLE `projekt` (
-  `identyfikator` int NOT NULL,
+  `identyfikator` int(11) NOT NULL,
   `nazwa` varchar(63) NOT NULL,
   `wersja` varchar(7) NOT NULL,
   `opis` text
@@ -213,8 +213,8 @@ CREATE TABLE `tech_prac` (
 --
 
 CREATE TABLE `tech_proj` (
-  `tech_nazwa` varchar(63) NOT NULL,
-  `proj_nazwa` varchar(63) NOT NULL
+  `tech_id` int(11) NOT NULL,
+  `proj_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
@@ -317,7 +317,7 @@ ALTER TABLE `tech_prac`
 -- Indexes for table `tech_proj`
 --
 ALTER TABLE `tech_proj`
-  ADD PRIMARY KEY (`tech_nazwa`,`proj_nazwa`);
+  ADD PRIMARY KEY (`tech_id`,`proj_id`);
 
 --
 -- Indexes for table `zespol`
@@ -345,7 +345,7 @@ ALTER TABLE `issue`
 -- AUTO_INCREMENT for table `projekt`
 --
 ALTER TABLE `projekt`
-  MODIFY `identyfikator` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `identyfikator` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
   
 --
 -- AUTO_INCREMENT for table `technologia`
@@ -404,8 +404,8 @@ ALTER TABLE `tech_prac`
 -- Constraints for table `tech_proj`
 --
 ALTER TABLE `tech_proj`
-  ADD CONSTRAINT `tech_proj_projekt_fkey` FOREIGN KEY (`proj_nazwa`) REFERENCES `projekt` (`nazwa`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `tech_proj_technologia_fkey` FOREIGN KEY (`tech_nazwa`) REFERENCES `technologia` (`nazwa`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `tech_proj_projekt_fkey` FOREIGN KEY (`proj_id`) REFERENCES `projekt` (`identyfikator`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `tech_proj_technologia_fkey` FOREIGN KEY (`tech_id`) REFERENCES `technologia` (`identyfikator`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 
 
