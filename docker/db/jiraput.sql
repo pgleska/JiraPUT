@@ -434,6 +434,22 @@ INSERT INTO `stanowisko` (`nazwa`, `pensja_minimalna`, `pensja_maksymalna`) VALU
 ('Intern', 3000, 3500),
 ('None', 0, 0);
 
+--
+-- Inserts for table `technologia`
+--
+INSERT INTO `technologia`(`nazwa`) VALUES
+('Java'),
+('Python'),
+('Docker'),
+('C++'),
+('C'),
+('C#'),
+('Gradle'),
+('Maven'),
+('Java Script'),
+('Kubernetes'),
+('Spring'),
+('Django');
 
 CREATE USER 'admin'@'%' IDENTIFIED BY 'mysecretpassword';
 GRANT ALL PRIVILEGES ON *.* TO 'admin'@'%' WITH GRANT OPTION;

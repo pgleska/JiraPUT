@@ -1,11 +1,16 @@
 package pl.jiraput.model;
 
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -40,9 +45,15 @@ public class Employee {
 	@JoinColumn(name = "zespol", nullable = false)	
 	private Team team;
 	
-	public Employee() {
-		
-	}
+	@ManyToMany(targetEntity = Technology.class, fetch = FetchType.LAZY)
+    @JoinTable(
+        name = "tech_prac",
+        joinColumns = @JoinColumn(name = "prac_login", referencedColumnName = "login"),
+        inverseJoinColumns = @JoinColumn(name = "tech_nazwa", referencedColumnName = "nazwa")
+    )
+	private Set<Technology> technologies;
+	
+	public Employee() {}
 	
 	public Employee(String login, String password, String firstName, String lastName) {
 		this.login = login;
@@ -132,4 +143,12 @@ public class Employee {
 	public void setTeam(Team team) {
 		this.team = team;
 	}
+
+	public Set<Technology> getTechnologies() {
+		return technologies;
+	}
+
+	public void setTechnologies(Set<Technology> technologies) {
+		this.technologies = technologies;
+	}	
 }

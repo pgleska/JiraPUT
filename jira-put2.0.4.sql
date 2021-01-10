@@ -191,7 +191,7 @@ CREATE TABLE `task` (
 --
 
 CREATE TABLE `technologia` (
-  `nazwa` varchar(63) NOT NULL
+  `nazwa` varchar(63) NOT NULL UNIQUE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------

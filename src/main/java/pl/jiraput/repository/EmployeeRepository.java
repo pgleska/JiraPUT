@@ -9,6 +9,6 @@ import pl.jiraput.model.Employee;
 
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee, String> {
-	public Employee findByLogin(String login);
-	public List<Employee> findByPosition(String position);
+	Employee findByLogin(String login);
+	List<Employee> findByPosition(String position);
 }
