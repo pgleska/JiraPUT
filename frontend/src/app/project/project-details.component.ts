@@ -47,7 +47,7 @@ import {SortEvent} from '../common/list-components/sort/sort.model';
                         <label for="companyName">{{'project.details.description' | translate}} </label>
                         <textarea class="form-control" value="{{project.description}}" name="companyName" disabled style="resize: none"></textarea>
                     </div>
-                    <div class="form-group" style="width: 227px">
+                    <div class="form-group overflow-auto" style="width: 227px">
                         <label for="salary">{{'project.details.technologies' | translate}}</label>
                         <div>
                             <app-technology-tag *ngFor="let technology of project.technologies" [name]="technology.name"></app-technology-tag>
