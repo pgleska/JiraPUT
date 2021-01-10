@@ -5,6 +5,8 @@ import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
@@ -16,6 +18,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class Technology {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "identyfikator", nullable = false, unique = true)
+	private Integer id;
+	
 	@Column(name = "nazwa", nullable = false, unique = true)
 	private String name;
 	
@@ -43,5 +49,9 @@ public class Technology {
 
 	public void setEmployees(Set<Employee> employees) {
 		this.employees = employees;
+	}
+	
+	public Integer getId() {
+		return id;
 	}
 }

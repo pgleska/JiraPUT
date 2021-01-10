@@ -81,6 +81,7 @@ public class EmployeeController {
 			map.put("team", (emp.getTeam() != null) ? emp.getTeam().getName() : "");
 			map.put("position", emp.getPosition().getName());
 			map.put("salary", Float.valueOf(emp.getSalary()));
+			map.put("technologies", emp.getTechnologies());
 			result.add(map);
 		});
 		return result;
@@ -181,10 +182,10 @@ public class EmployeeController {
 		return new ResponseEntity<Map<String,String>>(body, HttpStatus.OK);
 	}
 	
-	@DeleteMapping(value = "/{login}/technology/{name}")
-	public @ResponseBody ResponseEntity<Map<String, String>> removeTechnology(@PathVariable String login, @PathVariable String name) {
+	@DeleteMapping(value = "/{login}/technology/{id}")
+	public @ResponseBody ResponseEntity<Map<String, String>> removeTechnology(@PathVariable String login, @PathVariable Integer id) {
 		Map<String, String> body = new HashMap<>();
-		Technology technology = technologyRepository.findByName(name);
+		Technology technology = technologyRepository.findById(id).orElse(null);
 		Employee emp = employeeRepository.findByLogin(login);
 		
 		if(emp == null) {

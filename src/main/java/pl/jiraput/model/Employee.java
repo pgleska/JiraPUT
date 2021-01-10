@@ -10,7 +10,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -48,8 +47,8 @@ public class Employee {
 	@ManyToMany(targetEntity = Technology.class, fetch = FetchType.LAZY)
     @JoinTable(
         name = "tech_prac",
-        joinColumns = @JoinColumn(name = "prac_login", referencedColumnName = "login"),
-        inverseJoinColumns = @JoinColumn(name = "tech_nazwa", referencedColumnName = "nazwa")
+        joinColumns = @JoinColumn(name = "prac_login"),
+        inverseJoinColumns = @JoinColumn(name = "tech_id")
     )
 	private Set<Technology> technologies;
 	

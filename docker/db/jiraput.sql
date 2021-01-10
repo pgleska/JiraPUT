@@ -191,7 +191,8 @@ CREATE TABLE `task` (
 --
 
 CREATE TABLE `technologia` (
-  `nazwa` varchar(63) NOT NULL
+  `identyfikator` int(11) NOT NULL UNIQUE,
+  `nazwa` varchar(63) NOT NULL UNIQUE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
@@ -201,7 +202,7 @@ CREATE TABLE `technologia` (
 --
 
 CREATE TABLE `tech_prac` (
-  `tech_nazwa` varchar(63) NOT NULL,
+  `tech_id` int(11) NOT NULL,
   `prac_login` varchar(31) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
@@ -303,13 +304,14 @@ ALTER TABLE `task`
 -- Indexes for table `technologia`
 --
 ALTER TABLE `technologia`
-  ADD PRIMARY KEY (`nazwa`);
+  ADD PRIMARY KEY (`identyfikator`),
+  ADD KEY (`nazwa`);
 
 --
 -- Indexes for table `tech_prac`
 --
 ALTER TABLE `tech_prac`
-  ADD PRIMARY KEY (`tech_nazwa`,`prac_login`);
+  ADD PRIMARY KEY (`tech_id`,`prac_login`);
 
 --
 -- Indexes for table `tech_proj`
@@ -340,10 +342,16 @@ ALTER TABLE `issue`
   MODIFY `identyfikator` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
--- AUTO_INCREMENT for table `issue`
+-- AUTO_INCREMENT for table `projekt`
 --
 ALTER TABLE `projekt`
   MODIFY `identyfikator` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  
+--
+-- AUTO_INCREMENT for table `technologia`
+--
+ALTER TABLE `technologia`
+  MODIFY `identyfikator` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 --
 -- Constraints for dumped tables
 --
@@ -390,7 +398,7 @@ ALTER TABLE `task`
 --
 ALTER TABLE `tech_prac`
   ADD CONSTRAINT `tech_prac_pracownik_fkey` FOREIGN KEY (`prac_login`) REFERENCES `pracownik` (`login`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `tech_prac_technologia_fkey` FOREIGN KEY (`tech_nazwa`) REFERENCES `technologia` (`nazwa`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `tech_prac_technologia_fkey` FOREIGN KEY (`tech_id`) REFERENCES `technologia` (`identyfikator`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `tech_proj`
@@ -437,19 +445,19 @@ INSERT INTO `stanowisko` (`nazwa`, `pensja_minimalna`, `pensja_maksymalna`) VALU
 --
 -- Inserts for table `technologia`
 --
-INSERT INTO `technologia`(`nazwa`) VALUES
-('Java'),
-('Python'),
-('Docker'),
-('C++'),
-('C'),
-('C#'),
-('Gradle'),
-('Maven'),
-('Java Script'),
-('Kubernetes'),
-('Spring'),
-('Django');
+INSERT INTO `technologia`(`identyfikator`, `nazwa`) VALUES
+(1, 'Java'),
+(2, 'Python'),
+(3, 'Docker'),
+(4, 'C++'),
+(5, 'C'),
+(6, 'C#'),
+(7, 'Gradle'),
+(8, 'Maven'),
+(9, 'Java Script'),
+(10, 'Kubernetes'),
+(11, 'Spring'),
+(12, 'Django');
 
 CREATE USER 'admin'@'%' IDENTIFIED BY 'mysecretpassword';
 GRANT ALL PRIVILEGES ON *.* TO 'admin'@'%' WITH GRANT OPTION;

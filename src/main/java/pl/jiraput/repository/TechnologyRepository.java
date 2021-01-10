@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import pl.jiraput.model.Technology;
 
 @Repository
-public interface TechnologyRepository extends JpaRepository<Technology, String> {
+public interface TechnologyRepository extends JpaRepository<Technology, Integer> {
 	Technology findByName(String name);
 }

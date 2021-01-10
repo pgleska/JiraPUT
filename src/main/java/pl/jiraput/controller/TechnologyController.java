@@ -10,6 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -55,10 +56,25 @@ public class TechnologyController {
 		return technologies;
 	}
 	
-	@DeleteMapping(value = "/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseEntity<Map<String, String>> deleteTechnology(@PathVariable String name) {
+	@PatchMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody ResponseEntity<Map<String, String>> updateTechnology(@PathVariable Integer id, @RequestBody Technology tech) {
 		Map<String, String> body = new HashMap<>();
-		Technology technology = technologyRepository.findByName(name);
+		Technology technology = technologyRepository.findById(id).orElse(null); 
+		if(technology != null) {
+			technology.setName(tech.getName());
+	    	technologyRepository.save(technology);
+	    	body.put("status", "technology.updated");
+	    	return new ResponseEntity<>(body, HttpStatus.OK);
+		} else {
+			body.put("error", "technology.not.found");
+			return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	@DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody ResponseEntity<Map<String, String>> deleteTechnology(@PathVariable Integer id) {
+		Map<String, String> body = new HashMap<>();
+		Technology technology = technologyRepository.findById(id).orElse(null);
 		if(technology == null) {
 			body.put("error", "technology.not.found");
 			return new ResponseEntity<Map<String,String>>(body, HttpStatus.NOT_FOUND);
@@ -68,7 +84,7 @@ public class TechnologyController {
 		empLoop: for(Employee emp : employees) {
 			Set<Technology> techs = emp.getTechnologies();
 			for(Technology t : techs) {
-				if(t.getName().equals(name)) {
+				if(t.getName().equals(technology.getName())) {
 					used = true;
 					break empLoop;
 				}					
