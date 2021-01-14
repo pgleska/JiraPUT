@@ -2,6 +2,7 @@ package pl.jiraput.model;
 
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -12,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -41,6 +43,9 @@ public class Project {
         inverseJoinColumns = @JoinColumn(name = "tech_id")
     )
 	private Set<Technology> technologies;
+	
+	@OneToOne(fetch = FetchType.LAZY, mappedBy = "projectEpic", cascade = CascadeType.ALL)
+	private Epic epic;
 	
 	public Project() {}
 	
@@ -100,5 +105,13 @@ public class Project {
 
 	public void setTechnologies(Set<Technology> technologies) {
 		this.technologies = technologies;
+	}
+
+	public Epic getEpic() {
+		return epic;
+	}
+
+	public void setEpic(Epic epic) {
+		this.epic = epic;
 	}
 }

@@ -27,7 +27,8 @@ DELIMITER $$
 --
 CREATE DEFINER=`dba`@`localhost` PROCEDURE `zmien_nazwe_zespolu` (IN `stary` VARCHAR(63), IN `nowy` VARCHAR(63))  BEGIN
 	INSERT INTO `zespol`(`zespol`.`nazwa`, `zespol`.`liczba_czlonkow`) VALUES (nowy, 0);
-    UPDATE `pracownik`SET `pracownik`.`zespol`=nowy WHERE `pracownik`.`zespol`=stary;
+    UPDATE `pracownik` SET `pracownik`.`zespol`=nowy WHERE `pracownik`.`zespol`=stary;
+    UPDATE `story` SET `story`.`zespol`=nowy WHERE `story`.`zespol`=stary;
     DELETE FROM `zespol` WHERE `zespol`.`nazwa`=stary;
 END$$
 
@@ -51,7 +52,7 @@ DELIMITER ;
 
 CREATE TABLE `epic` (
   `termin_realizacji` datetime DEFAULT NULL,
-  `projekt` varchar(63) NOT NULL,
+  `projekt_id` int(11) NOT NULL,
   `issue_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
@@ -236,7 +237,7 @@ CREATE TABLE `zespol` (
 -- Indexes for table `epic`
 --
 ALTER TABLE `epic`
-  ADD KEY `epic_proj_fkey` (`projekt`),
+  ADD KEY `epic_proj_fkey` (`projekt_id`),
   ADD KEY `epic_issue_fkey` (`issue_id`);
 
 --
@@ -361,7 +362,7 @@ ALTER TABLE `technologia`
 --
 ALTER TABLE `epic`
   ADD CONSTRAINT `epic_issue_fkey` FOREIGN KEY (`issue_id`) REFERENCES `issue` (`identyfikator`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `epic_proj_fkey` FOREIGN KEY (`projekt`) REFERENCES `projekt` (`nazwa`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `epic_proj_fkey` FOREIGN KEY (`projekt_id`) REFERENCES `projekt` (`identyfikator`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `kontrakt`

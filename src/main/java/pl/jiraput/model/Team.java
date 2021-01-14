@@ -22,6 +22,9 @@ public class Team {
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "team")
 	private Set<Employee> members;
 	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "teamStory")
+	private Set<Story> stories;
+	
 	public Team() {
 		
 	}
@@ -50,5 +53,13 @@ public class Team {
 	
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public Set<Story> getStories() {
+		return stories;
+	}
+
+	public void setStories(Set<Story> stories) {
+		this.stories = stories;
 	}
 }
