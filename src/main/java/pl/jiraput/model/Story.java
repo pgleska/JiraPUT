@@ -1,16 +1,15 @@
 package pl.jiraput.model;
 
 import java.io.Serializable;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -35,6 +34,9 @@ public class Story implements Serializable {
 	@JoinColumn(name = "epic_id", referencedColumnName = "issue_id", nullable = false)
 	private Epic epicStory;
 
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "storyTask")
+	private Set<Task> tasks;
+	
 	public Issue getIssue() {
 		return issueStory;
 	}

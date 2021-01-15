@@ -10,6 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -51,6 +52,9 @@ public class Employee {
         inverseJoinColumns = @JoinColumn(name = "tech_id")
     )
 	private Set<Technology> technologies;
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "employeeTask")
+	private Set<Task> tasks;
 	
 	public Employee() {}
 	

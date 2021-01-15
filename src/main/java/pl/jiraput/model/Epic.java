@@ -8,23 +8,20 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "epic")
-public class Epic implements Serializable{
+public class Epic implements Serializable {
+
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -2154361296014040988L;
+	private static final long serialVersionUID = -5558542756071716520L;
 
 	@Column(name = "termin_realizacji")
 	private LocalDateTime realizationDate;
@@ -63,5 +60,29 @@ public class Epic implements Serializable{
 
 	public void setIssue(Issue issue) {
 		this.issueEpic = issue;
+	}
+
+	public Project getProjectEpic() {
+		return projectEpic;
+	}
+
+	public void setProjectEpic(Project projectEpic) {
+		this.projectEpic = projectEpic;
+	}
+
+	public Issue getIssueEpic() {
+		return issueEpic;
+	}
+
+	public void setIssueEpic(Issue issueEpic) {
+		this.issueEpic = issueEpic;
+	}
+
+	public Set<Story> getStories() {
+		return stories;
+	}
+
+	public void setStories(Set<Story> stories) {
+		this.stories = stories;
 	}
 }

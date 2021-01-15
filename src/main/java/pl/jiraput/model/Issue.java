@@ -48,6 +48,10 @@ public class Issue {
 	@OneToOne(fetch = FetchType.LAZY, mappedBy = "issueStory", cascade = CascadeType.ALL)
 	@JsonIgnore
 	private Story story;
+	
+	@OneToOne(fetch = FetchType.LAZY, mappedBy = "issueTask", cascade = CascadeType.ALL)
+	@JsonIgnore
+	private Task task;
 
 	public Issue() {}	
 	
@@ -113,5 +117,13 @@ public class Issue {
 
 	public void setStory(Story story) {
 		this.story = story;
+	}
+
+	public Task getTask() {
+		return task;
+	}
+
+	public void setTask(Task task) {
+		this.task = task;
 	}
 }
