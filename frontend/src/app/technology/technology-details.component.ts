@@ -119,21 +119,21 @@ export class TechnologyDetailsComponent implements OnInit {
         this.technologyService.getTechnology(id).subscribe(
             (technology) => {
                 this.technology = technology;
-                console.log(technology);
             }
         );
 
         this.employeeService.getEmployeeList().pipe(
             map(employees => employees.filter(employee => employee.technologies?.some(tech => tech.id === id)))
         ).subscribe(result => {
-            console.log(result);
             this.employeeList = result;
+            this.employeeService.allEmployeeList = this.employeeList;
         });
 
         this.projectService.getProjectList().pipe(
             map(projects => projects.filter(project => project.technologies?.some(tech => tech.id === id)))
         ).subscribe(result => {
             this.projectList = result;
+            this.projectService.allProjectList = this.projectList;
         });
 
     }

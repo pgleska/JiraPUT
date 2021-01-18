@@ -69,6 +69,7 @@ import {ListFilterPipe} from './common/multiselect/list-filter.pipe';
 import {MultiSelectComponent} from './common/multiselect/multiselect.component';
 import {TechnologyDetailsComponent} from './technology/technology-details.component';
 import {TechnologyTagComponent} from './technology/technology-tag/technology-tag.component';
+import {MainPageComponent} from './main-page/main-page.component';
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
     return new TranslateHttpLoader(httpClient);
@@ -134,7 +135,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         SelectComponent,
         ClickOutsideDirective,
         ListFilterPipe,
-        MultiSelectComponent
+        MultiSelectComponent,
+        MainPageComponent
     ],
     imports: [
         BrowserModule,

@@ -56,9 +56,9 @@ import {TechnologyService} from '../technology/technology.service';
                     <app-input-error [control]="description.control"></app-input-error>
                 </div>
                 <div>
-                    <label for="salary">{{'employee.details.technologies' | translate}} </label>
+                    <label for="salary">{{'project.details.technologies' | translate}} </label>
                     <app-multiselect
-                            [placeholder]="'employee.details.placeholder' | translate"
+                            [placeholder]="'project.details.placeholder' | translate"
                             [data]="dropdownList"
                             [(ngModel)]="selectedItems"
                             name="technologies"

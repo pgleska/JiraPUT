@@ -2,7 +2,11 @@ import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {IssueService} from './issue.service';
 import {NgForm} from '@angular/forms';
-import {Issue} from './issue.model';
+import {Issue, ISSUE_TYPES, IssueTypes, TASK_TYPES} from './issue.model';
+import {SelectItem} from '../common/select/select-item.model';
+import {ProjectService} from '../project/project.service';
+import {EmployeeService} from '../employee/employee.service';
+import {TeamService} from '../team/team.service';
 
 
 @Component({
@@ -17,7 +21,7 @@ import {Issue} from './issue.model';
         <div class="modal-body">
             <form #issueForm="ngForm" (ngSubmit)="onSubmit(issueForm)">
                 <div>
-                    <label for="name">{{'issue.list.name' | translate}}</label>
+                    <label for="name">{{'issue.edit.name' | translate}}</label>
                     <input
                             type="text"
                             id="name"
@@ -29,12 +33,59 @@ import {Issue} from './issue.model';
                     />
                     <app-input-error [control]="name.control"></app-input-error>
                 </div>
+                <div>
+                    <label for="name">{{'issue.edit.description' | translate}}</label>
+                    <textarea
+                            type="text"
+                            id="description"
+                            name="description"
+                            class="form-control"
+                            [ngModel]
+                            #description="ngModel"
+                            required
+                    ></textarea>
+                    <app-input-error [control]="description.control"></app-input-error>
+                </div>
+                <div *ngIf="type === 'epic'">
+                    <app-select [label]="'issue.edit.project' | translate"
+                                [options]="projects" (value)="onProjectChanged($event)">
+                    </app-select>
+                </div>
+                <div *ngIf="type === 'epic'">
+                    <app-datepicker (date)="onDateChange($event)">
+                    </app-datepicker>
+                </div>
+                <div *ngIf="type === 'story'">
+                    <app-select [label]="'issue.edit.epic' | translate"
+                                [options]="epics" (value)="onEpicChanged($event)">
+                    </app-select>
+                </div>
+                <div *ngIf="type === 'story'">
+                    <app-select [label]="'issue.edit.team' | translate"
+                                [options]="teams" (value)="onTeamChanged($event)">
+                    </app-select>
+                </div>
+                <div *ngIf="type === 'task'">
+                    <app-select [label]="'issue.edit.task-type' | translate"
+                                [options]="taskTypes" (value)="onTaskTypeChanged($event)">
+                    </app-select>
+                </div>
+                <div *ngIf="type === 'task'">
+                    <app-select [label]="'issue.edit.story' | translate"
+                                [options]="stories" (value)="onStoryChanged($event)">
+                    </app-select>
+                </div>
+                <div *ngIf="type === 'task'">
+                    <app-select [label]="'issue.edit.login' | translate"
+                                [options]="employees" (value)="onEmployeeChanged($event)">
+                    </app-select>
+                </div>
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-dark"
                             (click)="activeModal.dismiss()">{{'common.close' | translate}} </button>
                     <button type="submit" [disabled]="!issueForm.valid" ngbAutofocus
-                            class="btn btn-outline-dark">{{'Issue.edit.edit' | translate}} </button>
+                            class="btn btn-outline-dark">{{'issue.edit.edit' | translate}} </button>
                 </div>
             </form>
         </div>
@@ -43,10 +94,21 @@ import {Issue} from './issue.model';
 export class IssueEditComponent implements OnInit {
     @Input() issue: Issue;
     issueCopy: Issue;
+    types = ISSUE_TYPES;
+    type: IssueTypes;
+    taskTypes = TASK_TYPES;
+    projects: SelectItem[] = [];
+    epics: SelectItem[] = [];
+    teams: SelectItem[] = [];
+    stories: SelectItem[] = [];
+    employees: SelectItem[] = [];
     @ViewChild('issueForm') form: NgForm;
 
     constructor(public activeModal: NgbActiveModal,
-                private service: IssueService) {
+                private issueService: IssueService,
+                private projectService: ProjectService,
+                private employeeService: EmployeeService,
+                private teamService: TeamService) {
     }
 
     ngOnInit(): void {
@@ -56,6 +118,38 @@ export class IssueEditComponent implements OnInit {
                 name: this.issueCopy.name
             });
         });
+
+
+            this.projectService.getProjectList().subscribe(result => {
+                result.forEach(project => {
+                    const item = {
+                        id: project.id,
+                        name: project.name
+                    };
+                    this.projects.push(item);
+                });
+            });
+
+            this.employeeService.getEmployeeList().subscribe(result => {
+                result.forEach(employee => {
+                    const item = {
+                        id: employee.login,
+                        name: `${employee.login} - ${employee.firstName} ${employee.lastName}`
+                    };
+                    this.employees.push(item);
+                });
+            });
+
+            this.teamService.getTeamList().subscribe(result => {
+                result.forEach(team => {
+                    const item = {
+                        id: team.name,
+                        name: team.name
+                    };
+                    this.teams.push(item);
+                });
+            });
+
     }
 
     onSubmit(form: NgForm): void {
@@ -66,7 +160,7 @@ export class IssueEditComponent implements OnInit {
         this.issueCopy.name = form.value.name;
 
 
-        const editObservable = this.service.modifyIssue(this.issueCopy);
+        const editObservable = this.issueService.modifyIssue(this.issueCopy);
         editObservable.subscribe(
             _ => {
                 this.issue = Object.assign({}, this.issueCopy);
@@ -79,4 +173,45 @@ export class IssueEditComponent implements OnInit {
         form.reset();
     }
 
+    onIssueTypeChanged($event: SelectItem) {
+        switch ($event.id) {
+            case 'epic':
+                this.type = 'epic';
+                break;
+            case 'story':
+                this.type = 'story';
+                break;
+            case 'task':
+                this.type = 'task';
+                break;
+        }
+    }
+
+    onDateChange($event: Date) {
+
+    }
+
+    onProjectChanged($event: SelectItem) {
+        
+    }
+
+    onEpicChanged($event: SelectItem) {
+        
+    }
+
+    onTeamChanged($event: SelectItem) {
+        
+    }
+
+    onTaskTypeChanged($event: SelectItem) {
+        
+    }
+
+    onStoryChanged($event: SelectItem) {
+        
+    }
+
+    onEmployeeChanged($event: SelectItem) {
+        
+    }
 }

@@ -32,6 +32,8 @@ services:
       - MYSQL_PASSWORD=mysecretpassword 
     networks:
       - jiraput  
+    ports:
+      - 3306:3306
 
   backend:
     build: ./docker/build/backend

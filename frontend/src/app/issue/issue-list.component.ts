@@ -8,47 +8,73 @@ import {Subject} from 'rxjs';
 import {debounceTime} from 'rxjs/operators';
 import {IssueAddComponent} from './issue-add.component';
 import {IssueDeleteComponent} from './issue-delete.component';
-import {Issue} from './issue.model';
+import {Issue, ISSUE_TYPES} from './issue.model';
 import {IssueEditComponent} from './issue-edit.component';
+import {SelectItem} from '../common/select/select-item.model';
+import { convertTimeToString } from '../common/date-transformation/convert-time.functions';
 
 
 @Component({
     selector: 'app-issue-list',
     template: `
         <ngb-alert #errorAlert
-                   *ngIf="error_message"
+                   *ngIf="errorMessage"
                    [type]="'danger'"
                    [dismissible]="false"
-                   (closed)=" error_message = ''"
+                   (closed)=" errorMessage = ''"
                    class="text-center">
-            {{error_message | translate}}
+            {{errorMessage | translate}}
         </ngb-alert>
         <ngb-alert #successAlert
-                   *ngIf="success_message"
+                   *ngIf="successMessage"
                    [type]="'success'"
                    [dismissible]="false"
-                   (closed)=" success_message = ''"
+                   (closed)=" successMessage = ''"
                    class="text-center">
-            {{success_message | translate}}
+            {{successMessage | translate}}
         </ngb-alert>
         <form>
-            <div class="form-group form-inline">
-                Full text search: <input class="form-control ml-2" type="text" name="searchTerm" [ngModel]
-                                         (ngModelChange)="onSearch($event)"/>
-                <a class="btn btn-dark btn-lg btn-outline-primary" (click)="openAdd()">{{'issue.list.button' | translate}}</a>
+            <div class="form-group d-flex flex-row justify-content-between border rounded mt-3 px-2">
+                <div class="d-flex flex-row">
+                    <div class="p-2 mx-4">
+                        <label for="searchTerm">{{'common.search' | translate}}</label>
+                        <input class="form-control" type="text" name="searchTerm" [ngModel]
+                               (ngModelChange)="onSearch($event)"/>
+                    </div>
+                    <div class="p-2  mx-4">
+                        <app-select [label]="'issue.list.subtype' | translate"
+                                    [options]="types" (value)="onIssueTypeChanged($event)">
+                        </app-select>
+                    </div>
+                </div>
+                <div class="p-2 mt-3">
+                    <a class="btn btn-primary btn-lg" (click)="openAdd()">{{'issue.list.button' | translate}}</a>
+                </div>
             </div>
 
             <table class="table table-striped">
                 <thead>
                 <tr>
-                    <th scope="col" sortable="nameDisplay" (sort)="onSort($event)">{{'issue.list.name' | translate}}</th>
+                    <th scope="col" sortable="id" (sort)="onSort($event)">{{'issue.list.id' | translate}}</th>
+                    <th scope="col" sortable="name" (sort)="onSort($event)">{{'issue.list.name' | translate}}</th>
+                    <th scope="col" sortable="subtype" (sort)="onSort($event)">{{'issue.list.subtype' | translate}}</th>
+                    <th scope="col" sortable="estimatedTime" (sort)="onSort($event)">{{'issue.list.estimated-time' | translate}}</th>
+                    <th scope="col" sortable="realTime" (sort)="onSort($event)">{{'issue.list.real-time' | translate}}</th>
+                    <th scope="col" sortable="differenceTime" (sort)="onSort($event)">{{'issue.list.difference-time' | translate}}</th>
+                    <th>{{'issue.list.details' | translate}}</th>
                     <th>{{'common.edit' | translate}}</th>
                     <th>{{'common.delete' | translate}}</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr *ngFor="let issue of service.issues$ | async">
+                <tr *ngFor="let issue of issueService.issues$ | async">
+                    <th>{{issue.id}}</th>
                     <th>{{issue.name}}</th>
+                    <td>{{issue.subtypeName}}</td>
+                    <td>{{convertTimeToString(issue.estimatedTime)}}</td>
+                    <td>{{convertTimeToString(issue.realTime)}}</td>
+                    <td>{{convertTimeToString(issue.differenceTime)}}</td>
+                    <td><a routerLink="/issue/{{issue.id}}">{{'issue.list.details' | translate}}</a></td>
                     <td><a (click)="openEdit(issue)"><i class="fa fa-edit fa-2x btn"></i></a></td>
                     <td><a (click)="openDelete(issue)"><i class="fa fa-trash fa-2x btn"></i></a></td>
                 </tr>
@@ -57,7 +83,7 @@ import {IssueEditComponent} from './issue-edit.component';
 
             <div class="d-flex justify-content-between p-2">
                 <app-pagination
-                        [totalElements]="service.total$ | async"
+                        [totalElements]="issueService.total$ | async"
                         (page)="onPage($event)">
                 </app-pagination>
             </div>
@@ -65,24 +91,28 @@ import {IssueEditComponent} from './issue-edit.component';
     `
 })
 export class IssueListComponent implements OnInit, OnDestroy {
-
+    types = ISSUE_TYPES
     pageSize = PAGE_SIZE;
-    error_message: string;
-    success_message: string;
+    errorMessage: string;
+    successMessage: string;
     private errorSubject = new Subject<string>();
     private successSubject = new Subject<string>();
+    private issueType: SelectItem;
+    convertTimeToString = convertTimeToString;
     @ViewChild('errorAlert', {static: false}) errorAlert: NgbAlert;
     @ViewChild('successAlert', {static: false}) successAlert: NgbAlert;
     @ViewChildren(SortableDirective) headers: QueryList<SortableDirective>;
+    positionList: SelectItem[] = [];
 
-    constructor(public service: IssueService,
+    constructor(public issueService: IssueService,
                 private modalService: NgbModal) {
     }
 
     ngOnInit(): void {
-        this.service.getIssueList().subscribe(result => {
-                this.service.allIssueList = result;
-                this.service.search$.next();
+        this.issueService.getIssueList().subscribe(result => {
+                this.issueService.allIssueList = result;
+                this.issueService.filterIssueList(this.issueType);
+                this.issueService.search$.next();
             }
         );
 
@@ -112,19 +142,19 @@ export class IssueListComponent implements OnInit, OnDestroy {
             }
         );
 
-        this.service.state.sortColumn = $event.column;
-        this.service.state.sortDirection = $event.direction;
-        this.service.search$.next();
+        this.issueService.state.sortColumn = $event.column;
+        this.issueService.state.sortDirection = $event.direction;
+        this.issueService.search$.next();
     }
 
     onSearch($event: string) {
-        this.service.state.searchTerm = $event;
-        this.service.search$.next();
+        this.issueService.state.searchTerm = $event;
+        this.issueService.search$.next();
     }
 
     onPage($event: number) {
-        this.service.state.page = $event;
-        this.service.search$.next();
+        this.issueService.state.page = $event;
+        this.issueService.search$.next();
     }
 
     openAdd() {
@@ -155,12 +185,16 @@ export class IssueListComponent implements OnInit, OnDestroy {
 
     private showInfo(result) {
         if (result.includes('error')) {
-            this.error_message = result;
+            this.errorMessage = result;
             this.errorSubject.next(result);
         } else {
-            this.success_message = result;
+            this.successMessage = result;
             this.successSubject.next(result);
         }
     }
 
+    onIssueTypeChanged($event: SelectItem) {
+        this.issueService.filterIssueList($event);
+        this.issueService.search$.next();
+    }
 }

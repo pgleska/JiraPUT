@@ -44,8 +44,8 @@ import {SortEvent} from '../common/list-components/sort/sort.model';
                         <input class="form-control" value="{{project.version}}" name="companyName" disabled>
                     </div>
                     <div class="form-group">
-                        <label for="companyName">{{'project.details.description' | translate}} </label>
-                        <textarea class="form-control" value="{{project.description}}" name="companyName" disabled style="resize: none"></textarea>
+                        <label for="description">{{'project.details.description' | translate}} </label>
+                        <textarea class="form-control" value="{{project.description}}" name="description" disabled style="resize: none"></textarea>
                     </div>
                     <div class="form-group overflow-auto" style="width: 227px">
                         <label for="salary">{{'project.details.technologies' | translate}}</label>
@@ -106,6 +106,7 @@ export class ProjectDetailsComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
+        this.contractService.resetState();
         const projectId = +this.route.snapshot.paramMap.get('id');
         this.projectService.getProject(projectId).subscribe(
             (project) => {
@@ -114,6 +115,7 @@ export class ProjectDetailsComponent implements OnInit, OnDestroy {
                     this.contractService.getContract(contractNumber).subscribe(
                         (contract) => {
                             this.contractList.push(contract);
+                            this.contractService.allContractList = this.contractList;
                         }
                     );
                 }

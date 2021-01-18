@@ -18,10 +18,11 @@ import {ContractDetailsComponent} from './contract/contract-details.component';
 import {IssueListComponent} from './issue/issue-list.component';
 import {IssueDetailsComponent} from './issue/issue-details.component';
 import {TechnologyDetailsComponent} from './technology/technology-details.component';
+import {MainPageComponent} from './main-page/main-page.component';
 
 
 const routes: Routes = [
-
+    {path: '', component: MainPageComponent, canActivate: [AuthenticationGuard]},
     {path: 'login', component: AuthenticationComponent},
     {path: 'error', component: ErrorPageComponent, data: {message: 'Page not found!'}},
     {path: 'position', component: PositionListComponent, canActivate: [AuthenticationGuard]},

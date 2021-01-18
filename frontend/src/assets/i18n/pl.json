@@ -151,6 +151,33 @@
     "url-encoding": "Dozwolone znaki to litery, cyfry oraz znaki _ i -",
     "user-duplicated": "Użytkownik o takim loginie już istnieje"
   },
+  "issue": {
+    "add": {
+      "add": "Dodaj",
+      "edited": "Zadanie zostało pomyślnie dodane",
+      "title": "Edytuj zadanie"
+    },
+    "delete": {
+      "body": "Czy na pewno chcesz usunąć to zadanie? \nOperacja ta jest nieodwracalna!",
+      "delete": "Usuń",
+      "deleted": "Zadanie zostało pomyślnie usunięte",
+      "title": "Usuń zadanie"
+    },
+    "edit": {
+      "edit": "Zapisz",
+      "edited": "Zadanie zostało pomyślnie zedtyowane",
+      "title": "Edytuj zadanie"
+    },
+    "list": {
+      "button": "Dodaj zadanie",
+      "details": "Szczegóły",
+      "difference-time": "Różnica czasów",
+      "estimated-time": "Czas oszacowany",
+      "name": "Nazwa",
+      "real-time": "Czas rzeczywisty",
+      "subtype": "Typ"
+    }
+  },
   "navbar": {
     "company": "Firmy",
     "contract": "Kontrakty",
@@ -193,10 +220,10 @@
       "add": "Dodaj",
       "added": "Projekt został pomyślnie dodany",
       "description": "Opis projektu",
-      "title": "Dodaj projekt",
       "search": "Wyszukaj",
       "select-all": "Zaznacz wszystkie",
       "technologies": "Technologie",
+      "title": "Dodaj projekt",
       "unselect-all": "Odznacz wszystkie"
     },
     "delete": {
@@ -209,17 +236,17 @@
       "description": "Opis projektu",
       "edit": "Edytuj",
       "header": "Projekt: ",
-      "version": "Wersja",
-      "technologies":"Technologie"
+      "technologies": "Technologie",
+      "version": "Wersja"
     },
     "edit": {
       "description": "Opis projektu",
       "edit": "Zapisz",
       "edited": "Projekt został pomyślnie zedtyowany",
-      "title": "Edytuj projekt",
       "search": "Wyszukaj",
       "select-all": "Zaznacz wszystkie",
       "technologies": "Technologie",
+      "title": "Edytuj projekt",
       "unselect-all": "Odznacz wszystkie"
     },
     "list": {

@@ -7,6 +7,8 @@ import {SortableDirective} from '../common/list-components/sort/sortable.directi
 import {Issue} from './issue.model';
 import {IssueService} from './issue.service';
 import {IssueEditComponent} from './issue-edit.component';
+import { convertTimeToString } from '../common/date-transformation/convert-time.functions';
+import {SortEvent} from '../common/list-components/sort/sort.model';
 
 
 @Component({
@@ -14,31 +16,111 @@ import {IssueEditComponent} from './issue-edit.component';
     template: `
         <div>
             <ngb-alert #errorAlert
-                       *ngIf="error_message"
+                       *ngIf="errorMessage"
                        [type]="'danger'"
                        [dismissible]="false"
-                       (closed)=" error_message = ''"
+                       (closed)=" errorMessage = ''"
                        class="text-center">
-                {{error_message | translate}}
+                {{errorMessage | translate}}
             </ngb-alert>
             <ngb-alert #successAlert
-                       *ngIf="success_message"
+                       *ngIf="successMessage"
                        [type]="'success'"
                        [dismissible]="false"
-                       (closed)=" success_message = ''"
+                       (closed)=" successMessage = ''"
                        class="text-center">
-                {{success_message | translate}}
+                {{successMessage | translate}}
             </ngb-alert>
-            <a class="btn btn-dark btn-lg btn-outline-primary" (click)="openEdit()">{{'project.details.edit' | translate}}</a>
+            <div class="d-flex flex-column border rounded p-2 mt-3 w-50 mx-auto">
+                <div class="d-flex justify-content-between">
+                    <h2>{{'issue.details.header' | translate }}{{issue.id}}</h2>
+                    <a class="btn btn-primary btn-lg" (click)="openEdit()">{{'issue.details.edit' | translate}}</a>
+                </div>
+                <div class="d-flex flex-column align-items-center ">
+                    <div class="form-group">
+                        <label for="name">{{'issue.details.name' | translate}}</label>
+                        <input class="form-control" value="{{issue.name}}" name="firstName" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label for="subtype">{{'issue.details.subtype' | translate}} </label>
+                        <input class="form-control" value="{{issue.subtype}}" name="subtype" disabled/>
+                    </div>
+                    <div class="form-group">
+                        <label for="description">{{'issue.details.description' | translate}} </label>
+                        <textarea class="form-control" value="{{issue.description}}" name="description" disabled
+                                  style="resize: none"></textarea>
+                    </div>
+                    <div *ngIf="issue.subtype === 'epic'" class="form-group">
+                        <label for="projectName">{{'issue.details.description' | translate}} </label>
+                        <input class="form-control" value="{{issue.projectName}}" name="projectName" disabled/>
+                    </div>
+                    <div *ngIf="issue.subtype === 'epic'" class="form-group">
+                        <label for="realizationDate">{{'issue.details.realization-date' | translate}} </label>
+                        <input class="form-control" value="{{issue.realizationDate}}" name="realizationDate" disabled/>
+                    </div>
+                    <div *ngIf="issue.subtype === 'story'" class="form-group">
+                        <label for="epic">{{'issue.details.epic' | translate}} </label>
+                        <input class="form-control" value="{{issue.epicName}}" name="epic" disabled/>
+                    </div>
+                    <div *ngIf="issue.subtype === 'story'" class="form-group">
+                        <label for="team">{{'issue.details.team' | translate}} </label>
+                        <input class="form-control" value="{{issue.teamName}}" name="team" disabled/>
+                    </div>
+                    <div *ngIf="issue.subtype === 'task'" class="form-group">
+                        <label for="taskType">{{'issue.details.task-type' | translate}} </label>
+                        <input class="form-control" value="{{issue.taskType}}" name="taskType" disabled/>
+                    </div>
+                    <div *ngIf="issue.subtype === 'task'" class="form-group">
+                        <label for="story">{{'issue.details.story' | translate}} </label>
+                        <input class="form-control" value="{{issue.storyName}}" name="story" disabled/>
+                    </div>
+                    <div *ngIf="issue.subtype === 'task'" class="form-group">
+                        <label for="employee">{{'issue.details.employee' | translate}} </label>
+                        <input class="form-control" value="{{issue.userLogin}}" name="employee" disabled/>
+                    </div>
+                </div>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th scope="col" sortable="id" (sort)="onSort($event)">{{'issue.list.id' | translate}}</th>
+                        <th scope="col" sortable="name" (sort)="onSort($event)">{{'issue.list.name' | translate}}</th>
+                        <th scope="col" sortable="subtype" (sort)="onSort($event)">{{'issue.list.subtype' | translate}}</th>
+                        <th scope="col" sortable="estimatedTime" (sort)="onSort($event)">{{'issue.list.estimated-time' | translate}}</th>
+                        <th scope="col" sortable="realTime" (sort)="onSort($event)">{{'issue.list.real-time' | translate}}</th>
+                        <th scope="col" sortable="differenceTime" (sort)="onSort($event)">{{'issue.list.difference-time' | translate}}</th>
+                        <th>{{'issue.list.details' | translate}}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let issue of issueList">
+                        <th>{{issue.id}}</th>
+                        <th>{{issue.name}}</th>
+                        <td>{{issue.subtypeName}}</td>
+                        <td>{{convertTimeToString(issue.estimatedTime)}}</td>
+                        <td>{{convertTimeToString(issue.realTime)}}</td>
+                        <td>{{convertTimeToString(issue.differenceTime)}}</td>
+                        <td><a routerLink="/issue/{{issue.id}}">{{'issue.list.details' | translate}}</a></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="d-flex justify-content-between p-2">
+                    <app-pagination
+                            [totalElements]="issueList.length"
+                            (page)="onPage($event)">
+                    </app-pagination>
+                </div>
+            </div>
         </div>
     `
 })
 export class IssueDetailsComponent implements OnInit {
 
     pageSize = PAGE_SIZE;
-    error_message: string;
-    success_message: string;
+    errorMessage: string;
+    successMessage: string;
     issue: Issue;
+    issueList: Issue[];
+    convertTimeToString = convertTimeToString;
     private errorSubject = new Subject<string>();
     private successSubject = new Subject<string>();
     @ViewChild('errorAlert', {static: false}) errorAlert: NgbAlert;
@@ -51,12 +133,38 @@ export class IssueDetailsComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        this.issueService.resetState();
         const issueId = +this.route.snapshot.paramMap.get('issueId');
         this.issueService.getIssue(issueId).subscribe(
-            (issue) => {
-                this.issue = issue;
+            (mainIssue) => {
+                this.issue = mainIssue;
+                this.issueService.getIssueList().subscribe(
+                    (issues) => {
+                        this.issueList = issues.filter(issue =>
+                            this.issue?.stories.includes(issue.id) || this.issue?.tasks.includes(issue.id));
+                        this.issueService.allIssueList = this.issueList;
+                    }
+                );
             }
         );
+    }
+
+    onSort($event: SortEvent) {
+        this.headers.forEach(header => {
+                if (header.sortable !== $event.column) {
+                    header.direction = '';
+                }
+            }
+        );
+
+        this.issueService.state.sortColumn = $event.column;
+        this.issueService.state.sortDirection = $event.direction;
+        this.issueService.search$.next();
+    }
+
+    onPage($event: number) {
+        this.issueService.state.page = $event;
+        this.issueService.search$.next();
     }
 
     openEdit() {
@@ -70,10 +178,10 @@ export class IssueDetailsComponent implements OnInit {
 
     private showInfo(result) {
         if (result.includes('error')) {
-            this.error_message = result;
+            this.errorMessage = result;
             this.errorSubject.next(result);
         } else {
-            this.success_message = result;
+            this.successMessage = result;
             this.successSubject.next(result);
         }
     }
