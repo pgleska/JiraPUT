@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren} from '
 import {ActivatedRoute} from '@angular/router';
 import {PAGE_SIZE} from '../common/list-components/pagination/pagination.component';
 import {Subject} from 'rxjs';
-import {NgbAlert, NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {NgbAlert} from '@ng-bootstrap/ng-bootstrap';
 import {SortableDirective} from '../common/list-components/sort/sortable.directive';
 import {debounceTime} from 'rxjs/internal/operators';
 import {Contract} from './contract.model';
@@ -35,7 +35,6 @@ import {CompanyService} from '../company/company.service';
             <div class="d-flex flex-column border rounded p-2 mt-3 w-50 mx-auto">
                 <div class="d-flex justify-content-between">
                     <h2>{{'contract.details.header' | translate }}{{contract.contractNumber}}</h2>
-<!--                    <a class="btn btn-primary btn-lg" (click)="openEdit()">{{'employee.details.edit' | translate}}</a>-->
                 </div>
                 <div class="d-flex flex-column align-items-center ">
                     <div class="form-group">
@@ -60,7 +59,8 @@ import {CompanyService} from '../company/company.service';
                     </div>
                     <div class="form-group">
                         <label for="conditions">{{'contract.details.conditions' | translate}} </label>
-                        <textarea class="form-control" value="{{contract.conditions}}" name="conditions" disabled style="resize: none"></textarea>
+                        <textarea class="form-control" value="{{contract.conditions}}" name="conditions" disabled
+                                  style="resize: none"></textarea>
                     </div>
                 </div>
             </div>
@@ -85,8 +85,7 @@ export class ContractDetailsComponent implements OnInit, OnDestroy {
     constructor(private contractService: ContractService,
                 private projectService: ProjectService,
                 private companyService: CompanyService,
-                private route: ActivatedRoute,
-                private modalService: NgbModal) {
+                private route: ActivatedRoute) {
     }
 
     ngOnInit(): void {
@@ -96,12 +95,12 @@ export class ContractDetailsComponent implements OnInit, OnDestroy {
                 this.contract = contract;
                 this.projectService.getProject(contract.projectId).subscribe(
                     (project) => {
-                        this.project = project
+                        this.project = project;
                     }
                 );
                 this.companyService.getCompany(contract.companyTaxNumber).subscribe(
                     (company) => {
-                        this.company = company
+                        this.company = company;
                     }
                 );
             }
@@ -123,15 +122,5 @@ export class ContractDetailsComponent implements OnInit, OnDestroy {
     ngOnDestroy(): void {
         this.successSubject.unsubscribe();
         this.errorSubject.unsubscribe();
-    }
-
-    private showInfo(result) {
-        if (result.includes('error')) {
-            this.error_message = result;
-            this.errorSubject.next(result);
-        } else {
-            this.success_message = result;
-            this.successSubject.next(result);
-        }
     }
 }

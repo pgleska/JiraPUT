@@ -58,29 +58,26 @@ export class IssueService {
                 ));
     }
 
-    // getEpicListByProjectId(projectId: number): Observable<Issue[]> {
-    //     return this.http.get<Issue[]>(environment.apiUrl + '/api/issue/list')
-    //         .pipe(
-    //             catchError(handleError('issue')),
-    //             map(issues => issues.filter(issue => issue.type === IssueEnum.Epic && issue.projectId === projectId)),
-    //         );
-    // }
-    //
-    // getStoryListByTeamName(teamName: string): Observable<Issue[]> {
-    //     return this.http.get<Issue[]>(environment.apiUrl + '/api/issue/list')
-    //         .pipe(
-    //             catchError(handleError('issue')),
-    //             map(issues => issues.filter(issue => issue.type === IssueEnum.Story && issue.tea === teamName)),
-    //         );
-    // }
-    //
-    // getEpicListByProjectId(projectId: number): Observable<Issue[]> {
-    //     return this.http.get<Issue[]>(environment.apiUrl + '/api/issue/list')
-    //         .pipe(
-    //             catchError(handleError('issue')),
-    //             map(issues => issues.filter(issue => issue.type === IssueEnum.Epic && issue.projectId === projectId)),
-    //         );
-    // }
+    getEpicListByProjectId(projectId: number): Observable<Issue[]> {
+        return this.http.get<Issue[]>(environment.apiUrl + '/api/issue/list') // todo zmienic endpoint
+            .pipe(
+                catchError(handleError('issue')),
+            );
+    }
+
+    getStoryListByTeamName(teamName: string): Observable<Issue[]> {
+        return this.http.get<Issue[]>(environment.apiUrl + '/api/issue/list') // todo zmienic endpoint
+            .pipe(
+                catchError(handleError('issue')),
+            );
+    }
+
+    getTaskListByEmployeeLogin(login: string): Observable<Issue[]> {
+        return this.http.get<Issue[]>(environment.apiUrl + '/api/issue/list') // todo zmienic endpoint
+            .pipe(
+                catchError(handleError('issue')),
+            );
+    }
 
     getIssue(issueId: number): Observable<Issue> {
         return this.http.get<Issue>(environment.apiUrl + `/api/issue/${issueId}`)

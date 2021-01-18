@@ -6,11 +6,13 @@ import {NgbAlert, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {SortableDirective} from '../common/list-components/sort/sortable.directive';
 import {debounceTime} from 'rxjs/internal/operators';
 import {Project} from './project.model';
-import {Contract} from '../contract/contract.model';
 import {ProjectService} from './project.service';
 import {ContractService} from '../contract/contract.service';
 import {ProjectEditComponent} from './project-edit.component';
 import {SortEvent} from '../common/list-components/sort/sort.model';
+import {convertTimeToString} from '../common/date-transformation/convert-time.functions';
+import {IssueService} from '../issue/issue.service';
+import {map} from 'rxjs/operators';
 
 
 @Component({
@@ -45,12 +47,14 @@ import {SortEvent} from '../common/list-components/sort/sort.model';
                     </div>
                     <div class="form-group">
                         <label for="description">{{'project.details.description' | translate}} </label>
-                        <textarea class="form-control" value="{{project.description}}" name="description" disabled style="resize: none"></textarea>
+                        <textarea class="form-control" value="{{project.description}}" name="description" disabled
+                                  style="resize: none"></textarea>
                     </div>
                     <div class="form-group overflow-auto" style="width: 227px">
                         <label for="salary">{{'project.details.technologies' | translate}}</label>
                         <div>
-                            <app-technology-tag *ngFor="let technology of project.technologies" [name]="technology.name"></app-technology-tag>
+                            <app-technology-tag *ngFor="let technology of project.technologies"
+                                                [name]="technology.name"></app-technology-tag>
                         </div>
                     </div>
                 </div>
@@ -58,15 +62,17 @@ import {SortEvent} from '../common/list-components/sort/sort.model';
                     <thead>
                     <tr>
                         <th scope="col" sortable="contractNumber"
-                            (sort)="onSort($event)">{{'contract.list.contract-number' | translate}}</th>
-                        <th scope="col" sortable="companyName" (sort)="onSort($event)">{{'contract.list.company-name' | translate}}</th>
-                        <th scope="col" sortable="projectName" (sort)="onSort($event)">{{'contract.list.project-name' | translate}}</th>
-                        <th scope="col" sortable="amount" (sort)="onSort($event)">{{'contract.list.amount' | translate}}</th>
+                            (sort)="onSortContract($event)">{{'contract.list.contract-number' | translate}}</th>
+                        <th scope="col" sortable="companyName"
+                            (sort)="onSortContract($event)">{{'contract.list.company-name' | translate}}</th>
+                        <th scope="col" sortable="projectName"
+                            (sort)="onSortContract($event)">{{'contract.list.project-name' | translate}}</th>
+                        <th scope="col" sortable="amount" (sort)="onSortContract($event)">{{'contract.list.amount' | translate}}</th>
                         <th>{{'contract.list.details' | translate}}</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr *ngFor="let contract of contractList">
+                    <tr *ngFor="let contract of contractService.contracts$ | async">
                         <th>{{contract.contractNumber}}</th>
                         <th>{{contract.companyName}}</th>
                         <th>{{contract.projectName}}</th>
@@ -76,8 +82,40 @@ import {SortEvent} from '../common/list-components/sort/sort.model';
                 </table>
                 <div class="d-flex justify-content-between p-2">
                     <app-pagination
-                            [totalElements]="contractList.length"
-                            (page)="onPage($event)">
+                            [totalElements]="contractService.total$ | async"
+                            (page)="onPageContract($event)">
+                    </app-pagination>
+                </div>
+
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th scope="col" sortable="id" (sort)="onSortIssue($event)">{{'issue.list.id' | translate}}</th>
+                        <th scope="col" sortable="name" (sort)="onSortIssue($event)">{{'issue.list.name' | translate}}</th>
+                        <th scope="col" sortable="estimatedTime"
+                            (sort)="onSortIssue($event)">{{'issue.list.estimated-time' | translate}}</th>
+                        <th scope="col" sortable="realTime" (sort)="onSortIssue($event)">{{'issue.list.real-time' | translate}}</th>
+                        <th scope="col" sortable="differenceTime"
+                            (sort)="onSortIssue($event)">{{'issue.list.difference-time' | translate}}</th>
+                        <th>{{'issue.list.details' | translate}}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let issue of issueService.issues$ | async">
+                        <th>{{issue.id}}</th>
+                        <th>{{issue.name}}</th>
+                        <td>{{issue.subtypeName}}</td>
+                        <td>{{convertTimeToString(issue.estimatedTime)}}</td>
+                        <td>{{convertTimeToString(issue.realTime)}}</td>
+                        <td>{{convertTimeToString(issue.differenceTime)}}</td>
+                        <td><a routerLink="/issue/{{issue.id}}">{{'issue.list.details' | translate}}</a></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="d-flex justify-content-between p-2">
+                    <app-pagination
+                            [totalElements]="issueService.total$ | async"
+                            (page)="onPageIssue($event)">
                     </app-pagination>
                 </div>
             </div>
@@ -91,7 +129,7 @@ export class ProjectDetailsComponent implements OnInit, OnDestroy {
     error_message: string;
     success_message: string;
     project: Project = {name: '', version: '', technologies: []};
-    contractList: Contract[] = [];
+    convertTimeToString = convertTimeToString;
     private errorSubject = new Subject<string>();
     private successSubject = new Subject<string>();
     @ViewChild('errorAlert', {static: false}) errorAlert: NgbAlert;
@@ -100,7 +138,8 @@ export class ProjectDetailsComponent implements OnInit, OnDestroy {
 
 
     constructor(private projectService: ProjectService,
-                private contractService:ContractService,
+                public contractService: ContractService,
+                public issueService: IssueService,
                 private route: ActivatedRoute,
                 private modalService: NgbModal) {
     }
@@ -111,14 +150,17 @@ export class ProjectDetailsComponent implements OnInit, OnDestroy {
         this.projectService.getProject(projectId).subscribe(
             (project) => {
                 this.project = project;
-                for (let contractNumber of project.contracts) {
-                    this.contractService.getContract(contractNumber).subscribe(
-                        (contract) => {
-                            this.contractList.push(contract);
-                            this.contractService.allContractList = this.contractList;
-                        }
-                    );
-                }
+                this.contractService.getContractList().pipe(
+                    map(contracts => contracts.filter(contract => this.project.id === contract.projectId))
+                ).subscribe((contract) => {
+                        this.contractService.allContractList = contract;
+                    }
+                );
+                this.issueService.getEpicListByProjectId(this.project.id).subscribe(
+                    (result) => {
+                        this.issueService.allIssueList = result;
+                    }
+                );
             }
         );
 
@@ -133,6 +175,8 @@ export class ProjectDetailsComponent implements OnInit, OnDestroy {
                 this.successAlert.close();
             }
         });
+        this.contractService.search$.next();
+        this.issueService.search$.next();
     }
 
     ngOnDestroy(): void {
@@ -140,7 +184,7 @@ export class ProjectDetailsComponent implements OnInit, OnDestroy {
         this.errorSubject.unsubscribe();
     }
 
-    onSort($event: SortEvent) {
+    onSortContract($event: SortEvent) { //todo naprawa headers dla dwoch tabel
         this.headers.forEach(header => {
                 if (header.sortable !== $event.column) {
                     header.direction = '';
@@ -153,9 +197,27 @@ export class ProjectDetailsComponent implements OnInit, OnDestroy {
         this.contractService.search$.next();
     }
 
-    onPage($event: number) {
+    onPageContract($event: number) {
         this.contractService.state.page = $event;
         this.contractService.search$.next();
+    }
+
+    onSortIssue($event: SortEvent) { //todo naprawa headers dla dwoch tabel
+        this.headers.forEach(header => {
+                if (header.sortable !== $event.column) {
+                    header.direction = '';
+                }
+            }
+        );
+
+        this.issueService.state.sortColumn = $event.column;
+        this.issueService.state.sortDirection = $event.direction;
+        this.issueService.search$.next();
+    }
+
+    onPageIssue($event: number) {
+        this.issueService.state.page = $event;
+        this.issueService.search$.next();
     }
 
     openEdit() {

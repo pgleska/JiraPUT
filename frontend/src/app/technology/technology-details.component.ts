@@ -5,11 +5,9 @@ import {EmployeeService} from '../employee/employee.service';
 import {TechnologyService} from './technology.service';
 import {Technology} from './technology.model';
 import {ProjectService} from '../project/project.service';
-import {Employee} from '../employee/employee.model';
 import {SortableDirective} from '../common/list-components/sort/sortable.directive';
 import {SortEvent} from '../common/list-components/sort/sort.model';
 import {map} from 'rxjs/internal/operators';
-import {Project} from '../project/project.model';
 import {NgbAlert, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {TechnologyEditComponent} from './technology-edit.component';
 import {Subject} from 'rxjs';
@@ -50,7 +48,7 @@ import {Subject} from 'rxjs';
                     </tr>
                     </thead>
                     <tbody>
-                    <tr *ngFor="let employee of employeeList">
+                    <tr *ngFor="let employee of employeeService.employees$ | async">
                         <th>{{employee.firstName}}</th>
                         <td>{{employee.lastName}}</td>
                         <td>{{employee.positionDisplay}}</td>
@@ -60,20 +58,20 @@ import {Subject} from 'rxjs';
                 </table>
                 <div class="d-flex justify-content-between p-2">
                     <app-pagination
-                            [totalElements]="employeeList.length"
+                            [totalElements]="employeeService.total$ | async"
                             (page)="onPageEmployee($event)">
                     </app-pagination>
                 </div>
                 <table class="table table-striped">
                     <thead>
                     <tr>
-                        <th scope="col" sortable="nameDisplay" (sort)="onSortProject($event)">{{'project.list.name' | translate}}</th>
-                        <th scope="col" sortable="nameDisplay" (sort)="onSortProject($event)">{{'project.list.version' | translate}}</th>
+                        <th scope="col" sortable="name" (sort)="onSortProject($event)">{{'project.list.name' | translate}}</th>
+                        <th scope="col" sortable="version" (sort)="onSortProject($event)">{{'project.list.version' | translate}}</th>
                         <th>{{'project.list.details' | translate}}</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr *ngFor="let project of projectList">
+                    <tr *ngFor="let project of projectService.projects$ | async">
                         <th>{{project.name}}</th>
                         <th>{{project.version}}</th>
                         <td><a routerLink="/project/{{project.id}}">{{'project.list.details' | translate}}</a></td>
@@ -83,7 +81,7 @@ import {Subject} from 'rxjs';
 
                 <div class="d-flex justify-content-between p-2">
                     <app-pagination
-                            [totalElements]="projectList.length"
+                            [totalElements]="projectService.total$ | async"
                             (page)="onPageProject($event)">
                     </app-pagination>
                 </div>
@@ -97,17 +95,15 @@ export class TechnologyDetailsComponent implements OnInit {
     errorMessage: string;
     successMessage: string;
     technology: Technology = {id: 0, name: ''};
-    employeeList: Employee[] = [];
-    projectList: Project[] = [];
     private errorSubject = new Subject<string>();
     private successSubject = new Subject<string>();
     @ViewChild('errorAlert', {static: false}) errorAlert: NgbAlert;
     @ViewChild('successAlert', {static: false}) successAlert: NgbAlert;
     @ViewChildren(SortableDirective) headers: QueryList<SortableDirective>;
 
-    constructor(private employeeService: EmployeeService,
+    constructor(public employeeService: EmployeeService,
                 private technologyService: TechnologyService,
-                private projectService: ProjectService,
+                public projectService: ProjectService,
                 private route: ActivatedRoute,
                 private modalService: NgbModal) {
     }
@@ -125,17 +121,17 @@ export class TechnologyDetailsComponent implements OnInit {
         this.employeeService.getEmployeeList().pipe(
             map(employees => employees.filter(employee => employee.technologies?.some(tech => tech.id === id)))
         ).subscribe(result => {
-            this.employeeList = result;
-            this.employeeService.allEmployeeList = this.employeeList;
+            this.employeeService.allEmployeeList = result;
         });
 
         this.projectService.getProjectList().pipe(
             map(projects => projects.filter(project => project.technologies?.some(tech => tech.id === id)))
         ).subscribe(result => {
-            this.projectList = result;
-            this.projectService.allProjectList = this.projectList;
+            this.projectService.allProjectList = result;
         });
 
+        this.employeeService.search$.next();
+        this.projectService.search$.next();
     }
 
     openEdit() {
@@ -147,7 +143,7 @@ export class TechnologyDetailsComponent implements OnInit {
         });
     }
 
-    onSortEmployee($event: SortEvent) {
+    onSortEmployee($event: SortEvent) {  //todo naprawa headers dla dwoch tabel
         this.headers.forEach(header => {
                 if (header.sortable !== $event.column) {
                     header.direction = '';
@@ -165,7 +161,7 @@ export class TechnologyDetailsComponent implements OnInit {
         this.employeeService.search$.next();
     }
 
-    onSortProject($event: SortEvent) {
+    onSortProject($event: SortEvent) { //todo naprawa headers dla dwoch tabel
         this.headers.forEach(header => {
                 if (header.sortable !== $event.column) {
                     header.direction = '';

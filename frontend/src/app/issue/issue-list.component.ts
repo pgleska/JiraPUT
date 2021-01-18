@@ -102,7 +102,6 @@ export class IssueListComponent implements OnInit, OnDestroy {
     @ViewChild('errorAlert', {static: false}) errorAlert: NgbAlert;
     @ViewChild('successAlert', {static: false}) successAlert: NgbAlert;
     @ViewChildren(SortableDirective) headers: QueryList<SortableDirective>;
-    positionList: SelectItem[] = [];
 
     constructor(public issueService: IssueService,
                 private modalService: NgbModal) {

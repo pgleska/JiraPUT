@@ -11,6 +11,9 @@ import {Employee} from '../employee/employee.model';
 import {TeamService} from './team.service';
 import {Team} from './team.model';
 import {TeamEditComponent} from './team-edit.component';
+import {convertTimeToString} from '../common/date-transformation/convert-time.functions';
+import {IssueService} from '../issue/issue.service';
+import {map} from 'rxjs/operators';
 
 @Component({
     selector: 'app-team-details',
@@ -46,14 +49,15 @@ import {TeamEditComponent} from './team-edit.component';
                 <table class="table table-striped">
                     <thead>
                     <tr>
-                        <th scope="col" sortable="firstName" (sort)="onSort($event)">{{'team.details.first-name' | translate}}</th>
-                        <th scope="col" sortable="lastName" (sort)="onSort($event)">{{'team.details.last-name' | translate}}</th>
-                        <th scope="col" sortable="positionDisplay" (sort)="onSort($event)">{{'team.details.position' | translate}}</th>
+                        <th scope="col" sortable="firstName" (sort)="onSortEmployee($event)">{{'team.details.first-name' | translate}}</th>
+                        <th scope="col" sortable="lastName" (sort)="onSortEmployee($event)">{{'team.details.last-name' | translate}}</th>
+                        <th scope="col" sortable="positionDisplay"
+                            (sort)="onSortEmployee($event)">{{'team.details.position' | translate}}</th>
                         <th>{{'team.details.details' | translate}}</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr *ngFor="let employee of employeeList">
+                    <tr *ngFor="let employee of employeeService.employees$ | async">
                         <th>{{employee.firstName}}</th>
                         <td>{{employee.lastName}}</td>
                         <td>{{employee.positionDisplay}}</td>
@@ -63,8 +67,38 @@ import {TeamEditComponent} from './team-edit.component';
                 </table>
                 <div class="d-flex justify-content-between p-2">
                     <app-pagination
-                            [totalElements]="employeeList.length"
-                            (page)="onPage($event)">
+                            [totalElements]="employeeService.total$ | async"
+                            (page)="onPageEmployee($event)">
+                    </app-pagination>
+                </div>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th scope="col" sortable="id" (sort)="onSortIssue($event)">{{'issue.list.id' | translate}}</th>
+                        <th scope="col" sortable="name" (sort)="onSortIssue($event)">{{'issue.list.name' | translate}}</th>
+                        <th scope="col" sortable="estimatedTime"
+                            (sort)="onSortIssue($event)">{{'issue.list.estimated-time' | translate}}</th>
+                        <th scope="col" sortable="realTime" (sort)="onSortIssue($event)">{{'issue.list.real-time' | translate}}</th>
+                        <th scope="col" sortable="differenceTime"
+                            (sort)="onSortIssue($event)">{{'issue.list.difference-time' | translate}}</th>
+                        <th>{{'issue.list.details' | translate}}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let issue of issueService.issues$ | async">
+                        <th>{{issue.id}}</th>
+                        <th>{{issue.name}}</th>
+                        <td>{{convertTimeToString(issue.estimatedTime)}}</td>
+                        <td>{{convertTimeToString(issue.realTime)}}</td>
+                        <td>{{convertTimeToString(issue.differenceTime)}}</td>
+                        <td><a routerLink="/issue/{{issue.id}}">{{'issue.list.details' | translate}}</a></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="d-flex justify-content-between p-2">
+                    <app-pagination
+                            [totalElements]="issueService.total$ | async"
+                            (page)="onPageIssue($event)">
                     </app-pagination>
                 </div>
             </div>
@@ -81,7 +115,8 @@ export class TeamDetailsComponent implements OnInit, OnDestroy {
         name: '',
         numberOfMembers: 0
     };
-    employeeList: Employee[] = [];
+    private employeeList: Employee[] = [];
+    convertTimeToString = convertTimeToString;
     private errorSubject = new Subject<string>();
     private successSubject = new Subject<string>();
     @ViewChild('errorAlert', {static: false}) errorAlert: NgbAlert;
@@ -89,25 +124,30 @@ export class TeamDetailsComponent implements OnInit, OnDestroy {
     @ViewChildren(SortableDirective) headers: QueryList<SortableDirective>;
 
     constructor(public teamService: TeamService,
-                private employeeService: EmployeeService,
+                public employeeService: EmployeeService,
+                public issueService: IssueService,
                 private route: ActivatedRoute,
                 private modalService: NgbModal) {
     }
 
     ngOnInit(): void {
         this.employeeService.resetState();
+        this.issueService.resetState();
         const teamName = this.route.snapshot.paramMap.get('name');
         this.teamService.getTeam(teamName).subscribe(
             (team) => {
                 this.team = team;
-                for (let memberName of team.members) {
-                    this.employeeService.getEmployee(memberName).subscribe(
-                        (member) => {
-                            this.employeeList.push(member);
-                            this.employeeService.allEmployeeList = this.employeeList;
-                        }
-                    );
-                }
+                this.employeeService.getEmployeeList().pipe(
+                    map(employees => employees.filter(employee => this.team.members.includes(employee.login)))
+                ).subscribe(members => {
+                        this.employeeService.allEmployeeList = members;
+                    }
+                );
+                this.issueService.getStoryListByTeamName(this.team.name).subscribe(
+                    (result) => {
+                        this.issueService.allIssueList = result;
+                    }
+                );
             }
         );
 
@@ -123,6 +163,7 @@ export class TeamDetailsComponent implements OnInit, OnDestroy {
             }
         });
         this.employeeService.search$.next();
+        this.issueService.search$.next();
     }
 
     ngOnDestroy(): void {
@@ -130,7 +171,25 @@ export class TeamDetailsComponent implements OnInit, OnDestroy {
         this.errorSubject.unsubscribe();
     }
 
-    onSort($event: SortEvent) {
+    onSortIssue($event: SortEvent) { //todo naprawa headers dla dwoch tabel
+        this.headers.forEach(header => {
+                if (header.sortable !== $event.column) {
+                    header.direction = '';
+                }
+            }
+        );
+
+        this.issueService.state.sortColumn = $event.column;
+        this.issueService.state.sortDirection = $event.direction;
+        this.issueService.search$.next();
+    }
+
+    onPageIssue($event: number) {
+        this.issueService.state.page = $event;
+        this.issueService.search$.next();
+    }
+
+    onSortEmployee($event: SortEvent) { //todo naprawa headers dla dwoch tabel
         this.headers.forEach(header => {
                 if (header.sortable !== $event.column) {
                     header.direction = '';
@@ -143,7 +202,7 @@ export class TeamDetailsComponent implements OnInit, OnDestroy {
         this.employeeService.search$.next();
     }
 
-    onPage($event: number) {
+    onPageEmployee($event: number) {
         this.employeeService.state.page = $event;
         this.employeeService.search$.next();
     }

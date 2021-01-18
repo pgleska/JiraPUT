@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {EmployeeService} from './employee.service';
 import {ActivatedRoute} from '@angular/router';
 import {PAGE_SIZE} from '../common/list-components/pagination/pagination.component';
@@ -6,7 +6,10 @@ import {Subject} from 'rxjs';
 import {NgbAlert, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {Employee} from './employee.model';
 import {EmployeeEditComponent} from './employee-edit.component';
-import {TechnologyService} from '../technology/technology.service';
+import {convertTimeToString} from '../common/date-transformation/convert-time.functions';
+import {IssueService} from '../issue/issue.service';
+import {SortableDirective} from '../common/list-components/sort/sortable.directive';
+import {SortEvent} from '../common/list-components/sort/sort.model';
 
 @Component({
     selector: 'app-employee-details',
@@ -57,8 +60,41 @@ import {TechnologyService} from '../technology/technology.service';
                     <div class="form-group" style="width: 227px">
                         <label for="salary">{{'employee.details.technologies' | translate}}</label>
                         <div>
-                        <app-technology-tag *ngFor="let technology of employee.technologies" [name]="technology.name"></app-technology-tag>
+                            <app-technology-tag *ngFor="let technology of employee.technologies"
+                                                [name]="technology.name"></app-technology-tag>
                         </div>
+                    </div>
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th scope="col" sortable="id" (sort)="onSort($event)">{{'issue.list.id' | translate}}</th>
+                            <th scope="col" sortable="name" (sort)="onSort($event)">{{'issue.list.name' | translate}}</th>
+                            <th scope="col" sortable="subtype" (sort)="onSort($event)">{{'issue.list.subtype' | translate}}</th>
+                            <th scope="col" sortable="estimatedTime"
+                                (sort)="onSort($event)">{{'issue.list.estimated-time' | translate}}</th>
+                            <th scope="col" sortable="realTime" (sort)="onSort($event)">{{'issue.list.real-time' | translate}}</th>
+                            <th scope="col" sortable="differenceTime"
+                                (sort)="onSort($event)">{{'issue.list.difference-time' | translate}}</th>
+                            <th>{{'issue.list.details' | translate}}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr *ngFor="let issue of issueService.issues$ | async">
+                            <th>{{issue.id}}</th>
+                            <th>{{issue.name}}</th>
+                            <td>{{issue.subtypeName}}</td>
+                            <td>{{convertTimeToString(issue.estimatedTime)}}</td>
+                            <td>{{convertTimeToString(issue.realTime)}}</td>
+                            <td>{{convertTimeToString(issue.differenceTime)}}</td>
+                            <td><a routerLink="/issue/{{issue.id}}">{{'issue.list.details' | translate}}</a></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div class="d-flex justify-content-between p-2">
+                        <app-pagination
+                                [totalElements]="issueService.total$ | async"
+                                (page)="onPage($event)">
+                        </app-pagination>
                     </div>
                 </div>
             </div>
@@ -80,24 +116,52 @@ export class EmployeeDetailsComponent implements OnInit {
         team: '',
         technologies: []
     };
+    convertTimeToString = convertTimeToString;
     private errorSubject = new Subject<string>();
     private successSubject = new Subject<string>();
     @ViewChild('errorAlert', {static: false}) errorAlert: NgbAlert;
     @ViewChild('successAlert', {static: false}) successAlert: NgbAlert;
+    @ViewChildren(SortableDirective) headers: QueryList<SortableDirective>;
 
     constructor(private employeeService: EmployeeService,
-                private technologyService: TechnologyService,
+                public issueService: IssueService,
                 private route: ActivatedRoute,
                 private modalService: NgbModal) {
     }
 
     ngOnInit(): void {
+        this.issueService.resetState();
         const login = this.route.snapshot.paramMap.get('login');
         this.employeeService.getEmployee(login).subscribe(
             (employee) => {
                 this.employee = employee;
             }
         );
+
+        this.issueService.getTaskListByEmployeeLogin(login).subscribe(
+            (result) => {
+                this.issueService.allIssueList = result;
+            }
+        );
+        this.issueService.search$.next();
+    }
+
+    onSort($event: SortEvent) {
+        this.headers.forEach(header => {
+                if (header.sortable !== $event.column) {
+                    header.direction = '';
+                }
+            }
+        );
+
+        this.issueService.state.sortColumn = $event.column;
+        this.issueService.state.sortDirection = $event.direction;
+        this.issueService.search$.next();
+    }
+
+    onPage($event: number) {
+        this.issueService.state.page = $event;
+        this.issueService.search$.next();
     }
 
     openEdit() {

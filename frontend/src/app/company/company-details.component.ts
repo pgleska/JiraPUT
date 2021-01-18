@@ -9,8 +9,8 @@ import {Company} from './company.model';
 import {CompanyService} from './company.service';
 import {CompanyEditComponent} from './company-edit.component';
 import {ContractService} from '../contract/contract.service';
-import {Contract} from '../contract/contract.model';
 import {SortEvent} from '../common/list-components/sort/sort.model';
+import {map} from 'rxjs/operators';
 
 @Component({
     selector: 'app-company-details',
@@ -59,7 +59,7 @@ import {SortEvent} from '../common/list-components/sort/sort.model';
                     </tr>
                     </thead>
                     <tbody>
-                    <tr *ngFor="let contract of contractList">
+                    <tr *ngFor="let contract of contractService.contracts$ | async">
                         <th>{{contract.contractNumber}}</th>
                         <th>{{contract.companyName}}</th>
                         <th>{{contract.projectName}}</th>
@@ -70,7 +70,7 @@ import {SortEvent} from '../common/list-components/sort/sort.model';
 
                 <div class="d-flex justify-content-between p-2">
                     <app-pagination
-                            [totalElements]="contractList.length"
+                            [totalElements]="contractService.total$ | async"
                             (page)="onPage($event)">
                     </app-pagination>
                 </div>
@@ -88,7 +88,6 @@ export class CompanyDetailsComponent implements OnInit, OnDestroy {
         taxNumber: 0,
         address: ''
     };
-    contractList: Contract[] = [];
     private errorSubject = new Subject<string>();
     private successSubject = new Subject<string>();
     @ViewChild('errorAlert', {static: false}) errorAlert: NgbAlert;
@@ -97,7 +96,7 @@ export class CompanyDetailsComponent implements OnInit, OnDestroy {
 
 
     constructor(private companyService: CompanyService,
-                private contractService: ContractService,
+                public contractService: ContractService,
                 private route: ActivatedRoute,
                 private modalService: NgbModal) {
     }
@@ -108,14 +107,12 @@ export class CompanyDetailsComponent implements OnInit, OnDestroy {
         this.companyService.getCompany(companyTaxNumber).subscribe(
             (company) => {
                 this.company = company;
-                for (let contractNumber of company.contracts) {
-                    this.contractService.getContract(contractNumber).subscribe(
-                        (contract) => {
-                            this.contractList.push(contract);
-                            this.contractService.allContractList = this.contractList;
-                        }
-                    );
-                }
+                this.contractService.getContractList().pipe(
+                    map(contracts => contracts.filter(contract => this.company.taxNumber === contract.companyTaxNumber))
+                ).subscribe(contracts => {
+                        this.contractService.allContractList = contracts;
+                    }
+                );
             }
         );
 
@@ -130,6 +127,8 @@ export class CompanyDetailsComponent implements OnInit, OnDestroy {
                 this.successAlert.close();
             }
         });
+
+        this.contractService.search$.next();
     }
 
     ngOnDestroy(): void {
