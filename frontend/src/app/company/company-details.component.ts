@@ -61,10 +61,10 @@ import {map} from 'rxjs/operators';
                     <tbody>
                     <tr *ngFor="let contract of contractService.contracts$ | async">
                         <th>{{contract.contractNumber}}</th>
-                        <th>{{contract.companyName}}</th>
-                        <th>{{contract.projectName}}</th>
-                        <th>{{contract.amount}}</th>
-                        <th><a routerLink="/contract/{{contract.id}}">{{'contract.list.details' | translate}}</a></th>
+                        <td>{{contract.companyName}}</td>
+                        <td>{{contract.projectName}}</td>
+                        <td>{{contract.amount}}</td>
+                        <td><a routerLink="/contract/{{contract.id}}">{{'contract.list.details' | translate}}</a></td>
                     </tr>
                     </tbody>
                 </table>
@@ -109,9 +109,11 @@ export class CompanyDetailsComponent implements OnInit, OnDestroy {
             (company) => {
                 this.company = company;
                 this.contractService.getContractList().pipe(
-                    map(contracts => contracts.filter(contract => this.company.taxNumber === contract.companyTaxNumber))
+                    map(contracts => contracts.filter(contract => this.company.taxNumber === contract.taxNumber))
                 ).subscribe(contracts => {
                         this.contractService.allContractList = contracts;
+                        this.contractService.filterContractList();
+                        this.contractService.search$.next();
                     }
                 );
             }
