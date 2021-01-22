@@ -82,7 +82,7 @@ export class ContractService {
             );
     }
 
-    filterContractList(company: SelectItem, project: SelectItem, minimumAmount: number, maximumAmount: number) {
+    filterContractList(company: SelectItem = undefined, project: SelectItem = undefined, minimumAmount: number = undefined, maximumAmount: number = undefined) {
         this.filteredContractList = this.allContractList;
         if (!!company) {
             this.filteredContractList = this.filteredContractList.filter(contract => contract.companyTaxNumber === company.id);
