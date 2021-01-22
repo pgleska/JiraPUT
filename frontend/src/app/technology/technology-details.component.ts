@@ -121,17 +121,17 @@ export class TechnologyDetailsComponent implements OnInit {
         this.employeeService.getEmployeeList().pipe(
             map(employees => employees.filter(employee => employee.technologies?.some(tech => tech.id === id)))
         ).subscribe(result => {
-            this.employeeService.allEmployeeList = result;
+            this.employeeService.allEmployeeList = result; // todo refactor + czyszczenie stanu
+            this.employeeService.filterEmployeeList(undefined, undefined);
+            this.employeeService.search$.next();
         });
 
         this.projectService.getProjectList().pipe(
             map(projects => projects.filter(project => project.technologies?.some(tech => tech.id === id)))
         ).subscribe(result => {
             this.projectService.allProjectList = result;
+            this.projectService.search$.next();
         });
-
-        this.employeeService.search$.next();
-        this.projectService.search$.next();
     }
 
     openEdit() {

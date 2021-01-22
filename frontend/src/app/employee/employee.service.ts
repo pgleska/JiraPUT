@@ -96,6 +96,8 @@ export class EmployeeService {
     }
 
     resetState() {
+        this.filteredEmployeeList = [];
+        this.allEmployeeList = [];
         this.state = {
             page: 1,
             searchTerm: '',

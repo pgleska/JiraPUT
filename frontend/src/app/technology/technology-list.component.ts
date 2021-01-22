@@ -46,7 +46,7 @@ import {TechnologyEditComponent} from './technology-edit.component';
             <table class="table table-striped">
                 <thead>
                 <tr>
-                    <th scope="col" sortable="nameDisplay" (sort)="onSort($event)">{{'technology.list.name' | translate}}</th>
+                    <th scope="col" sortable="name" (sort)="onSort($event)">{{'technology.list.name' | translate}}</th>
                     <th>{{'technology.list.details' | translate}}</th>
                     <th>{{'common.edit' | translate}}</th>
                     <th>{{'common.delete' | translate}}</th>

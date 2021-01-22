@@ -59,21 +59,21 @@ export class IssueService {
     }
 
     getEpicListByProjectId(projectId: number): Observable<Issue[]> {
-        return this.http.get<Issue[]>(environment.apiUrl + '/api/issue/list') // todo zmienic endpoint
+        return this.http.get<Issue[]>(environment.apiUrl + `/api/issue/project/${projectId}`)
             .pipe(
                 catchError(handleError('issue')),
             );
     }
 
     getStoryListByTeamName(teamName: string): Observable<Issue[]> {
-        return this.http.get<Issue[]>(environment.apiUrl + '/api/issue/list') // todo zmienic endpoint
+        return this.http.get<Issue[]>(environment.apiUrl + `/api/issue/team/${teamName}`)
             .pipe(
                 catchError(handleError('issue')),
             );
     }
 
     getTaskListByEmployeeLogin(login: string): Observable<Issue[]> {
-        return this.http.get<Issue[]>(environment.apiUrl + '/api/issue/list') // todo zmienic endpoint
+        return this.http.get<Issue[]>(environment.apiUrl + `/api/issue/user/${login}`)
             .pipe(
                 catchError(handleError('issue')),
             );
