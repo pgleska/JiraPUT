@@ -11,7 +11,7 @@ export interface Issue {
     description: string,
     estimatedTime: number | Date
     realTime: number | Date
-    differenceTime: number | Date
+    timeDifference: number | Date
     subtype: IssueTypes
     subtypeName: IssueTypesName
 

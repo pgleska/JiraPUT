@@ -103,7 +103,7 @@ import {$e} from 'codelyzer/angular/styles/chars';
 export class IssueAddComponent implements OnInit {
 
     private issue: Issue = {
-        differenceTime: undefined,
+        timeDifference: undefined,
         id: 0,
         name: '',
         description: '',

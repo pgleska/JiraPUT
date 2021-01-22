@@ -107,7 +107,7 @@ import {map} from 'rxjs/operators';
                         <th>{{issue.name}}</th>
                         <td>{{convertTimeToString(issue.estimatedTime)}}</td>
                         <td>{{convertTimeToString(issue.realTime)}}</td>
-                        <td>{{convertTimeToString(issue.differenceTime)}}</td>
+                        <td>{{convertTimeToString(issue.timeDifference)}}</td>
                         <td><a routerLink="/issue/{{issue.id}}">{{'issue.list.details' | translate}}</a></td>
                     </tr>
                     </tbody>

@@ -87,7 +87,7 @@ export class ContractAddComponent implements OnInit {
     private company: SelectItem;
     private project: SelectItem;
     private contract: Contract = {
-        companyTaxNumber: 0,
+        taxNumber: 0,
         projectId: 0,
         contractNumber: '',
         companyName: '',
@@ -131,7 +131,7 @@ export class ContractAddComponent implements OnInit {
         this.contract.contractNumber = form.value.name;
         this.contract.projectId = form.value.project.id as number;
         this.contract.projectName = form.value.project.name;
-        this.contract.companyTaxNumber = form.value.company.id as number;
+        this.contract.taxNumber = form.value.company.id as number;
         this.contract.companyName = form.value.company.name;
         this.contract.amount = form.value.amount;
         this.contract.conditions = form.value.conditions;

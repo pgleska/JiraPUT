@@ -7,8 +7,6 @@ import {SortableDirective} from '../common/list-components/sort/sortable.directi
 import {debounceTime} from 'rxjs/internal/operators';
 import {Contract} from './contract.model';
 import {Company} from '../company/company.model';
-import {Project} from '../project/project.model';
-import {ProjectService} from '../project/project.service';
 import {ContractService} from './contract.service';
 import {CompanyService} from '../company/company.service';
 
@@ -17,20 +15,20 @@ import {CompanyService} from '../company/company.service';
     template: `
         <div>
             <ngb-alert #errorAlert
-                       *ngIf="error_message"
+                       *ngIf="errorMessage"
                        [type]="'danger'"
                        [dismissible]="false"
-                       (closed)=" error_message = ''"
+                       (closed)=" errorMessage = ''"
                        class="text-center">
-                {{error_message | translate}}
+                {{errorMessage | translate}}
             </ngb-alert>
             <ngb-alert #successAlert
-                       *ngIf="success_message"
+                       *ngIf="successMessage"
                        [type]="'success'"
                        [dismissible]="false"
-                       (closed)=" success_message = ''"
+                       (closed)=" successMessage = ''"
                        class="text-center">
-                {{success_message | translate}}
+                {{successMessage | translate}}
             </ngb-alert>
             <div class="d-flex flex-column border rounded p-2 mt-3 w-50 mx-auto">
                 <div class="d-flex justify-content-between">
@@ -43,15 +41,16 @@ import {CompanyService} from '../company/company.service';
                     </div>
                     <div class="form-group">
                         <label for="taxNumber">{{'contract.details.tax-number' | translate}} </label>
-                        <input class="form-control" value="{{company.taxNumber}}" name="taxNumber" disabled>
+                        <input class="form-control" value="{{contract.taxNumber}}" name="taxNumber" disabled>
                     </div>
                     <div class="form-group">
                         <label for="address">{{'contract.details.address' | translate}} </label>
-                        <input class="form-control" value="{{company.address}}" name="address" disabled>
+                        <textarea class="form-control" value="{{company.address}}" name="address" disabled>
+                        </textarea>
                     </div>
                     <div class="form-group">
                         <label for="project">{{'contract.details.project-name' | translate}} </label>
-                        <input class="form-control" value="{{project.name}}" name="project" disabled>
+                        <input class="form-control" value="{{contract.projectName}}" name="project" disabled>
                     </div>
                     <div class="form-group">
                         <label for="amount">{{'contract.details.amount' | translate}} </label>
@@ -70,11 +69,21 @@ import {CompanyService} from '../company/company.service';
 export class ContractDetailsComponent implements OnInit, OnDestroy {
 
     pageSize = PAGE_SIZE;
-    error_message: string;
-    success_message: string;
-    contract: Contract;
-    company: Company;
-    project: Project;
+    errorMessage: string;
+    successMessage: string;
+    contract: Contract = {
+        amount: 0,
+        companyName: '',
+        taxNumber: 0,
+        contractNumber: '',
+        projectId: 0,
+        projectName: ''
+    };
+    company: Company = {
+        address: '',
+        name: '',
+        taxNumber: 0
+    };
     private errorSubject = new Subject<string>();
     private successSubject = new Subject<string>();
     @ViewChild('errorAlert', {static: false}) errorAlert: NgbAlert;
@@ -83,22 +92,16 @@ export class ContractDetailsComponent implements OnInit, OnDestroy {
 
 
     constructor(private contractService: ContractService,
-                private projectService: ProjectService,
                 private companyService: CompanyService,
                 private route: ActivatedRoute) {
     }
 
     ngOnInit(): void {
-        const contractId = this.route.snapshot.paramMap.get('contractId');
+        const contractId = +this.route.snapshot.paramMap.get('id');
         this.contractService.getContract(contractId).subscribe(
             (contract) => {
                 this.contract = contract;
-                this.projectService.getProject(contract.projectId).subscribe(
-                    (project) => {
-                        this.project = project;
-                    }
-                );
-                this.companyService.getCompany(contract.companyTaxNumber).subscribe(
+                this.companyService.getCompany(contract.taxNumber).subscribe(
                     (company) => {
                         this.company = company;
                     }
