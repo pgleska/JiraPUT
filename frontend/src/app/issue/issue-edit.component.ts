@@ -3,7 +3,7 @@ import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {IssueService} from './issue.service';
 import {NgForm} from '@angular/forms';
 import {Issue, ISSUE_TYPES, IssueTypes, TASK_TYPES} from './issue.model';
-import {parseToInt, SelectItem} from '../common/select/select-item.model';
+import {SelectItem} from '../common/select/select-item.model';
 import {ProjectService} from '../project/project.service';
 import {EmployeeService} from '../employee/employee.service';
 import {TeamService} from '../team/team.service';
@@ -48,36 +48,50 @@ import {TeamService} from '../team/team.service';
                 </div>
                 <div *ngIf="type === 'epic'">
                     <app-select [label]="'issue.edit.project' | translate"
-                                [options]="projects" (value)="onProjectChanged($event)">
+                                [options]="projects"
+                                [required]="type === 'epic'"
+                                [name]="'project'">
                     </app-select>
                 </div>
                 <div *ngIf="type === 'epic'">
-                    <app-datepicker [label]="'issue.add.realisation-date' | translate" (date)="onDateChange($event)">
+                    <app-datepicker [label]="'issue.add.realisation-date' | translate"
+                                    [required]="type === 'epic'"
+                                    [name]="'realisationDate'">
                     </app-datepicker>
                 </div>
                 <div *ngIf="type === 'story'">
                     <app-select [label]="'issue.edit.epic' | translate"
-                                [options]="epics" (value)="onEpicChanged($event)">
+                                [options]="epics"
+                                [required]="type === 'story'"
+                                [name]="'epic'">
                     </app-select>
                 </div>
                 <div *ngIf="type === 'story'">
                     <app-select [label]="'issue.edit.team' | translate"
-                                [options]="teams" (value)="onTeamChanged($event)">
+                                [options]="teams"
+                                [required]="type === 'story'"
+                                [name]="'team'">
                     </app-select>
                 </div>
                 <div *ngIf="type === 'task'">
                     <app-select [label]="'issue.edit.task-type' | translate"
-                                [options]="taskTypes" (value)="onTaskTypeChanged($event)">
+                                [options]="taskTypes"
+                                [required]="type === 'task'"
+                                [name]="'taskType'">
                     </app-select>
                 </div>
                 <div *ngIf="type === 'task'">
                     <app-select [label]="'issue.edit.story' | translate"
-                                [options]="stories" (value)="onStoryChanged($event)">
+                                [options]="stories"
+                                [required]="type === 'task'"
+                                [name]="'story'">
                     </app-select>
                 </div>
                 <div *ngIf="type === 'task'">
                     <app-select [label]="'issue.edit.login' | translate"
-                                [options]="employees" (value)="onEmployeeChanged($event)">
+                                [options]="employees"
+                                [required]="type === 'task'"
+                                [name]="'employee'">
                     </app-select>
                 </div>
 
@@ -119,7 +133,7 @@ export class IssueEditComponent implements OnInit {
                 description: this.issueCopy.description
             });
         });
-        this.type = this.issueCopy.subtype;
+        this.type = this.issueCopy.type;
 
         this.projectService.getProjectList().subscribe(result => {
             result.forEach(project => {
@@ -158,8 +172,24 @@ export class IssueEditComponent implements OnInit {
             return;
         }
 
-        this.issueCopy.name = form.value.name;
-
+        this.issue.name = form.value.name;
+        this.issue.description = form.value.description;
+        this.issue.type = this.type;
+        switch (this.type) {
+            case 'epic':
+                this.issue.projectId = form.value.project.id as number;
+                this.issue.realizationDate = form.value.realizationDate;
+                break;
+            case 'story':
+                this.issue.epicId = form.value.epic.id as number;
+                this.issue.teamName = form.value.team.id as string;
+                break;
+            case 'task':
+                this.issue.taskType = form.value.taskType.id as number;
+                this.issue.storyId = form.value.story.id as number;
+                this.issue.userLogin = form.value.employee.id as string;
+                break;
+        }
 
         const editObservable = this.issueService.modifyIssue(this.issueCopy);
         editObservable.subscribe(
@@ -172,33 +202,5 @@ export class IssueEditComponent implements OnInit {
             }
         );
         form.reset();
-    }
-
-    onProjectChanged($event: SelectItem) {
-        this.issueCopy.projectId = parseToInt($event);
-    }
-
-    onDateChange($event: string) {
-        this.issueCopy.realizationDate = $event;
-    }
-
-    onEpicChanged($event: SelectItem) {
-        this.issueCopy.epicId = parseToInt($event);
-    }
-
-    onTeamChanged($event: SelectItem) {
-        this.issueCopy.teamName = $event.id.toString();
-    }
-
-    onTaskTypeChanged($event: SelectItem) {
-        this.issueCopy.taskType = parseToInt($event);
-    }
-
-    onEmployeeChanged($event: SelectItem) {
-        this.issueCopy.userLogin = $event.id.toString();
-    }
-
-    onStoryChanged($event: SelectItem) {
-        this.issueCopy.storyId = parseToInt($event);
     }
 }

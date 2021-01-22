@@ -6,7 +6,7 @@ import {ControlContainer, NgForm} from '@angular/forms';
     selector: 'app-select',
     template: `
         <div class="form-group app-select">
-            <label for="name">{{label}}</label>
+            <label [for]="name">{{label}}</label>
             <select class="form-control" [name]="name" #dropdown="ngModel"[ngModel]="defaultValue" [required]="required"
                     (ngModelChange)="onChange($event)">
                 <option [ngValue]="undefined" selected>{{"common.choose" | translate}}</option>

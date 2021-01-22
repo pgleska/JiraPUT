@@ -75,7 +75,7 @@ import { convertTimeToString } from '../common/date-transformation/convert-time.
                     <td>{{issue.subtypeName}}</td>
                     <td>{{convertTimeToString(issue.estimatedTime)}}</td>
                     <td>{{convertTimeToString(issue.realTime)}}</td>
-                    <td>{{convertTimeToString(issue.differenceTime)}}</td>
+                    <td>{{convertTimeToString(issue.timeDifference)}}</td>
                     <td><a routerLink="/issue/{{issue.id}}">{{'issue.list.details' | translate}}</a></td>
                     <td><a (click)="openEdit(issue)"><i class="fa fa-edit fa-2x btn"></i></a></td>
                     <td><a (click)="openDelete(issue)"><i class="fa fa-trash fa-2x btn"></i></a></td>

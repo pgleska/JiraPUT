@@ -115,7 +115,7 @@ export class IssueService {
     filterIssueList(issueType: SelectItem = undefined): void {
         this.filteredIssueList = this.allIssueList;
         if (!!issueType) {
-            this.filteredIssueList = this.filteredIssueList.filter(issue => issue.subtype === issueType.id);
+            this.filteredIssueList = this.filteredIssueList.filter(issue => issue.type === issueType.id);
         }
     }
 
@@ -128,7 +128,7 @@ export class IssueService {
         const estimatedTime = (new Date(issue.estimatedTime).getTime() + 3599000) / 60000;
         issue.realTime = realTime;
         issue.estimatedTime = estimatedTime;
-        switch (issue.subtype) {
+        switch (issue.type) {
             case 'epic':
                 issue.subtypeName = 'Epic';
                 break;

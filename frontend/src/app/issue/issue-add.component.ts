@@ -3,11 +3,10 @@ import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {IssueService} from './issue.service';
 import {NgForm} from '@angular/forms';
 import {Issue, ISSUE_TYPES, IssueTypes, TASK_TYPES} from './issue.model';
-import {parseToInt, SelectItem} from '../common/select/select-item.model';
+import {SelectItem} from '../common/select/select-item.model';
 import {ProjectService} from '../project/project.service';
 import {EmployeeService} from '../employee/employee.service';
 import {TeamService} from '../team/team.service';
-import {$e} from 'codelyzer/angular/styles/chars';
 
 
 @Component({
@@ -52,41 +51,58 @@ import {$e} from 'codelyzer/angular/styles/chars';
                 </div>
                 <div>
                     <app-select [label]="'issue.list.subtype' | translate"
-                                [options]="types" (value)="onIssueTypeChanged($event)">
+                                [options]="types" 
+                                [name]="'type'"
+                                [required]="true"
+                                (value)="onIssueTypeChanged($event)">
                     </app-select>
                 </div>
                 <div *ngIf="type === 'epic'">
                     <app-select [label]="'issue.add.project' | translate"
-                                [options]="projects" (value)="onProjectChanged($event)">
+                                [name]="'project'"
+                                [required]="type === 'epic'"
+                                [options]="projects">
                     </app-select>
                 </div>
                 <div *ngIf="type === 'epic'">
-                    <app-datepicker [label]="'issue.add.realisation-date' | translate" (date)="onDateChange($event)">
+                    <app-datepicker [label]="'issue.add.realisation-date' | translate"
+                                    [name]="'realisationDate'"
+                                    [required]="type === 'epic'">
                     </app-datepicker>
                 </div>
                 <div *ngIf="type === 'story'">
                     <app-select [label]="'issue.add.epic' | translate"
-                                [options]="epics" (value)="onEpicChanged($event)">
+                                [options]="epics"
+                                [name]="'epic'"
+                                [required]="type === 'story'">
                     </app-select>
                 </div>
                 <div *ngIf="type === 'story'">
                     <app-select [label]="'issue.add.team' | translate"
-                                [options]="teams" (value)="onTeamChanged($event)">
+                                [options]="teams"
+                                [name]="'team'"
+                                [required]="type === 'story'">
                     </app-select>
                 </div>
                 <div *ngIf="type === 'task'">
                     <app-select [label]="'issue.add.task-type' | translate"
-                                [options]="taskTypes" (value)="onTaskTypeChanged($event)">
+                                [options]="taskTypes"
+                                [name]="'taskType'"
+                                [required]="type === 'task'">
                     </app-select>
                 </div>
                 <div *ngIf="type === 'task'">
                     <app-select [label]="'issue.add.story' | translate"
-                                [options]="stories" (value)="onStoryChanged($event)">
+                                [options]="stories"
+                                [name]="'story'"
+                                [required]="type === 'task'">
                     </app-select>
                 </div>
                 <div *ngIf="type === 'task'">
                     <app-select [label]="'issue.add.employees' | translate"
-                                [options]="employees" (value)="onEmployeeChanged($event)">
+                                [options]="employees"
+                                [name]="'employee'"
+                                [required]="type === 'task'">
                     </app-select>
                 </div>
 
@@ -109,7 +125,7 @@ export class IssueAddComponent implements OnInit {
         description: '',
         estimatedTime: 0,
         realTime: 0,
-        subtype: undefined,
+        type: undefined,
         subtypeName: undefined
     };
     types = ISSUE_TYPES;
@@ -162,13 +178,29 @@ export class IssueAddComponent implements OnInit {
 
 
     onSubmit(form: NgForm): void {
-        if (!form.valid
-            || !this.issue.subtype) {
+        if (!form.valid) {
+            console.log(form.valid)
             return;
         }
 
         this.issue.name = form.value.name;
         this.issue.description = form.value.description;
+        this.issue.type = this.type;
+        switch (this.type) {
+            case 'epic':
+                this.issue.projectId = form.value.project.id as number;
+                this.issue.realizationDate = form.value.realizationDate;
+                break;
+            case 'story':
+                this.issue.epicId = form.value.epic.id as number;
+                this.issue.teamName = form.value.team.id as string;
+                break;
+            case 'task':
+                this.issue.taskType = form.value.taskType.id as number;
+                this.issue.storyId = form.value.story.id as number;
+                this.issue.userLogin = form.value.employee.id as string;
+                break;
+        }
 
         const addObservable = this.issueService.createIssue(this.issue);
         addObservable.subscribe(
@@ -183,18 +215,22 @@ export class IssueAddComponent implements OnInit {
     }
 
     onIssueTypeChanged($event: SelectItem) {
-        switch ($event.id) {
-            case 'epic':
-                this.type = 'epic';
-                break;
-            case 'story':
-                this.type = 'story';
-                break;
-            case 'task':
-                this.type = 'task';
-                break;
+        if (!!$event) {
+            switch ($event.id) {
+                case 'epic':
+                    this.type = 'epic';
+                    break;
+                case 'story':
+                    this.type = 'story';
+                    break;
+                case 'task':
+                    this.type = 'task';
+                    break;
+            }
+        } else {
+            this.type = undefined;
         }
-        this.issue.subtype = this.type;
+        this.issue.type = this.type;
         this.issue.taskType = undefined;
         this.issue.storyId = undefined;
         this.issue.userLogin = undefined;
@@ -202,34 +238,5 @@ export class IssueAddComponent implements OnInit {
         this.issue.teamName = undefined;
         this.issue.realizationDate = undefined;
         this.issue.projectId = undefined;
-    }
-
-
-    onProjectChanged($event: SelectItem) {
-        this.issue.projectId = parseToInt($event);
-    }
-
-    onDateChange($event: string) {
-        this.issue.realizationDate = $event;
-    }
-
-    onEpicChanged($event: SelectItem) {
-        this.issue.epicId = parseToInt($event);
-    }
-
-    onTeamChanged($event: SelectItem) {
-        this.issue.teamName = $event.id.toString();
-    }
-
-    onTaskTypeChanged($event: SelectItem) {
-        this.issue.taskType = parseToInt($event);
-    }
-
-    onEmployeeChanged($event: SelectItem) {
-        this.issue.userLogin = $event.id.toString();
-    }
-
-    onStoryChanged($event: SelectItem) {
-        this.issue.storyId = parseToInt($event);
     }
 }

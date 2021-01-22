@@ -43,38 +43,38 @@ import {SortEvent} from '../common/list-components/sort/sort.model';
                     </div>
                     <div class="form-group">
                         <label for="subtype">{{'issue.details.subtype' | translate}} </label>
-                        <input class="form-control" value="{{issue.subtype}}" name="subtype" disabled/>
+                        <input class="form-control" value="{{issue.type}}" name="subtype" disabled/>
                     </div>
                     <div class="form-group">
                         <label for="description">{{'issue.details.description' | translate}} </label>
                         <textarea class="form-control" value="{{issue.description}}" name="description" disabled
                                   style="resize: none"></textarea>
                     </div>
-                    <div *ngIf="issue.subtype === 'epic'" class="form-group">
+                    <div *ngIf="issue.type === 'epic'" class="form-group">
                         <label for="projectName">{{'issue.details.description' | translate}} </label>
                         <input class="form-control" value="{{issue.projectName}}" name="projectName" disabled/>
                     </div>
-                    <div *ngIf="issue.subtype === 'epic'" class="form-group">
+                    <div *ngIf="issue.type === 'epic'" class="form-group">
                         <label for="realizationDate">{{'issue.details.realization-date' | translate}} </label>
                         <input class="form-control" value="{{issue.realizationDate}}" name="realizationDate" disabled/>
                     </div>
-                    <div *ngIf="issue.subtype === 'story'" class="form-group">
+                    <div *ngIf="issue.type === 'story'" class="form-group">
                         <label for="epic">{{'issue.details.epic' | translate}} </label>
                         <input class="form-control" value="{{issue.epicName}}" name="epic" disabled/>
                     </div>
-                    <div *ngIf="issue.subtype === 'story'" class="form-group">
+                    <div *ngIf="issue.type === 'story'" class="form-group">
                         <label for="team">{{'issue.details.team' | translate}} </label>
                         <input class="form-control" value="{{issue.teamName}}" name="team" disabled/>
                     </div>
-                    <div *ngIf="issue.subtype === 'task'" class="form-group">
+                    <div *ngIf="issue.type === 'task'" class="form-group">
                         <label for="taskType">{{'issue.details.task-type' | translate}} </label>
                         <input class="form-control" value="{{issue.taskType}}" name="taskType" disabled/>
                     </div>
-                    <div *ngIf="issue.subtype === 'task'" class="form-group">
+                    <div *ngIf="issue.type === 'task'" class="form-group">
                         <label for="story">{{'issue.details.story' | translate}} </label>
                         <input class="form-control" value="{{issue.storyName}}" name="story" disabled/>
                     </div>
-                    <div *ngIf="issue.subtype === 'task'" class="form-group">
+                    <div *ngIf="issue.type === 'task'" class="form-group">
                         <label for="employee">{{'issue.details.employee' | translate}} </label>
                         <input class="form-control" value="{{issue.userLogin}}" name="employee" disabled/>
                     </div>
@@ -98,7 +98,7 @@ import {SortEvent} from '../common/list-components/sort/sort.model';
                         <td>{{issue.subtypeName}}</td>
                         <td>{{convertTimeToString(issue.estimatedTime)}}</td>
                         <td>{{convertTimeToString(issue.realTime)}}</td>
-                        <td>{{convertTimeToString(issue.differenceTime)}}</td>
+                        <td>{{convertTimeToString(issue.timeDifference)}}</td>
                         <td><a routerLink="/issue/{{issue.id}}">{{'issue.list.details' | translate}}</a></td>
                     </tr>
                     </tbody>

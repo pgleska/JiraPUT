@@ -12,7 +12,7 @@ export interface Issue {
     estimatedTime: number | Date
     realTime: number | Date
     timeDifference: number | Date
-    subtype: IssueTypes
+    type: IssueTypes
     subtypeName: IssueTypesName
 
     // epic
