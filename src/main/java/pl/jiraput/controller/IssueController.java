@@ -2,9 +2,11 @@ package pl.jiraput.controller;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -93,6 +95,10 @@ public class IssueController {
 					if(p == null ) {
 						body.put("error", "issue.project.not.found");
 						return new ResponseEntity<Map<String,String>>(body, HttpStatus.NOT_FOUND);
+					}
+					if(data.containsKey("realizationDate")) {
+						String realizationDate = data.get("realizationDate").toString();
+						epic.setRealizationDate(LocalDateTime.parse(realizationDate, dtf));
 					}
 					epic.setProject(p);
 					epic.setIssue(issue);
@@ -198,12 +204,49 @@ public class IssueController {
 		body.put("projectId", epic.getProject().getId());
 		body.put("projectName", epic.getProject().getName());
 		body.put("stories", getStoriesId(issue.getId()));
+		body.put("realizationDate", epic.getRealizationDate());
 		return new ResponseEntity<Map<String, Object>>(body, HttpStatus.OK);
 	}
 	
 	private List getStoriesId(int id) {
 		return entityManager.createNativeQuery("SELECT issue_id FROM story WHERE epic_id=:ID").setParameter("ID", id).getResultList();
 	}
+	@GetMapping(value = "/project/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody ResponseEntity<List<Map<String, Object>>> getEpicsFromProject(@PathVariable Integer id) {
+		List<Map<String, Object>> body = new ArrayList<>();
+		
+		Project project = projectRepository.findById(id).orElse(null);
+		if(project == null) {
+			Map<String, Object> res = new HashMap<>();
+			res.put("error", "issue.project.not.found");
+			body.add(res);
+			return new ResponseEntity<List<Map<String, Object>>>(body, HttpStatus.NOT_FOUND);
+		}
+		
+		List<Issue> issues = issueRepository.findAll();
+		List<Issue> epics = issues.stream().filter(i -> i.getSubtype().equals(Subtype.epic)).collect(Collectors.toList());
+		
+		for(Issue issue : epics) {
+			Epic epic = issue.getEpic();
+			if(epic.getProject().getId() == id) {
+				Map<String, Object> res = new HashMap<>();
+				res.put("id", issue.getId());
+				res.put("name", issue.getName());
+				res.put("description", issue.getDescription());
+				res.put("estimatedTime", issue.getEstimatedTime());
+				res.put("realTime", issue.getRealTime());
+				res.put("type", issue.getSubtype());
+				res.put("projectId", epic.getProject().getId());
+				res.put("projectName", epic.getProject().getName());
+				res.put("stories", getStoriesId(issue.getId()));
+				res.put("realizationDate", epic.getRealizationDate());
+				body.add(res);
+			}
+		}		
+
+		return new ResponseEntity<List<Map<String, Object>>>(body, HttpStatus.OK);
+	}
+	
 	
 	@GetMapping(value = "/story/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ResponseEntity<Map<String, Object>> getStory(@PathVariable Integer id) {
@@ -243,6 +286,43 @@ public class IssueController {
 		return entityManager.createNativeQuery("SELECT issue_id FROM task WHERE story_id=:ID").setParameter("ID", id).getResultList();
 	}
 	
+	@GetMapping(value = "/team/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody ResponseEntity<List<Map<String, Object>>> getStoriesFromTeam(@PathVariable String name) {
+		List<Map<String, Object>> body = new ArrayList<>(); 
+		
+		Team team = teamRepository.findByName(name);
+		if(team == null) {
+			Map<String, Object> res = new HashMap<>();
+			res.put("error", "issue.team.not.found");
+			body.add(res);
+			return new ResponseEntity<List<Map<String, Object>>>(body, HttpStatus.NOT_FOUND);
+		}
+		
+		List<Issue> issues = issueRepository.findAll();
+		List<Issue> stories = issues.stream().filter(i -> i.getSubtype().equals(Subtype.story)).collect(Collectors.toList());
+		
+		for(Issue issue : stories) {
+			Story story = issue.getStory();
+			if(story.getTeam().getName().equals(name)) {
+				Map<String, Object> res = new HashMap<>();
+				res.put("id", issue.getId());
+				res.put("name", issue.getName());
+				res.put("description", issue.getDescription());
+				res.put("estimatedTime", issue.getEstimatedTime());
+				res.put("realTime", issue.getRealTime());
+				res.put("type", issue.getSubtype());
+				res.put("epicId", getEpicId(issue.getId()));
+				res.put("epicName", getEpicName(issue.getId()));
+				res.put("teamName", story.getTeam().getName());
+				res.put("tasks", getTasksId(issue.getId()));
+				body.add(res);
+			}
+		}		
+
+		return new ResponseEntity<List<Map<String, Object>>>(body, HttpStatus.OK);
+	}
+	
+	
 	@GetMapping(value = "/task/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody ResponseEntity<Map<String, Object>> getTask(@PathVariable Integer id) {
 		Map<String, Object> body = new HashMap<>();
@@ -275,5 +355,41 @@ public class IssueController {
 	
 	private String getStoryName(int id) {
 		return entityManager.createNativeQuery("SELECT nazwa FROM issue WHERE identyfikator=:ID").setParameter("ID", getStoryId(id)).getResultList().get(0).toString();
+	}
+	
+	@GetMapping(value = "/user/{login}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody ResponseEntity<List<Map<String, Object>>> getTasksFromUser(@PathVariable String login) {
+		List<Map<String, Object>> body = new ArrayList<>(); 
+		
+		Employee emp = employeeRepository.findByLogin(login);
+		if(emp == null ) {
+			Map<String, Object> res = new HashMap<>();
+			res.put("error", "issue.user.not.found");
+			body.add(res);
+			return new ResponseEntity<List<Map<String, Object>>>(body, HttpStatus.NOT_FOUND);
+		}
+		
+		List<Issue> issues = issueRepository.findAll();
+		List<Issue> tasks = issues.stream().filter(i -> i.getSubtype().equals(Subtype.task)).collect(Collectors.toList());
+		
+		for(Issue issue : tasks) {
+			Task task = issue.getTask();
+			if(task.getEmployee().getLogin().equals(login)) {
+				Map<String, Object> res = new HashMap<>();
+				res.put("id", issue.getId());
+				res.put("name", issue.getName());
+				res.put("description", issue.getDescription());
+				res.put("estimatedTime", issue.getEstimatedTime());
+				res.put("realTime", issue.getRealTime());
+				res.put("type", issue.getSubtype());
+				res.put("storyId", getStoryId(issue.getId()));
+				res.put("storyName", getStoryName(issue.getId()));
+				res.put("userLogin", task.getEmployee().getLogin());
+				res.put("taskType", task.getType());
+				body.add(res);
+			}
+		}
+	
+		return new ResponseEntity<List<Map<String, Object>>>(body, HttpStatus.OK);
 	}
 }

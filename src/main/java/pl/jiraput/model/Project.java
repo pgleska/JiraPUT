@@ -13,7 +13,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -44,8 +43,8 @@ public class Project {
     )
 	private Set<Technology> technologies;
 	
-	@OneToOne(fetch = FetchType.LAZY, mappedBy = "projectEpic", cascade = CascadeType.ALL)
-	private Epic epic;
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "projectEpic", cascade = CascadeType.ALL)
+	private Set<Epic> epic;
 	
 	public Project() {}
 	
@@ -107,11 +106,11 @@ public class Project {
 		this.technologies = technologies;
 	}
 
-	public Epic getEpic() {
+	public Set<Epic> getEpics() {
 		return epic;
 	}
 
-	public void setEpic(Epic epic) {
+	public void setEpics(Set<Epic> epic) {
 		this.epic = epic;
 	}
 }
