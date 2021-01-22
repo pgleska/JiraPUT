@@ -25,7 +25,7 @@ DELIMITER $$
 --
 -- Procedures
 --
-CREATE DEFINER=`dba`@`localhost` PROCEDURE `zmien_nazwe_zespolu` (IN `stary` VARCHAR(63), IN `nowy` VARCHAR(63))  BEGIN
+CREATE DEFINER=`admin`@`%` PROCEDURE `zmien_nazwe_zespolu` (IN `stary` VARCHAR(63), IN `nowy` VARCHAR(63))  BEGIN
 	INSERT INTO `zespol`(`zespol`.`nazwa`, `zespol`.`liczba_czlonkow`) VALUES (nowy, 0);
     UPDATE `pracownik` SET `pracownik`.`zespol`=nowy WHERE `pracownik`.`zespol`=stary;
     UPDATE `story` SET `story`.`zespol`=nowy WHERE `story`.`zespol`=stary;
@@ -35,7 +35,7 @@ END$$
 --
 -- Functions
 --
-CREATE DEFINER=`dba`@`localhost` FUNCTION `roznica_czasow` (`id` INT) RETURNS INT(11) BEGIN
+CREATE DEFINER=`admin`@`%` FUNCTION `roznica_czasow` (`id` INT) RETURNS INT(11) BEGIN
 	DECLARE szacunkowy timestamp;
     DECLARE rzeczywisty timestamp;
 	SELECT issue.szacunkowy_czas_trwania, issue.rzeczywisty_czas_trwania INTO szacunkowy, rzeczywisty FROM issue WHERE issue.identyfikator = id;

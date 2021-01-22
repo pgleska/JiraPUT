@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import pl.jiraput.model.Employee;
 import pl.jiraput.model.Position;
 import pl.jiraput.repository.EmployeeRepository;
 import pl.jiraput.repository.PositionRepository;
@@ -77,13 +78,14 @@ public class PositionController {
 			body.put("error", "position.not.found");
 			return new ResponseEntity<Map<String,String>>(body, HttpStatus.NOT_FOUND);
 		}
-		if(employeeRepository.findByPosition(name) != null) {
-			body.put("error", "position.not.empty");
-			return new ResponseEntity<Map<String,String>>(body, HttpStatus.CONFLICT);
-		} else {
-			positionRepository.delete(position);
-			body.put("status", "position.deleted");
-			return new ResponseEntity<Map<String,String>>(body, HttpStatus.OK);
+		for(Employee e : employeeRepository.findAll()) {
+			if(e.getPosition().getName().equals(name)) {
+				body.put("error", "position.not.empty");
+				return new ResponseEntity<Map<String,String>>(body, HttpStatus.CONFLICT);
+			}
 		}
+		positionRepository.delete(position);
+		body.put("status", "position.deleted");
+		return new ResponseEntity<Map<String,String>>(body, HttpStatus.OK);
 	}
 }
