@@ -50,9 +50,9 @@ export class ContractService {
         return this.http.get<Contract[]>(environment.apiUrl + '/api/contract/list');
     }
 
-    getContract(contractNumber: string): Observable<Contract> {
+    getContract(contractId: number): Observable<Contract> {
         return this.http.get<Contract[]>(environment.apiUrl + '/api/contract/list').pipe(
-            map(contracts => contracts.find(con => con.contractNumber === contractNumber)),
+            map(contracts => contracts.find(con => con.id === contractId)),
         );
     }
 
@@ -75,20 +75,17 @@ export class ContractService {
     // }
 
     deleteContract(contract: Contract): Observable<any> {
-        return this.http.post(
-            environment.apiUrl + `/api/contract/delete`,
-            {
-                contractNumber: contract.contractNumber
-            })
+        return this.http.delete(
+            environment.apiUrl + `/api/contract/${contract.id}`)
             .pipe(
                 catchError(handleError('contract'))
             );
     }
 
-    filterContractList(company: SelectItem, project: SelectItem, minimumAmount: number, maximumAmount: number) {
+    filterContractList(company: SelectItem = undefined, project: SelectItem = undefined, minimumAmount: number = undefined, maximumAmount: number = undefined) {
         this.filteredContractList = this.allContractList;
         if (!!company) {
-            this.filteredContractList = this.filteredContractList.filter(contract => contract.companyTaxNumber === company.id);
+            this.filteredContractList = this.filteredContractList.filter(contract => contract.taxNumber === company.id);
         }
         if (!!project) {
             this.filteredContractList = this.filteredContractList.filter(contract => contract.projectId === project.id);
@@ -108,6 +105,8 @@ export class ContractService {
     }
 
     resetState() {
+        this.allContractList = [];
+        this.filteredContractList = [];
         this.state = {
             page: 1,
             searchTerm: '',

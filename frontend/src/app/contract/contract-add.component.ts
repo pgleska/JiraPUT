@@ -20,7 +20,7 @@ import {ProjectService} from '../project/project.service';
         <div class="modal-body">
             <form #contractForm="ngForm" (ngSubmit)="onSubmit(contractForm)">
                 <div>
-                    <label for="name">{{'contract.list.name' | translate}}</label>
+                    <label for="name">{{'contract.add.contract-number' | translate}}</label>
                     <input
                             type="text"
                             id="name"
@@ -34,12 +34,16 @@ import {ProjectService} from '../project/project.service';
                 </div>
                 <div>
                     <app-select [label]="'contract.list.company-name' | translate"
-                                [options]="companyList" (value)="onCompanyChanged($event)">
+                                [options]="companyList"
+                                [name]="'company'"
+                                [required]="true">
                     </app-select>
                 </div>
                 <div>
                     <app-select [label]="'contract.list.project-name' | translate"
-                                [options]="projectList" (value)="onProjectChanged($event)">
+                                [options]="projectList"
+                                [name]="'project'"
+                                [required]="true">
                     </app-select>
                 </div>
                 <label for="amount">{{'contract.add.amount' | translate}}</label>
@@ -85,7 +89,7 @@ export class ContractAddComponent implements OnInit {
     private company: SelectItem;
     private project: SelectItem;
     private contract: Contract = {
-        companyTaxNumber: 0,
+        taxNumber: 0,
         projectId: 0,
         contractNumber: '',
         companyName: '',
@@ -122,24 +126,15 @@ export class ContractAddComponent implements OnInit {
         });
     }
 
-    onCompanyChanged($event: SelectItem) {
-        this.company = $event;
-    }
-
-    onProjectChanged($event: SelectItem) {
-        this.project = $event;
-    }
-
-
     onSubmit(form: NgForm): void {
         if (!form.valid) {
             return;
         }
         this.contract.contractNumber = form.value.name;
-        this.contract.projectId = this.project.id as number;
-        this.contract.projectName = this.project.name;
-        this.contract.companyTaxNumber = this.company.id as number;
-        this.contract.companyName = this.company.name;
+        this.contract.projectId = form.value.project.id as number;
+        this.contract.projectName = form.value.project.name;
+        this.contract.taxNumber = form.value.company.id as number;
+        this.contract.companyName = form.value.company.name;
         this.contract.amount = form.value.amount;
         this.contract.conditions = form.value.conditions;
 

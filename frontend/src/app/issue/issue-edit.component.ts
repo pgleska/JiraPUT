@@ -3,7 +3,7 @@ import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {IssueService} from './issue.service';
 import {NgForm} from '@angular/forms';
 import {Issue, ISSUE_TYPES, IssueTypes, TASK_TYPES} from './issue.model';
-import {SelectItem} from '../common/select/select-item.model';
+import {parseToInt, SelectItem} from '../common/select/select-item.model';
 import {ProjectService} from '../project/project.service';
 import {EmployeeService} from '../employee/employee.service';
 import {TeamService} from '../team/team.service';
@@ -52,7 +52,7 @@ import {TeamService} from '../team/team.service';
                     </app-select>
                 </div>
                 <div *ngIf="type === 'epic'">
-                    <app-datepicker (date)="onDateChange($event)">
+                    <app-datepicker [label]="'issue.add.realisation-date' | translate" (date)="onDateChange($event)">
                     </app-datepicker>
                 </div>
                 <div *ngIf="type === 'story'">
@@ -115,40 +115,41 @@ export class IssueEditComponent implements OnInit {
         this.issueCopy = Object.assign({}, this.issue);
         setTimeout(() => {
             this.form.setValue({
-                name: this.issueCopy.name
+                name: this.issueCopy.name,
+                description: this.issueCopy.description
+            });
+        });
+        this.type = this.issueCopy.subtype;
+
+        this.projectService.getProjectList().subscribe(result => {
+            result.forEach(project => {
+                const item = {
+                    id: project.id,
+                    name: project.name
+                };
+                this.projects.push(item);
             });
         });
 
-
-            this.projectService.getProjectList().subscribe(result => {
-                result.forEach(project => {
-                    const item = {
-                        id: project.id,
-                        name: project.name
-                    };
-                    this.projects.push(item);
-                });
+        this.employeeService.getEmployeeList().subscribe(result => {
+            result.forEach(employee => {
+                const item = {
+                    id: employee.login,
+                    name: `${employee.login} - ${employee.firstName} ${employee.lastName}`
+                };
+                this.employees.push(item);
             });
+        });
 
-            this.employeeService.getEmployeeList().subscribe(result => {
-                result.forEach(employee => {
-                    const item = {
-                        id: employee.login,
-                        name: `${employee.login} - ${employee.firstName} ${employee.lastName}`
-                    };
-                    this.employees.push(item);
-                });
+        this.teamService.getTeamList().subscribe(result => {
+            result.forEach(team => {
+                const item = {
+                    id: team.name,
+                    name: team.name
+                };
+                this.teams.push(item);
             });
-
-            this.teamService.getTeamList().subscribe(result => {
-                result.forEach(team => {
-                    const item = {
-                        id: team.name,
-                        name: team.name
-                    };
-                    this.teams.push(item);
-                });
-            });
+        });
 
     }
 
@@ -173,45 +174,31 @@ export class IssueEditComponent implements OnInit {
         form.reset();
     }
 
-    onIssueTypeChanged($event: SelectItem) {
-        switch ($event.id) {
-            case 'epic':
-                this.type = 'epic';
-                break;
-            case 'story':
-                this.type = 'story';
-                break;
-            case 'task':
-                this.type = 'task';
-                break;
-        }
-    }
-
-    onDateChange($event: Date) {
-
-    }
-
     onProjectChanged($event: SelectItem) {
-        
+        this.issueCopy.projectId = parseToInt($event);
+    }
+
+    onDateChange($event: string) {
+        this.issueCopy.realizationDate = $event;
     }
 
     onEpicChanged($event: SelectItem) {
-        
+        this.issueCopy.epicId = parseToInt($event);
     }
 
     onTeamChanged($event: SelectItem) {
-        
+        this.issueCopy.teamName = $event.id.toString();
     }
 
     onTaskTypeChanged($event: SelectItem) {
-        
-    }
-
-    onStoryChanged($event: SelectItem) {
-        
+        this.issueCopy.taskType = parseToInt($event);
     }
 
     onEmployeeChanged($event: SelectItem) {
-        
+        this.issueCopy.userLogin = $event.id.toString();
+    }
+
+    onStoryChanged($event: SelectItem) {
+        this.issueCopy.storyId = parseToInt($event);
     }
 }

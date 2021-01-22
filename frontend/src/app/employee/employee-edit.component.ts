@@ -58,12 +58,17 @@ import {TechnologyService} from '../technology/technology.service';
                 </div>
                 <div>
                     <app-select [label]="'employee.list.team' | translate"
-                                [options]="teamList" (value)="onTeamChanged($event)">
+                                [name]="'team'"
+                                [options]="teamList"
+                                [required]="true">
                     </app-select>
                 </div>
                 <div>
                     <app-select [label]="'employee.list.position' | translate"
-                                [options]="positionListDropdown" (value)="onPositionChanged($event)">
+                                [options]="positionListDropdown"
+                                [name]="'position'"
+                                [required]="true"
+                                (value)="onPositionChanged($event)">
                     </app-select>
                 </div>
                 <div>
@@ -113,10 +118,7 @@ export class EmployeeEditComponent implements OnInit {
     dropdownList = [];
     selectedItems = [];
     dropdownSettings = {};
-
     @ViewChild('employeeForm') form: NgForm;
-    position: SelectItem;
-    private team: SelectItem;
 
     constructor(public activeModal: NgbActiveModal,
                 private employeeService: EmployeeService,
@@ -128,15 +130,11 @@ export class EmployeeEditComponent implements OnInit {
     ngOnInit(): void {
         this.employeeCopy = Object.assign({}, this.employee);
         setTimeout(() => {
-            this.form.setValue({
-                login: this.employeeCopy.login,
-                firstName: this.employeeCopy.firstName,
-                lastName: this.employeeCopy.lastName,
-                //position: {id: this.employeeCopy.position, name: this.employeeCopy.positionDisplay},
-                //team: {id: this.employeeCopy.team, name: this.employeeCopy.team},
-                salary: this.employeeCopy.salary,
-                technologies: Object.assign([], this.employeeCopy.technologies)
-            });
+            this.form.controls['login'].setValue(this.employeeCopy.login);
+            this.form.controls['firstName'].setValue(this.employeeCopy.firstName);
+            this.form.controls['lastName'].setValue(this.employeeCopy.lastName);
+            this.form.controls['salary'].setValue(this.employeeCopy.salary);
+            this.form.controls['technologies'].setValue(Object.assign([], this.employeeCopy.technologies));
         });
 
         this.positionService.getPositionList().subscribe(result => {
@@ -147,6 +145,9 @@ export class EmployeeEditComponent implements OnInit {
                 };
                 this.positionListDropdown.push(item);
                 this.positionList.push(position);
+                if (item.id == this.employeeCopy.position) {
+                    this.form.controls['position'].setValue(item);
+                }
             });
         });
 
@@ -157,6 +158,9 @@ export class EmployeeEditComponent implements OnInit {
                     name: team.name
                 };
                 this.teamList.push(item);
+                if (item.name == this.employeeCopy.team) {
+                    this.form.controls['team'].setValue(item);
+                }
             });
         });
 
@@ -175,12 +179,9 @@ export class EmployeeEditComponent implements OnInit {
     }
 
     onPositionChanged($event: SelectItem) {
-        this.position = $event;
-        this.positionDetails = this.positionList.filter(position => position.name === $event.id)[0];
-    }
-
-    onTeamChanged($event: SelectItem) {
-        this.team = $event;
+        if ($event !== null) {
+            this.positionDetails = this.positionList.filter(position => position.name === $event.id)[0];
+        }
     }
 
     onSubmit(form: NgForm): void {
@@ -188,10 +189,11 @@ export class EmployeeEditComponent implements OnInit {
             return;
         }
 
-        // todo naprawic przesylanie i wymaganie zespołu oraz stanowiska
         this.employeeCopy.firstName = form.value.firstName;
         this.employeeCopy.lastName = form.value.lastName;
         this.employeeCopy.salary = form.value.salary;
+        this.employeeCopy.position = form.value.position.id as string;
+        this.employeeCopy.team = form.value.team.id as string;
         this.employeeCopy.technologies = this.selectedItems;
 
         const editObservable = this.employeeService.modifyEmployee(this.employeeCopy);

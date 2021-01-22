@@ -43,7 +43,9 @@ import { convertTimeToString } from '../common/date-transformation/convert-time.
                     </div>
                     <div class="p-2  mx-4">
                         <app-select [label]="'issue.list.subtype' | translate"
-                                    [options]="types" (value)="onIssueTypeChanged($event)">
+                                    [name]="'type'"
+                                    [options]="types"
+                                    (value)="onIssueTypeChanged($event)">
                         </app-select>
                     </div>
                 </div>

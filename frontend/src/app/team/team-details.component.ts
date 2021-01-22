@@ -141,11 +141,15 @@ export class TeamDetailsComponent implements OnInit, OnDestroy {
                     map(employees => employees.filter(employee => this.team.members.includes(employee.login)))
                 ).subscribe(members => {
                         this.employeeService.allEmployeeList = members;
+                        this.employeeService.filterEmployeeList();
+                        this.employeeService.search$.next();
                     }
                 );
                 this.issueService.getStoryListByTeamName(this.team.name).subscribe(
                     (result) => {
                         this.issueService.allIssueList = result;
+                        this.issueService.filterIssueList();
+                        this.employeeService.search$.next();
                     }
                 );
             }

@@ -1,5 +1,4 @@
 export function convertTimeToString(time: number) {
-    console.log(time);
     if (time === 0) {
         return '0m';
     }

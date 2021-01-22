@@ -74,9 +74,10 @@ import {map} from 'rxjs/operators';
                     <tbody>
                     <tr *ngFor="let contract of contractService.contracts$ | async">
                         <th>{{contract.contractNumber}}</th>
-                        <th>{{contract.companyName}}</th>
-                        <th>{{contract.projectName}}</th>
-                        <th>{{contract.amount}}</th>
+                        <td>{{contract.companyName}}</td>
+                        <td>{{contract.projectName}}</td>
+                        <td>{{contract.amount}}</td>
+                        <td><a routerLink="/contract/{{contract.id}}">{{'contract.list.details' | translate}}</a></td>
                     </tr>
                     </tbody>
                 </table>
@@ -104,10 +105,9 @@ import {map} from 'rxjs/operators';
                     <tr *ngFor="let issue of issueService.issues$ | async">
                         <th>{{issue.id}}</th>
                         <th>{{issue.name}}</th>
-                        <td>{{issue.subtypeName}}</td>
                         <td>{{convertTimeToString(issue.estimatedTime)}}</td>
                         <td>{{convertTimeToString(issue.realTime)}}</td>
-                        <td>{{convertTimeToString(issue.differenceTime)}}</td>
+                        <td>{{convertTimeToString(issue.timeDifference)}}</td>
                         <td><a routerLink="/issue/{{issue.id}}">{{'issue.list.details' | translate}}</a></td>
                     </tr>
                     </tbody>
@@ -154,11 +154,15 @@ export class ProjectDetailsComponent implements OnInit, OnDestroy {
                     map(contracts => contracts.filter(contract => this.project.id === contract.projectId))
                 ).subscribe((contract) => {
                         this.contractService.allContractList = contract;
+                        this.contractService.filterContractList();
+                        this.contractService.search$.next();
                     }
                 );
                 this.issueService.getEpicListByProjectId(this.project.id).subscribe(
                     (result) => {
                         this.issueService.allIssueList = result;
+                        this.issueService.filterIssueList();
+                        this.issueService.search$.next();
                     }
                 );
             }

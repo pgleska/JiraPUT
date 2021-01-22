@@ -35,7 +35,7 @@ export class TaxNumberDirective implements Validator {
             sum += (parseInt(value.substr(i, 1)) * weight[i]);
         }
 
-        if (sum % 11 === controlNumber) {
+        if (sum % 11 !== controlNumber) {
             return {
                 taxNumberChecksum: true
             };

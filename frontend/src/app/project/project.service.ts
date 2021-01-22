@@ -84,6 +84,7 @@ export class ProjectService {
     }
 
     resetState() {
+        this.allProjectList = [];
         this.state = {
             page: 1,
             searchTerm: '',

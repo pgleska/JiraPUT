@@ -51,7 +51,7 @@ export class TeamEditComponent implements OnInit {
     ngOnInit(): void {
         this.teamCopy = Object.assign({}, this.team);
         setTimeout(() => {
-            this.form.setValue(this.teamCopy);
+            this.form.controls['name'].setValue(this.teamCopy.name);
         });
     }
 
