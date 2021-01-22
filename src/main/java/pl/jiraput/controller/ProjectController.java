@@ -63,6 +63,7 @@ public class ProjectController {
 			res.put("version", p.getVersion());
 			res.put("description", p.getDescription());
 			res.put("contracts", p.getContracts().parallelStream().map(Contract::getContractNumber).collect(Collectors.toList()));
+			res.put("technologies", p.getTechnologies().parallelStream().map(Technology::getName).collect(Collectors.toList()));
 			return res;
 		}).collect(Collectors.toList());
 	}
@@ -79,8 +80,8 @@ public class ProjectController {
 			project.setName(data.get("name"));
 		if(data.containsKey("version")) 
 			project.setVersion(data.get("version"));
-		if(data.containsKey("dscription")) 
-			project.setVersion(data.get("description"));
+		if(data.containsKey("description")) 
+			project.setDescription(data.get("description"));
 		projectRepository.save(project);
 		body.put("status", "project.updated");
 		return new ResponseEntity<Map<String,String>>(body, HttpStatus.OK);

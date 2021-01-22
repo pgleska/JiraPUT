@@ -82,7 +82,7 @@ public class ContractController {
 	@GetMapping(value = "/list", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseStatus(value = HttpStatus.OK)
 	public @ResponseBody List<Map<String, Object>> getAllContracts() {
-		return contractRepository.findAll().parallelStream().map(c -> {
+		return contractRepository.findAll().stream().map(c -> {
 			Map<String, Object> res = new HashMap<>();
 			res.put("id", c.getId());
 			res.put("contractNumber", c.getContractNumber());

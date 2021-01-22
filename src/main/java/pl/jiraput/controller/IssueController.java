@@ -9,11 +9,15 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
+import javax.persistence.ParameterMode;
 import javax.persistence.PersistenceContext;
+import javax.persistence.StoredProcedureQuery;
+import javax.transaction.Transactional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,6 +26,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.mysql.cj.Query;
 
 import pl.jiraput.model.Employee;
 import pl.jiraput.model.Epic;
@@ -178,12 +184,29 @@ public class IssueController {
 	
 	@GetMapping(value = "/list", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseStatus(value = HttpStatus.OK)
-	public @ResponseBody List<Issue> getAllIssues() {
-		return issueRepository.findAll();
+	public @ResponseBody List<Map<String, Object>> getAllIssues() {
+		List<Map<String, Object>> body = new ArrayList<>();
+		for(Issue issue : issueRepository.findAll()) {
+			Map<String, Object> res = new HashMap<>();
+			res.put("id", issue.getId());
+			res.put("name", issue.getName());
+			res.put("description", issue.getDescription());
+			res.put("estimatedTime", issue.getEstimatedTime());
+			res.put("realTime", issue.getRealTime());
+			res.put("type", issue.getSubtype());			
+			res.put("timeDifferance", calculateTimeDifferance(issue.getId()));
+			body.add(res);
+		}
+		
+		return body;
+	}
+	
+	private String calculateTimeDifferance(int id) {
+		return entityManager.createNativeQuery("SELECT roznica_czasow(:ID)").setParameter("ID", id).getSingleResult().toString();										
 	}
 	
 	@GetMapping(value = "/epic/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseEntity<Map<String, Object>> getEpic(@PathVariable Integer id) {
+	public ResponseEntity<Map<String, Object>> getEpic(@PathVariable Integer id) {
 		Map<String, Object> body = new HashMap<>();
 		Issue issue = issueRepository.findById(id).orElse(null);
 		if(issue == null) {
@@ -205,6 +228,7 @@ public class IssueController {
 		body.put("projectName", epic.getProject().getName());
 		body.put("stories", getStoriesId(issue.getId()));
 		body.put("realizationDate", epic.getRealizationDate());
+		body.put("timeDifferance", calculateTimeDifferance(issue.getId()));
 		return new ResponseEntity<Map<String, Object>>(body, HttpStatus.OK);
 	}
 	
@@ -212,7 +236,7 @@ public class IssueController {
 		return entityManager.createNativeQuery("SELECT issue_id FROM story WHERE epic_id=:ID").setParameter("ID", id).getResultList();
 	}
 	@GetMapping(value = "/project/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseEntity<List<Map<String, Object>>> getEpicsFromProject(@PathVariable Integer id) {
+	public ResponseEntity<List<Map<String, Object>>> getEpicsFromProject(@PathVariable Integer id) {
 		List<Map<String, Object>> body = new ArrayList<>();
 		
 		Project project = projectRepository.findById(id).orElse(null);
@@ -240,6 +264,7 @@ public class IssueController {
 				res.put("projectName", epic.getProject().getName());
 				res.put("stories", getStoriesId(issue.getId()));
 				res.put("realizationDate", epic.getRealizationDate());
+				res.put("timeDifferance", calculateTimeDifferance(issue.getId()));
 				body.add(res);
 			}
 		}		
@@ -249,7 +274,7 @@ public class IssueController {
 	
 	
 	@GetMapping(value = "/story/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseEntity<Map<String, Object>> getStory(@PathVariable Integer id) {
+	public ResponseEntity<Map<String, Object>> getStory(@PathVariable Integer id) {
 		Map<String, Object> body = new HashMap<>();
 		Issue issue = issueRepository.findById(id).orElse(null);
 		if(issue == null) {
@@ -271,6 +296,7 @@ public class IssueController {
 		body.put("epicName", getEpicName(id));
 		body.put("teamName", story.getTeam().getName());
 		body.put("tasks", getTasksId(issue.getId()));
+		body.put("timeDifferance", calculateTimeDifferance(issue.getId()));
 		return new ResponseEntity<Map<String, Object>>(body, HttpStatus.OK);
 	}
 	
@@ -287,7 +313,7 @@ public class IssueController {
 	}
 	
 	@GetMapping(value = "/team/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseEntity<List<Map<String, Object>>> getStoriesFromTeam(@PathVariable String name) {
+	public ResponseEntity<List<Map<String, Object>>> getStoriesFromTeam(@PathVariable String name) {
 		List<Map<String, Object>> body = new ArrayList<>(); 
 		
 		Team team = teamRepository.findByName(name);
@@ -315,6 +341,7 @@ public class IssueController {
 				res.put("epicName", getEpicName(issue.getId()));
 				res.put("teamName", story.getTeam().getName());
 				res.put("tasks", getTasksId(issue.getId()));
+				res.put("timeDifferance", calculateTimeDifferance(issue.getId()));
 				body.add(res);
 			}
 		}		
@@ -324,7 +351,7 @@ public class IssueController {
 	
 	
 	@GetMapping(value = "/task/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseEntity<Map<String, Object>> getTask(@PathVariable Integer id) {
+	public ResponseEntity<Map<String, Object>> getTask(@PathVariable Integer id) {
 		Map<String, Object> body = new HashMap<>();
 		Issue issue = issueRepository.findById(id).orElse(null);
 		if(issue == null) {
@@ -346,6 +373,7 @@ public class IssueController {
 		body.put("storyName", getStoryName(id));
 		body.put("userLogin", task.getEmployee().getLogin());
 		body.put("taskType", task.getType());
+		body.put("timeDifferance", calculateTimeDifferance(issue.getId()));
 		return new ResponseEntity<Map<String, Object>>(body, HttpStatus.OK);
 	}
 	
@@ -358,7 +386,7 @@ public class IssueController {
 	}
 	
 	@GetMapping(value = "/user/{login}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody ResponseEntity<List<Map<String, Object>>> getTasksFromUser(@PathVariable String login) {
+	public ResponseEntity<List<Map<String, Object>>> getTasksFromUser(@PathVariable String login) {
 		List<Map<String, Object>> body = new ArrayList<>(); 
 		
 		Employee emp = employeeRepository.findByLogin(login);
@@ -386,10 +414,36 @@ public class IssueController {
 				res.put("storyName", getStoryName(issue.getId()));
 				res.put("userLogin", task.getEmployee().getLogin());
 				res.put("taskType", task.getType());
+				res.put("timeDifferance", calculateTimeDifferance(issue.getId()));
 				body.add(res);
 			}
 		}
 	
 		return new ResponseEntity<List<Map<String, Object>>>(body, HttpStatus.OK);
+	}
+	
+	@Transactional
+	@DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Map<String, String>> removeIssue(@PathVariable Integer id) {
+		Map<String, String> body = new HashMap<>();
+		Issue issue = issueRepository.findById(id).orElse(null);
+		if(issue == null) {
+			body.put("error", "issue.not.found");
+			return new ResponseEntity<Map<String,String>>(body, HttpStatus.NOT_FOUND);
+		}
+		switch(issue.getSubtype()) {
+			case epic:
+				entityManager.createNativeQuery("DELETE FROM epic WHERE issue_id=:ID").setParameter("ID", id).executeUpdate();
+				break;
+			case story:
+				entityManager.createNativeQuery("DELETE FROM story WHERE issue_id=:ID").setParameter("ID", id).executeUpdate();
+				break;
+			case task:
+				entityManager.createNativeQuery("DELETE FROM task WHERE issue_id=:ID").setParameter("ID", id).executeUpdate();
+				break;
+		}
+		entityManager.createNativeQuery("DELETE FROM issue WHERE identyfikator=:ID").setParameter("ID", id).executeUpdate();
+		body.put("status", "issue.deleted");
+		return new ResponseEntity<Map<String, String>>(body, HttpStatus.OK);
 	}
 }
