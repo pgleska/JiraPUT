@@ -121,8 +121,8 @@ export class TechnologyDetailsComponent implements OnInit {
         this.employeeService.getEmployeeList().pipe(
             map(employees => employees.filter(employee => employee.technologies?.some(tech => tech.id === id)))
         ).subscribe(result => {
-            this.employeeService.allEmployeeList = result; // todo refactor + czyszczenie stanu
-            this.employeeService.filterEmployeeList(undefined, undefined);
+            this.employeeService.allEmployeeList = result;
+            this.employeeService.filterEmployeeList();
             this.employeeService.search$.next();
         });
 

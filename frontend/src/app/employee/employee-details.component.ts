@@ -31,7 +31,7 @@ import {SortEvent} from '../common/list-components/sort/sort.model';
                        class="text-center">
                 {{success_message | translate}}
             </ngb-alert>
-            <div class="d-flex flex-column border rounded p-2 mt-3 w-50 mx-auto">
+            <div class="d-flex flex-column border rounded p-2 mt-3 mx-auto">
                 <div class="d-flex justify-content-between">
                     <h2>{{'employee.details.header' | translate }}{{employee.login}}</h2>
                     <a class="btn btn-primary btn-lg" (click)="openEdit()">{{'employee.details.edit' | translate}}</a>
@@ -85,7 +85,7 @@ import {SortEvent} from '../common/list-components/sort/sort.model';
                             <td>{{issue.subtypeName}}</td>
                             <td>{{convertTimeToString(issue.estimatedTime)}}</td>
                             <td>{{convertTimeToString(issue.realTime)}}</td>
-                            <td>{{convertTimeToString(issue.differenceTime)}}</td>
+                            <td>{{convertTimeToString(issue.timeDifference)}}</td>
                             <td><a routerLink="/issue/{{issue.id}}">{{'issue.list.details' | translate}}</a></td>
                         </tr>
                         </tbody>
@@ -141,6 +141,8 @@ export class EmployeeDetailsComponent implements OnInit {
         this.issueService.getTaskListByEmployeeLogin(login).subscribe(
             (result) => {
                 this.issueService.allIssueList = result;
+                this.issueService.filterIssueList();
+                this.issueService.search$.next();
             }
         );
         this.issueService.search$.next();

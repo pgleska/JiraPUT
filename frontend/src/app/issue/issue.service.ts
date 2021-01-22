@@ -112,7 +112,7 @@ export class IssueService {
             );
     }
 
-    filterIssueList(issueType: SelectItem): void {
+    filterIssueList(issueType: SelectItem = undefined): void {
         this.filteredIssueList = this.allIssueList;
         if (!!issueType) {
             this.filteredIssueList = this.filteredIssueList.filter(issue => issue.subtype === issueType.id);

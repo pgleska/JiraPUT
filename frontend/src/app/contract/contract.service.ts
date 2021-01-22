@@ -105,6 +105,8 @@ export class ContractService {
     }
 
     resetState() {
+        this.allContractList = [];
+        this.filteredContractList = [];
         this.state = {
             page: 1,
             searchTerm: '',

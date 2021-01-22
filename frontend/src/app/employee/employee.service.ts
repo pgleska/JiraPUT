@@ -79,7 +79,7 @@ export class EmployeeService {
             );
     }
 
-    filterEmployeeList(position: SelectItem, team: SelectItem): void {
+    filterEmployeeList(position: SelectItem = undefined, team: SelectItem = undefined): void {
         this.filteredEmployeeList = this.allEmployeeList;
         if (!!position) {
             this.filteredEmployeeList = this.filteredEmployeeList.filter(employee => employee.position === position.id);

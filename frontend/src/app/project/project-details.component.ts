@@ -161,6 +161,8 @@ export class ProjectDetailsComponent implements OnInit, OnDestroy {
                 this.issueService.getEpicListByProjectId(this.project.id).subscribe(
                     (result) => {
                         this.issueService.allIssueList = result;
+                        this.issueService.filterIssueList();
+                        this.issueService.search$.next();
                     }
                 );
             }

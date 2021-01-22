@@ -44,6 +44,7 @@ import {ProjectService} from '../project/project.service';
                     <app-select [label]="'contract.list.company-name' | translate"
                                 [name]="'company'"
                                 [options]="companyList"
+                                [required]="false"
                                 (value)="onCompanyChanged($event)">
                     </app-select>
                 </div>
@@ -51,6 +52,7 @@ import {ProjectService} from '../project/project.service';
                     <app-select [label]="'contract.list.project-name' | translate"
                                 [name]="'project'"
                                 [options]="projectList"
+                                [required]="false"
                                 (value)="onProjectChanged($event)">
                     </app-select>
                 </div>
