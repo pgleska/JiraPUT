@@ -1,5 +1,5 @@
 export interface Contract {
-    contractId?: number;
+    id?: number;
     contractNumber: string;
     companyName: string;
     companyTaxNumber: number;

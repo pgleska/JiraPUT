@@ -75,11 +75,8 @@ export class ContractService {
     // }
 
     deleteContract(contract: Contract): Observable<any> {
-        return this.http.post(
-            environment.apiUrl + `/api/contract/delete`,
-            {
-                contractNumber: contract.contractNumber
-            })
+        return this.http.delete(
+            environment.apiUrl + `/api/contract/${contract.id}`)
             .pipe(
                 catchError(handleError('contract'))
             );

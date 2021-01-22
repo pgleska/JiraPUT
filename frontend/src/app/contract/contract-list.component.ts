@@ -42,12 +42,16 @@ import {ProjectService} from '../project/project.service';
                 </div>
                 <div class="p-2">
                     <app-select [label]="'contract.list.company-name' | translate"
-                                [options]="companyList" (value)="onCompanyChanged($event)">
+                                [name]="'company'"
+                                [options]="companyList"
+                                (value)="onCompanyChanged($event)">
                     </app-select>
                 </div>
                 <div class="p-2">
                     <app-select [label]="'contract.list.project-name' | translate"
-                                [options]="projectList" (value)="onProjectChanged($event)">
+                                [name]="'project'"
+                                [options]="projectList"
+                                (value)="onProjectChanged($event)">
                     </app-select>
                 </div>
                 <div class="p-2">
@@ -80,10 +84,10 @@ import {ProjectService} from '../project/project.service';
                 <tbody>
                 <tr *ngFor="let contract of contractService.contracts$ | async">
                     <th>{{contract.contractNumber}}</th>
-                    <th>{{contract.companyName}}</th>
-                    <th>{{contract.projectName}}</th>
-                    <th>{{contract.amount}}</th>
-                    <td><a routerLink="/contract/{{contract.contractId}}">{{'contract.list.details' | translate}}</a></td>
+                    <td>{{contract.companyName}}</td>
+                    <td>{{contract.projectName}}</td>
+                    <td>{{contract.amount}}</td>
+                    <td><a routerLink="/contract/{{contract.id}}">{{'contract.list.details' | translate}}</a></td>
                     <td><a (click)="openDelete(contract)"><i class="fa fa-trash fa-2x btn"></i></a></td>
                 </tr>
                 </tbody>

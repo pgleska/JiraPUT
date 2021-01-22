@@ -64,6 +64,7 @@ import {map} from 'rxjs/operators';
                         <th>{{contract.companyName}}</th>
                         <th>{{contract.projectName}}</th>
                         <th>{{contract.amount}}</th>
+                        <th><a routerLink="/contract/{{contract.id}}">{{'contract.list.details' | translate}}</a></th>
                     </tr>
                     </tbody>
                 </table>

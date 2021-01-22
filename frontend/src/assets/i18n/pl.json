@@ -55,7 +55,8 @@
       "added": "Kontrakt został pomyślnie dodany",
       "amount": "Kwota kontraktu",
       "conditions": "Warunki dodatkowe",
-      "title": "Dodaj firmę"
+      "title": "Dodaj kontrakt",
+      "contract-number": "Numer kotraktu"
     },
     "delete": {
       "body": "Czy na pewno chcesz usunąć ten kontrakt? \nOperacja ta jest nieodwracalna!",
@@ -87,7 +88,6 @@
       "details": "Szczegóły",
       "maximum-amount": "Maksymalna kwota",
       "minimum-amount": "Minimalna kwota",
-      "name": "Nazwa",
       "project-name": "Nazwa projektu"
     }
   },
@@ -154,8 +154,17 @@
   "issue": {
     "add": {
       "add": "Dodaj",
+      "description": "Opis",
       "edited": "Zadanie zostało pomyślnie dodane",
-      "title": "Edytuj zadanie"
+      "employees": "Pracownik który ma wykonać dane zadanie",
+      "epic": "Epic do którego należy zadanie",
+      "name": "Nazwa",
+      "project": "Projekt w ramach którego realizowane jest zadanie",
+      "realisation-date": "Termin realizacji",
+      "story": "Story do którego należy zadanie",
+      "task-type": "Typ zadania",
+      "team": "Zespół który ma wykonać zadanie",
+      "title": "Dodaj zadanie"
     },
     "delete": {
       "body": "Czy na pewno chcesz usunąć to zadanie? \nOperacja ta jest nieodwracalna!",
@@ -164,8 +173,17 @@
       "title": "Usuń zadanie"
     },
     "edit": {
+      "description": "Opis",
       "edit": "Zapisz",
       "edited": "Zadanie zostało pomyślnie zedtyowane",
+      "employees": "Pracownik który ma wykonać dane zadanie",
+      "epic": "Epic do którego należy zadanie",
+      "name": "Nazwa",
+      "project": "Projekt w ramach którego realizowane jest zadanie",
+      "realisation-date": "Termin realizacji",
+      "story": "Story do którego należy zadanie",
+      "task-type": "Typ zadania",
+      "team": "Zespół który ma wykonać zadanie",
       "title": "Edytuj zadanie"
     },
     "list": {
@@ -173,6 +191,7 @@
       "details": "Szczegóły",
       "difference-time": "Różnica czasów",
       "estimated-time": "Czas oszacowany",
+      "id": "ID",
       "name": "Nazwa",
       "real-time": "Czas rzeczywisty",
       "subtype": "Typ"
@@ -237,7 +256,8 @@
       "edit": "Edytuj",
       "header": "Projekt: ",
       "technologies": "Technologie",
-      "version": "Wersja"
+      "version": "Wersja",
+      "placeholder": "Wybierz technologie"
     },
     "edit": {
       "description": "Opis projektu",

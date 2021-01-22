@@ -3,10 +3,11 @@ import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {IssueService} from './issue.service';
 import {NgForm} from '@angular/forms';
 import {Issue, ISSUE_TYPES, IssueTypes, TASK_TYPES} from './issue.model';
-import {SelectItem} from '../common/select/select-item.model';
+import {parseToInt, SelectItem} from '../common/select/select-item.model';
 import {ProjectService} from '../project/project.service';
 import {EmployeeService} from '../employee/employee.service';
 import {TeamService} from '../team/team.service';
+import {$e} from 'codelyzer/angular/styles/chars';
 
 
 @Component({
@@ -60,7 +61,7 @@ import {TeamService} from '../team/team.service';
                     </app-select>
                 </div>
                 <div *ngIf="type === 'epic'">
-                    <app-datepicker (date)="onDateChange($event)">
+                    <app-datepicker [label]="'issue.add.realisation-date' | translate" (date)="onDateChange($event)">
                     </app-datepicker>
                 </div>
                 <div *ngIf="type === 'story'">
@@ -70,7 +71,7 @@ import {TeamService} from '../team/team.service';
                 </div>
                 <div *ngIf="type === 'story'">
                     <app-select [label]="'issue.add.team' | translate"
-                                [options]="teams" (value)="onStoryChanged($event)">
+                                [options]="teams" (value)="onTeamChanged($event)">
                     </app-select>
                 </div>
                 <div *ngIf="type === 'task'">
@@ -85,7 +86,7 @@ import {TeamService} from '../team/team.service';
                 </div>
                 <div *ngIf="type === 'task'">
                     <app-select [label]="'issue.add.employees' | translate"
-                                [options]="employees" (value)="onUserChanged($event)">
+                                [options]="employees" (value)="onEmployeeChanged($event)">
                     </app-select>
                 </div>
 
@@ -161,11 +162,13 @@ export class IssueAddComponent implements OnInit {
 
 
     onSubmit(form: NgForm): void {
-        if (!form.valid) {
+        if (!form.valid
+            || !this.issue.subtype) {
             return;
         }
 
         this.issue.name = form.value.name;
+        this.issue.description = form.value.description;
 
         const addObservable = this.issueService.createIssue(this.issue);
         addObservable.subscribe(
@@ -191,29 +194,42 @@ export class IssueAddComponent implements OnInit {
                 this.type = 'task';
                 break;
         }
+        this.issue.subtype = this.type;
+        this.issue.taskType = undefined;
+        this.issue.storyId = undefined;
+        this.issue.userLogin = undefined;
+        this.issue.epicId = undefined;
+        this.issue.teamName = undefined;
+        this.issue.realizationDate = undefined;
+        this.issue.projectId = undefined;
     }
+
 
     onProjectChanged($event: SelectItem) {
-
+        this.issue.projectId = parseToInt($event);
     }
 
-    onDateChange($event: Date) {
-
+    onDateChange($event: string) {
+        this.issue.realizationDate = $event;
     }
 
     onEpicChanged($event: SelectItem) {
+        this.issue.epicId = parseToInt($event);
+    }
 
+    onTeamChanged($event: SelectItem) {
+        this.issue.teamName = $event.id.toString();
     }
 
     onTaskTypeChanged($event: SelectItem) {
-
+        this.issue.taskType = parseToInt($event);
     }
 
-    onUserChanged($event: SelectItem) {
-
+    onEmployeeChanged($event: SelectItem) {
+        this.issue.userLogin = $event.id.toString();
     }
 
     onStoryChanged($event: SelectItem) {
-
+        this.issue.storyId = parseToInt($event);
     }
 }
