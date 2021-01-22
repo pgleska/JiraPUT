@@ -40,7 +40,6 @@ import {SelectItem} from '../common/select/select-item.model';
                     <app-select [label]="'employee.list.position' | translate"
                                 [options]="positionList" 
                                 [name]="'position'"
-                                [required]="false"
                                 (value)="onPositionChanged($event)">
                     </app-select>
                 </div>
@@ -48,7 +47,6 @@ import {SelectItem} from '../common/select/select-item.model';
                     <app-select [label]="'employee.list.team' | translate"
                                 [options]="teamList" 
                                 [name]="'team'"
-                                [required]="false"
                                 (value)="onTeamChanged($event)">
                     </app-select>
                 </div>

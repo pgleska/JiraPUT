@@ -59,13 +59,15 @@ import {TechnologyService} from '../technology/technology.service';
                 <div>
                     <app-select [label]="'employee.list.team' | translate"
                                 [name]="'team'"
-                                [options]="teamList">
+                                [options]="teamList"
+                                [required]="true">
                     </app-select>
                 </div>
                 <div>
                     <app-select [label]="'employee.list.position' | translate"
                                 [options]="positionListDropdown"
                                 [name]="'position'"
+                                [required]="true"
                                 (value)="onPositionChanged($event)">
                     </app-select>
                 </div>

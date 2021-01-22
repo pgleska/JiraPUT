@@ -35,13 +35,15 @@ import {ProjectService} from '../project/project.service';
                 <div>
                     <app-select [label]="'contract.list.company-name' | translate"
                                 [options]="companyList"
-                                [name]="'company'">
+                                [name]="'company'"
+                                [required]="true">
                     </app-select>
                 </div>
                 <div>
                     <app-select [label]="'contract.list.project-name' | translate"
                                 [options]="projectList"
-                                [name]="'project'">
+                                [name]="'project'"
+                                [required]="true">
                     </app-select>
                 </div>
                 <label for="amount">{{'contract.add.amount' | translate}}</label>
