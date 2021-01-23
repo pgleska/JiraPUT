@@ -10,7 +10,7 @@ import {ProjectService} from './project.service';
 import {ContractService} from '../contract/contract.service';
 import {ProjectEditComponent} from './project-edit.component';
 import {SortEvent} from '../common/list-components/sort/sort.model';
-import {convertTimeToString} from '../common/date-transformation/convert-time.functions';
+import {convertTimeToString, convertTimeDifferenceToString} from '../common/date-transformation/convert-time.functions';
 import {IssueService} from '../issue/issue.service';
 import {map} from 'rxjs/operators';
 
@@ -107,7 +107,7 @@ import {map} from 'rxjs/operators';
                         <th>{{issue.name}}</th>
                         <td>{{convertTimeToString(issue.estimatedTime)}}</td>
                         <td>{{convertTimeToString(issue.realTime)}}</td>
-                        <td>{{convertTimeToString(issue.timeDifference)}}</td>
+                        <td>{{convertTimeDifferenceToString(issue.timeDifference)}}</td>
                         <td><a routerLink="/issue/{{issue.id}}">{{'issue.list.details' | translate}}</a></td>
                     </tr>
                     </tbody>
@@ -130,6 +130,7 @@ export class ProjectDetailsComponent implements OnInit, OnDestroy {
     success_message: string;
     project: Project = {name: '', version: '', technologies: []};
     convertTimeToString = convertTimeToString;
+    convertTimeDifferenceToString = convertTimeDifferenceToString;
     private errorSubject = new Subject<string>();
     private successSubject = new Subject<string>();
     @ViewChild('errorAlert', {static: false}) errorAlert: NgbAlert;
@@ -188,13 +189,16 @@ export class ProjectDetailsComponent implements OnInit, OnDestroy {
         this.errorSubject.unsubscribe();
     }
 
-    onSortContract($event: SortEvent) { //todo naprawa headers dla dwoch tabel
-        this.headers.forEach(header => {
-                if (header.sortable !== $event.column) {
-                    header.direction = '';
+    onSortContract($event: SortEvent) {
+        const contractHeaders = ['contractNumber', 'companyName', 'projectName', 'amount'];
+        this.headers
+            .filter(header => contractHeaders.includes(header.sortable))
+            .forEach(header => {
+                    if (header.sortable !== $event.column) {
+                        header.direction = '';
+                    }
                 }
-            }
-        );
+            );
 
         this.contractService.state.sortColumn = $event.column;
         this.contractService.state.sortDirection = $event.direction;
@@ -206,13 +210,16 @@ export class ProjectDetailsComponent implements OnInit, OnDestroy {
         this.contractService.search$.next();
     }
 
-    onSortIssue($event: SortEvent) { //todo naprawa headers dla dwoch tabel
-        this.headers.forEach(header => {
-                if (header.sortable !== $event.column) {
-                    header.direction = '';
+    onSortIssue($event: SortEvent) {
+        const issueHeaders = ['id', 'name', 'estimatedTime', 'realTime', 'differenceTime'];
+        this.headers
+            .filter(header => issueHeaders.includes(header.sortable))
+            .forEach(header => {
+                    if (header.sortable !== $event.column) {
+                        header.direction = '';
+                    }
                 }
-            }
-        );
+            );
 
         this.issueService.state.sortColumn = $event.column;
         this.issueService.state.sortDirection = $event.direction;

@@ -4,6 +4,7 @@ import {NgForm} from '@angular/forms';
 import {Project} from './project.model';
 import {ProjectService} from './project.service';
 import {TechnologyService} from '../technology/technology.service';
+import {Technology} from '../technology/technology.model';
 
 
 @Component({
@@ -129,6 +130,7 @@ export class ProjectEditComponent implements OnInit {
         const editObservable = this.projectService.modifyProject(this.projectCopy);
         editObservable.subscribe(
             _ => {
+                this.changeTechnologyList(this.projectCopy.technologies, this.project.technologies)
                 this.project = Object.assign({}, this.projectCopy);
                 this.activeModal.close('project.edit.edited');
             },
@@ -137,6 +139,29 @@ export class ProjectEditComponent implements OnInit {
             }
         );
         form.reset();
+    }
+
+    private changeTechnologyList(newTechnologyList: Technology[], oldTechnologyList: Technology[]): void {
+        newTechnologyList.forEach(newTechnology =>{
+            if (!oldTechnologyList.some(oldTechnology => oldTechnology.id === newTechnology.id)){
+                this.projectService.addProjectTechnology(this.projectCopy, newTechnology).subscribe(
+                    _ => {},
+                    error => {
+                        this.activeModal.close(error);
+                    }
+                );
+            }
+        });
+        oldTechnologyList.forEach(oldTechnology =>{
+            if (!newTechnologyList.some(newTechnology => newTechnology.id === oldTechnology.id)){
+                this.projectService.deleteProjectTechnology(this.projectCopy, oldTechnology).subscribe(
+                    _ => {},
+                    error => {
+                        this.activeModal.close(error);
+                    }
+                );
+            }
+        });
     }
 
 }

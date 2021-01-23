@@ -7,11 +7,10 @@ import {SortableDirective} from '../common/list-components/sort/sortable.directi
 import {debounceTime} from 'rxjs/internal/operators';
 import {SortEvent} from '../common/list-components/sort/sort.model';
 import {EmployeeService} from '../employee/employee.service';
-import {Employee} from '../employee/employee.model';
 import {TeamService} from './team.service';
 import {Team} from './team.model';
 import {TeamEditComponent} from './team-edit.component';
-import {convertTimeToString} from '../common/date-transformation/convert-time.functions';
+import {convertTimeToString, convertTimeDifferenceToString} from '../common/date-transformation/convert-time.functions';
 import {IssueService} from '../issue/issue.service';
 import {map} from 'rxjs/operators';
 
@@ -49,6 +48,7 @@ import {map} from 'rxjs/operators';
                 <table class="table table-striped">
                     <thead>
                     <tr>
+                        <th scope="col" sortable="login" (sort)="onSortEmployee($event)">{{'team.details.login' | translate}}</th>
                         <th scope="col" sortable="firstName" (sort)="onSortEmployee($event)">{{'team.details.first-name' | translate}}</th>
                         <th scope="col" sortable="lastName" (sort)="onSortEmployee($event)">{{'team.details.last-name' | translate}}</th>
                         <th scope="col" sortable="positionDisplay"
@@ -58,7 +58,8 @@ import {map} from 'rxjs/operators';
                     </thead>
                     <tbody>
                     <tr *ngFor="let employee of employeeService.employees$ | async">
-                        <th>{{employee.firstName}}</th>
+                        <th>{{employee.login}}</th>
+                        <td>{{employee.firstName}}</td>
                         <td>{{employee.lastName}}</td>
                         <td>{{employee.positionDisplay}}</td>
                         <td><a routerLink="/employee/{{employee.login}}">{{'team.details.details' | translate}}</a></td>
@@ -90,7 +91,7 @@ import {map} from 'rxjs/operators';
                         <th>{{issue.name}}</th>
                         <td>{{convertTimeToString(issue.estimatedTime)}}</td>
                         <td>{{convertTimeToString(issue.realTime)}}</td>
-                        <td>{{convertTimeToString(issue.differenceTime)}}</td>
+                        <td>{{convertTimeDifferenceToString(issue.timeDifference)}}</td>
                         <td><a routerLink="/issue/{{issue.id}}">{{'issue.list.details' | translate}}</a></td>
                     </tr>
                     </tbody>
@@ -115,8 +116,8 @@ export class TeamDetailsComponent implements OnInit, OnDestroy {
         name: '',
         numberOfMembers: 0
     };
-    private employeeList: Employee[] = [];
     convertTimeToString = convertTimeToString;
+    convertTimeDifferenceToString = convertTimeDifferenceToString;
     private errorSubject = new Subject<string>();
     private successSubject = new Subject<string>();
     @ViewChild('errorAlert', {static: false}) errorAlert: NgbAlert;
@@ -175,8 +176,11 @@ export class TeamDetailsComponent implements OnInit, OnDestroy {
         this.errorSubject.unsubscribe();
     }
 
-    onSortIssue($event: SortEvent) { //todo naprawa headers dla dwoch tabel
-        this.headers.forEach(header => {
+    onSortIssue($event: SortEvent) {
+        const issueHeaders = ["id", "name", "estimatedTime", "realTime", "differenceTime"]
+        this.headers
+            .filter(header => issueHeaders.includes(header.sortable))
+            .forEach(header => {
                 if (header.sortable !== $event.column) {
                     header.direction = '';
                 }
@@ -193,8 +197,11 @@ export class TeamDetailsComponent implements OnInit, OnDestroy {
         this.issueService.search$.next();
     }
 
-    onSortEmployee($event: SortEvent) { //todo naprawa headers dla dwoch tabel
-        this.headers.forEach(header => {
+    onSortEmployee($event: SortEvent) {
+        const employeeHeaders = ["login","firstName", "lastName", "position"]
+        this.headers
+            .filter(header => employeeHeaders.includes(header.sortable))
+            .forEach(header => {
                 if (header.sortable !== $event.column) {
                     header.direction = '';
                 }

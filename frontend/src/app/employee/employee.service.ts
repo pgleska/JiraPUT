@@ -8,6 +8,7 @@ import {handleError} from '../common/handle-error/handle-error.function';
 import {ListState} from '../common/list-components/search/search.model';
 import {search} from '../common/list-components/search/search.function';
 import {SelectItem} from '../common/select/select-item.model';
+import {Technology} from '../technology/technology.model';
 
 @Injectable({
     providedIn: 'root'
@@ -74,6 +75,21 @@ export class EmployeeService {
 
     deleteEmployee(employee: Employee): Observable<any> {
         return this.http.delete(environment.apiUrl + `/api/employee/${employee.login}`)
+            .pipe(
+                catchError(handleError('employee'))
+            );
+    }
+
+    addEmployeeTechnology(employee: Employee, technology: Technology): Observable<any> {
+        return this.http.put(environment.apiUrl + `/api/employee/${employee.login}/technology`,
+            {name: technology.name})
+            .pipe(
+                catchError(handleError('employee'))
+            );
+    }
+
+    deleteEmployeeTechnology(employee: Employee, technology: Technology): Observable<any> {
+        return this.http.delete(environment.apiUrl + `/api/employee/${employee.login}/technology/${technology.id}`)
             .pipe(
                 catchError(handleError('employee'))
             );

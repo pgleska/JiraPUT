@@ -70,6 +70,7 @@ import {MultiSelectComponent} from './common/multiselect/multiselect.component';
 import {TechnologyDetailsComponent} from './technology/technology-details.component';
 import {TechnologyTagComponent} from './technology/technology-tag/technology-tag.component';
 import {MainPageComponent} from './main-page/main-page.component';
+import {TimeValidatorDirective} from './common/validators/time-validator.directive';
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
     return new TranslateHttpLoader(httpClient);
@@ -136,7 +137,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         ClickOutsideDirective,
         ListFilterPipe,
         MultiSelectComponent,
-        MainPageComponent
+        MainPageComponent,
+        TimeValidatorDirective
     ],
     imports: [
         BrowserModule,

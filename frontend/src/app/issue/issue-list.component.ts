@@ -11,7 +11,7 @@ import {IssueDeleteComponent} from './issue-delete.component';
 import {Issue, ISSUE_TYPES} from './issue.model';
 import {IssueEditComponent} from './issue-edit.component';
 import {SelectItem} from '../common/select/select-item.model';
-import { convertTimeToString } from '../common/date-transformation/convert-time.functions';
+import {convertTimeDifferenceToString, convertTimeToString} from '../common/date-transformation/convert-time.functions';
 
 
 @Component({
@@ -42,7 +42,7 @@ import { convertTimeToString } from '../common/date-transformation/convert-time.
                                (ngModelChange)="onSearch($event)"/>
                     </div>
                     <div class="p-2  mx-4">
-                        <app-select [label]="'issue.list.subtype' | translate"
+                        <app-select [label]="'issue.list.type' | translate"
                                     [name]="'type'"
                                     [options]="types"
                                     (value)="onIssueTypeChanged($event)">
@@ -59,12 +59,11 @@ import { convertTimeToString } from '../common/date-transformation/convert-time.
                 <tr>
                     <th scope="col" sortable="id" (sort)="onSort($event)">{{'issue.list.id' | translate}}</th>
                     <th scope="col" sortable="name" (sort)="onSort($event)">{{'issue.list.name' | translate}}</th>
-                    <th scope="col" sortable="subtype" (sort)="onSort($event)">{{'issue.list.subtype' | translate}}</th>
+                    <th scope="col" sortable="type" (sort)="onSort($event)">{{'issue.list.type' | translate}}</th>
                     <th scope="col" sortable="estimatedTime" (sort)="onSort($event)">{{'issue.list.estimated-time' | translate}}</th>
                     <th scope="col" sortable="realTime" (sort)="onSort($event)">{{'issue.list.real-time' | translate}}</th>
                     <th scope="col" sortable="differenceTime" (sort)="onSort($event)">{{'issue.list.difference-time' | translate}}</th>
                     <th>{{'issue.list.details' | translate}}</th>
-                    <th>{{'common.edit' | translate}}</th>
                     <th>{{'common.delete' | translate}}</th>
                 </tr>
                 </thead>
@@ -72,12 +71,11 @@ import { convertTimeToString } from '../common/date-transformation/convert-time.
                 <tr *ngFor="let issue of issueService.issues$ | async">
                     <th>{{issue.id}}</th>
                     <th>{{issue.name}}</th>
-                    <td>{{issue.subtypeName}}</td>
+                    <td>{{issue.typeName}}</td>
                     <td>{{convertTimeToString(issue.estimatedTime)}}</td>
                     <td>{{convertTimeToString(issue.realTime)}}</td>
-                    <td>{{convertTimeToString(issue.timeDifference)}}</td>
+                    <td>{{convertTimeDifferenceToString(issue.timeDifference)}}</td>
                     <td><a routerLink="/issue/{{issue.id}}">{{'issue.list.details' | translate}}</a></td>
-                    <td><a (click)="openEdit(issue)"><i class="fa fa-edit fa-2x btn"></i></a></td>
                     <td><a (click)="openDelete(issue)"><i class="fa fa-trash fa-2x btn"></i></a></td>
                 </tr>
                 </tbody>
@@ -101,6 +99,7 @@ export class IssueListComponent implements OnInit, OnDestroy {
     private successSubject = new Subject<string>();
     private issueType: SelectItem;
     convertTimeToString = convertTimeToString;
+    convertTimeDifferenceToString = convertTimeDifferenceToString;
     @ViewChild('errorAlert', {static: false}) errorAlert: NgbAlert;
     @ViewChild('successAlert', {static: false}) successAlert: NgbAlert;
     @ViewChildren(SortableDirective) headers: QueryList<SortableDirective>;

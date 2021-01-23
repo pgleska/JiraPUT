@@ -7,6 +7,7 @@ import {SelectItem} from '../common/select/select-item.model';
 import {ProjectService} from '../project/project.service';
 import {EmployeeService} from '../employee/employee.service';
 import {TeamService} from '../team/team.service';
+import {convertStringToTime, convertTimeToString} from '../common/date-transformation/convert-time.functions';
 
 
 @Component({
@@ -46,6 +47,34 @@ import {TeamService} from '../team/team.service';
                     ></textarea>
                     <app-input-error [control]="description.control"></app-input-error>
                 </div>
+                <div>
+                    <label for="estimatedTime">{{'issue.edit.estimated-time' | translate}}</label>
+                    <input
+                            type="text"
+                            id="estimatedTime"
+                            name="estimatedTime"
+                            class="form-control"
+                            [ngModel]
+                            #estimatedTime="ngModel"
+                            required
+                            timeValidator
+                    />
+                    <app-input-error [control]="estimatedTime.control"></app-input-error>
+                </div>
+                <div>
+                    <label for="realTime">{{'issue.edit.real-time' | translate}}</label>
+                    <input
+                            type="text"
+                            id="realTime"
+                            name="realTime"
+                            class="form-control"
+                            [ngModel]
+                            #realTime="ngModel"
+                            required
+                            timeValidator
+                    />
+                    <app-input-error [control]="realTime.control"></app-input-error>
+                </div>
                 <div *ngIf="type === 'epic'">
                     <app-select [label]="'issue.edit.project' | translate"
                                 [options]="projects"
@@ -56,7 +85,7 @@ import {TeamService} from '../team/team.service';
                 <div *ngIf="type === 'epic'">
                     <app-datepicker [label]="'issue.add.realisation-date' | translate"
                                     [required]="type === 'epic'"
-                                    [name]="'realisationDate'">
+                                    [name]="'realizationDate'">
                     </app-datepicker>
                 </div>
                 <div *ngIf="type === 'story'">
@@ -128,43 +157,86 @@ export class IssueEditComponent implements OnInit {
     ngOnInit(): void {
         this.issueCopy = Object.assign({}, this.issue);
         setTimeout(() => {
-            this.form.setValue({
-                name: this.issueCopy.name,
-                description: this.issueCopy.description
-            });
+            this.form.controls['name'].setValue(this.issueCopy.name);
+            this.form.controls['description'].setValue(this.issueCopy.description);
+            this.form.controls['realTime'].setValue(convertTimeToString(this.issueCopy.realTime as number));
+            this.form.controls['estimatedTime'].setValue(convertTimeToString(this.issueCopy.estimatedTime as number));
+            if (this.type === 'epic') {
+                this.form.controls['realizationDate'].setValue('');
+            }
+            if (this.type === 'task') {
+                const taskType = this.taskTypes.find(type => type.id === this.issueCopy.taskType);
+                this.form.controls['taskType'].setValue(taskType);
+            }
+
         });
         this.type = this.issueCopy.type;
 
-        this.projectService.getProjectList().subscribe(result => {
-            result.forEach(project => {
+        this.issueService.getIssueList().subscribe(result => {
+            result.forEach(issue => {
                 const item = {
-                    id: project.id,
-                    name: project.name
+                    id: issue.id,
+                    name: `${issue.id} - ${issue.name}`
                 };
-                this.projects.push(item);
+                if (issue.type === 'epic') {
+                    this.epics.push(item);
+                    if (item.id === this.issueCopy.epicId) {
+                        this.form.controls['epic'].setValue(item);
+                    }
+                }
+                if (issue.type === 'story') {
+                    this.stories.push(item);
+                    if (item.id === this.issueCopy.storyId) {
+                        this.form.controls['story'].setValue(item);
+                    }
+                }
             });
         });
 
-        this.employeeService.getEmployeeList().subscribe(result => {
-            result.forEach(employee => {
-                const item = {
-                    id: employee.login,
-                    name: `${employee.login} - ${employee.firstName} ${employee.lastName}`
-                };
-                this.employees.push(item);
+        if (this.type === 'epic') {
+            this.projectService.getProjectList().subscribe(result => {
+                result.forEach(project => {
+                    const item = {
+                        id: project.id,
+                        name: project.name
+                    };
+                    this.projects.push(item);
+                    if (item.id === this.issueCopy.projectId) {
+                        this.form.controls['project'].setValue(item);
+                    }
+                });
             });
-        });
+        }
 
-        this.teamService.getTeamList().subscribe(result => {
-            result.forEach(team => {
-                const item = {
-                    id: team.name,
-                    name: team.name
-                };
-                this.teams.push(item);
+        if (this.type === 'story') {
+            this.teamService.getTeamList().subscribe(result => {
+                result.forEach(team => {
+                    const item = {
+                        id: team.name,
+                        name: team.name
+                    };
+                    this.teams.push(item);
+                    if (item.id === this.issueCopy.teamName) {
+                        this.form.controls['team'].setValue(item);
+                    }
+                });
             });
-        });
+        }
 
+        if (this.type === 'task') {
+            this.employeeService.getEmployeeList().subscribe(result => {
+                result.forEach(employee => {
+                    const item = {
+                        id: employee.login,
+                        name: `${employee.login} - ${employee.firstName} ${employee.lastName}`
+                    };
+                    this.employees.push(item);
+                    if (item.id === this.issueCopy.userLogin) {
+                        this.form.controls['employee'].setValue(item);
+                    }
+                });
+            });
+        }
     }
 
     onSubmit(form: NgForm): void {
@@ -172,22 +244,25 @@ export class IssueEditComponent implements OnInit {
             return;
         }
 
-        this.issue.name = form.value.name;
-        this.issue.description = form.value.description;
-        this.issue.type = this.type;
+        this.issueCopy.name = form.value.name;
+        this.issueCopy.description = form.value.description;
+        this.issueCopy.type = this.type;
+        this.issueCopy.realTime = convertStringToTime(form.value.realTime);
+        this.issueCopy.estimatedTime = convertStringToTime(form.value.estimatedTime);
         switch (this.type) {
             case 'epic':
-                this.issue.projectId = form.value.project.id as number;
-                this.issue.realizationDate = form.value.realizationDate;
+                this.issueCopy.projectId = form.value.project.id as number;
+                const realizationDate = form.value.realizationDate;
+                this.issueCopy.realizationDate = new Date(realizationDate.year, realizationDate.month - 1, realizationDate.day, 12, 0, 0, 0).toISOString();
                 break;
             case 'story':
-                this.issue.epicId = form.value.epic.id as number;
-                this.issue.teamName = form.value.team.id as string;
+                this.issueCopy.epicId = form.value.epic.id as number;
+                this.issueCopy.teamName = form.value.team.id as string;
                 break;
             case 'task':
-                this.issue.taskType = form.value.taskType.id as number;
-                this.issue.storyId = form.value.story.id as number;
-                this.issue.userLogin = form.value.employee.id as string;
+                this.issueCopy.taskType = form.value.taskType.id as number;
+                this.issueCopy.storyId = form.value.story.id as number;
+                this.issueCopy.userLogin = form.value.employee.id as string;
                 break;
         }
 

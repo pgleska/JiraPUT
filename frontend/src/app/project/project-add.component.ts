@@ -4,6 +4,7 @@ import {NgForm} from '@angular/forms';
 import {Project} from './project.model';
 import {ProjectService} from './project.service';
 import {TechnologyService} from '../technology/technology.service';
+import {Technology} from '../technology/technology.model';
 
 
 @Component({
@@ -76,12 +77,12 @@ import {TechnologyService} from '../technology/technology.service';
         </div>
     `
 })
-export class ProjectAddComponent implements OnInit{
+export class ProjectAddComponent implements OnInit {
 
     dropdownList = [];
     selectedItems = [];
     dropdownSettings = {};
-    private project: Project =  {
+    private project: Project = {
         name: '',
         description: null,
         version: '',
@@ -113,15 +114,24 @@ export class ProjectAddComponent implements OnInit{
         }
 
         this.project.name = form.value.name;
-        this.project.version = form.value.version
+        this.project.version = form.value.version;
         this.project.technologies = this.selectedItems;
-        if(!!form.value.description) {
-            this.project.description = form.value.description
+        if (!!form.value.description) {
+            this.project.description = form.value.description;
         }
 
         const addObservable = this.projectService.createProject(this.project);
         addObservable.subscribe(
             _ => {
+                this.project.technologies.forEach(newTechnology => {
+                    this.projectService.addProjectTechnology(this.project, newTechnology).subscribe(
+                        __ => {
+                        },
+                        error => {
+                            this.activeModal.close(error);
+                        }
+                    );
+                });
                 this.activeModal.close('project.add.added');
             },
             error => {
@@ -130,5 +140,4 @@ export class ProjectAddComponent implements OnInit{
         );
         form.reset();
     }
-
 }

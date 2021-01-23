@@ -7,7 +7,7 @@ import {SortableDirective} from '../common/list-components/sort/sortable.directi
 import {Issue} from './issue.model';
 import {IssueService} from './issue.service';
 import {IssueEditComponent} from './issue-edit.component';
-import { convertTimeToString } from '../common/date-transformation/convert-time.functions';
+import {convertTimeDifferenceToString, convertTimeToString} from '../common/date-transformation/convert-time.functions';
 import {SortEvent} from '../common/list-components/sort/sort.model';
 
 
@@ -31,7 +31,7 @@ import {SortEvent} from '../common/list-components/sort/sort.model';
                        class="text-center">
                 {{successMessage | translate}}
             </ngb-alert>
-            <div class="d-flex flex-column border rounded p-2 mt-3 w-50 mx-auto">
+            <div class="d-flex flex-column border rounded p-2 mt-3 mx-auto">
                 <div class="d-flex justify-content-between">
                     <h2>{{'issue.details.header' | translate }}{{issue.id}}</h2>
                     <a class="btn btn-primary btn-lg" (click)="openEdit()">{{'issue.details.edit' | translate}}</a>
@@ -42,21 +42,34 @@ import {SortEvent} from '../common/list-components/sort/sort.model';
                         <input class="form-control" value="{{issue.name}}" name="firstName" disabled>
                     </div>
                     <div class="form-group">
-                        <label for="subtype">{{'issue.details.subtype' | translate}} </label>
-                        <input class="form-control" value="{{issue.type}}" name="subtype" disabled/>
+                        <label for="type">{{'issue.details.type' | translate}} </label>
+                        <input class="form-control" value="{{issue.type}}" name="type" disabled/>
                     </div>
                     <div class="form-group">
                         <label for="description">{{'issue.details.description' | translate}} </label>
                         <textarea class="form-control" value="{{issue.description}}" name="description" disabled
                                   style="resize: none"></textarea>
                     </div>
+                    <div class="form-group">
+                        <label for="estimatedTime">{{'issue.details.estimated-time' | translate}} </label>
+                        <input type="text" class="form-control" [value]="estimatedTime" name="estimatedTime" disabled/>
+                    </div>
+                    <div class="form-group">
+                        <label for="realTime">{{'issue.details.real-time' | translate}} </label>
+                        <input type="text" class="form-control" [value]="realTime" name="realTime" disabled/>
+                    </div>
+                    <div class="form-group">
+                        <label for="timeDifference">{{'issue.details.difference-time' | translate}} </label>
+                        <input type="text" class="form-control" [value]="timeDifference" name="timeDifference"
+                               disabled/>
+                    </div>
                     <div *ngIf="issue.type === 'epic'" class="form-group">
-                        <label for="projectName">{{'issue.details.description' | translate}} </label>
+                        <label for="projectName">{{'issue.details.project' | translate}} </label>
                         <input class="form-control" value="{{issue.projectName}}" name="projectName" disabled/>
                     </div>
                     <div *ngIf="issue.type === 'epic'" class="form-group">
-                        <label for="realizationDate">{{'issue.details.realization-date' | translate}} </label>
-                        <input class="form-control" value="{{issue.realizationDate}}" name="realizationDate" disabled/>
+                        <label for="realizationDate">{{'issue.details.realisation-date' | translate}} </label>
+                        <input class="form-control" value="{{realizationDate}}" name="realizationDate" disabled/>
                     </div>
                     <div *ngIf="issue.type === 'story'" class="form-group">
                         <label for="epic">{{'issue.details.epic' | translate}} </label>
@@ -84,7 +97,7 @@ import {SortEvent} from '../common/list-components/sort/sort.model';
                     <tr>
                         <th scope="col" sortable="id" (sort)="onSort($event)">{{'issue.list.id' | translate}}</th>
                         <th scope="col" sortable="name" (sort)="onSort($event)">{{'issue.list.name' | translate}}</th>
-                        <th scope="col" sortable="subtype" (sort)="onSort($event)">{{'issue.list.subtype' | translate}}</th>
+                        <th scope="col" sortable="type" (sort)="onSort($event)">{{'issue.list.type' | translate}}</th>
                         <th scope="col" sortable="estimatedTime" (sort)="onSort($event)">{{'issue.list.estimated-time' | translate}}</th>
                         <th scope="col" sortable="realTime" (sort)="onSort($event)">{{'issue.list.real-time' | translate}}</th>
                         <th scope="col" sortable="differenceTime" (sort)="onSort($event)">{{'issue.list.difference-time' | translate}}</th>
@@ -92,20 +105,20 @@ import {SortEvent} from '../common/list-components/sort/sort.model';
                     </tr>
                     </thead>
                     <tbody>
-                    <tr *ngFor="let issue of issueList">
+                    <tr *ngFor="let issue of issueService.issues$ | async">
                         <th>{{issue.id}}</th>
                         <th>{{issue.name}}</th>
-                        <td>{{issue.subtypeName}}</td>
+                        <td>{{issue.typeName}}</td>
                         <td>{{convertTimeToString(issue.estimatedTime)}}</td>
                         <td>{{convertTimeToString(issue.realTime)}}</td>
-                        <td>{{convertTimeToString(issue.timeDifference)}}</td>
+                        <td>{{convertTimeDifferenceToString(issue.timeDifference)}}</td>
                         <td><a routerLink="/issue/{{issue.id}}">{{'issue.list.details' | translate}}</a></td>
                     </tr>
                     </tbody>
                 </table>
                 <div class="d-flex justify-content-between p-2">
                     <app-pagination
-                            [totalElements]="issueList.length"
+                            [totalElements]="issueService.total$ | async"
                             (page)="onPage($event)">
                     </app-pagination>
                 </div>
@@ -118,16 +131,29 @@ export class IssueDetailsComponent implements OnInit {
     pageSize = PAGE_SIZE;
     errorMessage: string;
     successMessage: string;
-    issue: Issue;
-    issueList: Issue[];
+    issue: Issue = {
+        description: '',
+        estimatedTime: undefined,
+        id: 0,
+        name: '',
+        realTime: undefined,
+        typeName: undefined,
+        timeDifference: undefined,
+        type: undefined
+    };
+    estimatedTime: string = '';
+    realTime: string = '';
+    timeDifference: string = '';
+    realizationDate: string = '';
     convertTimeToString = convertTimeToString;
+    convertTimeDifferenceToString = convertTimeDifferenceToString;
     private errorSubject = new Subject<string>();
     private successSubject = new Subject<string>();
     @ViewChild('errorAlert', {static: false}) errorAlert: NgbAlert;
     @ViewChild('successAlert', {static: false}) successAlert: NgbAlert;
     @ViewChildren(SortableDirective) headers: QueryList<SortableDirective>;
 
-    constructor(private issueService: IssueService,
+    constructor(public issueService: IssueService,
                 private route: ActivatedRoute,
                 private modalService: NgbModal) {
     }
@@ -138,11 +164,18 @@ export class IssueDetailsComponent implements OnInit {
         this.issueService.getIssue(issueId).subscribe(
             (mainIssue) => {
                 this.issue = mainIssue;
+                this.estimatedTime = convertTimeToString(this.issue.estimatedTime as number)
+                this.realTime = convertTimeToString(this.issue.realTime as number)
+                this.timeDifference = convertTimeDifferenceToString(this.issue.timeDifference as number)
+                if (this.issue.type === 'epic' && !!this.issue.realizationDate) {
+                    this.realizationDate = this.issue.realizationDate.slice(0,10);
+                }
                 this.issueService.getIssueList().subscribe(
                     (issues) => {
-                        this.issueList = issues.filter(issue =>
-                            this.issue?.stories.includes(issue.id) || this.issue?.tasks.includes(issue.id));
-                        this.issueService.allIssueList = this.issueList;
+                        this.issueService.allIssueList = issues.filter(issue =>
+                            this.issue.stories?.includes(issue.id) || this.issue.tasks?.includes(issue.id));
+                        this.issueService.filterIssueList();
+                        this.issueService.search$.next();
                     }
                 );
             }

@@ -8,6 +8,7 @@ import {handleError} from '../common/handle-error/handle-error.function';
 import {ListState} from '../common/list-components/search/search.model';
 import {search} from '../common/list-components/search/search.function';
 import {Project} from './project.model';
+import {Technology} from '../technology/technology.model';
 
 @Injectable({
     providedIn: 'root'
@@ -63,6 +64,8 @@ export class ProjectService {
     }
 
     modifyProject(project: Project): Observable<any> {
+        project.technologies = undefined;
+        project.contracts = undefined;
         return this.http.patch(
             environment.apiUrl + `/api/project/${project.id}`,
             project)
@@ -74,6 +77,21 @@ export class ProjectService {
     deleteProject(project: Project): Observable<any> {
         return this.http.delete(
             environment.apiUrl + `/api/project/${project.id}`)
+            .pipe(
+                catchError(handleError('project'))
+            );
+    }
+
+    addProjectTechnology(project: Project, technology: Technology): Observable<any> {
+        return this.http.put(environment.apiUrl + `/api/project/${project.id}/technology`,
+            {name: technology.name})
+            .pipe(
+                catchError(handleError('project'))
+            );
+    }
+
+    deleteProjectTechnology(project: Project, technology: Technology): Observable<any> {
+        return this.http.delete(environment.apiUrl + `/api/project/${project.id}/technology/${technology.id}`)
             .pipe(
                 catchError(handleError('project'))
             );

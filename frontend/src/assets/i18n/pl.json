@@ -55,8 +55,8 @@
       "added": "Kontrakt został pomyślnie dodany",
       "amount": "Kwota kontraktu",
       "conditions": "Warunki dodatkowe",
-      "title": "Dodaj kontrakt",
-      "contract-number": "Numer kotraktu"
+      "contract-number": "Numer kotraktu",
+      "title": "Dodaj kontrakt"
     },
     "delete": {
       "body": "Czy na pewno chcesz usunąć ten kontrakt? \nOperacja ta jest nieodwracalna!",
@@ -147,6 +147,7 @@
     "technology-duplicated": "Technologia o takiej nazwie już istnieje",
     "technology-not-empty": "Nie można usunąć technologii",
     "technology-not-found": "Technologia o takiej nazwie nie isntieje",
+    "time-input": "Wejście nie spełnia formatu żądanego formatu np.: 7d 4h 45m",
     "unknown": "Nieznany błąd",
     "url-encoding": "Dozwolone znaki to litery, cyfry oraz znaki _ i -",
     "user-duplicated": "Użytkownik o takim loginie już istnieje"
@@ -158,8 +159,10 @@
       "edited": "Zadanie zostało pomyślnie dodane",
       "employees": "Pracownik który ma wykonać dane zadanie",
       "epic": "Epic do którego należy zadanie",
+      "estimated-time": "Czas oszacowany",
       "name": "Nazwa",
       "project": "Projekt w ramach którego realizowane jest zadanie",
+      "real-time": "Czas rzeczywisty",
       "realisation-date": "Termin realizacji",
       "story": "Story do którego należy zadanie",
       "task-type": "Typ zadania",
@@ -172,14 +175,33 @@
       "deleted": "Zadanie zostało pomyślnie usunięte",
       "title": "Usuń zadanie"
     },
+    "details": {
+      "description": "Opis",
+      "difference-time": "Różnica czasów",
+      "edit": "Edytuj",
+      "employees": "Pracownik do którego jest przypisane zadanie",
+      "epic": "Epic do którego należy zadanie",
+      "estimated-time": "Czas oszacowany",
+      "header": "Zadanie: ",
+      "name": "Nazwa",
+      "project": "Projekt",
+      "real-time": "Czas rzeczywisty",
+      "realisation-date": "Termin realizacji",
+      "story": "Story do którego należy zadanie",
+      "task-type": "Typ zadania",
+      "team": "Zespół który ma wykonać zadanie",
+      "type": "Typ"
+    },
     "edit": {
       "description": "Opis",
       "edit": "Zapisz",
       "edited": "Zadanie zostało pomyślnie zedtyowane",
       "employees": "Pracownik który ma wykonać dane zadanie",
       "epic": "Epic do którego należy zadanie",
+      "estimated-time": "Czas oszacowany",
       "name": "Nazwa",
       "project": "Projekt w ramach którego realizowane jest zadanie",
+      "real-time": "Czas rzeczywisty",
       "realisation-date": "Termin realizacji",
       "story": "Story do którego należy zadanie",
       "task-type": "Typ zadania",
@@ -194,7 +216,7 @@
       "id": "ID",
       "name": "Nazwa",
       "real-time": "Czas rzeczywisty",
-      "subtype": "Typ"
+      "type": "Typ"
     }
   },
   "navbar": {
@@ -255,9 +277,9 @@
       "description": "Opis projektu",
       "edit": "Edytuj",
       "header": "Projekt: ",
+      "placeholder": "Wybierz technologie",
       "technologies": "Technologie",
-      "version": "Wersja",
-      "placeholder": "Wybierz technologie"
+      "version": "Wersja"
     },
     "edit": {
       "description": "Opis projektu",
@@ -289,6 +311,7 @@
       "first-name": "Imię",
       "header": "Zespół: ",
       "last-name": "Nazwisko",
+      "login": "Login",
       "members-number": "Liczba członków:",
       "position": "Stanowisko"
     },

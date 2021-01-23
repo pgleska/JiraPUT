@@ -17,6 +17,8 @@ import {Component, Input} from '@angular/core';
                 <div *ngIf="control.errors.urlEncoding"><small>{{'error.url-encoding' | translate}}</small></div>
                 <div *ngIf="control.errors.taxNumberLength"><small>{{'error.tax-number-length' | translate}}</small></div>
                 <div *ngIf="control.errors.taxNumberChecksum"><small>{{'error.tax-number-checksum' | translate}}</small></div>
+                <div *ngIf="control.errors.timeInput"><small>{{'error.time-input' | translate}}</small></div>
+
             </div>
         </div>
     `,

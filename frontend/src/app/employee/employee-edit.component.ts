@@ -8,6 +8,7 @@ import {PositionService} from '../position/position.service';
 import {TeamService} from '../team/team.service';
 import {Position} from '../position/position.model';
 import {TechnologyService} from '../technology/technology.service';
+import {Technology} from '../technology/technology.model';
 
 
 @Component({
@@ -199,6 +200,7 @@ export class EmployeeEditComponent implements OnInit {
         const editObservable = this.employeeService.modifyEmployee(this.employeeCopy);
         editObservable.subscribe(
             _ => {
+                this.changeTechnologyList(this.employeeCopy.technologies, this.employee.technologies)
                 this.employee = Object.assign({}, this.employeeCopy);
                 this.activeModal.close('employee.edit.edited');
             },
@@ -206,7 +208,31 @@ export class EmployeeEditComponent implements OnInit {
                 this.activeModal.close(error);
             }
         );
+
         form.reset();
+    }
+
+    private changeTechnologyList(newTechnologyList: Technology[], oldTechnologyList: Technology[]): void {
+        newTechnologyList.forEach(newTechnology =>{
+            if (!oldTechnologyList.some(oldTechnology => oldTechnology.id === newTechnology.id)){
+                this.employeeService.addEmployeeTechnology(this.employeeCopy, newTechnology).subscribe(
+                    _ => {},
+                    error => {
+                        this.activeModal.close(error);
+                    }
+                );
+            }
+        });
+        oldTechnologyList.forEach(oldTechnology =>{
+            if (!newTechnologyList.some(newTechnology => newTechnology.id === oldTechnology.id)){
+                this.employeeService.deleteEmployeeTechnology(this.employeeCopy, oldTechnology).subscribe(
+                    _ => {},
+                    error => {
+                        this.activeModal.close(error);
+                    }
+                );
+            }
+        });
     }
 
 }

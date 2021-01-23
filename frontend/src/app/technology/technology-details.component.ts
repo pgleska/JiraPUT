@@ -40,6 +40,7 @@ import {Subject} from 'rxjs';
                 <table class="table table-striped">
                     <thead>
                     <tr>
+                        <th scope="col" sortable="login" (sort)="onSortEmployee($event)">{{'team.details.login' | translate}}</th>
                         <th scope="col" sortable="firstName" (sort)="onSortEmployee($event)">{{'team.details.first-name' | translate}}</th>
                         <th scope="col" sortable="lastName" (sort)="onSortEmployee($event)">{{'team.details.last-name' | translate}}</th>
                         <th scope="col" sortable="positionDisplay"
@@ -49,7 +50,8 @@ import {Subject} from 'rxjs';
                     </thead>
                     <tbody>
                     <tr *ngFor="let employee of employeeService.employees$ | async">
-                        <th>{{employee.firstName}}</th>
+                        <th>{{employee.login}}</th>
+                        <td>{{employee.firstName}}</td>
                         <td>{{employee.lastName}}</td>
                         <td>{{employee.positionDisplay}}</td>
                         <td><a routerLink="/employee/{{employee.login}}">{{'team.details.details' | translate}}</a></td>
@@ -73,7 +75,7 @@ import {Subject} from 'rxjs';
                     <tbody>
                     <tr *ngFor="let project of projectService.projects$ | async">
                         <th>{{project.name}}</th>
-                        <th>{{project.version}}</th>
+                        <td>{{project.version}}</td>
                         <td><a routerLink="/project/{{project.id}}">{{'project.list.details' | translate}}</a></td>
                     </tr>
                     </tbody>
@@ -143,13 +145,16 @@ export class TechnologyDetailsComponent implements OnInit {
         });
     }
 
-    onSortEmployee($event: SortEvent) {  //todo naprawa headers dla dwoch tabel
-        this.headers.forEach(header => {
-                if (header.sortable !== $event.column) {
-                    header.direction = '';
+    onSortEmployee($event: SortEvent) {
+        const employeeHeaders = ['login', 'firstName', 'lastName', 'position'];
+        this.headers
+            .filter(header => employeeHeaders.includes(header.sortable))
+            .forEach(header => {
+                    if (header.sortable !== $event.column) {
+                        header.direction = '';
+                    }
                 }
-            }
-        );
+            );
 
         this.employeeService.state.sortColumn = $event.column;
         this.employeeService.state.sortDirection = $event.direction;
@@ -161,13 +166,16 @@ export class TechnologyDetailsComponent implements OnInit {
         this.employeeService.search$.next();
     }
 
-    onSortProject($event: SortEvent) { //todo naprawa headers dla dwoch tabel
-        this.headers.forEach(header => {
-                if (header.sortable !== $event.column) {
-                    header.direction = '';
+    onSortProject($event: SortEvent) {
+        const projectHeaders = ['name', 'version'];
+        this.headers
+            .filter(header => projectHeaders.includes(header.sortable))
+            .forEach(header => {
+                    if (header.sortable !== $event.column) {
+                        header.direction = '';
+                    }
                 }
-            }
-        );
+            );
 
         this.projectService.state.sortColumn = $event.column;
         this.projectService.state.sortDirection = $event.direction;

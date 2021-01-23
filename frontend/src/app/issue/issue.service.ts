@@ -62,27 +62,46 @@ export class IssueService {
         return this.http.get<Issue[]>(environment.apiUrl + `/api/issue/project/${projectId}`)
             .pipe(
                 catchError(handleError('issue')),
-            );
+                map((issues: Issue[]) => issues.map(
+                    (issue: Issue) => {
+                        this.convertResponse(issue);
+                        return issue;
+                    })
+                ));
     }
 
     getStoryListByTeamName(teamName: string): Observable<Issue[]> {
         return this.http.get<Issue[]>(environment.apiUrl + `/api/issue/team/${teamName}`)
             .pipe(
                 catchError(handleError('issue')),
-            );
+                map((issues: Issue[]) => issues.map(
+                    (issue: Issue) => {
+                        this.convertResponse(issue);
+                        return issue;
+                    })
+                ));
     }
 
     getTaskListByEmployeeLogin(login: string): Observable<Issue[]> {
         return this.http.get<Issue[]>(environment.apiUrl + `/api/issue/user/${login}`)
             .pipe(
                 catchError(handleError('issue')),
-            );
+                map((issues: Issue[]) => issues.map(
+                    (issue: Issue) => {
+                        this.convertResponse(issue);
+                        return issue;
+                    })
+                ));
     }
 
     getIssue(issueId: number): Observable<Issue> {
         return this.http.get<Issue>(environment.apiUrl + `/api/issue/${issueId}`)
             .pipe(
-                catchError(handleError('issue'))
+                catchError(handleError('issue')),
+                map((issue) => {
+                    this.convertResponse(issue);
+                    return issue;
+                })
             );
     }
 
@@ -130,19 +149,21 @@ export class IssueService {
         issue.estimatedTime = estimatedTime;
         switch (issue.type) {
             case 'epic':
-                issue.subtypeName = 'Epic';
+                issue.typeName = 'Epic';
                 break;
             case 'story':
-                issue.subtypeName = 'Story';
+                issue.typeName = 'Story';
                 break;
             case 'task':
-                issue.subtypeName = 'Task';
+                issue.typeName = 'Task';
                 break;
         }
         return issue;
     }
 
     resetState() {
+        this.allIssueList = [];
+        this.filteredIssueList= [];
         this.state = {
             page: 1,
             searchTerm: '',

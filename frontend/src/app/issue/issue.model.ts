@@ -13,7 +13,7 @@ export interface Issue {
     realTime: number | Date
     timeDifference: number | Date
     type: IssueTypes
-    subtypeName: IssueTypesName
+    typeName: IssueTypesName
 
     // epic
     projectId?: number

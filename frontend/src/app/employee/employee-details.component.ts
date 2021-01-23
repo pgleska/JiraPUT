@@ -6,7 +6,7 @@ import {Subject} from 'rxjs';
 import {NgbAlert, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {Employee} from './employee.model';
 import {EmployeeEditComponent} from './employee-edit.component';
-import {convertTimeToString} from '../common/date-transformation/convert-time.functions';
+import {convertTimeToString, convertTimeDifferenceToString} from '../common/date-transformation/convert-time.functions';
 import {IssueService} from '../issue/issue.service';
 import {SortableDirective} from '../common/list-components/sort/sortable.directive';
 import {SortEvent} from '../common/list-components/sort/sort.model';
@@ -69,7 +69,7 @@ import {SortEvent} from '../common/list-components/sort/sort.model';
                         <tr>
                             <th scope="col" sortable="id" (sort)="onSort($event)">{{'issue.list.id' | translate}}</th>
                             <th scope="col" sortable="name" (sort)="onSort($event)">{{'issue.list.name' | translate}}</th>
-                            <th scope="col" sortable="subtype" (sort)="onSort($event)">{{'issue.list.subtype' | translate}}</th>
+                            <th scope="col" sortable="type" (sort)="onSort($event)">{{'issue.list.type' | translate}}</th>
                             <th scope="col" sortable="estimatedTime"
                                 (sort)="onSort($event)">{{'issue.list.estimated-time' | translate}}</th>
                             <th scope="col" sortable="realTime" (sort)="onSort($event)">{{'issue.list.real-time' | translate}}</th>
@@ -82,10 +82,10 @@ import {SortEvent} from '../common/list-components/sort/sort.model';
                         <tr *ngFor="let issue of issueService.issues$ | async">
                             <th>{{issue.id}}</th>
                             <th>{{issue.name}}</th>
-                            <td>{{issue.subtypeName}}</td>
+                            <td>{{issue.typeName}}</td>
                             <td>{{convertTimeToString(issue.estimatedTime)}}</td>
                             <td>{{convertTimeToString(issue.realTime)}}</td>
-                            <td>{{convertTimeToString(issue.timeDifference)}}</td>
+                            <td>{{convertTimeDifferenceToString(issue.timeDifference)}}</td>
                             <td><a routerLink="/issue/{{issue.id}}">{{'issue.list.details' | translate}}</a></td>
                         </tr>
                         </tbody>
@@ -117,6 +117,7 @@ export class EmployeeDetailsComponent implements OnInit {
         technologies: []
     };
     convertTimeToString = convertTimeToString;
+    convertTimeDifferenceToString = convertTimeDifferenceToString;
     private errorSubject = new Subject<string>();
     private successSubject = new Subject<string>();
     @ViewChild('errorAlert', {static: false}) errorAlert: NgbAlert;

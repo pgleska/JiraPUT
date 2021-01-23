@@ -68,7 +68,6 @@ import {ProjectService} from '../project/project.service';
                             class="form-control"
                             [ngModel]
                             #condition="ngModel"
-                            required
                     />
                     <app-input-error [control]="condition.control"></app-input-error>
                 </div>

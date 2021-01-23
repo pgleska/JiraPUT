@@ -7,6 +7,7 @@ import {SelectItem} from '../common/select/select-item.model';
 import {ProjectService} from '../project/project.service';
 import {EmployeeService} from '../employee/employee.service';
 import {TeamService} from '../team/team.service';
+import {convertStringToTime} from '../common/date-transformation/convert-time.functions';
 
 
 @Component({
@@ -47,11 +48,36 @@ import {TeamService} from '../team/team.service';
                     <app-input-error [control]="description.control"></app-input-error>
                 </div>
                 <div>
-
+                    <label for="estimatedTime">{{'issue.add.estimated-time' | translate}}</label>
+                    <input
+                            type="text"
+                            id="estimatedTime"
+                            name="estimatedTime"
+                            class="form-control"
+                            [ngModel]
+                            #estimatedTime="ngModel"
+                            required
+                            timeValidator
+                    />
+                    <app-input-error [control]="estimatedTime.control"></app-input-error>
                 </div>
                 <div>
-                    <app-select [label]="'issue.list.subtype' | translate"
-                                [options]="types" 
+                    <label for="realTime">{{'issue.add.real-time' | translate}}</label>
+                    <input
+                            type="text"
+                            id="realTime"
+                            name="realTime"
+                            class="form-control"
+                            [ngModel]
+                            #realTime="ngModel"
+                            required
+                            timeValidator
+                    />
+                    <app-input-error [control]="realTime.control"></app-input-error>
+                </div>
+                <div>
+                    <app-select [label]="'issue.list.type' | translate"
+                                [options]="types"
                                 [name]="'type'"
                                 [required]="true"
                                 (value)="onIssueTypeChanged($event)">
@@ -66,7 +92,7 @@ import {TeamService} from '../team/team.service';
                 </div>
                 <div *ngIf="type === 'epic'">
                     <app-datepicker [label]="'issue.add.realisation-date' | translate"
-                                    [name]="'realisationDate'"
+                                    [name]="'realizationDate'"
                                     [required]="type === 'epic'">
                     </app-datepicker>
                 </div>
@@ -126,7 +152,7 @@ export class IssueAddComponent implements OnInit {
         estimatedTime: 0,
         realTime: 0,
         type: undefined,
-        subtypeName: undefined
+        typeName: undefined
     };
     types = ISSUE_TYPES;
     taskTypes = TASK_TYPES;
@@ -145,6 +171,22 @@ export class IssueAddComponent implements OnInit {
     }
 
     ngOnInit(): void {
+
+        this.issueService.getIssueList().subscribe(result => {
+            result.forEach(issue => {
+                const item = {
+                    id: issue.id,
+                    name: `${issue.id} - ${issue.name}`
+                };
+                if (issue.type === 'epic') {
+                    this.epics.push(item);
+                }
+                if (issue.type === 'story') {
+                    this.stories.push(item);
+                }
+            });
+        });
+
         this.projectService.getProjectList().subscribe(result => {
             result.forEach(project => {
                 const item = {
@@ -179,21 +221,23 @@ export class IssueAddComponent implements OnInit {
 
     onSubmit(form: NgForm): void {
         if (!form.valid) {
-            console.log(form.valid)
             return;
         }
 
         this.issue.name = form.value.name;
         this.issue.description = form.value.description;
         this.issue.type = this.type;
+        this.issue.realTime = convertStringToTime(form.value.realTime);
+        this.issue.estimatedTime = convertStringToTime(form.value.estimatedTime);
         switch (this.type) {
             case 'epic':
                 this.issue.projectId = form.value.project.id as number;
-                this.issue.realizationDate = form.value.realizationDate;
+                const realizationDate = form.value.realizationDate;
+                this.issue.realizationDate = new Date(realizationDate.year, realizationDate.month - 1, realizationDate.day, 12, 0, 0, 0).toISOString();
                 break;
             case 'story':
                 this.issue.epicId = form.value.epic.id as number;
-                this.issue.teamName = form.value.team.id as string;
+                this.issue.teamName = form.value.team.id;
                 break;
             case 'task':
                 this.issue.taskType = form.value.taskType.id as number;

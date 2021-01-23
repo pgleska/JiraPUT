@@ -118,7 +118,7 @@ public class IssueController {
 					body.put("error", "issue.missing.epicId");
 					return new ResponseEntity<Map<String,String>>(body, HttpStatus.CONFLICT);
 				}
-				if(!data.containsKey("team")) {
+				if(!data.containsKey("teamName")) {
 					body.put("error", "issue.missing.teamName");
 					return new ResponseEntity<Map<String,String>>(body, HttpStatus.CONFLICT);
 				}
@@ -127,7 +127,7 @@ public class IssueController {
 					body.put("error", "issue.epic.not.found");
 					return new ResponseEntity<Map<String,String>>(body, HttpStatus.NOT_FOUND);
 				}
-				Team team = teamRepository.findByName(data.get("team").toString());
+				Team team = teamRepository.findByName(data.get("teamName").toString());
 				if(team == null) {
 					body.put("error", "issue.team.not.found");
 					return new ResponseEntity<Map<String,String>>(body, HttpStatus.NOT_FOUND);
@@ -198,7 +198,7 @@ public class IssueController {
 		return body;
 	}	
 	
-	@GetMapping(value = "/epic/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Map<String, Object>> getEpic(@PathVariable Integer id) {
 		Map<String, Object> body = new HashMap<>();
 		Issue issue = issueRepository.findById(id).orElse(null);
@@ -206,22 +206,49 @@ public class IssueController {
 			body.put("error", "issue.not.found");
 			return new ResponseEntity<Map<String,Object>>(body, HttpStatus.NOT_FOUND);
 		}
-		if(issue.getEpic() == null) {
-			body.put("error", "issue.epic.not.found");
-			return new ResponseEntity<Map<String, Object>>(body, HttpStatus.NOT_FOUND);
-		}
-		Epic epic = issue.getEpic();
+
 		body.put("id", issue.getId());
 		body.put("name", issue.getName());
 		body.put("description", issue.getDescription());
 		body.put("estimatedTime", issue.getEstimatedTime());
 		body.put("realTime", issue.getRealTime());
-		body.put("type", issue.getSubtype());
-		body.put("projectId", epic.getProject().getId());
-		body.put("projectName", epic.getProject().getName());
-		body.put("stories", getStoriesId(issue.getId()));
-		body.put("realizationDate", epic.getRealizationDate());
 		body.put("timeDifference", calculateTimeDifference(issue.getId()));
+		body.put("type", issue.getSubtype());
+
+		switch (issue.getSubtype()) {
+			case epic:
+				Epic epic = issue.getEpic();
+				if(epic == null) {
+					body.put("error", "issue.epic.not.found");
+					return new ResponseEntity<Map<String, Object>>(body, HttpStatus.NOT_FOUND);
+				}
+				body.put("projectId", epic.getProject().getId());
+				body.put("projectName", epic.getProject().getName());
+				body.put("stories", getStoriesId(issue.getId()));
+				body.put("realizationDate", epic.getRealizationDate());
+				break;
+			case story:
+				Story story = issue.getStory();
+				if(story == null) {
+					body.put("error", "issue.story.not.found");
+					return new ResponseEntity<Map<String, Object>>(body, HttpStatus.NOT_FOUND);
+				}
+				body.put("epicId", getEpicId(id));
+				body.put("epicName", getEpicName(id));
+				body.put("teamName", story.getTeam().getName());
+				body.put("tasks", getTasksId(issue.getId()));
+				break;
+			case task:
+				Task task = issue.getTask();
+				if(task == null) {
+					body.put("error", "issue.task.not.found");
+					return new ResponseEntity<Map<String, Object>>(body, HttpStatus.NOT_FOUND);
+				}
+				body.put("storyId", getStoryId(id));
+				body.put("storyName", getStoryName(id));
+				body.put("userLogin", task.getEmployee().getLogin());
+				body.put("taskType", task.getType());
+		}
 		return new ResponseEntity<Map<String, Object>>(body, HttpStatus.OK);
 	}
 	
@@ -262,34 +289,6 @@ public class IssueController {
 		return new ResponseEntity<List<Map<String, Object>>>(body, HttpStatus.OK);
 	}
 	
-	
-	@GetMapping(value = "/story/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Map<String, Object>> getStory(@PathVariable Integer id) {
-		Map<String, Object> body = new HashMap<>();
-		Issue issue = issueRepository.findById(id).orElse(null);
-		if(issue == null) {
-			body.put("error", "issue.not.found");
-			return new ResponseEntity<Map<String,Object>>(body, HttpStatus.NOT_FOUND);
-		}
-		if(issue.getStory() == null) {
-			body.put("error", "issue.story.not.found");
-			return new ResponseEntity<Map<String, Object>>(body, HttpStatus.NOT_FOUND);
-		}
-		Story story = issue.getStory();
-		body.put("id", issue.getId());
-		body.put("name", issue.getName());
-		body.put("description", issue.getDescription());
-		body.put("estimatedTime", issue.getEstimatedTime());
-		body.put("realTime", issue.getRealTime());
-		body.put("type", issue.getSubtype());
-		body.put("epicId", getEpicId(id));
-		body.put("epicName", getEpicName(id));
-		body.put("teamName", story.getTeam().getName());
-		body.put("tasks", getTasksId(issue.getId()));
-		body.put("timeDifference", calculateTimeDifference(issue.getId()));
-		return new ResponseEntity<Map<String, Object>>(body, HttpStatus.OK);
-	}	
-	
 	@GetMapping(value = "/team/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Map<String, Object>>> getStoriesFromTeam(@PathVariable String name) {
 		List<Map<String, Object>> body = new ArrayList<>(); 
@@ -326,34 +325,6 @@ public class IssueController {
 
 		return new ResponseEntity<List<Map<String, Object>>>(body, HttpStatus.OK);
 	}
-	
-	
-	@GetMapping(value = "/task/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Map<String, Object>> getTask(@PathVariable Integer id) {
-		Map<String, Object> body = new HashMap<>();
-		Issue issue = issueRepository.findById(id).orElse(null);
-		if(issue == null) {
-			body.put("error", "issue.not.found");
-			return new ResponseEntity<Map<String,Object>>(body, HttpStatus.NOT_FOUND);
-		}
-		if(issue.getTask() == null) {
-			body.put("error", "issue.task.not.found");
-			return new ResponseEntity<Map<String, Object>>(body, HttpStatus.NOT_FOUND);
-		}
-		Task task = issue.getTask();
-		body.put("id", issue.getId());
-		body.put("name", issue.getName());
-		body.put("description", issue.getDescription());
-		body.put("estimatedTime", issue.getEstimatedTime());
-		body.put("realTime", issue.getRealTime());
-		body.put("type", issue.getSubtype());
-		body.put("storyId", getStoryId(id));
-		body.put("storyName", getStoryName(id));
-		body.put("userLogin", task.getEmployee().getLogin());
-		body.put("taskType", task.getType());
-		body.put("timeDifference", calculateTimeDifference(issue.getId()));
-		return new ResponseEntity<Map<String, Object>>(body, HttpStatus.OK);
-	}		
 	
 	@GetMapping(value = "/user/{login}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Map<String, Object>>> getTasksFromUser(@PathVariable String login) {
@@ -468,8 +439,8 @@ public class IssueController {
 					}
 					story.setEpic(issueEpic.getEpic());
 				}
-				if(data.containsKey("team")) {
-					Team team = teamRepository.findByName(data.get("team").toString());
+				if(data.containsKey("teamName")) {
+					Team team = teamRepository.findByName(data.get("teamName").toString());
 					if(team == null) {
 						body.put("error", "issue.team.not.found");
 						return new ResponseEntity<Map<String,String>>(body, HttpStatus.NOT_FOUND);
