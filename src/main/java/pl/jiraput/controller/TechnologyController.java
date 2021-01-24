@@ -64,14 +64,18 @@ public class TechnologyController {
 	public @ResponseBody ResponseEntity<Map<String, String>> updateTechnology(@PathVariable Integer id, @RequestBody Technology tech) {
 		Map<String, String> body = new HashMap<>();
 		Technology technology = technologyRepository.findById(id).orElse(null); 
-		if(technology != null) {
+		if(technology == null) {
+			body.put("error", "technology.not.found");
+			return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);	
+		}
+		if(technologyRepository.findByName(technology.getName()) != null) {
+			body.put("error", "technology.duplicated");
+			return new ResponseEntity<>(body, HttpStatus.CONFLICT);
+		} else {
 			technology.setName(tech.getName());
 	    	technologyRepository.save(technology);
 	    	body.put("status", "technology.updated");
 	    	return new ResponseEntity<>(body, HttpStatus.OK);
-		} else {
-			body.put("error", "technology.not.found");
-			return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
 		}
 	}
 	
