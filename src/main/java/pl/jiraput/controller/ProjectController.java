@@ -1,5 +1,6 @@
 package pl.jiraput.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -62,10 +63,22 @@ public class ProjectController {
 			res.put("name", p.getName().toString());
 			res.put("version", p.getVersion());
 			res.put("description", p.getDescription());
-			res.put("contracts", p.getContracts().parallelStream().map(Contract::getContractNumber).collect(Collectors.toList()));
-			res.put("technologies", p.getTechnologies().parallelStream().map(Technology::getName).collect(Collectors.toList()));
+			res.put("contracts", p.getContracts().stream().map(Contract::getContractNumber).collect(Collectors.toList()));
+			res.put("technologies", getTechnologies(p));
 			return res;
 		}).collect(Collectors.toList());
+	}
+	
+	private List<Map<String, Object>> getTechnologies(Project p) {
+		List<Map<String, Object>> technologies = new ArrayList<>();
+		p.getTechnologies().stream().forEach(t -> {
+			Map<String, Object> technology = new HashMap<>();
+			technology.put("id", t.getId());
+			technology.put("name", t.getName());
+			technologies.add(technology);
+		});
+		
+		return technologies;
 	}
 	
 	@PatchMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
