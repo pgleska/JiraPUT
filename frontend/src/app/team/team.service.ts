@@ -50,7 +50,7 @@ export class TeamService {
     getTeam(name: string): Observable<Team> {
         return this.http.get<Team>(environment.apiUrl + `/api/team/${name}`)
             .pipe(
-                catchError(handleError('team'))
+                catchError(handleError)
             );
     }
 
@@ -59,7 +59,7 @@ export class TeamService {
             environment.apiUrl + '/api/team/create',
             team)
             .pipe(
-                catchError(handleError('team'))
+                catchError(handleError)
             );
     }
 
@@ -67,14 +67,14 @@ export class TeamService {
         return this.http.patch(
             environment.apiUrl + `/api/team/${team.name}`,
             team).pipe(
-            catchError(handleError('team'))
+            catchError(handleError)
         );
     }
 
     deleteTeam(team: Team): Observable<any> {
         return this.http.delete(environment.apiUrl + `/api/team/${team.name}`)
             .pipe(
-                catchError(handleError('team'))
+                catchError(handleError)
             );
     }
 

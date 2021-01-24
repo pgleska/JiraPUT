@@ -6,7 +6,7 @@ import {Subject} from 'rxjs';
 import {NgbAlert, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {Employee} from './employee.model';
 import {EmployeeEditComponent} from './employee-edit.component';
-import {convertTimeToString, convertTimeDifferenceToString} from '../common/date-transformation/convert-time.functions';
+import {convertTimeDifferenceToString, convertTimeToString} from '../common/date-transformation/convert-time.functions';
 import {IssueService} from '../issue/issue.service';
 import {SortableDirective} from '../common/list-components/sort/sortable.directive';
 import {SortEvent} from '../common/list-components/sort/sort.model';
@@ -15,22 +15,24 @@ import {SortEvent} from '../common/list-components/sort/sort.model';
     selector: 'app-employee-details',
     template: `
         <div>
-            <ngb-alert #errorAlert
-                       *ngIf="error_message"
-                       [type]="'danger'"
-                       [dismissible]="false"
-                       (closed)=" error_message = ''"
-                       class="text-center">
-                {{error_message | translate}}
-            </ngb-alert>
-            <ngb-alert #successAlert
-                       *ngIf="success_message"
-                       [type]="'success'"
-                       [dismissible]="false"
-                       (closed)=" success_message = ''"
-                       class="text-center">
-                {{success_message | translate}}
-            </ngb-alert>
+            <div class="my-2">
+                <ngb-alert #errorAlert
+                           *ngIf="error_message"
+                           [type]="'danger'"
+                           [dismissible]="false"
+                           (closed)=" error_message = ''"
+                           class="text-center">
+                    {{error_message | translate}}
+                </ngb-alert>
+                <ngb-alert #successAlert
+                           *ngIf="success_message"
+                           [type]="'success'"
+                           [dismissible]="false"
+                           (closed)=" success_message = ''"
+                           class="text-center">
+                    {{success_message | translate}}
+                </ngb-alert>
+            </div>
             <div class="d-flex flex-column border rounded p-2 mt-3 mx-auto">
                 <div class="d-flex justify-content-between">
                     <h2>{{'employee.details.header' | translate }}{{employee.login}}</h2>

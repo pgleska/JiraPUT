@@ -59,7 +59,7 @@ export class ProjectService {
             environment.apiUrl + '/api/project/create',
             project)
             .pipe(
-                catchError(handleError('project'))
+                catchError(handleError)
             );
     }
 
@@ -70,7 +70,7 @@ export class ProjectService {
             environment.apiUrl + `/api/project/${project.id}`,
             project)
             .pipe(
-                catchError(handleError('project'))
+                catchError(handleError)
             );
     }
 
@@ -78,7 +78,7 @@ export class ProjectService {
         return this.http.delete(
             environment.apiUrl + `/api/project/${project.id}`)
             .pipe(
-                catchError(handleError('project'))
+                catchError(handleError)
             );
     }
 
@@ -86,14 +86,14 @@ export class ProjectService {
         return this.http.put(environment.apiUrl + `/api/project/${project.id}/technology`,
             {name: technology.name})
             .pipe(
-                catchError(handleError('project'))
+                catchError(handleError)
             );
     }
 
     deleteProjectTechnology(project: Project, technology: Technology): Observable<any> {
         return this.http.delete(environment.apiUrl + `/api/project/${project.id}/technology/${technology.id}`)
             .pipe(
-                catchError(handleError('project'))
+                catchError(handleError)
             );
     }
 

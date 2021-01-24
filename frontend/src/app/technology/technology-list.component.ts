@@ -15,22 +15,24 @@ import {TechnologyEditComponent} from './technology-edit.component';
 @Component({
     selector: 'app-technology-list',
     template: `
-        <ngb-alert #errorAlert
-                   *ngIf="errorMessage"
-                   [type]="'danger'"
-                   [dismissible]="false"
-                   (closed)=" errorMessage = ''"
-                   class="text-center">
-            {{errorMessage | translate}}
-        </ngb-alert>
-        <ngb-alert #successAlert
-                   *ngIf="successMessage"
-                   [type]="'success'"
-                   [dismissible]="false"
-                   (closed)=" successMessage = ''"
-                   class="text-center">
-            {{successMessage | translate}}
-        </ngb-alert>
+        <div class="my-2">
+            <ngb-alert #errorAlert
+                       *ngIf="errorMessage"
+                       [type]="'danger'"
+                       [dismissible]="false"
+                       (closed)=" errorMessage = ''"
+                       class="text-center">
+                {{errorMessage | translate}}
+            </ngb-alert>
+            <ngb-alert #successAlert
+                       *ngIf="successMessage"
+                       [type]="'success'"
+                       [dismissible]="false"
+                       (closed)=" successMessage = ''"
+                       class="text-center">
+                {{successMessage | translate}}
+            </ngb-alert>
+        </div>
         <form>
             <div class="form-group d-flex flex-row justify-content-between border rounded mt-3 px-2">
                 <div class="p-2">
@@ -167,6 +169,7 @@ export class TechnologyListComponent implements OnInit, OnDestroy {
         } else {
             this.successMessage = result;
             this.successSubject.next(result);
+            setTimeout(window.location.reload.bind(window.location), 2000);
         }
     }
 

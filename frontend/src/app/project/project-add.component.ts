@@ -4,7 +4,6 @@ import {NgForm} from '@angular/forms';
 import {Project} from './project.model';
 import {ProjectService} from './project.service';
 import {TechnologyService} from '../technology/technology.service';
-import {Technology} from '../technology/technology.model';
 
 
 @Component({
@@ -18,8 +17,8 @@ import {Technology} from '../technology/technology.model';
         </div>
         <div class="modal-body">
             <form #projectForm="ngForm" (ngSubmit)="onSubmit(projectForm)">
-                <div>
-                    <label for="name">{{'project.list.name' | translate}}</label>
+                <div class="required">
+                    <label for="name" class="control-label">{{'project.list.name' | translate}}</label>
                     <input
                             type="text"
                             id="name"
@@ -31,8 +30,8 @@ import {Technology} from '../technology/technology.model';
                     />
                     <app-input-error [control]="name.control"></app-input-error>
                 </div>
-                <div>
-                    <label for="version">{{'project.list.version' | translate}}</label>
+                <div class="required">
+                    <label for="version" class="control-label">{{'project.list.version' | translate}}</label>
                     <input
                             type="text"
                             id="version"
@@ -57,7 +56,7 @@ import {Technology} from '../technology/technology.model';
                     <app-input-error [control]="description.control"></app-input-error>
                 </div>
                 <div>
-                    <label for="salary">{{'employee.details.technologies' | translate}} </label>
+                    <label for="technologies">{{'employee.details.technologies' | translate}} </label>
                     <app-multiselect
                             [placeholder]="'employee.details.placeholder' | translate"
                             [data]="dropdownList"

@@ -16,8 +16,8 @@ import {CompanyService} from './company.service';
         </div>
         <div class="modal-body">
             <form #companyForm="ngForm" (ngSubmit)="onSubmit(companyForm)">
-                <div>
-                    <label for="name">{{'company.list.name' | translate}}</label>
+                <div class="required">
+                    <label for="name" class="control-label">{{'company.list.name' | translate}}</label>
                     <input
                             type="text"
                             id="name"
@@ -29,8 +29,8 @@ import {CompanyService} from './company.service';
                     />
                     <app-input-error [control]="name.control"></app-input-error>
                 </div>
-                <div>
-                    <label for="taxNumber">{{'company.list.tax-number' | translate}}</label>
+                <div class="required">
+                    <label for="taxNumber" class="control-label">{{'company.list.tax-number' | translate}}</label>
                     <input
                             type="text"
                             id="taxNumber"
@@ -38,14 +38,15 @@ import {CompanyService} from './company.service';
                             class="form-control"
                             [ngModel]
                             #taxNumber="ngModel"
+                            disabled
                             required
                             negativeValueValidator
                             taxNumberValidator
                     />
                     <app-input-error [control]="taxNumber.control"></app-input-error>
                 </div>
-                <div>
-                    <label for="address">{{'company.list.address' | translate}}</label>
+                <div class="required">
+                    <label for="address" class="control-label">{{'company.list.address' | translate}}</label>
                     <input
                             type="text"
                             id="address"
@@ -95,12 +96,11 @@ export class CompanyEditComponent implements OnInit {
 
         this.companyCopy.name = form.value.name;
         this.companyCopy.taxNumber = form.value.taxNumber;
-        this.companyCopy.address = form.value.address;
+        this.companyCopy.contracts = undefined;
 
         const editObservable = this.service.modifyCompany(this.companyCopy);
         editObservable.subscribe(
             _ => {
-                this.company = Object.assign({}, this.companyCopy);
                 this.activeModal.close('company.edit.edited');
             },
             error => {

@@ -60,7 +60,7 @@ export class PositionService {
             environment.apiUrl + '/api/position/create',
             position)
             .pipe(
-                catchError(handleError('position'))
+                catchError(handleError)
             );
     }
 
@@ -69,7 +69,7 @@ export class PositionService {
             environment.apiUrl + `/api/position/${position.name}`,
             position)
             .pipe(
-                catchError(handleError('position'))
+                catchError(handleError)
             );
     }
 
@@ -77,7 +77,7 @@ export class PositionService {
         return this.http.delete(
             environment.apiUrl + `/api/position/${position.name}`)
             .pipe(
-                catchError(handleError('position'))
+                catchError(handleError)
             );
     }
 

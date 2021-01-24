@@ -57,7 +57,7 @@ export class EmployeeService {
     getEmployee(login: string): Observable<Employee> {
         return this.http.get<Employee>(environment.apiUrl + `/api/employee/${login}`)
             .pipe(
-                catchError(handleError('employee')),
+                catchError(handleError),
                 map((employee: Employee) => {
                     employee.positionDisplay = employee.position.replace(/_/g, ' ');
                     return employee;
@@ -69,14 +69,14 @@ export class EmployeeService {
         return this.http.patch(
             environment.apiUrl + `/api/employee/${employee.login}`,
             employee).pipe(
-            catchError(handleError('employee'))
+            catchError(handleError)
         );
     }
 
     deleteEmployee(employee: Employee): Observable<any> {
         return this.http.delete(environment.apiUrl + `/api/employee/${employee.login}`)
             .pipe(
-                catchError(handleError('employee'))
+                catchError(handleError)
             );
     }
 
@@ -84,14 +84,14 @@ export class EmployeeService {
         return this.http.put(environment.apiUrl + `/api/employee/${employee.login}/technology`,
             {name: technology.name})
             .pipe(
-                catchError(handleError('employee'))
+                catchError(handleError)
             );
     }
 
     deleteEmployeeTechnology(employee: Employee, technology: Technology): Observable<any> {
         return this.http.delete(environment.apiUrl + `/api/employee/${employee.login}/technology/${technology.id}`)
             .pipe(
-                catchError(handleError('employee'))
+                catchError(handleError)
             );
     }
 

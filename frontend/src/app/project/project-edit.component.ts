@@ -18,8 +18,8 @@ import {Technology} from '../technology/technology.model';
         </div>
         <div class="modal-body">
             <form #projectForm="ngForm" (ngSubmit)="onSubmit(projectForm)">
-                <div>
-                    <label for="name">{{'project.list.name' | translate}}</label>
+                <div class="required">
+                    <label for="name" class="control-label">{{'project.list.name' | translate}}</label>
                     <input
                             type="text"
                             id="name"
@@ -31,8 +31,8 @@ import {Technology} from '../technology/technology.model';
                     />
                     <app-input-error [control]="name.control"></app-input-error>
                 </div>
-                <div>
-                    <label for="version">{{'project.list.version' | translate}}</label>
+                <div class="required">
+                    <label for="version" class="control-label">{{'project.list.version' | translate}}</label>
                     <input
                             type="text"
                             id="version"
@@ -57,7 +57,7 @@ import {Technology} from '../technology/technology.model';
                     <app-input-error [control]="description.control"></app-input-error>
                 </div>
                 <div>
-                    <label for="salary">{{'project.details.technologies' | translate}} </label>
+                    <label for="technologies">{{'project.details.technologies' | translate}} </label>
                     <app-multiselect
                             [placeholder]="'project.details.placeholder' | translate"
                             [data]="dropdownList"
@@ -99,7 +99,7 @@ export class ProjectEditComponent implements OnInit {
                 description: this.projectCopy.description,
                 version: this.projectCopy.version,
                 technologies: Object.assign([], this.projectCopy.technologies)
-                });
+            });
         });
 
         this.technologyService.getTechnologyList().subscribe(result => {
@@ -121,17 +121,15 @@ export class ProjectEditComponent implements OnInit {
         }
 
         this.projectCopy.name = form.value.name;
-        this.project.version = form.value.version
-        this.projectCopy.technologies = this.selectedItems;
-        if(!!form.value.description) {
-            this.project.description = form.value.description
+        this.projectCopy.version = form.value.version;
+        if (!!form.value.description) {
+            this.projectCopy.description = form.value.description;
         }
-
+        const technologiesCopy = JSON.parse(JSON.stringify(this.selectedItems))
         const editObservable = this.projectService.modifyProject(this.projectCopy);
         editObservable.subscribe(
             _ => {
-                this.changeTechnologyList(this.projectCopy.technologies, this.project.technologies)
-                this.project = Object.assign({}, this.projectCopy);
+                this.changeTechnologyList(technologiesCopy, this.project.technologies);
                 this.activeModal.close('project.edit.edited');
             },
             error => {
@@ -142,20 +140,22 @@ export class ProjectEditComponent implements OnInit {
     }
 
     private changeTechnologyList(newTechnologyList: Technology[], oldTechnologyList: Technology[]): void {
-        newTechnologyList.forEach(newTechnology =>{
-            if (!oldTechnologyList.some(oldTechnology => oldTechnology.id === newTechnology.id)){
+        newTechnologyList.forEach(newTechnology => {
+            if (!oldTechnologyList.some(oldTechnology => oldTechnology.id === newTechnology.id)) {
                 this.projectService.addProjectTechnology(this.projectCopy, newTechnology).subscribe(
-                    _ => {},
+                    _ => {
+                    },
                     error => {
                         this.activeModal.close(error);
                     }
                 );
             }
         });
-        oldTechnologyList.forEach(oldTechnology =>{
-            if (!newTechnologyList.some(newTechnology => newTechnology.id === oldTechnology.id)){
+        oldTechnologyList.forEach(oldTechnology => {
+            if (!newTechnologyList.some(newTechnology => newTechnology.id === oldTechnology.id)) {
                 this.projectService.deleteProjectTechnology(this.projectCopy, oldTechnology).subscribe(
-                    _ => {},
+                    _ => {
+                    },
                     error => {
                         this.activeModal.close(error);
                     }

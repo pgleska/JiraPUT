@@ -16,24 +16,26 @@ import {Subject} from 'rxjs';
     selector: 'app-technology-details',
     template: `
         <div>
-            <ngb-alert #errorAlert
-                       *ngIf="errorMessage"
-                       [type]="'danger'"
-                       [dismissible]="false"
-                       (closed)=" errorMessage = ''"
-                       class="text-center">
-                {{errorMessage | translate}}
-            </ngb-alert>
-            <ngb-alert #successAlert
-                       *ngIf="successMessage"
-                       [type]="'success'"
-                       [dismissible]="false"
-                       (closed)=" successMessage = ''"
-                       class="text-center">
-                {{successMessage | translate}}
-            </ngb-alert>
+            <div class="my-2">
+                <ngb-alert #errorAlert
+                           *ngIf="errorMessage"
+                           [type]="'danger'"
+                           [dismissible]="false"
+                           (closed)=" errorMessage = ''"
+                           class="text-center">
+                    {{errorMessage | translate}}
+                </ngb-alert>
+                <ngb-alert #successAlert
+                           *ngIf="successMessage"
+                           [type]="'success'"
+                           [dismissible]="false"
+                           (closed)=" successMessage = ''"
+                           class="text-center">
+                    {{successMessage | translate}}
+                </ngb-alert>
+            </div>
             <div class="d-flex flex-column border rounded p-2 mt-3 w-50 mx-auto">
-                <div class="d-flex justify-content-between">
+                <div class="d-flex justify-content-between mb-3">
                     <h2>{{'technology.details.header' | translate }}{{technology.name}}</h2>
                     <a class="btn btn-primary btn-lg" (click)="openEdit()">{{'team.details.edit' | translate}}</a>
                 </div>
@@ -194,6 +196,7 @@ export class TechnologyDetailsComponent implements OnInit {
         } else {
             this.successMessage = result;
             this.successSubject.next(result);
+            setTimeout(window.location.reload.bind(window.location), 2000);
         }
     }
 }

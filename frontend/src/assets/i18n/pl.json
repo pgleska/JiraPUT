@@ -122,9 +122,11 @@
     }
   },
   "error": {
-    "company-duplicated": "Firma o takiej nazwie już istnieje",
+    "company-duplicated": "Firma o takiej nazwie lub numerze NIP już istnieje",
     "company-not-empty": "Nie można usunąć firmy, gdyż są kontrakty z nią związane",
     "company-not-found": "Firma o takiej nazwie nie isntieje",
+    "contract-duplicated": "Kontrakt o takim  numerze NIP już istnieje",
+    "contract-not-found": "Kontrakt o takiej nazwie nie isntieje",
     "employee-duplicated": "Pozycja o takiej nazwie już istnieje",
     "employee-not-found": "Pozycja o takiej nazwie nie isntieje",
     "login-error": "Błędny login lub hasło",
@@ -137,6 +139,9 @@
     "position-duplicated": "Pozycja o takiej nazwie już istnieje",
     "position-not-empty": "Nie można usunąć pozycji, gdyż są pracownicy na tej pozycji",
     "position-not-found": "Pozycja o takiej nazwie nie isntieje",
+    "project-duplicated": "Projekt o takiej nazwie już istnieje",
+    "project-not-empty": "Nie można usunąć projektu, gdyż są kontrakty z nim związane",
+    "project-not-found": "project o takiej nazwie nie isntieje",
     "required": "Pole jest wymagane",
     "salary": "Pensja maksymalna nie moze być mniejsza niż minimalna",
     "tax-number-checksum": "Niepoprawna suma kontrolna numeru NIP",

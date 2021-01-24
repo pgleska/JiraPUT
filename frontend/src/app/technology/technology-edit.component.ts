@@ -16,8 +16,8 @@ import {TechnologyService} from './technology.service';
         </div>
         <div class="modal-body">
             <form #technologyForm="ngForm" (ngSubmit)="onSubmit(technologyForm)">
-                <div>
-                    <label for="name">{{'technology.list.name' | translate}}</label>
+                <div class="required">
+                    <label for="name" class="control-label">{{'technology.list.name' | translate}}</label>
                     <input
                             type="text"
                             id="name"

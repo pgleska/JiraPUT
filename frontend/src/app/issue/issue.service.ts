@@ -49,7 +49,7 @@ export class IssueService {
     getIssueList(): Observable<Issue[]> {
         return this.http.get<Issue[]>(environment.apiUrl + '/api/issue/list')
             .pipe(
-                catchError(handleError('issue')),
+                catchError(handleError),
                 map((issues: Issue[]) => issues.map(
                     (issue: Issue) => {
                         this.convertResponse(issue);
@@ -61,7 +61,7 @@ export class IssueService {
     getEpicListByProjectId(projectId: number): Observable<Issue[]> {
         return this.http.get<Issue[]>(environment.apiUrl + `/api/issue/project/${projectId}`)
             .pipe(
-                catchError(handleError('issue')),
+                catchError(handleError),
                 map((issues: Issue[]) => issues.map(
                     (issue: Issue) => {
                         this.convertResponse(issue);
@@ -73,7 +73,7 @@ export class IssueService {
     getStoryListByTeamName(teamName: string): Observable<Issue[]> {
         return this.http.get<Issue[]>(environment.apiUrl + `/api/issue/team/${teamName}`)
             .pipe(
-                catchError(handleError('issue')),
+                catchError(handleError),
                 map((issues: Issue[]) => issues.map(
                     (issue: Issue) => {
                         this.convertResponse(issue);
@@ -85,7 +85,7 @@ export class IssueService {
     getTaskListByEmployeeLogin(login: string): Observable<Issue[]> {
         return this.http.get<Issue[]>(environment.apiUrl + `/api/issue/user/${login}`)
             .pipe(
-                catchError(handleError('issue')),
+                catchError(handleError),
                 map((issues: Issue[]) => issues.map(
                     (issue: Issue) => {
                         this.convertResponse(issue);
@@ -97,7 +97,7 @@ export class IssueService {
     getIssue(issueId: number): Observable<Issue> {
         return this.http.get<Issue>(environment.apiUrl + `/api/issue/${issueId}`)
             .pipe(
-                catchError(handleError('issue')),
+                catchError(handleError),
                 map((issue) => {
                     this.convertResponse(issue);
                     return issue;
@@ -110,7 +110,7 @@ export class IssueService {
             environment.apiUrl + '/api/issue/create',
             issue)
             .pipe(
-                catchError(handleError('issue'))
+                catchError(handleError)
             );
     }
 
@@ -119,7 +119,7 @@ export class IssueService {
             environment.apiUrl + `/api/issue/${issue.id}`,
             issue)
             .pipe(
-                catchError(handleError('issue'))
+                catchError(handleError)
             );
     }
 
@@ -127,7 +127,7 @@ export class IssueService {
         return this.http.delete(
             environment.apiUrl + `/api/issue/${issue.id}`)
             .pipe(
-                catchError(handleError('issue'))
+                catchError(handleError)
             );
     }
 
