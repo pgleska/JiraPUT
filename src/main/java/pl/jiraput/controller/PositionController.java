@@ -59,8 +59,8 @@ public class PositionController {
 		Map<String, String> body = new HashMap<>();
 		Position position = positionRepository.findByName(name);
 		if(position != null) {
-	    	position.setMinimumSalary(data.get("minimum"));
-	    	position.setMaximumSalary(data.get("maximum"));
+	    	position.setMinimumSalary(data.get("minimumSalary"));
+	    	position.setMaximumSalary(data.get("maximumSalary"));
 	    	positionRepository.save(position);
 	    	body.put("status", "position.edited");
 	    	return new ResponseEntity<>(body, HttpStatus.OK);

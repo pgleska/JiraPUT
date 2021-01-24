@@ -16,8 +16,8 @@ import {NgForm} from '@angular/forms';
         </div>
         <div class="modal-body">
             <form #positionForm="ngForm" (ngSubmit)="onSubmit(positionForm)">
-                <div>
-                    <label for="name">{{'position.list.name' | translate}}</label>
+                <div class="required">
+                    <label for="name" class="control-label">{{'position.list.name' | translate}}</label>
                     <input
                             type="text"
                             id="name"
@@ -26,11 +26,12 @@ import {NgForm} from '@angular/forms';
                             [ngModel]
                             #name="ngModel"
                             required
+                            disabled
                     />
                     <app-input-error [control]="name.control"></app-input-error>
                 </div>
-                <div>
-                    <label for="minimumSalary">{{'position.list.minimum-salary' | translate}}</label>
+                <div class="required">
+                    <label for="minimumSalary" class="control-label">{{'position.list.minimum-salary' | translate}}</label>
                     <input
                             type="number"
                             id="minimumSalary"
@@ -47,8 +48,8 @@ import {NgForm} from '@angular/forms';
                     />
                     <app-input-error [control]="minimumSalary.control"></app-input-error>
                 </div>
-                <div>
-                    <label for="maximumSalary">{{'position.list.maximum-salary' | translate}}</label>
+                <div class="required">
+                    <label for="maximumSalary" class="control-label">{{'position.list.maximum-salary' | translate}}</label>
                     <input
                             type="number"
                             id="maximumSalary"
@@ -101,15 +102,12 @@ export class PositionEditComponent implements OnInit {
             return;
         }
 
-        this.positionCopy.nameDisplay = form.value.name;
-        this.positionCopy.name = form.value.name.replace(/ /g, '_');
         this.positionCopy.minimumSalary = form.value.minimumSalary;
         this.positionCopy.maximumSalary = form.value.maximumSalary;
 
         const editObservable = this.service.modifyPosition(this.positionCopy);
         editObservable.subscribe(
             _ => {
-                this.position = Object.assign({}, this.positionCopy);
                 this.activeModal.close('position.edit.edited');
             },
             error => {

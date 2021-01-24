@@ -16,8 +16,8 @@ import {Position} from './position.model';
         </div>
         <div class="modal-body">
             <form #positionForm="ngForm" (ngSubmit)="onSubmit(positionForm)">
-                <div>
-                    <label for="name">{{'position.list.name' | translate}}</label>
+                <div class="required">
+                    <label for="name" class="control-label">{{'position.list.name' | translate}}</label>
                     <input
                             type="text"
                             id="name"
@@ -29,8 +29,8 @@ import {Position} from './position.model';
                     />
                     <app-input-error [control]="name.control"></app-input-error>
                 </div>
-                <div>
-                    <label for="minimumSalary">{{'position.list.minimum-salary' | translate}}</label>
+                <div class="required">
+                    <label for="minimumSalary" class="control-label">{{'position.list.minimum-salary' | translate}}</label>
                     <input
                             type="number"
                             id="minimumSalary"
@@ -46,8 +46,8 @@ import {Position} from './position.model';
                     />
                     <app-input-error [control]="minimumSalary.control"></app-input-error>
                 </div>
-                <div>
-                    <label for="maximumSalary">{{'position.list.maximum-salary' | translate}}</label>
+                <div class="required">
+                    <label for="maximumSalary" class="control-label">{{'position.list.maximum-salary' | translate}}</label>
                     <input
                             type="number"
                             id="maximumSalary"

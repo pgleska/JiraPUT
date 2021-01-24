@@ -65,7 +65,6 @@ export class TechnologyEditComponent implements OnInit {
         const editObservable = this.service.modifyTechnology(this.technologyCopy);
         editObservable.subscribe(
             _ => {
-                this.technology = Object.assign({}, this.technologyCopy);
                 this.activeModal.close('technology.edit.edited');
             },
             error => {

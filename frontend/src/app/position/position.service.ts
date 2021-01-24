@@ -65,8 +65,11 @@ export class PositionService {
     }
 
     modifyPosition(position: Position): Observable<any> {
+        const name = position.name
+        position.name = undefined;
+        position.nameDisplay = undefined;
         return this.http.patch(
-            environment.apiUrl + `/api/position/${position.name}`,
+            environment.apiUrl + `/api/position/${name}`,
             position)
             .pipe(
                 catchError(handleError)
