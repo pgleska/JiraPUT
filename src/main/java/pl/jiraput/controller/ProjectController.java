@@ -89,8 +89,14 @@ public class ProjectController {
 			body.put("error", "project.not.found");
 			return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
 		}
-		if(data.containsKey("name")) 
+		if(data.containsKey("name")) {
+			String projectName = data.get("name");
+			if(projectRepository.findByName(projectName) != null) {
+				body.put("error", "project.duplicated");
+				return new ResponseEntity<>(body, HttpStatus.CONFLICT);
+			}
 			project.setName(data.get("name"));
+		}						
 		if(data.containsKey("version")) 
 			project.setVersion(data.get("version"));
 		if(data.containsKey("description")) 

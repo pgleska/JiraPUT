@@ -70,8 +70,14 @@ public class CompanyController {
 			body.put("error", "company.not.found");
 			return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
 		}
-		if(data.containsKey("name")) 
-			company.setName(data.get("name"));
+		if(data.containsKey("name")) { 
+			String companyName = data.get("name");
+			if(companyRepository.findByName(companyName) != null) {
+				body.put("error", "company.duplicated");
+				return new ResponseEntity<>(body, HttpStatus.CONFLICT);
+			}
+			company.setName(companyName);
+		}
 		if(data.containsKey("addres")) 
 			company.setAddress(data.get("address"));
 		companyRepository.save(company);

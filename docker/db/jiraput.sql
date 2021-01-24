@@ -277,7 +277,7 @@ ALTER TABLE `pracownik`
 --
 ALTER TABLE `projekt`
   ADD PRIMARY KEY (`identyfikator`),
-  ADD KEY `nazwa` (`nazwa`);
+  ADD UNIQUE KEY `nazwa` (`nazwa`);
 
 --
 -- Indexes for table `stanowisko`
