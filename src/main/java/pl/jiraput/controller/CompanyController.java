@@ -40,6 +40,10 @@ public class CompanyController {
 			body.put("error", "company.duplicated");
 			return new ResponseEntity<>(body, HttpStatus.CONFLICT);
 		} 
+		if(companyRepository.findByName(company.getName()) != null) {
+			body.put("error", "company.duplicated");
+			return new ResponseEntity<>(body, HttpStatus.CONFLICT);
+		}
 		companyRepository.save(company);
 		body.put("status", "company.created");
 		return new ResponseEntity<>(body, HttpStatus.CREATED);
