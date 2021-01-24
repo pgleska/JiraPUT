@@ -26,3 +26,8 @@ th[sortable].desc:before {
   -ms-transform: rotate(180deg);
 }
 
+.required .control-label:after {
+  content:"*";
+  color:red;
+}
+

@@ -58,7 +58,7 @@ export class TechnologyService {
             environment.apiUrl + '/api/technology/create',
             technology)
             .pipe(
-                catchError(handleError('technology'))
+                catchError(handleError)
             );
     }
 
@@ -67,7 +67,7 @@ export class TechnologyService {
             environment.apiUrl + `/api/technology/${technology.id}`,
             technology)
             .pipe(
-                catchError(handleError('technology'))
+                catchError(handleError)
             );
     }
 
@@ -75,7 +75,7 @@ export class TechnologyService {
         return this.http.delete(
             environment.apiUrl + `/api/technology/${technology.id}`)
             .pipe(
-                catchError(handleError('technology'))
+                catchError(handleError)
             );
     }
 

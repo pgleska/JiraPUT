@@ -7,8 +7,8 @@ import {Router} from '@angular/router';
     selector: 'app-authentication-sign-up',
     template: `
         <form #authForm="ngForm" (ngSubmit)="onSubmit(authForm)">
-            <div>
-                <label for="email">{{'authentication.login' | translate}}</label>
+            <div class="required">
+                <label for="login" class="control-label">{{'authentication.login' | translate}}</label>
                 <input
                         type="text"
                         id="login"
@@ -21,8 +21,8 @@ import {Router} from '@angular/router';
                 />
                 <app-input-error [control]="login.control"></app-input-error>
             </div>
-            <div>
-                <label for="first_name">{{'authentication.first-name' | translate}}</label>
+            <div class="required">
+                <label for="first_name" class="control-label">{{'authentication.first-name' | translate}}</label>
                 <input
                         type="text"
                         id="first_name"
@@ -35,8 +35,8 @@ import {Router} from '@angular/router';
                 />
                 <app-input-error [control]="first_name.control"></app-input-error>
             </div>
-            <div>
-                <label for="last_name">{{'authentication.last-name' | translate}}</label>
+            <div class="required">
+                <label for="last_name" class="control-label">{{'authentication.last-name' | translate}}</label>
                 <input
                         type="text"
                         id="last_name"
@@ -49,8 +49,8 @@ import {Router} from '@angular/router';
                 />
                 <app-input-error [control]="last_name.control"></app-input-error>
             </div>
-            <div>
-                <label for="password">{{'authentication.password' | translate}}</label>
+            <div class="required">
+                <label for="password" class="control-label">{{'authentication.password' | translate}}</label>
                 <input
                         type="password"
                         id="password"
@@ -65,8 +65,8 @@ import {Router} from '@angular/router';
                 />
                 <app-input-error [control]="password.control"></app-input-error>
             </div>
-            <div>
-                <label for="repeat_password">{{'authentication.repeat-password' | translate}}</label>
+            <div class="required">
+                <label for="repeat_password" class="control-label">{{'authentication.repeat-password' | translate}}</label>
                 <input
                         type="password"
                         id="repeat_password"

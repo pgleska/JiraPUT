@@ -16,22 +16,24 @@ import {map} from 'rxjs/operators';
     selector: 'app-company-details',
     template: `
         <div>
-            <ngb-alert #errorAlert
-                       *ngIf="error_message"
-                       [type]="'danger'"
-                       [dismissible]="false"
-                       (closed)=" error_message = ''"
-                       class="text-center">
-                {{error_message | translate}}
-            </ngb-alert>
-            <ngb-alert #successAlert
-                       *ngIf="success_message"
-                       [type]="'success'"
-                       [dismissible]="false"
-                       (closed)=" success_message = ''"
-                       class="text-center">
-                {{success_message | translate}}
-            </ngb-alert>
+            <div class="my-2">
+                <ngb-alert #errorAlert
+                           *ngIf="errorMessage"
+                           [type]="'danger'"
+                           [dismissible]="false"
+                           (closed)=" errorMessage = ''"
+                           class="text-center">
+                    {{errorMessage | translate}}
+                </ngb-alert>
+                <ngb-alert #successAlert
+                           *ngIf="successMessage"
+                           [type]="'success'"
+                           [dismissible]="false"
+                           (closed)=" successMessage = ''"
+                           class="text-center">
+                    {{successMessage | translate}}
+                </ngb-alert>
+            </div>
             <div class="d-flex flex-column border rounded p-2 mt-3 mx-auto">
                 <div class="d-flex justify-content-between">
                     <h2>{{'company.details.header' | translate }}{{company.name}}</h2>
@@ -82,8 +84,8 @@ import {map} from 'rxjs/operators';
 export class CompanyDetailsComponent implements OnInit, OnDestroy {
 
     pageSize = PAGE_SIZE;
-    error_message: string;
-    success_message: string;
+    errorMessage: string;
+    successMessage: string;
     company: Company = {
         name: '',
         taxNumber: 0,
@@ -168,11 +170,12 @@ export class CompanyDetailsComponent implements OnInit, OnDestroy {
 
     private showInfo(result) {
         if (result.includes('error')) {
-            this.error_message = result;
+            this.errorMessage = result;
             this.errorSubject.next(result);
         } else {
-            this.success_message = result;
+            this.successMessage = result;
             this.successSubject.next(result);
+            setTimeout(window.location.reload.bind(window.location), 2000);
         }
     }
 }

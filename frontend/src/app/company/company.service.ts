@@ -59,7 +59,7 @@ export class CompanyService {
             environment.apiUrl + '/api/company/create',
             company)
             .pipe(
-                catchError(handleError('company'))
+                catchError(handleError)
             );
     }
 
@@ -68,7 +68,7 @@ export class CompanyService {
             environment.apiUrl + `/api/company/${company.taxNumber}`,
             company)
             .pipe(
-                catchError(handleError('company'))
+                catchError(handleError)
             );
     }
 
@@ -76,7 +76,7 @@ export class CompanyService {
         return this.http.delete(
             environment.apiUrl + `/api/company/${company.taxNumber}`)
             .pipe(
-                catchError(handleError('company'))
+                catchError(handleError)
             );
     }
 

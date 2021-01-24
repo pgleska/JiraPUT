@@ -16,8 +16,8 @@ import {CompanyService} from './company.service';
         </div>
         <div class="modal-body">
             <form #companyForm="ngForm" (ngSubmit)="onSubmit(companyForm)">
-                <div>
-                    <label for="name">{{'company.list.name' | translate}}</label>
+                <div class="required">
+                    <label for="name" class="control-label">{{'company.list.name' | translate}}</label>
                     <input
                             type="text"
                             id="name"
@@ -29,8 +29,8 @@ import {CompanyService} from './company.service';
                     />
                     <app-input-error [control]="name.control"></app-input-error>
                 </div>
-                <div>
-                    <label for="taxNumber">{{'company.list.tax-number' | translate}}</label>
+                <div class="required">
+                    <label for="taxNumber" class="control-label">{{'company.list.tax-number' | translate}}</label>
                     <input
                             type="number"
                             id="taxNumber"
@@ -44,8 +44,8 @@ import {CompanyService} from './company.service';
                     />
                     <app-input-error [control]="taxNumber.control"></app-input-error>
                 </div>
-                <div>
-                    <label for="address">{{'company.list.address' | translate}}</label>
+                <div class="required">
+                    <label for="address" class="control-label">{{'company.list.address' | translate}}</label>
                     <input
                             type="text"
                             id="address"

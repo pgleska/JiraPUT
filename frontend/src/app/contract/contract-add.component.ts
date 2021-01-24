@@ -19,7 +19,7 @@ import {ProjectService} from '../project/project.service';
         </div>
         <div class="modal-body">
             <form #contractForm="ngForm" (ngSubmit)="onSubmit(contractForm)">
-                <div>
+                <div class="required">
                     <label for="name">{{'contract.add.contract-number' | translate}}</label>
                     <input
                             type="text"
@@ -32,43 +32,45 @@ import {ProjectService} from '../project/project.service';
                     />
                     <app-input-error [control]="name.control"></app-input-error>
                 </div>
-                <div>
+                <div class="required">
                     <app-select [label]="'contract.list.company-name' | translate"
                                 [options]="companyList"
                                 [name]="'company'"
                                 [required]="true">
                     </app-select>
                 </div>
-                <div>
+                <div class="required">
                     <app-select [label]="'contract.list.project-name' | translate"
                                 [options]="projectList"
                                 [name]="'project'"
                                 [required]="true">
                     </app-select>
                 </div>
-                <label for="amount">{{'contract.add.amount' | translate}}</label>
-                <input
-                        type="number"
-                        id="amount"
-                        name="amount"
-                        class="form-control"
-                        [ngModel]
-                        #amount="ngModel"
-                        required
-                        negativeValueValidator
-                        min="0"
-                />
-                <app-input-error [control]="amount.control"></app-input-error>
+                <div class="required">
+                    <label for="amount" class="control-label">{{'contract.add.amount' | translate}}</label>
+                    <input
+                            type="number"
+                            id="amount"
+                            name="amount"
+                            class="form-control"
+                            [ngModel]
+                            #amount="ngModel"
+                            required
+                            negativeValueValidator
+                            min="0"
+                    />
+                    <app-input-error [control]="amount.control"></app-input-error>
+                </div>
                 <div>
                     <label for="condition">{{'contract.add.conditions' | translate}}</label>
-                    <input
+                    <textarea
                             type="text"
                             id="condition"
                             name="condition"
                             class="form-control"
                             [ngModel]
                             #condition="ngModel"
-                    />
+                    ></textarea>
                     <app-input-error [control]="condition.control"></app-input-error>
                 </div>
                 <div class="modal-footer">

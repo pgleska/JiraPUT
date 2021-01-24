@@ -13,22 +13,24 @@ import {SelectItem} from '../common/select/select-item.model';
 @Component({
     selector: 'app-employee-list',
     template: `
-        <ngb-alert #errorAlert
-                   *ngIf="errorMessage"
-                   [type]="'danger'"
-                   [dismissible]="false"
-                   (closed)=" errorMessage = ''"
-                   class="text-center">
-            {{errorMessage | translate}}
-        </ngb-alert>
-        <ngb-alert #successAlert
-                   *ngIf="successMessage"
-                   [type]="'success'"
-                   [dismissible]="false"
-                   (closed)=" successMessage = ''"
-                   class="text-center">
-            {{successMessage | translate}}
-        </ngb-alert>
+        <div class="my-2">
+            <ngb-alert #errorAlert
+                       *ngIf="errorMessage"
+                       [type]="'danger'"
+                       [dismissible]="false"
+                       (closed)=" errorMessage = ''"
+                       class="text-center">
+                {{errorMessage | translate}}
+            </ngb-alert>
+            <ngb-alert #successAlert
+                       *ngIf="successMessage"
+                       [type]="'success'"
+                       [dismissible]="false"
+                       (closed)=" successMessage = ''"
+                       class="text-center">
+                {{successMessage | translate}}
+            </ngb-alert>
+        </div>
         <form>
             <div class="form-group d-flex flex-row border rounded mt-3 px-2">
                 <div class="p-2 mx-4">
@@ -38,14 +40,14 @@ import {SelectItem} from '../common/select/select-item.model';
                 </div>
                 <div class="p-2  mx-4">
                     <app-select [label]="'employee.list.position' | translate"
-                                [options]="positionList" 
+                                [options]="positionList"
                                 [name]="'position'"
                                 (value)="onPositionChanged($event)">
                     </app-select>
                 </div>
                 <div class="p-2  mx-4">
                     <app-select [label]="'employee.list.team' | translate"
-                                [options]="teamList" 
+                                [options]="teamList"
                                 [name]="'team'"
                                 (value)="onTeamChanged($event)">
                     </app-select>

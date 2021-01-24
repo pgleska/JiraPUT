@@ -61,7 +61,7 @@ export class ContractService {
             environment.apiUrl + '/api/contract/create',
             contract)
             .pipe(
-                catchError(handleError('contract'))
+                catchError(handleError)
             );
     }
 
@@ -70,7 +70,7 @@ export class ContractService {
     //         environment.apiUrl + `/api/contract/${contract.name}`,
     //         contract)
     //         .pipe(
-    //             catchError(handleError('contract'))
+    //             catchError(handleError)
     //         );
     // }
 
@@ -78,7 +78,7 @@ export class ContractService {
         return this.http.delete(
             environment.apiUrl + `/api/contract/${contract.id}`)
             .pipe(
-                catchError(handleError('contract'))
+                catchError(handleError)
             );
     }
 
