@@ -67,38 +67,39 @@ import {debounceTime} from 'rxjs/operators';
                                                 [name]="technology.name"></app-technology-tag>
                         </div>
                     </div>
-                    <table class="table table-striped">
-                        <thead>
-                        <tr>
-                            <th scope="col" sortable="id" (sort)="onSort($event)">{{'issue.list.id' | translate}}</th>
-                            <th scope="col" sortable="name" (sort)="onSort($event)">{{'issue.list.name' | translate}}</th>
-                            <th scope="col" sortable="type" (sort)="onSort($event)">{{'issue.list.type' | translate}}</th>
-                            <th scope="col" sortable="estimatedTime"
-                                (sort)="onSort($event)">{{'issue.list.estimated-time' | translate}}</th>
-                            <th scope="col" sortable="realTime" (sort)="onSort($event)">{{'issue.list.real-time' | translate}}</th>
-                            <th scope="col" sortable="differenceTime"
-                                (sort)="onSort($event)">{{'issue.list.difference-time' | translate}}</th>
-                            <th>{{'issue.list.details' | translate}}</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr *ngFor="let issue of issueService.issues$ | async">
-                            <th>{{issue.id}}</th>
-                            <th>{{issue.name}}</th>
-                            <td>{{issue.typeName}}</td>
-                            <td>{{convertTimeToString(issue.estimatedTime)}}</td>
-                            <td>{{convertTimeToString(issue.realTime)}}</td>
-                            <td>{{convertTimeDifferenceToString(issue.timeDifference)}}</td>
-                            <td><a routerLink="/issue/{{issue.id}}">{{'issue.list.details' | translate}}</a></td>
-                        </tr>
-                        </tbody>
-                    </table>
-                    <div class="d-flex justify-content-between p-2">
-                        <app-pagination
-                                [totalElements]="issueService.total$ | async"
-                                (page)="onPage($event)">
-                        </app-pagination>
-                    </div>
+                </div>
+                <h4>{{'employee.details.tasks' | translate}}</h4>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th scope="col" sortable="id" (sort)="onSort($event)">{{'issue.list.id' | translate}}</th>
+                        <th scope="col" sortable="name" (sort)="onSort($event)">{{'issue.list.name' | translate}}</th>
+                        <th scope="col" sortable="type" (sort)="onSort($event)">{{'issue.list.type' | translate}}</th>
+                        <th scope="col" sortable="estimatedTime"
+                            (sort)="onSort($event)">{{'issue.list.estimated-time' | translate}}</th>
+                        <th scope="col" sortable="realTime" (sort)="onSort($event)">{{'issue.list.real-time' | translate}}</th>
+                        <th scope="col" sortable="differenceTime"
+                            (sort)="onSort($event)">{{'issue.list.difference-time' | translate}}</th>
+                        <th>{{'issue.list.details' | translate}}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let issue of issueService.issues$ | async">
+                        <th>{{issue.id}}</th>
+                        <th>{{issue.name}}</th>
+                        <td>{{issue.typeName}}</td>
+                        <td>{{convertTimeToString(issue.estimatedTime)}}</td>
+                        <td>{{convertTimeToString(issue.realTime)}}</td>
+                        <td>{{convertTimeDifferenceToString(issue.timeDifference)}}</td>
+                        <td><a routerLink="/issue/{{issue.id}}">{{'issue.list.details' | translate}}</a></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="d-flex justify-content-between p-2">
+                    <app-pagination
+                            [totalElements]="issueService.total$ | async"
+                            (page)="onPage($event)">
+                    </app-pagination>
                 </div>
             </div>
         </div>

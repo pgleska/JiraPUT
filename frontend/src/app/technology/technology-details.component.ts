@@ -39,6 +39,7 @@ import {Subject} from 'rxjs';
                     <h2>{{'technology.details.header' | translate }}{{technology.name}}</h2>
                     <a class="btn btn-primary btn-lg" (click)="openEdit()">{{'team.details.edit' | translate}}</a>
                 </div>
+                <h4>{{'technology.details.employees' | translate}}</h4>
                 <table class="table table-striped">
                     <thead>
                     <tr>
@@ -66,6 +67,7 @@ import {Subject} from 'rxjs';
                             (page)="onPageEmployee($event)">
                     </app-pagination>
                 </div>
+                <h4>{{'technology.details.projects' | translate}}</h4>
                 <table class="table table-striped">
                     <thead>
                     <tr>

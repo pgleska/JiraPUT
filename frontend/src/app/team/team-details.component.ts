@@ -47,6 +47,7 @@ import {map} from 'rxjs/operators';
                         <input class="form-control" value="{{team.numberOfMembers}}" name="membersNumber" disabled>
                     </div>
                 </div>
+                <h4>{{'team.details.employees' | translate}}</h4>
                 <table class="table table-striped">
                     <thead>
                     <tr>
@@ -74,6 +75,7 @@ import {map} from 'rxjs/operators';
                             (page)="onPageEmployee($event)">
                     </app-pagination>
                 </div>
+                <h4>{{'team.details.stories' | translate}}</h4>
                 <table class="table table-striped">
                     <thead>
                     <tr>

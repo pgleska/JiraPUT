@@ -60,6 +60,7 @@ import {map} from 'rxjs/operators';
                         </div>
                     </div>
                 </div>
+                <h4>{{'project.details.contracts' | translate}}</h4>
                 <table class="table table-striped">
                     <thead>
                     <tr>
@@ -89,7 +90,7 @@ import {map} from 'rxjs/operators';
                             (page)="onPageContract($event)">
                     </app-pagination>
                 </div>
-
+                <h4>{{'project.details.epics' | translate}}</h4>
                 <table class="table table-striped">
                     <thead>
                     <tr>

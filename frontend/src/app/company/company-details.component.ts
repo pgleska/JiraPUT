@@ -49,6 +49,7 @@ import {map} from 'rxjs/operators';
                         <textarea class="form-control" value="{{company.address}}" name="address" disabled style="resize: none"></textarea>
                     </div>
                 </div>
+                <h4>{{'company.details.contracts' | translate}}</h4>
                 <table class="table table-striped">
                     <thead>
                     <tr>

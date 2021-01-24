@@ -32,6 +32,7 @@
     },
     "details": {
       "address": "Adres",
+      "contracts": "Kontrakty",
       "edit": "Edytuj",
       "header": "Firma: ",
       "tax-number": "NIP"
@@ -106,6 +107,7 @@
       "placeholder": "Wybierz technologie",
       "position": "Stanowisko",
       "salary": "Pensja",
+      "tasks": "Zadania realizowane przez pracownika",
       "team": "Zespół",
       "technologies": "Znane technologie"
     },
@@ -205,6 +207,7 @@
       "real-time": "Czas rzeczywisty",
       "realisation-date": "Termin realizacji",
       "story": "Story, do którego należy zadanie",
+      "subissue": "Podzadania",
       "task-type": "Typ zadania",
       "team": "Zespół, który ma wykonać zadanie",
       "type": "Typ"
@@ -291,8 +294,10 @@
       "title": "Usuń projekt"
     },
     "details": {
+      "contracts": "Kontrakty",
       "description": "Opis projektu",
       "edit": "Edytuj",
+      "epics": "Zadania realizowane w ramach projektu",
       "header": "Projekt: ",
       "placeholder": "Wybierz technologie",
       "technologies": "Technologie",
@@ -332,12 +337,14 @@
     "details": {
       "details": "Szczegóły",
       "edit": "Edytuj zespół",
+      "employees": "Członkowie zespołu",
       "first-name": "Imię",
       "header": "Zespół: ",
       "last-name": "Nazwisko",
       "login": "Login",
       "members-number": "Liczba członków:",
-      "position": "Stanowisko"
+      "position": "Stanowisko",
+      "stories": "Zadania realizowane przez zespół"
     },
     "edit": {
       "edit": "Zapisz",
@@ -367,7 +374,9 @@
     },
     "details": {
       "edit": "Edytuj technologię",
-      "header": "Technologia: "
+      "employees": "Pracownicy znający technologię",
+      "header": "Technologia: ",
+      "projects": "Projekty wykorzystujace technologię"
     },
     "edit": {
       "edit": "Zapisz",

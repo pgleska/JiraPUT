@@ -91,6 +91,7 @@ import {debounceTime} from 'rxjs/operators';
                         <input class="form-control" value="{{issue.userLogin}}" name="employee" disabled/>
                     </div>
                 </div>
+                <h4>{{'issue.details.subissue' | translate}}</h4>
                 <div *ngIf="issue.type === 'epic' || issue.type === 'story'">
                     <table class="table table-striped">
                         <thead>
