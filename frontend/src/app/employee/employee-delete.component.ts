@@ -38,9 +38,6 @@ export class EmployeeDeleteComponent {
                 this.activeModal.close('employee.delete.deleted');
             },
             error => {
-                if (error === 'error.employee-duplicated') {
-                    error.replace('duplicated', 'not-empty');
-                }
                 this.activeModal.close(error);
             }
         );

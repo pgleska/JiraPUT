@@ -143,10 +143,16 @@ export class IssueService {
     }
 
     convertResponse(issue: Issue) {
-        const realTime = (new Date(issue.realTime).getTime() + 3599000) / 60000;
-        const estimatedTime = (new Date(issue.estimatedTime).getTime() + 3599000) / 60000;
-        issue.realTime = realTime;
-        issue.estimatedTime = estimatedTime;
+        if (!!issue.realTime) {
+            issue.realTime = (new Date(issue.realTime).getTime() + 3599000) / 60000;
+        } else {
+            issue.realTime = -1;
+        }
+        if (!!issue.estimatedTime) {
+            issue.estimatedTime = (new Date(issue.estimatedTime).getTime() + 3599000) / 60000;
+        } else {
+            issue.estimatedTime = -1;
+        }
         switch (issue.type) {
             case 'epic':
                 issue.typeName = 'Epic';

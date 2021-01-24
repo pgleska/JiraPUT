@@ -2,7 +2,9 @@ export function convertTimeToString(time: number) {
     if (time === 0) {
         return '0m';
     }
-
+    if (time === -1) {
+        return '';
+    }
     let result = '';
     const days = Math.floor(time / 60 / 24);
     const hours = Math.floor((time - days * 60 * 24) / 60);
@@ -20,6 +22,9 @@ export function convertTimeToString(time: number) {
 }
 
 export function convertTimeDifferenceToString(time: number) {
+    if (!time) {
+        return '';
+    }
     let result = '';
     if (time < 0) {
         result = 'Pozostało: ';

@@ -158,7 +158,12 @@ export class IssueEditComponent implements OnInit {
             this.form.controls['realTime'].setValue(convertTimeToString(this.issueCopy.realTime as number));
             this.form.controls['estimatedTime'].setValue(convertTimeToString(this.issueCopy.estimatedTime as number));
             if (this.type === 'epic') {
-                this.form.controls['realizationDate'].setValue('');
+                const splitDate = this.issue.realizationDate.slice(0, 10).split(/-/g);
+                this.form.controls['realizationDate'].setValue({
+                    year: parseInt(splitDate[0]),
+                    month: parseInt(splitDate[1]),
+                    day: parseInt(splitDate[2])
+                });
             }
             if (this.type === 'task') {
                 const taskType = this.taskTypes.find(type => type.id === this.issueCopy.taskType);

@@ -166,12 +166,13 @@ export class EmployeeEditComponent implements OnInit {
                     emptyTeam = false;
                 }
             });
+            const item = {
+                id: "",
+                name: "Brak zespołu"
+            };
+            this.teamList.push(item);
+
             if (emptyTeam) {
-                const item = {
-                    id: "",
-                    name: "Brak zespołu"
-                };
-                this.teamList.push(item);
                 this.form.controls['team'].setValue(item);
             }
         });

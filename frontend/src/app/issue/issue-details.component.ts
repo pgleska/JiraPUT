@@ -15,22 +15,24 @@ import {SortEvent} from '../common/list-components/sort/sort.model';
     selector: 'app-issue-details',
     template: `
         <div>
-            <ngb-alert #errorAlert
-                       *ngIf="errorMessage"
-                       [type]="'danger'"
-                       [dismissible]="false"
-                       (closed)=" errorMessage = ''"
-                       class="text-center">
-                {{errorMessage | translate}}
-            </ngb-alert>
-            <ngb-alert #successAlert
-                       *ngIf="successMessage"
-                       [type]="'success'"
-                       [dismissible]="false"
-                       (closed)=" successMessage = ''"
-                       class="text-center">
-                {{successMessage | translate}}
-            </ngb-alert>
+            <div class="my-2">
+                <ngb-alert #errorAlert
+                           *ngIf="errorMessage"
+                           [type]="'danger'"
+                           [dismissible]="false"
+                           (closed)=" errorMessage = ''"
+                           class="text-center">
+                    {{errorMessage | translate}}
+                </ngb-alert>
+                <ngb-alert #successAlert
+                           *ngIf="successMessage"
+                           [type]="'success'"
+                           [dismissible]="false"
+                           (closed)=" successMessage = ''"
+                           class="text-center">
+                    {{successMessage | translate}}
+                </ngb-alert>
+            </div>
             <div class="d-flex flex-column border rounded p-2 mt-3 mx-auto">
                 <div class="d-flex justify-content-between">
                     <h2>{{'issue.details.header' | translate }}{{issue.id}} - {{issue.name}}</h2>
