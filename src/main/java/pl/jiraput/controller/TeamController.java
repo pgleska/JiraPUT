@@ -126,6 +126,9 @@ public class TeamController {
 		if(team.getMembers().size() > 0) {
 			body.put("error", "team.not.empty");
 			return new ResponseEntity<Map<String,String>>(body, HttpStatus.CONFLICT);
+		} else if(!team.getStories().isEmpty()) {
+			body.put("error", "team.has.stories");
+			return new ResponseEntity<Map<String,String>>(body, HttpStatus.CONFLICT);
 		} else {
 			teamRepository.delete(team);
 			body.put("status", "team.deleted");

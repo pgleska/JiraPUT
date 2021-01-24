@@ -191,7 +191,7 @@ public class IssueController {
 			res.put("estimatedTime", issue.getEstimatedTime());
 			res.put("realTime", issue.getRealTime());
 			res.put("type", issue.getSubtype());			
-			res.put("timeDifference", calculateTimeDifference(issue.getId()));
+			calculateTimeDifference(issue.getId(), res);
 			body.add(res);
 		}
 		
@@ -199,7 +199,7 @@ public class IssueController {
 	}	
 	
 	@GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Map<String, Object>> getEpic(@PathVariable Integer id) {
+	public ResponseEntity<Map<String, Object>> getIssue(@PathVariable Integer id) {
 		Map<String, Object> body = new HashMap<>();
 		Issue issue = issueRepository.findById(id).orElse(null);
 		if(issue == null) {
@@ -212,7 +212,7 @@ public class IssueController {
 		body.put("description", issue.getDescription());
 		body.put("estimatedTime", issue.getEstimatedTime());
 		body.put("realTime", issue.getRealTime());
-		body.put("timeDifference", calculateTimeDifference(issue.getId()));
+		calculateTimeDifference(issue.getId(), body);
 		body.put("type", issue.getSubtype());
 
 		switch (issue.getSubtype()) {
@@ -281,7 +281,7 @@ public class IssueController {
 				res.put("projectName", epic.getProject().getName());
 				res.put("stories", getStoriesId(issue.getId()));
 				res.put("realizationDate", epic.getRealizationDate());
-				res.put("timeDifference", calculateTimeDifference(issue.getId()));
+				calculateTimeDifference(issue.getId(), res);
 				body.add(res);
 			}
 		}		
@@ -318,7 +318,7 @@ public class IssueController {
 				res.put("epicName", getEpicName(issue.getId()));
 				res.put("teamName", story.getTeam().getName());
 				res.put("tasks", getTasksId(issue.getId()));
-				res.put("timeDifference", calculateTimeDifference(issue.getId()));
+				calculateTimeDifference(issue.getId(), res);
 				body.add(res);
 			}
 		}		
@@ -355,7 +355,7 @@ public class IssueController {
 				res.put("storyName", getStoryName(issue.getId()));
 				res.put("userLogin", task.getEmployee().getLogin());
 				res.put("taskType", task.getType());
-				res.put("timeDifference", calculateTimeDifference(issue.getId()));
+				calculateTimeDifference(issue.getId(), res);
 				body.add(res);
 			}
 		}
@@ -365,7 +365,7 @@ public class IssueController {
 	
 	@Transactional
 	@DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Map<String, String>> removeIssue(@PathVariable Integer id) {
+	public ResponseEntity<Map<String, String>> deleteIssue(@PathVariable Integer id) {
 		Map<String, String> body = new HashMap<>();
 		Issue issue = issueRepository.findById(id).orElse(null);
 		if(issue == null) {
@@ -374,9 +374,19 @@ public class IssueController {
 		}
 		switch(issue.getSubtype()) {
 			case epic:
+				List stories = getStoriesId(issue.getId());
+				if(!stories.isEmpty()) {
+					body.put("error", "issue.not.empty");
+					return new ResponseEntity<>(body, HttpStatus.CONFLICT);
+				}
 				entityManager.createNativeQuery("DELETE FROM epic WHERE issue_id=:ID").setParameter("ID", id).executeUpdate();
 				break;
 			case story:
+				List tasks = getTasksId(issue.getId());
+				if(!tasks.isEmpty()) {
+					body.put("error", "issue.not.empty");
+					return new ResponseEntity<>(body, HttpStatus.CONFLICT);
+				}
 				entityManager.createNativeQuery("DELETE FROM story WHERE issue_id=:ID").setParameter("ID", id).executeUpdate();
 				break;
 			case task:
@@ -400,7 +410,8 @@ public class IssueController {
 			issue.setName(data.get("name").toString());
 		}
 		if(data.containsKey("description")) {
-			issue.setDescription(data.get("description").toString());
+			if(data.get("description") != null)
+				issue.setDescription(data.get("description").toString());
 		}
 		if(data.containsKey("estimatedTime")) {
 			String estimatedTime = data.get("estimatedTime").toString();
@@ -483,8 +494,10 @@ public class IssueController {
 		return new ResponseEntity<Map<String, String>>(body, HttpStatus.OK);
 	}
 	
-	private String calculateTimeDifference(int id) {
-		return entityManager.createNativeQuery("SELECT roznica_czasow(:ID)").setParameter("ID", id).getSingleResult().toString();										
+	private void calculateTimeDifference(int id, Map<String, Object> map) {
+		Object result = entityManager.createNativeQuery("SELECT roznica_czasow(:ID)").setParameter("ID", id).getSingleResult();
+		if(result != null)
+			map.put("timeDifference", result);
 	}
 	
 	private List getStoriesId(int id) {

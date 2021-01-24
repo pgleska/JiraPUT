@@ -44,7 +44,7 @@ public class Project {
 	private Set<Technology> technologies;
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "projectEpic", cascade = CascadeType.ALL)
-	private Set<Epic> epic;
+	private Set<Epic> epics;
 	
 	public Project() {}
 	
@@ -107,10 +107,10 @@ public class Project {
 	}
 
 	public Set<Epic> getEpics() {
-		return epic;
+		return epics;
 	}
 
 	public void setEpics(Set<Epic> epic) {
-		this.epic = epic;
+		this.epics = epic;
 	}
 }

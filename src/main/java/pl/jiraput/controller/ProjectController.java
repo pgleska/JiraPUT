@@ -117,6 +117,9 @@ public class ProjectController {
 		if(!project.getContracts().isEmpty()) {
 			body.put("error", "project.not.empty");
 			return new ResponseEntity<>(body, HttpStatus.CONFLICT);
+		} else if(!project.getEpics().isEmpty()) {
+			body.put("error", "project.has.epics");
+			return new ResponseEntity<>(body, HttpStatus.CONFLICT);
 		} else {
 			projectRepository.delete(project);
 			body.put("status", "position.deleted");

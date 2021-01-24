@@ -153,5 +153,13 @@ public class Employee {
 
 	public void setTechnologies(Set<Technology> technologies) {
 		this.technologies = technologies;
+	}
+
+	public Set<Task> getTasks() {
+		return tasks;
+	}
+
+	public void setTasks(Set<Task> tasks) {
+		this.tasks = tasks;
 	}	
 }

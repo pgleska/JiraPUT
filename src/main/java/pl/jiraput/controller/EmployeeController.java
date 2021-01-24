@@ -148,6 +148,9 @@ public class EmployeeController {
 		if(emp == null) {
 			body.put("error", "employee.not.found");
 			return new ResponseEntity<Map<String,String>>(body, HttpStatus.NOT_FOUND);
+		} if(!emp.getTasks().isEmpty()) {
+			body.put("error", "employee.has.tasks");
+			return new ResponseEntity<Map<String,String>>(body, HttpStatus.CONFLICT);
 		} else {
 			employeeRepository.delete(emp);
 			body.put("status", "employee.deleted");
