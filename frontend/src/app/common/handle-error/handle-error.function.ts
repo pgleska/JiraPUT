@@ -15,6 +15,10 @@ export function handleError(errorResponse: HttpErrorResponse): Observable<never>
         errorMessage = errorMessage.replace(/\./g, '-');
         return throwError(`error.${errorMessage}`);
     }
+    if (errorMessage.includes('has')) {
+        errorMessage = errorMessage.replace(/\./g, '-');
+        return throwError(`error.${errorMessage}`);
+    }
 
     return throwError('error.unknown');
 

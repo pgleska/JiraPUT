@@ -1,4 +1,4 @@
-import {Component, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
+import {Component, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {PAGE_SIZE} from '../common/list-components/pagination/pagination.component';
 import {Subject} from 'rxjs';
@@ -9,6 +9,7 @@ import {IssueService} from './issue.service';
 import {IssueEditComponent} from './issue-edit.component';
 import {convertTimeDifferenceToString, convertTimeToString} from '../common/date-transformation/convert-time.functions';
 import {SortEvent} from '../common/list-components/sort/sort.model';
+import {debounceTime} from 'rxjs/operators';
 
 
 @Component({
@@ -128,7 +129,7 @@ import {SortEvent} from '../common/list-components/sort/sort.model';
         </div>
     `
 })
-export class IssueDetailsComponent implements OnInit {
+export class IssueDetailsComponent implements OnInit, OnDestroy {
 
     pageSize = PAGE_SIZE;
     errorMessage: string;
@@ -186,6 +187,30 @@ export class IssueDetailsComponent implements OnInit {
                 );
             }
         );
+
+        this.errorSubject.pipe(debounceTime(15000)).subscribe(() => {
+            if (this.errorAlert) {
+                this.errorAlert.close();
+            }
+        });
+
+        this.successSubject.pipe(debounceTime(15000)).subscribe(() => {
+            if (this.successAlert) {
+                this.successAlert.close();
+            }
+        });
+
+        const success = JSON.parse(localStorage.getItem('success'));
+        if (!!success) {
+            this.successMessage = success;
+            this.successSubject.next(success);
+            localStorage.removeItem('success');
+        }
+    }
+
+    ngOnDestroy(): void {
+        this.successSubject.unsubscribe();
+        this.errorSubject.unsubscribe();
     }
 
     onSort($event: SortEvent) {
@@ -220,9 +245,8 @@ export class IssueDetailsComponent implements OnInit {
             this.errorMessage = result;
             this.errorSubject.next(result);
         } else {
-            this.successMessage = result;
-            this.successSubject.next(result);
-            setTimeout(window.location.reload.bind(window.location), 2000);
+            localStorage.setItem('success', JSON.stringify(result));
+            window.location.reload();
         }
     }
 

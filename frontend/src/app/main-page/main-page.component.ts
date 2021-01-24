@@ -17,8 +17,7 @@ import {Component} from '@angular/core';
             <div class="container mx-auto w-50">
                 <div class="row justify-content-around">
                     <div class="col-sm my-3">
-                        <a class="my-2 my-sm-0 mr-1 btn btn-lg btn-primary d-block"
-                           routerLink="/employee">{{'navbar.employees' | translate}}</a>
+                        <a class="my-2 my-sm-0 mr-1 btn btn-lg btn-primary d-block" routerLink="/issue">{{'navbar.issue' | translate}}</a>
                     </div>
                     <div class="col-sm my-3">
                         <a class="my-2 my-sm-0 mr-1 btn btn-lg btn-primary d-block" routerLink="/team">{{'navbar.team' | translate}}</a>
@@ -30,7 +29,8 @@ import {Component} from '@angular/core';
                            routerLink="/project">{{'navbar.project' | translate}}</a>
                     </div>
                     <div class="col-sm my-3">
-                        <a class="my-2 my-sm-0 mr-1 btn btn-lg btn-primary d-block" routerLink="/issue">{{'navbar.issue' | translate}}</a>
+                        <a class="my-2 my-sm-0 mr-1 btn btn-lg btn-primary d-block"
+                           routerLink="/contract">{{'navbar.contract' | translate}}</a>
                     </div>
                 </div>
                 <div class="row justify-content-around">
@@ -40,7 +40,7 @@ import {Component} from '@angular/core';
                     </div>
                     <div class="col-sm my-3">
                         <a class="my-2 my-sm-0 mr-1 btn btn-lg btn-primary d-block"
-                           routerLink="/contract">{{'navbar.contract' | translate}}</a>
+                           routerLink="/employee">{{'navbar.employees' | translate}}</a>
                     </div>
                 </div>
                 <div class="row justify-content-around">

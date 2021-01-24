@@ -159,17 +159,25 @@ export class TeamDetailsComponent implements OnInit, OnDestroy {
             }
         );
 
-        this.errorSubject.pipe(debounceTime(2000)).subscribe(() => {
+        this.errorSubject.pipe(debounceTime(15000)).subscribe(() => {
             if (this.errorAlert) {
                 this.errorAlert.close();
             }
         });
 
-        this.successSubject.pipe(debounceTime(2000)).subscribe(() => {
+        this.successSubject.pipe(debounceTime(15000)).subscribe(() => {
             if (this.successAlert) {
                 this.successAlert.close();
             }
         });
+
+        const success = JSON.parse(localStorage.getItem('success'));
+        if (!!success) {
+            this.successMessage = success;
+            this.successSubject.next(success);
+            localStorage.removeItem('success');
+        }
+
         this.employeeService.search$.next();
         this.issueService.search$.next();
     }

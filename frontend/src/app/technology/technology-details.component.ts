@@ -7,7 +7,7 @@ import {Technology} from './technology.model';
 import {ProjectService} from '../project/project.service';
 import {SortableDirective} from '../common/list-components/sort/sortable.directive';
 import {SortEvent} from '../common/list-components/sort/sort.model';
-import {map} from 'rxjs/internal/operators';
+import {debounceTime, map} from 'rxjs/internal/operators';
 import {NgbAlert, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {TechnologyEditComponent} from './technology-edit.component';
 import {Subject} from 'rxjs';
@@ -136,6 +136,25 @@ export class TechnologyDetailsComponent implements OnInit {
             this.projectService.allProjectList = result;
             this.projectService.search$.next();
         });
+
+        this.errorSubject.pipe(debounceTime(15000)).subscribe(() => {
+            if (this.errorAlert) {
+                this.errorAlert.close();
+            }
+        });
+
+        this.successSubject.pipe(debounceTime(15000)).subscribe(() => {
+            if (this.successAlert) {
+                this.successAlert.close();
+            }
+        });
+
+        const success = JSON.parse(localStorage.getItem('success'));
+        if (!!success) {
+            this.successMessage = success;
+            this.successSubject.next(success);
+            localStorage.removeItem('success');
+        }
     }
 
     openEdit() {
@@ -194,9 +213,8 @@ export class TechnologyDetailsComponent implements OnInit {
             this.errorMessage = result;
             this.errorSubject.next(result);
         } else {
-            this.successMessage = result;
-            this.successSubject.next(result);
-            setTimeout(window.location.reload.bind(window.location), 2000);
+            localStorage.setItem('success', JSON.stringify(result));
+            window.location.reload();
         }
     }
 }

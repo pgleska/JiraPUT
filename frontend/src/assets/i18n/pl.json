@@ -165,9 +165,9 @@
     "unknown": "Nieznany błąd",
     "url-encoding": "Dozwolone znaki to litery, cyfry oraz znaki _ i -",
     "user-duplicated": "Użytkownik o takim loginie już istnieje",
-    "project-has-epics": "Nie można usunąć projektu, ponieważ są przypisanego do niego zadania typu Epic",
-    "team-has-stories": "Nie można usunąć zespołu, ponieważ są przypisanego do niego zadania typu Story",
-    "user-has-tasks": "Nie można usunąć użytkownika, ponieważ są przypisanego do niego zadania typu Task"
+    "project-has-epics": "Nie można usunąć projektu, ponieważ są przypisane do niego zadania typu Epic",
+    "team-has-stories": "Nie można usunąć zespołu, ponieważ są przypisane do niego zadania typu Story",
+    "employee-has-tasks": "Nie można usunąć użytkownika, ponieważ są przypisane do niego zadania typu Task"
   },
   "issue": {
     "add": {

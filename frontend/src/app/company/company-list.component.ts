@@ -97,17 +97,24 @@ export class CompanyListComponent implements OnInit, OnDestroy {
             }
         );
 
-        this.errorSubject.pipe(debounceTime(2000)).subscribe(() => {
+        this.errorSubject.pipe(debounceTime(15000)).subscribe(() => {
             if (this.errorAlert) {
                 this.errorAlert.close();
             }
         });
 
-        this.successSubject.pipe(debounceTime(2000)).subscribe(() => {
+        this.successSubject.pipe(debounceTime(15000)).subscribe(() => {
             if (this.successAlert) {
                 this.successAlert.close();
             }
         });
+
+        const success = JSON.parse(localStorage.getItem('success'));
+        if (!!success) {
+            this.successMessage = success;
+            this.successSubject.next(success);
+            localStorage.removeItem('success');
+        }
     }
 
     ngOnDestroy(): void {
@@ -169,9 +176,8 @@ export class CompanyListComponent implements OnInit, OnDestroy {
             this.errorMessage = result;
             this.errorSubject.next(result);
         } else {
-            this.successMessage = result;
-            this.successSubject.next(result);
-            setTimeout(window.location.reload.bind(window.location), 2000);
+            localStorage.setItem('success', JSON.stringify(result));
+            window.location.reload();
         }
     }
 

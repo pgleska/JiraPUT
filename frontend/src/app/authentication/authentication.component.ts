@@ -33,11 +33,11 @@ import {NgbAlert} from '@ng-bootstrap/ng-bootstrap';
                 </div>
                 <div class="font-italic small" *ngIf="!isLoginMode">
                     {{'authentication.account' | translate}}
-                    <a (click)="switchMode()" class="font-weight-bold">{{'authentication.log-in' | translate}}</a>
+                    <a (click)="switchMode()" class="font-weight-bold" style="cursor: pointer">{{'authentication.log-in' | translate}}</a>
                 </div>
                 <div class="font-italic small" *ngIf="isLoginMode">
                     {{'authentication.no-account' | translate}}&nbsp;
-                    <a (click)="switchMode()" class="font-weight-bold">{{'authentication.sign-up' | translate}}</a>
+                    <a (click)="switchMode()" class="font-weight-bold" style="cursor: pointer">{{'authentication.sign-up' | translate}}</a>
                 </div>
             </div>
         </div>
@@ -61,13 +61,13 @@ export class AuthenticationComponent implements OnInit, OnDestroy {
             this.router.navigateByUrl('/');
         }
 
-        this.errorSubject.pipe(debounceTime(2000)).subscribe(() => {
+        this.errorSubject.pipe(debounceTime(15000)).subscribe(() => {
             if (this.errorAlert) {
                 this.errorAlert.close();
             }
         });
 
-        this.successSubject.pipe(debounceTime(2000)).subscribe(() => {
+        this.successSubject.pipe(debounceTime(15000)).subscribe(() => {
             if (this.successAlert) {
                 this.successAlert.close();
             }

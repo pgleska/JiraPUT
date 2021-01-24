@@ -1,4 +1,4 @@
-import {Component, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
+import {Component, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {EmployeeService} from './employee.service';
 import {ActivatedRoute} from '@angular/router';
 import {PAGE_SIZE} from '../common/list-components/pagination/pagination.component';
@@ -10,6 +10,7 @@ import {convertTimeDifferenceToString, convertTimeToString} from '../common/date
 import {IssueService} from '../issue/issue.service';
 import {SortableDirective} from '../common/list-components/sort/sortable.directive';
 import {SortEvent} from '../common/list-components/sort/sort.model';
+import {debounceTime} from 'rxjs/operators';
 
 @Component({
     selector: 'app-employee-details',
@@ -103,7 +104,7 @@ import {SortEvent} from '../common/list-components/sort/sort.model';
         </div>
     `
 })
-export class EmployeeDetailsComponent implements OnInit {
+export class EmployeeDetailsComponent implements OnInit, OnDestroy {
 
     pageSize = PAGE_SIZE;
     errorMessage: string;
@@ -152,6 +153,30 @@ export class EmployeeDetailsComponent implements OnInit {
             }
         );
         this.issueService.search$.next();
+
+        this.errorSubject.pipe(debounceTime(15000)).subscribe(() => {
+            if (this.errorAlert) {
+                this.errorAlert.close();
+            }
+        });
+
+        this.successSubject.pipe(debounceTime(15000)).subscribe(() => {
+            if (this.successAlert) {
+                this.successAlert.close();
+            }
+        });
+
+        const success = JSON.parse(localStorage.getItem('success'));
+        if (!!success) {
+            this.successMessage = success;
+            this.successSubject.next(success);
+            localStorage.removeItem('success');
+        }
+    }
+
+    ngOnDestroy(): void {
+        this.successSubject.unsubscribe();
+        this.errorSubject.unsubscribe();
     }
 
     onSort($event: SortEvent) {
@@ -186,9 +211,8 @@ export class EmployeeDetailsComponent implements OnInit {
             this.errorMessage = result;
             this.errorSubject.next(result);
         } else {
-            this.successMessage = result;
-            this.successSubject.next(result);
-            setTimeout(window.location.reload.bind(window.location), 2000);
+            localStorage.setItem('success', JSON.stringify(result));
+            window.location.reload();
         }
     }
 
