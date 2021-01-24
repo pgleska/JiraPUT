@@ -20,33 +20,37 @@ export function convertTimeToString(time: number) {
 }
 
 export function convertTimeDifferenceToString(time: number) {
-    let result ='';
-    if (time < 0){
+    let result = '';
+    if (time < 0) {
         result = 'Pozostało: ';
     } else {
         result = 'Przekroczono o: ';
     }
-    time = Math.abs(time / 60)
+    time = Math.abs(time / 60);
     return result + convertTimeToString(time);
 }
 
 export function convertStringToTime(time: string): Date {
+    if (!time) {
+        return undefined;
+    }
+
     let result = 0;
-    if (time.includes('d')){
+    if (time.includes('d')) {
         const splitTime = time.split('d');
-        result += parseInt(splitTime[0]) * 24 * 60
+        result += parseInt(splitTime[0]) * 24 * 60;
         time = splitTime[1];
     }
 
-    if (time.includes('h')){
+    if (time.includes('h')) {
         const splitTime = time.split('h');
-        result += parseInt(splitTime[0]) * 60
+        result += parseInt(splitTime[0]) * 60;
         time = splitTime[1];
     }
 
-    if (time.includes('m')){
+    if (time.includes('m')) {
         const splitTime = time.split('m');
-        result += parseInt(splitTime[0])
+        result += parseInt(splitTime[0]);
     }
 
     return new Date(result * 60000 + 1000);

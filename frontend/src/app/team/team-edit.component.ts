@@ -16,8 +16,8 @@ import {TeamService} from './team.service';
         </div>
         <div class="modal-body">
             <form #teamForm="ngForm" (ngSubmit)="onSubmit(teamForm)">
-                <div>
-                    <label for="name">{{'team.list.name' | translate}}</label>
+                <div class="required">
+                    <label for="name" class="control-label">{{'team.list.name' | translate}}</label>
                     <input
                             type="text"
                             id="name"
@@ -62,14 +62,15 @@ export class TeamEditComponent implements OnInit {
 
         this.teamCopy.name = form.value.name;
 
-        const editObservable = this.service.modifyTeam(this.teamCopy);
+        const editObservable = this.service.modifyTeam(this.team.name, this.teamCopy.name);
         editObservable.subscribe(
             _ => {
                 this.team = Object.assign({}, this.teamCopy);
-                this.activeModal.close('team.edit.edited');
+                console.log(this.team);
+                this.activeModal.close({team:this.team, result:'team.edit.edited'});
             },
             error => {
-                this.activeModal.close(error);
+                this.activeModal.close({team:this.team, result:error});
             }
         );
         form.reset();

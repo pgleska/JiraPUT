@@ -3,6 +3,5 @@ export interface SignUpResponseData {
 }
 
 export interface LoginResponseData {
-    login: string;
     JWT: string;
 }

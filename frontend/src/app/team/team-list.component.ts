@@ -7,26 +7,34 @@ import {debounceTime} from 'rxjs/internal/operators';
 import {SortEvent} from '../common/list-components/sort/sort.model';
 import {TeamService} from './team.service';
 import {TeamAddComponent} from './team-add.component';
+import {Technology} from '../technology/technology.model';
+import {TechnologyEditComponent} from '../technology/technology-edit.component';
+import {TeamEditComponent} from './team-edit.component';
+import {TechnologyDeleteComponent} from '../technology/technology-delete.component';
+import {Team} from './team.model';
+import {TeamDeleteComponent} from './team-delete.service';
 
 @Component({
     selector: 'app-team-list',
     template: `
-        <ngb-alert #errorAlert
-                   *ngIf="errorMessage"
-                   [type]="'danger'"
-                   [dismissible]="false"
-                   (closed)=" errorMessage = ''"
-                   class="text-center">
-            {{errorMessage | translate}}
-        </ngb-alert>
-        <ngb-alert #successAlert
-                   *ngIf="successMessage"
-                   [type]="'success'"
-                   [dismissible]="false"
-                   (closed)=" successMessage = ''"
-                   class="text-center">
-            {{successMessage | translate}}
-        </ngb-alert>
+        <div class="my-2">
+            <ngb-alert #errorAlert
+                       *ngIf="errorMessage"
+                       [type]="'danger'"
+                       [dismissible]="false"
+                       (closed)=" errorMessage = ''"
+                       class="text-center">
+                {{errorMessage | translate}}
+            </ngb-alert>
+            <ngb-alert #successAlert
+                       *ngIf="successMessage"
+                       [type]="'success'"
+                       [dismissible]="false"
+                       (closed)=" successMessage = ''"
+                       class="text-center">
+                {{successMessage | translate}}
+            </ngb-alert>
+        </div>
         <form>
             <div class="form-group d-flex flex-row justify-content-between border rounded mt-3 px-2">
                 <div class="p-2">
@@ -55,6 +63,8 @@ import {TeamAddComponent} from './team-add.component';
                     <th scope="col" sortable="name" (sort)="onSort($event)">{{'team.list.name' | translate}}</th>
                     <th scope="col" sortable="numberOfMembers" (sort)="onSort($event)">{{'team.list.members-number' | translate}}</th>
                     <th>{{'team.list.details' | translate}}</th>
+                    <th>{{'common.edit' | translate}}</th>
+                    <th>{{'common.delete' | translate}}</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -62,6 +72,8 @@ import {TeamAddComponent} from './team-add.component';
                     <th>{{team.name}}</th>
                     <td>{{team.numberOfMembers}}</td>
                     <td><a routerLink="/team/{{team.name}}">{{'team.list.details' | translate}}</a></td>
+                    <td><a (click)="openEdit(team)"><i class="fa fa-edit fa-2x btn"></i></a></td>
+                    <td><a (click)="openDelete(team)"><i class="fa fa-trash fa-2x btn"></i></a></td>
                 </tr>
                 </tbody>
             </table>
@@ -100,13 +112,13 @@ export class TeamListComponent implements OnInit, OnDestroy {
             }
         );
 
-        this.errorSubject.pipe(debounceTime(10000)).subscribe(() => {
+        this.errorSubject.pipe(debounceTime(2000)).subscribe(() => {
             if (this.errorAlert) {
                 this.errorAlert.close();
             }
         });
 
-        this.successSubject.pipe(debounceTime(10000)).subscribe(() => {
+        this.successSubject.pipe(debounceTime(2000)).subscribe(() => {
             if (this.successAlert) {
                 this.successAlert.close();
             }
@@ -143,20 +155,38 @@ export class TeamListComponent implements OnInit, OnDestroy {
 
     onMinimumMembersNumber($event: any) {
         this.minimumMembersNumber = $event;
-        this.service.filterTeamList(this.minimumMembersNumber, this.maximumMembersNumber );
+        this.service.filterTeamList(this.minimumMembersNumber, this.maximumMembersNumber);
         this.service.search$.next();
     }
 
     onMaximumMembersNumber($event: any) {
         this.maximumMembersNumber = $event;
-        this.service.filterTeamList(this.minimumMembersNumber, this.maximumMembersNumber );
+        this.service.filterTeamList(this.minimumMembersNumber, this.maximumMembersNumber);
         this.service.search$.next();
     }
 
     openAdd() {
         const modalRef = this.modalService.open(TeamAddComponent);
         modalRef.result.then((result) => {
-            this.showInfo(result);
+            this.showInfo(result.result);
+        }, _ => {
+        });
+    }
+
+    openDelete(team: Team) {
+        const modalRef = this.modalService.open(TeamDeleteComponent);
+        modalRef.componentInstance.team = team;
+        modalRef.result.then((result) => {
+            this.showInfo(result.result);
+        }, _ => {
+        });
+    }
+
+    openEdit(team: Team) {
+        const modalRef = this.modalService.open(TeamEditComponent);
+        modalRef.componentInstance.team = team;
+        modalRef.result.then((result) => {
+            this.showInfo(result.result);
         }, _ => {
         });
     }
@@ -168,6 +198,7 @@ export class TeamListComponent implements OnInit, OnDestroy {
         } else {
             this.successMessage = result;
             this.successSubject.next(result);
+            setTimeout(window.location.reload.bind(window.location), 2000);
         }
     }
 }

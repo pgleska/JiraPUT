@@ -17,22 +17,24 @@ import {convertTimeDifferenceToString, convertTimeToString} from '../common/date
 @Component({
     selector: 'app-issue-list',
     template: `
-        <ngb-alert #errorAlert
-                   *ngIf="errorMessage"
-                   [type]="'danger'"
-                   [dismissible]="false"
-                   (closed)=" errorMessage = ''"
-                   class="text-center">
-            {{errorMessage | translate}}
-        </ngb-alert>
-        <ngb-alert #successAlert
-                   *ngIf="successMessage"
-                   [type]="'success'"
-                   [dismissible]="false"
-                   (closed)=" successMessage = ''"
-                   class="text-center">
-            {{successMessage | translate}}
-        </ngb-alert>
+        <div class="my-2">
+            <ngb-alert #errorAlert
+                       *ngIf="errorMessage"
+                       [type]="'danger'"
+                       [dismissible]="false"
+                       (closed)=" errorMessage = ''"
+                       class="text-center">
+                {{errorMessage | translate}}
+            </ngb-alert>
+            <ngb-alert #successAlert
+                       *ngIf="successMessage"
+                       [type]="'success'"
+                       [dismissible]="false"
+                       (closed)=" successMessage = ''"
+                       class="text-center">
+                {{successMessage | translate}}
+            </ngb-alert>
+        </div>
         <form>
             <div class="form-group d-flex flex-row justify-content-between border rounded mt-3 px-2">
                 <div class="d-flex flex-row">
@@ -91,7 +93,7 @@ import {convertTimeDifferenceToString, convertTimeToString} from '../common/date
     `
 })
 export class IssueListComponent implements OnInit, OnDestroy {
-    types = ISSUE_TYPES
+    types = ISSUE_TYPES;
     pageSize = PAGE_SIZE;
     errorMessage: string;
     successMessage: string;
@@ -116,13 +118,13 @@ export class IssueListComponent implements OnInit, OnDestroy {
             }
         );
 
-        this.errorSubject.pipe(debounceTime(10000)).subscribe(() => {
+        this.errorSubject.pipe(debounceTime(2000)).subscribe(() => {
             if (this.errorAlert) {
                 this.errorAlert.close();
             }
         });
 
-        this.successSubject.pipe(debounceTime(10000)).subscribe(() => {
+        this.successSubject.pipe(debounceTime(2000)).subscribe(() => {
             if (this.successAlert) {
                 this.successAlert.close();
             }
@@ -190,6 +192,7 @@ export class IssueListComponent implements OnInit, OnDestroy {
         } else {
             this.successMessage = result;
             this.successSubject.next(result);
+            setTimeout(window.location.reload.bind(window.location), 2000);
         }
     }
 

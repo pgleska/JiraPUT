@@ -33,3 +33,16 @@ export interface Issue {
     userLogin?: string
     taskType?: number
 }
+
+
+export function getTaskTypeNameById(typeNumber: number): string {
+    if (!!typeNumber) {
+        return TASK_TYPES.find(type => type.id === typeNumber).name;
+    }
+}
+
+export function getIssueTypeNameById(issueType: string): string {
+    if (!!issueType) {
+        return ISSUE_TYPES.find(type => type.id === issueType).name;
+    }
+}

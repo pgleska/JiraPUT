@@ -63,10 +63,10 @@ export class TeamService {
             );
     }
 
-    modifyTeam(team: Team): Observable<any> {
+    modifyTeam(oldTeamName: string, newTeamName: string): Observable<any> {
         return this.http.patch(
-            environment.apiUrl + `/api/team/${team.name}`,
-            team).pipe(
+            environment.apiUrl + `/api/team/${oldTeamName}`,
+            {name: newTeamName}).pipe(
             catchError(handleError)
         );
     }

@@ -35,13 +35,10 @@ export class TeamDeleteComponent {
         const addObservable = this.teamService.deleteTeam(this.team);
         addObservable.subscribe(
             _ => {
-                this.activeModal.close('team.delete.deleted');
+                this.activeModal.close({result: 'team.edit.edited'});
             },
             error => {
-                if (error === 'error.team-duplicated') {
-                    error.replace('duplicated', 'not-empty');
-                }
-                this.activeModal.close(error);
+                this.activeModal.close({result: error});
             }
         );
     }

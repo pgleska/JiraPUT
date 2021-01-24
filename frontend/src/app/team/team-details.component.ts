@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {PAGE_SIZE} from '../common/list-components/pagination/pagination.component';
 import {Subject} from 'rxjs';
 import {NgbAlert, NgbModal} from '@ng-bootstrap/ng-bootstrap';
@@ -10,7 +10,7 @@ import {EmployeeService} from '../employee/employee.service';
 import {TeamService} from './team.service';
 import {Team} from './team.model';
 import {TeamEditComponent} from './team-edit.component';
-import {convertTimeToString, convertTimeDifferenceToString} from '../common/date-transformation/convert-time.functions';
+import {convertTimeDifferenceToString, convertTimeToString} from '../common/date-transformation/convert-time.functions';
 import {IssueService} from '../issue/issue.service';
 import {map} from 'rxjs/operators';
 
@@ -18,22 +18,24 @@ import {map} from 'rxjs/operators';
     selector: 'app-team-details',
     template: `
         <div>
-            <ngb-alert #errorAlert
-                       *ngIf="errorMessage"
-                       [type]="'danger'"
-                       [dismissible]="false"
-                       (closed)=" errorMessage = ''"
-                       class="text-center">
-                {{errorMessage | translate}}
-            </ngb-alert>
-            <ngb-alert #successAlert
-                       *ngIf="successMessage"
-                       [type]="'success'"
-                       [dismissible]="false"
-                       (closed)=" successMessage = ''"
-                       class="text-center">
-                {{successMessage | translate}}
-            </ngb-alert>
+            <div class="my-2">
+                <ngb-alert #errorAlert
+                           *ngIf="errorMessage"
+                           [type]="'danger'"
+                           [dismissible]="false"
+                           (closed)=" errorMessage = ''"
+                           class="text-center">
+                    {{errorMessage | translate}}
+                </ngb-alert>
+                <ngb-alert #successAlert
+                           *ngIf="successMessage"
+                           [type]="'success'"
+                           [dismissible]="false"
+                           (closed)=" successMessage = ''"
+                           class="text-center">
+                    {{successMessage | translate}}
+                </ngb-alert>
+            </div>
             <div class="d-flex flex-column border rounded p-2 mt-3 mx-auto">
                 <div class="d-flex justify-content-between">
                     <h2>{{'team.details.header' | translate }}{{team.name}}</h2>
@@ -128,6 +130,7 @@ export class TeamDetailsComponent implements OnInit, OnDestroy {
                 public employeeService: EmployeeService,
                 public issueService: IssueService,
                 private route: ActivatedRoute,
+                private router: Router,
                 private modalService: NgbModal) {
     }
 
@@ -156,13 +159,13 @@ export class TeamDetailsComponent implements OnInit, OnDestroy {
             }
         );
 
-        this.errorSubject.pipe(debounceTime(10000)).subscribe(() => {
+        this.errorSubject.pipe(debounceTime(2000)).subscribe(() => {
             if (this.errorAlert) {
                 this.errorAlert.close();
             }
         });
 
-        this.successSubject.pipe(debounceTime(10000)).subscribe(() => {
+        this.successSubject.pipe(debounceTime(2000)).subscribe(() => {
             if (this.successAlert) {
                 this.successAlert.close();
             }
@@ -177,15 +180,15 @@ export class TeamDetailsComponent implements OnInit, OnDestroy {
     }
 
     onSortIssue($event: SortEvent) {
-        const issueHeaders = ["id", "name", "estimatedTime", "realTime", "differenceTime"]
+        const issueHeaders = ['id', 'name', 'estimatedTime', 'realTime', 'differenceTime'];
         this.headers
             .filter(header => issueHeaders.includes(header.sortable))
             .forEach(header => {
-                if (header.sortable !== $event.column) {
-                    header.direction = '';
+                    if (header.sortable !== $event.column) {
+                        header.direction = '';
+                    }
                 }
-            }
-        );
+            );
 
         this.issueService.state.sortColumn = $event.column;
         this.issueService.state.sortDirection = $event.direction;
@@ -198,15 +201,15 @@ export class TeamDetailsComponent implements OnInit, OnDestroy {
     }
 
     onSortEmployee($event: SortEvent) {
-        const employeeHeaders = ["login","firstName", "lastName", "position"]
+        const employeeHeaders = ['login', 'firstName', 'lastName', 'position'];
         this.headers
             .filter(header => employeeHeaders.includes(header.sortable))
             .forEach(header => {
-                if (header.sortable !== $event.column) {
-                    header.direction = '';
+                    if (header.sortable !== $event.column) {
+                        header.direction = '';
+                    }
                 }
-            }
-        );
+            );
 
         this.employeeService.state.sortColumn = $event.column;
         this.employeeService.state.sortDirection = $event.direction;
@@ -222,7 +225,8 @@ export class TeamDetailsComponent implements OnInit, OnDestroy {
         const modalRef = this.modalService.open(TeamEditComponent);
         modalRef.componentInstance.team = this.team;
         modalRef.result.then((result) => {
-            this.showInfo(result);
+            this.showInfo(result.result);
+            this.team = result.team;
         }, _ => {
         });
     }
@@ -234,6 +238,11 @@ export class TeamDetailsComponent implements OnInit, OnDestroy {
         } else {
             this.successMessage = result;
             this.successSubject.next(result);
+            setTimeout(this.navigateToNewPage.bind(this));
         }
+    }
+
+    private navigateToNewPage() {
+        this.router.navigate([`/team/${this.team.name}`])
     }
 }

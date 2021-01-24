@@ -92,6 +92,12 @@
     }
   },
   "employee": {
+    "delete": {
+      "body": "Czy na pewno chcesz usunąć tego pracownika? \nOperacja ta jest nieodwracalna!",
+      "delete": "Usuń",
+      "deleted": "Pracownik został pomyślnie usunięty",
+      "title": "Usuń pracownika"
+    },
     "details": {
       "edit": "Edytuj",
       "first-name": "Imię",
@@ -115,6 +121,7 @@
     },
     "list": {
       "details": "Szczegóły",
+      "empty-team": "Brak zespołu",
       "first-name": "Imię",
       "last-name": "Nazwisko",
       "position": "Stanowisko",
@@ -129,6 +136,8 @@
     "contract-not-found": "Kontrakt o takiej nazwie nie isntieje",
     "employee-duplicated": "Pozycja o takiej nazwie już istnieje",
     "employee-not-found": "Pozycja o takiej nazwie nie isntieje",
+    "issue-not-empty": "Nie można usunąć zadania, gdyż zawiera podzadania",
+    "issue-not-found": "Zadanie o danym ID nie isntieje",
     "login-error": "Błędny login lub hasło",
     "maximum-salary": "Pensja większa niż maksymalna na obecnym stanowisku",
     "minimum-length": "Hasło wymaga co najmniej 6 znaków",
@@ -143,7 +152,7 @@
     "project-not-empty": "Nie można usunąć projektu, gdyż są kontrakty z nim związane",
     "project-not-found": "project o takiej nazwie nie isntieje",
     "required": "Pole jest wymagane",
-    "salary": "Pensja maksymalna nie moze być mniejsza niż minimalna",
+    "salary": "Pensja maksymalna nie może być mniejsza niż minimalna",
     "tax-number-checksum": "Niepoprawna suma kontrolna numeru NIP",
     "tax-number-length": "Numer NIP powinnien skladać się z 10 cyfr",
     "team-duplicated": "Zespół o takiej nazwie już istnieje",
@@ -160,18 +169,18 @@
   "issue": {
     "add": {
       "add": "Dodaj",
+      "added": "Zadanie zostało pomyślnie dodane",
       "description": "Opis",
-      "edited": "Zadanie zostało pomyślnie dodane",
-      "employees": "Pracownik który ma wykonać dane zadanie",
+      "employees": "Pracownik, który ma wykonać dane zadanie",
       "epic": "Epic do którego należy zadanie",
       "estimated-time": "Czas oszacowany",
       "name": "Nazwa",
-      "project": "Projekt w ramach którego realizowane jest zadanie",
+      "project": "Projekt, w ramach którego realizowane jest zadanie",
       "real-time": "Czas rzeczywisty",
       "realisation-date": "Termin realizacji",
       "story": "Story do którego należy zadanie",
       "task-type": "Typ zadania",
-      "team": "Zespół który ma wykonać zadanie",
+      "team": "Zespół, który ma wykonać zadanie",
       "title": "Dodaj zadanie"
     },
     "delete": {
@@ -184,7 +193,7 @@
       "description": "Opis",
       "difference-time": "Różnica czasów",
       "edit": "Edytuj",
-      "employees": "Pracownik do którego jest przypisane zadanie",
+      "employee": "Pracownik, do którego \njest przypisane zadanie",
       "epic": "Epic do którego należy zadanie",
       "estimated-time": "Czas oszacowany",
       "header": "Zadanie: ",
@@ -192,16 +201,16 @@
       "project": "Projekt",
       "real-time": "Czas rzeczywisty",
       "realisation-date": "Termin realizacji",
-      "story": "Story do którego należy zadanie",
+      "story": "Story, do którego należy zadanie",
       "task-type": "Typ zadania",
-      "team": "Zespół który ma wykonać zadanie",
+      "team": "Zespół, który ma wykonać zadanie",
       "type": "Typ"
     },
     "edit": {
       "description": "Opis",
       "edit": "Zapisz",
       "edited": "Zadanie zostało pomyślnie zedtyowane",
-      "employees": "Pracownik który ma wykonać dane zadanie",
+      "employee": "Pracownik który ma wykonać dane zadanie",
       "epic": "Epic do którego należy zadanie",
       "estimated-time": "Czas oszacowany",
       "name": "Nazwa",
@@ -307,8 +316,15 @@
     "add": {
       "add": "Dodaj",
       "added": "Zespół został pomyślnie dodany",
+      "empty": "Brak zespołu",
       "name": "Nazwa zespołu",
       "title": "Dodaj"
+    },
+    "delete": {
+      "body": "Czy na pewno chcesz usunąć ten zespół? \nOperacja ta jest nieodwracalna!",
+      "delete": "Usuń",
+      "deleted": "Zespół został pomyślnie usunięty",
+      "title": "Usuń zespół"
     },
     "details": {
       "details": "Szczegóły",

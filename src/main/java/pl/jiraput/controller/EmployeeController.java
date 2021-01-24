@@ -113,9 +113,16 @@ public class EmployeeController {
 		if(emp == null) {
 			body.put("error", "user.not.found");
 		}
-		Team newTeam = teamReposiotry.findByName(String.valueOf(data.get("team")));
-		if(newTeam == null) {
-			body.put("error", "team.not.found");
+		String teamName = String.valueOf(data.get("team"));
+		if (!teamName.equals("")) {
+			Team newTeam = teamReposiotry.findByName(teamName);
+			if(newTeam == null) {
+				body.put("error", "team.not.found");
+			} else {
+				emp.setTeam(newTeam);
+			}
+		} else {
+			emp.setTeam(null);
 		}
 		Position newPosition = positionRepository.findByName(String.valueOf(data.get("position")));
 		if(newPosition == null) {
@@ -126,8 +133,7 @@ public class EmployeeController {
 		} else {		
 			emp.setFirstName(String.valueOf(data.get("firstName")));
 			emp.setLastName(String.valueOf(data.get("lastName")));
-			emp.setSalary(Float.valueOf(String.valueOf(data.get("salary"))));		
-			emp.setTeam(newTeam);
+			emp.setSalary(Float.valueOf(String.valueOf(data.get("salary"))));
 			emp.setPosition(newPosition);
 			employeeRepository.save(emp);
 			body.put("status", "user.edited");

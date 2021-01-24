@@ -2,13 +2,18 @@ import {Component, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren} from '
 import {PAGE_SIZE} from '../common/list-components/pagination/pagination.component';
 import {SortableDirective} from '../common/list-components/sort/sortable.directive';
 import {Subject} from 'rxjs';
-import {NgbAlert} from '@ng-bootstrap/ng-bootstrap';
+import {NgbAlert, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {debounceTime} from 'rxjs/operators';
 import {SortEvent} from '../common/list-components/sort/sort.model';
 import {EmployeeService} from './employee.service';
 import {PositionService} from '../position/position.service';
 import {TeamService} from '../team/team.service';
 import {SelectItem} from '../common/select/select-item.model';
+import {Contract} from '../contract/contract.model';
+import {ContractDeleteComponent} from '../contract/contract-delete.component';
+import {EmployeeDeleteComponent} from './employee-delete.component';
+import {Employee} from './employee.model';
+import {AuthenticationService} from '../authentication/authentication.service';
 
 @Component({
     selector: 'app-employee-list',
@@ -62,6 +67,7 @@ import {SelectItem} from '../common/select/select-item.model';
                     <th scope="col" sortable="positionDisplay" (sort)="onSort($event)">{{'employee.list.position' | translate}}</th>
                     <th scope="col" sortable="team" (sort)="onSort($event)">{{'employee.list.team' | translate}}</th>
                     <th>{{'employee.list.details' | translate}}</th>
+                    <th>{{'common.delete' | translate}}</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -69,8 +75,10 @@ import {SelectItem} from '../common/select/select-item.model';
                     <th>{{employee.firstName}}</th>
                     <td>{{employee.lastName}}</td>
                     <td>{{employee.positionDisplay}}</td>
-                    <td>{{employee.team}}</td>
+                    <td *ngIf="employee.team">{{employee.team}}</td>
+                    <td *ngIf="!employee.team">{{"employee.list.empty-team" | translate}}</td>
                     <td><a routerLink="/employee/{{employee.login}}">{{'employee.list.details' | translate}}</a></td>
+                    <td><a (click)="openDelete(employee)"><i class="fa fa-trash fa-2x btn"></i></a></td>
                 </tr>
                 </tbody>
             </table>
@@ -99,8 +107,10 @@ export class EmployeeListComponent implements OnInit, OnDestroy {
     @ViewChildren(SortableDirective) headers: QueryList<SortableDirective>;
 
     constructor(public employeeService: EmployeeService,
+                private authenticationService: AuthenticationService,
                 private positionService: PositionService,
-                private teamService: TeamService) {
+                private teamService: TeamService,
+                private modalService: NgbModal) {
     }
 
     ngOnInit(): void {
@@ -131,13 +141,13 @@ export class EmployeeListComponent implements OnInit, OnDestroy {
             });
         });
 
-        this.errorSubject.pipe(debounceTime(10000)).subscribe(() => {
+        this.errorSubject.pipe(debounceTime(2000)).subscribe(() => {
             if (this.errorAlert) {
                 this.errorAlert.close();
             }
         });
 
-        this.successSubject.pipe(debounceTime(10000)).subscribe(() => {
+        this.successSubject.pipe(debounceTime(2000)).subscribe(() => {
             if (this.successAlert) {
                 this.successAlert.close();
             }
@@ -182,5 +192,28 @@ export class EmployeeListComponent implements OnInit, OnDestroy {
         this.team = $event;
         this.employeeService.filterEmployeeList(this.position, this.team);
         this.employeeService.search$.next();
+    }
+
+    openDelete(employee: Employee) {
+        const modalRef = this.modalService.open(EmployeeDeleteComponent);
+        modalRef.componentInstance.employee = employee;
+        modalRef.result.then((result) => {
+            this.showInfo(result);
+            if (this.authenticationService.getUserLogin() === employee.login) {
+                this.authenticationService.logout();
+            }
+        }, _ => {
+        });
+    }
+
+    private showInfo(result) {
+        if (result.includes('error')) {
+            this.errorMessage = result;
+            this.errorSubject.next(result);
+        } else {
+            this.successMessage = result;
+            this.successSubject.next(result);
+            setTimeout(window.location.reload.bind(window.location), 2000);
+        }
     }
 }

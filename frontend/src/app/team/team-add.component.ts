@@ -16,8 +16,8 @@ import {NgForm} from '@angular/forms';
         </div>
         <div class="modal-body">
             <form #teamForm="ngForm" (ngSubmit)="onSubmit(teamForm)">
-                <div>
-                    <label for="name">{{'team.add.name' | translate}}</label>
+                <div class="required">
+                    <label for="name" class="control-label">{{'team.add.name' | translate}}</label>
                     <input
                             type="text"
                             id="name"
@@ -62,10 +62,10 @@ export class TeamAddComponent {
         const addObservable = this.service.createTeam(this.team);
         addObservable.subscribe(
             _ => {
-                this.activeModal.close('team.add.added');
+                this.activeModal.close({result: 'team.add.added'});
             },
             error => {
-                this.activeModal.close(error);
+                this.activeModal.close({result: error});
             }
         );
         form.reset();

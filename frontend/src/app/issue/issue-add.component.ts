@@ -21,8 +21,8 @@ import {convertStringToTime} from '../common/date-transformation/convert-time.fu
         </div>
         <div class="modal-body">
             <form #issueForm="ngForm" (ngSubmit)="onSubmit(issueForm)">
-                <div>
-                    <label for="name">{{'issue.add.name' | translate}}</label>
+                <div class="required">
+                    <label for="name" class="control-label">{{'issue.add.name' | translate}}</label>
                     <input
                             type="text"
                             id="name"
@@ -35,7 +35,7 @@ import {convertStringToTime} from '../common/date-transformation/convert-time.fu
                     <app-input-error [control]="name.control"></app-input-error>
                 </div>
                 <div>
-                    <label for="name">{{'issue.add.description' | translate}}</label>
+                    <label for="description">{{'issue.add.description' | translate}}</label>
                     <textarea
                             type="text"
                             id="description"
@@ -43,7 +43,6 @@ import {convertStringToTime} from '../common/date-transformation/convert-time.fu
                             class="form-control"
                             [ngModel]
                             #description="ngModel"
-                            required
                     ></textarea>
                     <app-input-error [control]="description.control"></app-input-error>
                 </div>
@@ -56,7 +55,6 @@ import {convertStringToTime} from '../common/date-transformation/convert-time.fu
                             class="form-control"
                             [ngModel]
                             #estimatedTime="ngModel"
-                            required
                             timeValidator
                     />
                     <app-input-error [control]="estimatedTime.control"></app-input-error>
@@ -70,12 +68,11 @@ import {convertStringToTime} from '../common/date-transformation/convert-time.fu
                             class="form-control"
                             [ngModel]
                             #realTime="ngModel"
-                            required
                             timeValidator
                     />
                     <app-input-error [control]="realTime.control"></app-input-error>
                 </div>
-                <div>
+                <div class="required">
                     <app-select [label]="'issue.list.type' | translate"
                                 [options]="types"
                                 [name]="'type'"
@@ -83,7 +80,7 @@ import {convertStringToTime} from '../common/date-transformation/convert-time.fu
                                 (value)="onIssueTypeChanged($event)">
                     </app-select>
                 </div>
-                <div *ngIf="type === 'epic'">
+                <div *ngIf="type === 'epic'" class="required">
                     <app-select [label]="'issue.add.project' | translate"
                                 [name]="'project'"
                                 [required]="type === 'epic'"
@@ -92,39 +89,38 @@ import {convertStringToTime} from '../common/date-transformation/convert-time.fu
                 </div>
                 <div *ngIf="type === 'epic'">
                     <app-datepicker [label]="'issue.add.realisation-date' | translate"
-                                    [name]="'realizationDate'"
-                                    [required]="type === 'epic'">
+                                    [name]="'realizationDate'">
                     </app-datepicker>
                 </div>
-                <div *ngIf="type === 'story'">
+                <div *ngIf="type === 'story'" class="required">
                     <app-select [label]="'issue.add.epic' | translate"
                                 [options]="epics"
                                 [name]="'epic'"
                                 [required]="type === 'story'">
                     </app-select>
                 </div>
-                <div *ngIf="type === 'story'">
+                <div *ngIf="type === 'story'" class="required">
                     <app-select [label]="'issue.add.team' | translate"
                                 [options]="teams"
                                 [name]="'team'"
                                 [required]="type === 'story'">
                     </app-select>
                 </div>
-                <div *ngIf="type === 'task'">
+                <div *ngIf="type === 'task'" class="required">
                     <app-select [label]="'issue.add.task-type' | translate"
                                 [options]="taskTypes"
                                 [name]="'taskType'"
                                 [required]="type === 'task'">
                     </app-select>
                 </div>
-                <div *ngIf="type === 'task'">
+                <div *ngIf="type === 'task'" class="required">
                     <app-select [label]="'issue.add.story' | translate"
                                 [options]="stories"
                                 [name]="'story'"
                                 [required]="type === 'task'">
                     </app-select>
                 </div>
-                <div *ngIf="type === 'task'">
+                <div *ngIf="type === 'task'" class="required">
                     <app-select [label]="'issue.add.employees' | translate"
                                 [options]="employees"
                                 [name]="'employee'"
@@ -225,7 +221,11 @@ export class IssueAddComponent implements OnInit {
         }
 
         this.issue.name = form.value.name;
-        this.issue.description = form.value.description;
+        if (!!form.value.description) {
+            this.issue.description = form.value.description;
+        } else {
+            this.issue.description = undefined;
+        }
         this.issue.type = this.type;
         this.issue.realTime = convertStringToTime(form.value.realTime);
         this.issue.estimatedTime = convertStringToTime(form.value.estimatedTime);
@@ -233,7 +233,9 @@ export class IssueAddComponent implements OnInit {
             case 'epic':
                 this.issue.projectId = form.value.project.id as number;
                 const realizationDate = form.value.realizationDate;
-                this.issue.realizationDate = new Date(realizationDate.year, realizationDate.month - 1, realizationDate.day, 12, 0, 0, 0).toISOString();
+                if (!!realizationDate) {
+                    this.issue.realizationDate = new Date(realizationDate.year, realizationDate.month - 1, realizationDate.day, 12, 0, 0, 0).toISOString();
+                }
                 break;
             case 'story':
                 this.issue.epicId = form.value.epic.id as number;

@@ -20,7 +20,7 @@ import {ProjectService} from '../project/project.service';
         <div class="modal-body">
             <form #contractForm="ngForm" (ngSubmit)="onSubmit(contractForm)">
                 <div class="required">
-                    <label for="name">{{'contract.add.contract-number' | translate}}</label>
+                    <label for="name" class="control-label">{{'contract.add.contract-number' | translate}}</label>
                     <input
                             type="text"
                             id="name"

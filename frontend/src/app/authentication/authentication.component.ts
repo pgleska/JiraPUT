@@ -61,13 +61,13 @@ export class AuthenticationComponent implements OnInit, OnDestroy {
             this.router.navigateByUrl('/');
         }
 
-        this.errorSubject.pipe(debounceTime(10000)).subscribe(() => {
+        this.errorSubject.pipe(debounceTime(2000)).subscribe(() => {
             if (this.errorAlert) {
                 this.errorAlert.close();
             }
         });
 
-        this.successSubject.pipe(debounceTime(10000)).subscribe(() => {
+        this.successSubject.pipe(debounceTime(2000)).subscribe(() => {
             if (this.successAlert) {
                 this.successAlert.close();
             }

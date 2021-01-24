@@ -21,8 +21,8 @@ import {convertStringToTime, convertTimeToString} from '../common/date-transform
         </div>
         <div class="modal-body">
             <form #issueForm="ngForm" (ngSubmit)="onSubmit(issueForm)">
-                <div>
-                    <label for="name">{{'issue.edit.name' | translate}}</label>
+                <div class="required">
+                    <label for="name" class="control-label">{{'issue.edit.name' | translate}}</label>
                     <input
                             type="text"
                             id="name"
@@ -43,7 +43,6 @@ import {convertStringToTime, convertTimeToString} from '../common/date-transform
                             class="form-control"
                             [ngModel]
                             #description="ngModel"
-                            required
                     ></textarea>
                     <app-input-error [control]="description.control"></app-input-error>
                 </div>
@@ -56,7 +55,6 @@ import {convertStringToTime, convertTimeToString} from '../common/date-transform
                             class="form-control"
                             [ngModel]
                             #estimatedTime="ngModel"
-                            required
                             timeValidator
                     />
                     <app-input-error [control]="estimatedTime.control"></app-input-error>
@@ -70,12 +68,11 @@ import {convertStringToTime, convertTimeToString} from '../common/date-transform
                             class="form-control"
                             [ngModel]
                             #realTime="ngModel"
-                            required
                             timeValidator
                     />
                     <app-input-error [control]="realTime.control"></app-input-error>
                 </div>
-                <div *ngIf="type === 'epic'">
+                <div *ngIf="type === 'epic'" class="required">
                     <app-select [label]="'issue.edit.project' | translate"
                                 [options]="projects"
                                 [required]="type === 'epic'"
@@ -84,40 +81,39 @@ import {convertStringToTime, convertTimeToString} from '../common/date-transform
                 </div>
                 <div *ngIf="type === 'epic'">
                     <app-datepicker [label]="'issue.add.realisation-date' | translate"
-                                    [required]="type === 'epic'"
                                     [name]="'realizationDate'">
                     </app-datepicker>
                 </div>
-                <div *ngIf="type === 'story'">
+                <div *ngIf="type === 'story'" class="required">
                     <app-select [label]="'issue.edit.epic' | translate"
                                 [options]="epics"
                                 [required]="type === 'story'"
                                 [name]="'epic'">
                     </app-select>
                 </div>
-                <div *ngIf="type === 'story'">
+                <div *ngIf="type === 'story'" class="required">
                     <app-select [label]="'issue.edit.team' | translate"
                                 [options]="teams"
                                 [required]="type === 'story'"
                                 [name]="'team'">
                     </app-select>
                 </div>
-                <div *ngIf="type === 'task'">
+                <div *ngIf="type === 'task'" class="required">
                     <app-select [label]="'issue.edit.task-type' | translate"
                                 [options]="taskTypes"
                                 [required]="type === 'task'"
                                 [name]="'taskType'">
                     </app-select>
                 </div>
-                <div *ngIf="type === 'task'">
+                <div *ngIf="type === 'task'" class="required">
                     <app-select [label]="'issue.edit.story' | translate"
                                 [options]="stories"
                                 [required]="type === 'task'"
                                 [name]="'story'">
                     </app-select>
                 </div>
-                <div *ngIf="type === 'task'">
-                    <app-select [label]="'issue.edit.login' | translate"
+                <div *ngIf="type === 'task'" class="required">
+                    <app-select [label]="'issue.edit.employee' | translate"
                                 [options]="employees"
                                 [required]="type === 'task'"
                                 [name]="'employee'">

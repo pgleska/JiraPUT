@@ -18,13 +18,15 @@ export class SalaryRangeValidatorDirective implements Validator {
 
     validate(formControl: FormControl): { [key: string]: any } {
         const value = formControl.value;
-        if (value && !!this.position && value > this.position.maximumSalary) {
+
+        if (value !== undefined && !!this.position && value > this.position.maximumSalary) {
+            console.log(this.position.maximumSalary);
             return {
                 maximumSalary: this.position.maximumSalary
             };
         }
 
-        if (value && !!this.position && value < this.position.minimumSalary) {
+        if (value !== undefined && !!this.position && value < this.position.minimumSalary) {
             return {
                 minimumSalary: this.position.minimumSalary
             };

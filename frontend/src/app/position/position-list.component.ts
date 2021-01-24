@@ -71,7 +71,11 @@ import {debounceTime} from 'rxjs/operators';
                     <td>{{position.minimumSalary}}</td>
                     <td>{{position.maximumSalary}}</td>
                     <td><a (click)="openEdit(position)"><i class="fa fa-edit fa-2x btn"></i></a></td>
-                    <td><a (click)="openDelete(position)"><i class="fa fa-trash fa-2x btn"></i></a></td>
+                    <td>
+                        <a *ngIf="position.nameDisplay !== 'None'" (click)="openDelete(position)">
+                            <i *ngIf="position.nameDisplay !== 'None'" class="fa fa-trash fa-2x btn"></i>
+                        </a>
+                    </td>
                 </tr>
                 </tbody>
             </table>
@@ -111,13 +115,13 @@ export class PositionListComponent implements OnInit, OnDestroy {
             }
         );
 
-        this.errorSubject.pipe(debounceTime(10000)).subscribe(() => {
+        this.errorSubject.pipe(debounceTime(2000)).subscribe(() => {
             if (this.errorAlert) {
                 this.errorAlert.close();
             }
         });
 
-        this.successSubject.pipe(debounceTime(10000)).subscribe(() => {
+        this.successSubject.pipe(debounceTime(2000)).subscribe(() => {
             if (this.successAlert) {
                 this.successAlert.close();
             }

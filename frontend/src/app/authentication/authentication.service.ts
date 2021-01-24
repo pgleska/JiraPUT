@@ -11,9 +11,11 @@ import {LoginResponseData, SignUpResponseData} from './authentication.model';
 export class AuthenticationService {
     user = new BehaviorSubject<boolean>(false);
     private token: string = undefined;
+    private userLogin: string = undefined;
 
     constructor(private http: HttpClient) {
         this.token = JSON.parse(localStorage.getItem('token'));
+        this.userLogin = JSON.parse(localStorage.getItem('login'));
         if (!!this.token) {
             this.user.next(true);
         }
@@ -43,23 +45,31 @@ export class AuthenticationService {
             },
         ).pipe(
             catchError(AuthenticationService.handleAuthenticationError),
-            tap(responseData => this.saveToken(responseData))
+            tap(responseData => this.saveToken(responseData, login))
         );
     }
 
     logout(): void {
         this.user.next(false);
         localStorage.removeItem('token');
+        localStorage.removeItem('login');
+        window.location.reload();
     }
 
     getToken(): string {
         return this.token;
     }
 
-    private saveToken(responseData: LoginResponseData): void {
+    getUserLogin(): string {
+        return this.userLogin;
+    }
+
+    private saveToken(responseData: LoginResponseData, login: string ): void {
         this.user.next(true);
         localStorage.setItem('token', JSON.stringify(responseData.JWT));
+        localStorage.setItem('login', JSON.stringify(login));
         this.token = responseData.JWT;
+        this.userLogin = login;
     }
 
     private static handleAuthenticationError(errorResponse: HttpErrorResponse): Observable<never> {

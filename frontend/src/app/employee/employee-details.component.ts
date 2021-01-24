@@ -17,20 +17,20 @@ import {SortEvent} from '../common/list-components/sort/sort.model';
         <div>
             <div class="my-2">
                 <ngb-alert #errorAlert
-                           *ngIf="error_message"
+                           *ngIf="errorMessage"
                            [type]="'danger'"
                            [dismissible]="false"
-                           (closed)=" error_message = ''"
+                           (closed)=" errorMessage = ''"
                            class="text-center">
-                    {{error_message | translate}}
+                    {{errorMessage | translate}}
                 </ngb-alert>
                 <ngb-alert #successAlert
-                           *ngIf="success_message"
+                           *ngIf="successMessage"
                            [type]="'success'"
                            [dismissible]="false"
-                           (closed)=" success_message = ''"
+                           (closed)=" successMessage = ''"
                            class="text-center">
-                    {{success_message | translate}}
+                    {{successMessage | translate}}
                 </ngb-alert>
             </div>
             <div class="d-flex flex-column border rounded p-2 mt-3 mx-auto">
@@ -106,8 +106,8 @@ import {SortEvent} from '../common/list-components/sort/sort.model';
 export class EmployeeDetailsComponent implements OnInit {
 
     pageSize = PAGE_SIZE;
-    error_message: string;
-    success_message: string;
+    errorMessage: string;
+    successMessage: string;
     employee: Employee = {
         firstName: '',
         lastName: '',
@@ -138,6 +138,9 @@ export class EmployeeDetailsComponent implements OnInit {
         this.employeeService.getEmployee(login).subscribe(
             (employee) => {
                 this.employee = employee;
+                if (this.employee.team === '') {
+                    this.employee.team = 'Brak zespołu';
+                }
             }
         );
 
@@ -180,11 +183,12 @@ export class EmployeeDetailsComponent implements OnInit {
 
     private showInfo(result) {
         if (result.includes('error')) {
-            this.error_message = result;
+            this.errorMessage = result;
             this.errorSubject.next(result);
         } else {
-            this.success_message = result;
+            this.successMessage = result;
             this.successSubject.next(result);
+            setTimeout(window.location.reload.bind(window.location), 2000);
         }
     }
 

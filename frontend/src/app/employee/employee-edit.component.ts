@@ -22,8 +22,8 @@ import {Technology} from '../technology/technology.model';
         </div>
         <div class="modal-body">
             <form #employeeForm="ngForm" (ngSubmit)="onSubmit(employeeForm)">
-                <div>
-                    <label for="login">{{'employee.edit.login' | translate}}</label>
+                <div class="required">
+                    <label for="login" class="control-label">{{'employee.edit.login' | translate}}</label>
                     <input type="text"
                            id="login"
                            name="login"
@@ -31,11 +31,12 @@ import {Technology} from '../technology/technology.model';
                            [ngModel]
                            #login="ngModel"
                            required
+                           disabled
                     />
                     <app-input-error [control]="login.control"></app-input-error>
                 </div>
-                <div>
-                    <label for="firstName">{{'employee.details.first-name' | translate}} </label>
+                <div class="required">
+                    <label for="firstName" class="control-label">{{'employee.details.first-name' | translate}} </label>
                     <input type="text"
                            id="firstName"
                            name="firstName"
@@ -46,8 +47,8 @@ import {Technology} from '../technology/technology.model';
                     />
                     <app-input-error [control]="firstName.control"></app-input-error>
                 </div>
-                <div>
-                    <label for="lastName">{{'employee.details.last-name' | translate}} </label>
+                <div class="required">
+                    <label for="lastName" class="control-label">{{'employee.details.last-name' | translate}} </label>
                     <input type="text"
                            id="lastName"
                            name="lastName"
@@ -57,14 +58,14 @@ import {Technology} from '../technology/technology.model';
                            required>
                     <app-input-error [control]="lastName.control"></app-input-error>
                 </div>
-                <div>
+                <div class="required">
                     <app-select [label]="'employee.list.team' | translate"
                                 [name]="'team'"
                                 [options]="teamList"
                                 [required]="true">
                     </app-select>
                 </div>
-                <div>
+                <div class="required">
                     <app-select [label]="'employee.list.position' | translate"
                                 [options]="positionListDropdown"
                                 [name]="'position'"
@@ -72,8 +73,8 @@ import {Technology} from '../technology/technology.model';
                                 (value)="onPositionChanged($event)">
                     </app-select>
                 </div>
-                <div>
-                    <label for="salary">{{'employee.details.salary' | translate}} </label>
+                <div class="required">
+                    <label for="salary" class="control-label">{{'employee.details.salary' | translate}} </label>
                     <input
                             type="number"
                             id="salary"
@@ -153,6 +154,7 @@ export class EmployeeEditComponent implements OnInit {
         });
 
         this.teamService.getTeamList().subscribe(result => {
+            let emptyTeam = true;
             result.forEach(team => {
                 const item = {
                     id: team.name,
@@ -161,8 +163,17 @@ export class EmployeeEditComponent implements OnInit {
                 this.teamList.push(item);
                 if (item.name == this.employeeCopy.team) {
                     this.form.controls['team'].setValue(item);
+                    emptyTeam = false;
                 }
             });
+            if (emptyTeam) {
+                const item = {
+                    id: "",
+                    name: "Brak zespołu"
+                };
+                this.teamList.push(item);
+                this.form.controls['team'].setValue(item);
+            }
         });
 
         this.technologyService.getTechnologyList().subscribe(result => {
@@ -180,8 +191,12 @@ export class EmployeeEditComponent implements OnInit {
     }
 
     onPositionChanged($event: SelectItem) {
-        if ($event !== null) {
+        if (!!$event) {
             this.positionDetails = this.positionList.filter(position => position.name === $event.id)[0];
+            setTimeout(() => {
+                this.form.controls['salary'].markAllAsTouched();
+                this.form.controls['salary'].updateValueAndValidity();
+            })
         }
     }
 
@@ -195,6 +210,7 @@ export class EmployeeEditComponent implements OnInit {
         this.employeeCopy.salary = form.value.salary;
         this.employeeCopy.position = form.value.position.id as string;
         this.employeeCopy.team = form.value.team.id as string;
+
         this.employeeCopy.technologies = this.selectedItems;
 
         const editObservable = this.employeeService.modifyEmployee(this.employeeCopy);
