@@ -23,8 +23,8 @@ public class Contract {
 	@Column(name = "numer_umowy", unique = true, nullable = false)
 	private String contractNumber;
 	
-	@Column(name = "kwota", nullable = false)
-	private Float amount;
+	@Column(name = "kwota", nullable = false, scale = 2)
+	private double amount;
 	
 	@Column(name = "opis_warunkow")
 	private String conditions;
@@ -41,14 +41,14 @@ public class Contract {
 
 	public Contract() {}
 	
-	public Contract(String contractNumber, Float amount, Company company, Project project) {
+	public Contract(String contractNumber, double amount, Company company, Project project) {
 		this.contractNumber = contractNumber;
 		this.amount = amount;
 		this.company = company;
 		this.project = project;
 	}
 	
-	public Contract(String contractNumber, Float amount, String conditions, Company company, Project project) {
+	public Contract(String contractNumber, double amount, String conditions, Company company, Project project) {
 		this(contractNumber, amount, company, project);
 		this.conditions = conditions;
 	}
@@ -65,11 +65,11 @@ public class Contract {
 		this.contractNumber = contractNumber;
 	}
 
-	public Float getAmount() {
+	public double getAmount() {
 		return amount;
 	}
 
-	public void setAmount(Float amount) {
+	public void setAmount(double amount) {
 		this.amount = amount;
 	}
 

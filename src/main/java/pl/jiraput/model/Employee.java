@@ -34,7 +34,7 @@ public class Employee {
 	@Column(name = "haslo", nullable = false)
 	private String password;
 	
-	@Column(name = "pensja", nullable = false)
+	@Column(name = "pensja", nullable = false, scale = 2)
 	private float salary;
 	
 	@ManyToOne(fetch = FetchType.EAGER)

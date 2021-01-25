@@ -55,12 +55,16 @@ public class ContractController {
 			return new ResponseEntity<>(body, HttpStatus.CONFLICT);
 		}
 		
-		float amount = 0.0f;
+		double amount = 0.0;
 		Object tmp = data.get("amount");
 		if(tmp instanceof Integer) {
-			amount = ((Integer) tmp).floatValue();
+			amount = ((Integer) tmp).doubleValue();
+		} else if(tmp instanceof Long) {
+			amount = ((Long) tmp).doubleValue();
+		} else if(tmp instanceof Float) {
+			amount = ((Float) tmp).doubleValue();
 		} else {
-			amount = ((Double) tmp).floatValue();
+			amount = ((Double) tmp).doubleValue();
 		}
 		
 		if(data.containsKey("conditions")) {

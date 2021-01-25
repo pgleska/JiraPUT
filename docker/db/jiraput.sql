@@ -93,7 +93,7 @@ CREATE TABLE `issue` (
 CREATE TABLE `kontrakt` (
   `identyfikator` int(11) NOT NULL UNIQUE,
   `numer_umowy` varchar(31) NOT NULL UNIQUE,
-  `kwota` float NOT NULL,
+  `kwota` double(15, 2) NOT NULL,
   `opis_warunkow` text,
   `firma_zew` bigint(11) NOT NULL,
   `projekt` int NOT NULL
@@ -111,7 +111,7 @@ CREATE TABLE `pracownik` (
   `token` varchar(255) DEFAULT NULL,
   `imie` varchar(31) NOT NULL,
   `nazwisko` varchar(31) NOT NULL,
-  `pensja` float NOT NULL,
+  `pensja` float(8, 2) NOT NULL,
   `stanowisko` varchar(31) NOT NULL,
   `zespol` varchar(63)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
