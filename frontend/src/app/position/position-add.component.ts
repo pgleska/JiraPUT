@@ -26,8 +26,9 @@ import {Position} from './position.model';
                             [ngModel]
                             #name="ngModel"
                             required
+                            [maxlength]="31"
                     />
-                    <app-input-error [control]="name.control"></app-input-error>
+                    <app-input-error [control]="name.control" [maxLength]="31"></app-input-error>
                 </div>
                 <div class="required">
                     <label for="minimumSalary" class="control-label">{{'position.list.minimum-salary' | translate}}</label>
@@ -41,8 +42,10 @@ import {Position} from './position.model';
                             required
                             greaterThanValidator
                             negativeValueValidator
+                            integerValidator
                             [greaterThan]="'maximumSalary'"
                             min="0"
+                            max="2147483647"
                     />
                     <app-input-error [control]="minimumSalary.control"></app-input-error>
                 </div>
@@ -56,11 +59,13 @@ import {Position} from './position.model';
                             [ngModel]
                             #maximumSalary="ngModel"
                             required
+                            integerValidator
                             greaterThanValidator
                             negativeValueValidator
                             [greaterThan]="'minimumSalary'"
                             [showErrorMessage]="true"
                             min="0"
+                            max="2147483647"
                     />
                     <app-input-error [control]="maximumSalary.control"></app-input-error>
                 </div>

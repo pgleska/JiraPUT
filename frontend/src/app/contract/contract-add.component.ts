@@ -29,8 +29,9 @@ import {ProjectService} from '../project/project.service';
                             [ngModel]
                             #name="ngModel"
                             required
+                            [maxlength]="31"
                     />
-                    <app-input-error [control]="name.control"></app-input-error>
+                    <app-input-error [control]="name.control" [maxLength]="31"></app-input-error>
                 </div>
                 <div class="required">
                     <app-select [label]="'contract.list.company-name' | translate"
@@ -70,8 +71,9 @@ import {ProjectService} from '../project/project.service';
                             class="form-control"
                             [ngModel]
                             #condition="ngModel"
+                            [maxlength]="65535"
                     ></textarea>
-                    <app-input-error [control]="condition.control"></app-input-error>
+                    <app-input-error [control]="condition.control" [maxLength]="65535"></app-input-error>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-dark"

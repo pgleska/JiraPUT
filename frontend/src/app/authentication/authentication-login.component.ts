@@ -18,8 +18,9 @@ import {Router} from '@angular/router';
                         #login="ngModel"
                         urlValidator
                         required
+                        [maxlength]="31"
                 />
-                <app-input-error [control]="login.control"></app-input-error>
+                <app-input-error [control]="login.control" [maxLength]="31"></app-input-error>
             </div>
             <div>
                 <label for="password">{{'authentication.password' | translate}}</label>
@@ -32,8 +33,9 @@ import {Router} from '@angular/router';
                         #password="ngModel"
                         required
                         [minlength]="6"
+                        [maxlength]="255"
                 />
-                <app-input-error [control]="password.control"></app-input-error>
+                <app-input-error [control]="password.control" [maxLength]="255"></app-input-error>
             </div>
             <div>
                 <button

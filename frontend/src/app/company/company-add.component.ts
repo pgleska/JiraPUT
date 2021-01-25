@@ -26,8 +26,9 @@ import {CompanyService} from './company.service';
                             [ngModel]
                             #name="ngModel"
                             required
+                            [maxlength]="255"
                     />
-                    <app-input-error [control]="name.control"></app-input-error>
+                    <app-input-error [control]="name.control" [maxLength]="255"></app-input-error>
                 </div>
                 <div class="required">
                     <label for="taxNumber" class="control-label">{{'company.list.tax-number' | translate}}</label>
@@ -54,8 +55,9 @@ import {CompanyService} from './company.service';
                             [ngModel]
                             #address="ngModel"
                             required
+                            [maxlength]="255"
                     />
-                    <app-input-error [control]="address.control"></app-input-error>
+                    <app-input-error [control]="address.control" [maxLength]="255"></app-input-error>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-dark"

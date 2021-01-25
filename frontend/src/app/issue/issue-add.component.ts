@@ -31,8 +31,9 @@ import {convertStringToTime} from '../common/date-transformation/convert-time.fu
                             [ngModel]
                             #name="ngModel"
                             required
+                            [maxlength]="63"
                     />
-                    <app-input-error [control]="name.control"></app-input-error>
+                    <app-input-error [control]="name.control" [maxLength]="63"></app-input-error>
                 </div>
                 <div>
                     <label for="description">{{'issue.add.description' | translate}}</label>
@@ -43,8 +44,9 @@ import {convertStringToTime} from '../common/date-transformation/convert-time.fu
                             class="form-control"
                             [ngModel]
                             #description="ngModel"
+                            [maxlength]="65535"
                     ></textarea>
-                    <app-input-error [control]="description.control"></app-input-error>
+                    <app-input-error [control]="description.control" [maxLength]="65535"></app-input-error>
                 </div>
                 <div>
                     <label for="estimatedTime">{{'issue.add.estimated-time' | translate}}</label>

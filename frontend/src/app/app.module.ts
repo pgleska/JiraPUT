@@ -71,6 +71,7 @@ import {TechnologyDetailsComponent} from './technology/technology-details.compon
 import {TechnologyTagComponent} from './technology/technology-tag/technology-tag.component';
 import {MainPageComponent} from './main-page/main-page.component';
 import {TimeValidatorDirective} from './common/validators/time-validator.directive';
+import {IntegerValidatorDirective} from './common/validators/integer-validator.directive';
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
     return new TranslateHttpLoader(httpClient);
@@ -138,7 +139,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
         ListFilterPipe,
         MultiSelectComponent,
         MainPageComponent,
-        TimeValidatorDirective
+        TimeValidatorDirective,
+        IntegerValidatorDirective
     ],
     imports: [
         BrowserModule,

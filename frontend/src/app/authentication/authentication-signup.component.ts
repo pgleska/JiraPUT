@@ -18,8 +18,9 @@ import {Router} from '@angular/router';
                         #login="ngModel"
                         urlValidator
                         required
+                        [maxlength]="31"
                 />
-                <app-input-error [control]="login.control"></app-input-error>
+                <app-input-error [control]="login.control" [maxLength]="31"></app-input-error>
             </div>
             <div class="required">
                 <label for="first_name" class="control-label">{{'authentication.first-name' | translate}}</label>
@@ -32,8 +33,9 @@ import {Router} from '@angular/router';
                         #first_name="ngModel"
                         onlyLettersValidator
                         required
+                        [maxlength]="31"
                 />
-                <app-input-error [control]="first_name.control"></app-input-error>
+                <app-input-error [control]="first_name.control" [maxLength]="31"></app-input-error>
             </div>
             <div class="required">
                 <label for="last_name" class="control-label">{{'authentication.last-name' | translate}}</label>
@@ -46,8 +48,9 @@ import {Router} from '@angular/router';
                         #last_name="ngModel"
                         onlyLettersValidator
                         required
+                        [maxlength]="31"
                 />
-                <app-input-error [control]="last_name.control"></app-input-error>
+                <app-input-error [control]="last_name.control" [maxLength]="31"></app-input-error>
             </div>
             <div class="required">
                 <label for="password" class="control-label">{{'authentication.password' | translate}}</label>
@@ -62,8 +65,9 @@ import {Router} from '@angular/router';
                         equalsValidator
                         [validateEqualsTo]="'repeat_password'"
                         [minlength]="6"
+                        [maxlength]="255"
                 />
-                <app-input-error [control]="password.control"></app-input-error>
+                <app-input-error [control]="password.control" [maxLength]="255"></app-input-error>
             </div>
             <div class="required">
                 <label for="repeat_password" class="control-label">{{'authentication.repeat-password' | translate}}</label>
@@ -79,8 +83,9 @@ import {Router} from '@angular/router';
                         [validateEqualsTo]="'password'"
                         [showErrorMessage]="true"
                         [minlength]="6"
+                        [maxlength]="255"
                 />
-                <app-input-error [control]="repeat_password.control"></app-input-error>
+                <app-input-error [control]="repeat_password.control" [maxLength]="255"></app-input-error>
             </div>
             <div>
                 <button

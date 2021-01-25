@@ -27,8 +27,9 @@ import {NgForm} from '@angular/forms';
                             #name="ngModel"
                             required
                             disabled
+                            [maxlength]="31"
                     />
-                    <app-input-error [control]="name.control"></app-input-error>
+                    <app-input-error [control]="name.control" [maxLength]="31"></app-input-error>
                 </div>
                 <div class="required">
                     <label for="minimumSalary" class="control-label">{{'position.list.minimum-salary' | translate}}</label>
@@ -41,10 +42,12 @@ import {NgForm} from '@angular/forms';
                             [ngModel]
                             #minimumSalary="ngModel"
                             required
+                            integerValidator
                             greaterThanValidator
                             negativeValueValidator
                             [greaterThan]="'maximumSalary'"
                             min="0"
+                            max="2147483647"
                     />
                     <app-input-error [control]="minimumSalary.control"></app-input-error>
                 </div>
@@ -59,11 +62,13 @@ import {NgForm} from '@angular/forms';
                             [ngModel]
                             #maximumSalary="ngModel"
                             required
+                            integerValidator
                             greaterThanValidator
                             negativeValueValidator
                             [greaterThan]="'minimumSalary'"
                             [showErrorMessage]="true"
                             min="0"
+                            max="2147483647"
                     />
                     <app-input-error [control]="maximumSalary.control"></app-input-error>
                 </div>

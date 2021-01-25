@@ -44,8 +44,9 @@ import {Technology} from '../technology/technology.model';
                            [ngModel]
                            #firstName="ngModel"
                            required
+                           [maxlength]="31"
                     />
-                    <app-input-error [control]="firstName.control"></app-input-error>
+                    <app-input-error [control]="firstName.control" [maxLength]="31"></app-input-error>
                 </div>
                 <div class="required">
                     <label for="lastName" class="control-label">{{'employee.details.last-name' | translate}} </label>
@@ -55,8 +56,10 @@ import {Technology} from '../technology/technology.model';
                            class="form-control"
                            [ngModel]
                            #lastName="ngModel"
-                           required>
-                    <app-input-error [control]="lastName.control"></app-input-error>
+                           required
+                           [maxlength]="31"
+                    />
+                    <app-input-error [control]="lastName.control" [maxLength]="31"></app-input-error>
                 </div>
                 <div class="required">
                     <app-select [label]="'employee.list.team' | translate"

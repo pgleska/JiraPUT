@@ -146,6 +146,8 @@
     "minimum-salary": "Pensja mniejsza niż minimalna na obecnym stanowisku",
     "negative": "Pole nie może zawierać liczby mniejszej niż 0",
     "only-letters": "Dozwolone znaki to litery",
+    "not-integer": "Wartość w polu musi być liczbą całkowitą",
+    "maximum-length": "Osiągnięto maksymalną ilość znaków w polu",
     "password": "Hasła nie są identyczne",
     "position-duplicated": "Pozycja o takiej nazwie już istnieje",
     "position-not-empty": "Nie można usunąć pozycji, gdyż są pracownicy na tej pozycji",

@@ -26,8 +26,9 @@ import {TechnologyService} from './technology.service';
                             [ngModel]
                             #name="ngModel"
                             required
+                            [maxlength]="63"
                     />
-                    <app-input-error [control]="name.control"></app-input-error>
+                    <app-input-error [control]="name.control" [maxLength]="63"></app-input-error>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-dark"
