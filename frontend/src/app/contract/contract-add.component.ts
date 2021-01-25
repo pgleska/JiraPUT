@@ -58,7 +58,10 @@ import {ProjectService} from '../project/project.service';
                             #amount="ngModel"
                             required
                             negativeValueValidator
+                            maxValueValidator
+                            maxValue="999999999999.99"
                             min="0"
+                            max="999999999999.99"
                     />
                     <app-input-error [control]="amount.control"></app-input-error>
                 </div>

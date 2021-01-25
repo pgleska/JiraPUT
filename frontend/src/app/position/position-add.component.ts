@@ -43,9 +43,11 @@ import {Position} from './position.model';
                             greaterThanValidator
                             negativeValueValidator
                             integerValidator
+                            maxValueValidator
                             [greaterThan]="'maximumSalary'"
                             min="0"
                             max="2147483647"
+                            [maxValue]="2147483647"
                     />
                     <app-input-error [control]="minimumSalary.control"></app-input-error>
                 </div>
@@ -62,8 +64,10 @@ import {Position} from './position.model';
                             integerValidator
                             greaterThanValidator
                             negativeValueValidator
+                            maxValueValidator
                             [greaterThan]="'minimumSalary'"
                             [showErrorMessage]="true"
+                            [maxValue]="2147483647"
                             min="0"
                             max="2147483647"
                     />

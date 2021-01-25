@@ -88,8 +88,11 @@ import {Technology} from '../technology/technology.model';
                             required
                             negativeValueValidator
                             salaryValidator
+                            maxValueValidator
                             [position]="positionDetails"
-                            min="0"/>
+                            [maxValue]="999999.99"
+                            min="0"
+                            max="999999.99"/>
                     <app-input-error [control]="salary.control"></app-input-error>
                 </div>
                 <div>

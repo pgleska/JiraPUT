@@ -45,7 +45,9 @@ import {NgForm} from '@angular/forms';
                             integerValidator
                             greaterThanValidator
                             negativeValueValidator
+                            maxValueValidator
                             [greaterThan]="'maximumSalary'"
+                            [maxValue]="2147483647"
                             min="0"
                             max="2147483647"
                     />
@@ -65,8 +67,10 @@ import {NgForm} from '@angular/forms';
                             integerValidator
                             greaterThanValidator
                             negativeValueValidator
+                            maxValueValidator
                             [greaterThan]="'minimumSalary'"
                             [showErrorMessage]="true"
+                            [maxValue]="2147483647"
                             min="0"
                             max="2147483647"
                     />
