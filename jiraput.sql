@@ -25,16 +25,17 @@ DELIMITER $$
 --
 -- Procedures
 --
-CREATE DEFINER=`dba`@`localhost` PROCEDURE `zmien_nazwe_zespolu` (IN `stary` VARCHAR(63), IN `nowy` VARCHAR(63))  BEGIN
+CREATE DEFINER=`admin`@`%` PROCEDURE `zmien_nazwe_zespolu` (IN `stary` VARCHAR(63), IN `nowy` VARCHAR(63))  BEGIN
 	INSERT INTO `zespol`(`zespol`.`nazwa`, `zespol`.`liczba_czlonkow`) VALUES (nowy, 0);
-    UPDATE `pracownik`SET `pracownik`.`zespol`=nowy WHERE `pracownik`.`zespol`=stary;
+    UPDATE `pracownik` SET `pracownik`.`zespol`=nowy WHERE `pracownik`.`zespol`=stary;
+    UPDATE `story` SET `story`.`zespol`=nowy WHERE `story`.`zespol`=stary;
     DELETE FROM `zespol` WHERE `zespol`.`nazwa`=stary;
 END$$
 
 --
 -- Functions
 --
-CREATE DEFINER=`dba`@`localhost` FUNCTION `roznica_czasow` (`id` INT) RETURNS INT(11) BEGIN
+CREATE DEFINER=`admin`@`%` FUNCTION `roznica_czasow` (`id` INT) RETURNS INT(11) BEGIN
 	DECLARE szacunkowy timestamp;
     DECLARE rzeczywisty timestamp;
 	SELECT issue.szacunkowy_czas_trwania, issue.rzeczywisty_czas_trwania INTO szacunkowy, rzeczywisty FROM issue WHERE issue.identyfikator = id;
@@ -51,7 +52,7 @@ DELIMITER ;
 
 CREATE TABLE `epic` (
   `termin_realizacji` datetime DEFAULT NULL,
-  `projekt` varchar(63) NOT NULL,
+  `projekt_id` int(11) NOT NULL,
   `issue_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
@@ -92,7 +93,7 @@ CREATE TABLE `issue` (
 CREATE TABLE `kontrakt` (
   `identyfikator` int(11) NOT NULL UNIQUE,
   `numer_umowy` varchar(31) NOT NULL UNIQUE,
-  `kwota` float NOT NULL,
+  `kwota` double(15, 2) NOT NULL,
   `opis_warunkow` text,
   `firma_zew` bigint(11) NOT NULL,
   `projekt` int NOT NULL
@@ -110,7 +111,7 @@ CREATE TABLE `pracownik` (
   `token` varchar(255) DEFAULT NULL,
   `imie` varchar(31) NOT NULL,
   `nazwisko` varchar(31) NOT NULL,
-  `pensja` float NOT NULL,
+  `pensja` float(8, 2) NOT NULL,
   `stanowisko` varchar(31) NOT NULL,
   `zespol` varchar(63)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
@@ -141,7 +142,7 @@ DELIMITER ;
 --
 
 CREATE TABLE `projekt` (
-  `identyfikator` int NOT NULL,
+  `identyfikator` int(11) NOT NULL,
   `nazwa` varchar(63) NOT NULL,
   `wersja` varchar(7) NOT NULL,
   `opis` text
@@ -191,6 +192,7 @@ CREATE TABLE `task` (
 --
 
 CREATE TABLE `technologia` (
+  `identyfikator` int(11) NOT NULL UNIQUE,
   `nazwa` varchar(63) NOT NULL UNIQUE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
@@ -201,7 +203,7 @@ CREATE TABLE `technologia` (
 --
 
 CREATE TABLE `tech_prac` (
-  `tech_nazwa` varchar(63) NOT NULL,
+  `tech_id` int(11) NOT NULL,
   `prac_login` varchar(31) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
@@ -212,8 +214,8 @@ CREATE TABLE `tech_prac` (
 --
 
 CREATE TABLE `tech_proj` (
-  `tech_nazwa` varchar(63) NOT NULL,
-  `proj_nazwa` varchar(63) NOT NULL
+  `tech_id` int(11) NOT NULL,
+  `proj_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- --------------------------------------------------------
@@ -235,7 +237,7 @@ CREATE TABLE `zespol` (
 -- Indexes for table `epic`
 --
 ALTER TABLE `epic`
-  ADD KEY `epic_proj_fkey` (`projekt`),
+  ADD KEY `epic_proj_fkey` (`projekt_id`),
   ADD KEY `epic_issue_fkey` (`issue_id`);
 
 --
@@ -275,7 +277,7 @@ ALTER TABLE `pracownik`
 --
 ALTER TABLE `projekt`
   ADD PRIMARY KEY (`identyfikator`),
-  ADD KEY `nazwa` (`nazwa`);
+  ADD UNIQUE KEY `nazwa` (`nazwa`);
 
 --
 -- Indexes for table `stanowisko`
@@ -303,19 +305,20 @@ ALTER TABLE `task`
 -- Indexes for table `technologia`
 --
 ALTER TABLE `technologia`
-  ADD PRIMARY KEY (`nazwa`);
+  ADD PRIMARY KEY (`identyfikator`),
+  ADD KEY (`nazwa`);
 
 --
 -- Indexes for table `tech_prac`
 --
 ALTER TABLE `tech_prac`
-  ADD PRIMARY KEY (`tech_nazwa`,`prac_login`);
+  ADD PRIMARY KEY (`tech_id`,`prac_login`);
 
 --
 -- Indexes for table `tech_proj`
 --
 ALTER TABLE `tech_proj`
-  ADD PRIMARY KEY (`tech_nazwa`,`proj_nazwa`);
+  ADD PRIMARY KEY (`tech_id`,`proj_id`);
 
 --
 -- Indexes for table `zespol`
@@ -340,10 +343,16 @@ ALTER TABLE `issue`
   MODIFY `identyfikator` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
--- AUTO_INCREMENT for table `issue`
+-- AUTO_INCREMENT for table `projekt`
 --
 ALTER TABLE `projekt`
-  MODIFY `identyfikator` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `identyfikator` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  
+--
+-- AUTO_INCREMENT for table `technologia`
+--
+ALTER TABLE `technologia`
+  MODIFY `identyfikator` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 --
 -- Constraints for dumped tables
 --
@@ -353,7 +362,7 @@ ALTER TABLE `projekt`
 --
 ALTER TABLE `epic`
   ADD CONSTRAINT `epic_issue_fkey` FOREIGN KEY (`issue_id`) REFERENCES `issue` (`identyfikator`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `epic_proj_fkey` FOREIGN KEY (`projekt`) REFERENCES `projekt` (`nazwa`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `epic_proj_fkey` FOREIGN KEY (`projekt_id`) REFERENCES `projekt` (`identyfikator`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `kontrakt`
@@ -390,14 +399,14 @@ ALTER TABLE `task`
 --
 ALTER TABLE `tech_prac`
   ADD CONSTRAINT `tech_prac_pracownik_fkey` FOREIGN KEY (`prac_login`) REFERENCES `pracownik` (`login`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `tech_prac_technologia_fkey` FOREIGN KEY (`tech_nazwa`) REFERENCES `technologia` (`nazwa`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `tech_prac_technologia_fkey` FOREIGN KEY (`tech_id`) REFERENCES `technologia` (`identyfikator`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Constraints for table `tech_proj`
 --
 ALTER TABLE `tech_proj`
-  ADD CONSTRAINT `tech_proj_projekt_fkey` FOREIGN KEY (`proj_nazwa`) REFERENCES `projekt` (`nazwa`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `tech_proj_technologia_fkey` FOREIGN KEY (`tech_nazwa`) REFERENCES `technologia` (`nazwa`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `tech_proj_projekt_fkey` FOREIGN KEY (`proj_id`) REFERENCES `projekt` (`identyfikator`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `tech_proj_technologia_fkey` FOREIGN KEY (`tech_id`) REFERENCES `technologia` (`identyfikator`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 
 
@@ -434,6 +443,22 @@ INSERT INTO `stanowisko` (`nazwa`, `pensja_minimalna`, `pensja_maksymalna`) VALU
 ('Intern', 3000, 3500),
 ('None', 0, 0);
 
+--
+-- Inserts for table `technologia`
+--
+INSERT INTO `technologia`(`identyfikator`, `nazwa`) VALUES
+(1, 'Java'),
+(2, 'Python'),
+(3, 'Docker'),
+(4, 'C++'),
+(5, 'C'),
+(6, 'C#'),
+(7, 'Gradle'),
+(8, 'Maven'),
+(9, 'Java Script'),
+(10, 'Kubernetes'),
+(11, 'Spring'),
+(12, 'Django');
 
 CREATE USER 'admin'@'%' IDENTIFIED BY 'mysecretpassword';
 GRANT ALL PRIVILEGES ON *.* TO 'admin'@'%' WITH GRANT OPTION;

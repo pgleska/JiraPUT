@@ -22,6 +22,9 @@ export function convertTimeToString(time: number) {
 }
 
 export function convertTimeDifferenceToString(time: number) {
+    if (time === 0) {
+        return 'Przekroczono o: 0m'
+    }
     if (!time) {
         return '';
     }

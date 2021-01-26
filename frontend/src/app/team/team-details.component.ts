@@ -155,7 +155,7 @@ export class TeamDetailsComponent implements OnInit, OnDestroy {
                     (result) => {
                         this.issueService.allIssueList = result;
                         this.issueService.filterIssueList();
-                        this.employeeService.search$.next();
+                        this.issueService.search$.next();
                     }
                 );
             }

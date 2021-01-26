@@ -66,17 +66,17 @@ import {ProjectService} from '../project/project.service';
                     <app-input-error [control]="amount.control"></app-input-error>
                 </div>
                 <div>
-                    <label for="condition">{{'contract.add.conditions' | translate}}</label>
+                    <label for="conditions">{{'contract.add.conditions' | translate}}</label>
                     <textarea
                             type="text"
-                            id="condition"
-                            name="condition"
+                            id="conditions"
+                            name="conditions"
                             class="form-control"
                             [ngModel]
-                            #condition="ngModel"
+                            #conditions="ngModel"
                             [maxlength]="65535"
                     ></textarea>
-                    <app-input-error [control]="condition.control" [maxLength]="65535"></app-input-error>
+                    <app-input-error [control]="conditions.control" [maxLength]="65535"></app-input-error>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-dark"
@@ -142,7 +142,11 @@ export class ContractAddComponent implements OnInit {
         this.contract.taxNumber = form.value.company.id as number;
         this.contract.companyName = form.value.company.name;
         this.contract.amount = form.value.amount;
-        this.contract.conditions = form.value.conditions;
+        if (!!form.value.conditions) {
+            this.contract.conditions = form.value.conditions;
+        } else {
+            this.contract.conditions = undefined;
+        }
 
         const addObservable = this.contractService.createContract(this.contract);
         addObservable.subscribe(

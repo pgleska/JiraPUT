@@ -71,13 +71,15 @@ public class ProjectController {
 	
 	private List<Map<String, Object>> getTechnologies(Project p) {
 		List<Map<String, Object>> technologies = new ArrayList<>();
-		p.getTechnologies().stream().forEach(t -> {
-			Map<String, Object> technology = new HashMap<>();
-			technology.put("id", t.getId());
-			technology.put("name", t.getName());
-			technologies.add(technology);
-		});
-		
+		Set<Technology> temp = p.getTechnologies();
+		if (!temp.isEmpty()) {
+			temp.stream().forEach(t -> {
+				Map<String, Object> technology = new HashMap<>();
+				technology.put("id", t.getId());
+				technology.put("name", t.getName());
+				technologies.add(technology);
+			});
+		}
 		return technologies;
 	}
 	

@@ -26,6 +26,7 @@ import {NgForm} from '@angular/forms';
                             [ngModel]
                             #name="ngModel"
                             required
+                            urlValidator
                             [maxlength]="63"
                     />
                     <app-input-error [control]="name.control" [maxLength]="63"></app-input-error>

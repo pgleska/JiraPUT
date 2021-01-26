@@ -257,7 +257,7 @@ export class ProjectDetailsComponent implements OnInit, OnDestroy {
             this.errorSubject.next(result);
         } else {
             localStorage.setItem('success', JSON.stringify(result));
-            window.location.reload();
+            setTimeout(window.location.reload.bind(window.location),50);
         }
     }
 }

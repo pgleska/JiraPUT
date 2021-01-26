@@ -123,7 +123,11 @@ export class ProjectEditComponent implements OnInit {
             return;
         }
 
-        this.projectCopy.name = form.value.name;
+        if (form.value.name !== this.project.name) {
+            this.projectCopy.name = form.value.name;
+        } else {
+            this.projectCopy.name = undefined;
+        }
         this.projectCopy.version = form.value.version;
         if (!!form.value.description) {
             this.projectCopy.description = form.value.description;
