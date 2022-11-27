@@ -1,12 +1,12 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {BehaviorSubject, Observable, Subject} from 'rxjs';
+import {BehaviorSubject, Observable, Subject, switchMap} from 'rxjs';
 import {environment} from '../../environments/environment';
-import {catchError, debounceTime, switchMap} from 'rxjs/internal/operators';
 import {Team} from './team.model';
 import {handleError} from '../common/handle-error/handle-error.function';
 import {ListState} from '../common/list-components/search/search.model';
 import {search} from '../common/list-components/search/search.function';
+import {catchError, debounceTime} from "rxjs/operators";
 
 @Injectable({
     providedIn: 'root'

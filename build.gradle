@@ -27,19 +27,19 @@ targetCompatibility = 1.8
 
 dependencies {
 
-	compile('org.springframework.data:spring-data-jpa')
-	compile("org.springframework.boot:spring-boot-starter-web")
-    compile("org.springframework.boot:spring-boot-devtools")    
-    compile("org.springframework.boot:spring-boot-starter-security")
-    
-    compile("com.auth0:java-jwt:3.4.0")
-    
-    compile('com.fasterxml.jackson.datatype:jackson-datatype-hibernate5')
-    compile group: 'javax.persistence', name: 'javax.persistence-api', version: '+'
-    compile('org.hibernate:hibernate-core')
-    
-    compile group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.4.8'    
+    implementation group: 'org.springframework.data', name:'spring-data-jpa'
+    implementation "org.springframework.boot:spring-boot-starter-web"
+    implementation "org.springframework.boot:spring-boot-devtools"
+    implementation "org.springframework.boot:spring-boot-starter-security"
 
-	compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.12'
+    implementation "com.auth0:java-jwt:3.4.0"
+
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-hibernate5'
+    implementation group: 'javax.persistence', name: 'javax.persistence-api', version: '+'
+    implementation 'org.hibernate:hibernate-core'
+
+    implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.4.8'
+
+    implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.12'
 
 }

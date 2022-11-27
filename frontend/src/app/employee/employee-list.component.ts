@@ -9,8 +9,6 @@ import {EmployeeService} from './employee.service';
 import {PositionService} from '../position/position.service';
 import {TeamService} from '../team/team.service';
 import {SelectItem} from '../common/select/select-item.model';
-import {Contract} from '../contract/contract.model';
-import {ContractDeleteComponent} from '../contract/contract-delete.component';
 import {EmployeeDeleteComponent} from './employee-delete.component';
 import {Employee} from './employee.model';
 import {AuthenticationService} from '../authentication/authentication.service';

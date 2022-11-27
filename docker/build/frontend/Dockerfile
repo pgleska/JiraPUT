@@ -1,4 +1,4 @@
-FROM node:12.0
+FROM node:18.10
 WORKDIR /opt/jiraput/frontend
 COPY . .
 RUN npm install -g @angular/cli && npm install 

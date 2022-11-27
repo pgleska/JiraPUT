@@ -26,3 +26,4 @@ bin
 docker/proxy/logs
 build/
 !/docker/build/
+.angular/

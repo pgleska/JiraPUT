@@ -4,13 +4,12 @@ import {PAGE_SIZE} from '../common/list-components/pagination/pagination.compone
 import {Subject} from 'rxjs';
 import {NgbAlert, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {SortableDirective} from '../common/list-components/sort/sortable.directive';
-import {debounceTime} from 'rxjs/internal/operators';
 import {Company} from './company.model';
 import {CompanyService} from './company.service';
 import {CompanyEditComponent} from './company-edit.component';
 import {ContractService} from '../contract/contract.service';
 import {SortEvent} from '../common/list-components/sort/sort.model';
-import {map} from 'rxjs/operators';
+import {debounceTime, map} from 'rxjs/operators';
 
 @Component({
     selector: 'app-company-details',
