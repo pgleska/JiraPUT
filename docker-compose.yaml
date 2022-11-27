@@ -41,7 +41,7 @@ services:
     hostname: jiraput-backend
     container_name: jiraput-backend
     volumes:
-      - ./docker/backend/jiraput.jar:/opt/jiraput/jiraput.jar:ro
+      - ./docker/build/backend/jiraput.jar:/opt/jiraput/jiraput.jar:ro
     ports:
       - 8001:8001
       - 8080:8080  

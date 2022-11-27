@@ -4,7 +4,6 @@ import {PAGE_SIZE} from '../common/list-components/pagination/pagination.compone
 import {Subject} from 'rxjs';
 import {NgbAlert, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {SortableDirective} from '../common/list-components/sort/sortable.directive';
-import {debounceTime} from 'rxjs/internal/operators';
 import {SortEvent} from '../common/list-components/sort/sort.model';
 import {EmployeeService} from '../employee/employee.service';
 import {TeamService} from './team.service';
@@ -12,7 +11,7 @@ import {Team} from './team.model';
 import {TeamEditComponent} from './team-edit.component';
 import {convertTimeDifferenceToString, convertTimeToString} from '../common/date-transformation/convert-time.functions';
 import {IssueService} from '../issue/issue.service';
-import {map} from 'rxjs/operators';
+import {debounceTime, map} from 'rxjs/operators';
 
 @Component({
     selector: 'app-team-details',

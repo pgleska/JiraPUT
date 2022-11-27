@@ -3,16 +3,13 @@ import {PAGE_SIZE} from '../common/list-components/pagination/pagination.compone
 import {SortableDirective} from '../common/list-components/sort/sortable.directive';
 import {Subject} from 'rxjs';
 import {NgbAlert, NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {debounceTime} from 'rxjs/internal/operators';
 import {SortEvent} from '../common/list-components/sort/sort.model';
 import {TeamService} from './team.service';
 import {TeamAddComponent} from './team-add.component';
-import {Technology} from '../technology/technology.model';
-import {TechnologyEditComponent} from '../technology/technology-edit.component';
 import {TeamEditComponent} from './team-edit.component';
-import {TechnologyDeleteComponent} from '../technology/technology-delete.component';
 import {Team} from './team.model';
 import {TeamDeleteComponent} from './team-delete.service';
+import {debounceTime} from "rxjs/operators";
 
 @Component({
     selector: 'app-team-list',

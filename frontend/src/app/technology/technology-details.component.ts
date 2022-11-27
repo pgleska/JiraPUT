@@ -7,10 +7,10 @@ import {Technology} from './technology.model';
 import {ProjectService} from '../project/project.service';
 import {SortableDirective} from '../common/list-components/sort/sortable.directive';
 import {SortEvent} from '../common/list-components/sort/sort.model';
-import {debounceTime, map} from 'rxjs/internal/operators';
 import {NgbAlert, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {TechnologyEditComponent} from './technology-edit.component';
-import {Subject} from 'rxjs';
+import {map, Subject} from 'rxjs';
+import {debounceTime} from "rxjs/operators";
 
 @Component({
     selector: 'app-technology-details',
